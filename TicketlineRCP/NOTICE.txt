@@ -1,0 +1,16 @@
+Ticketline RCP
+Copyright 2008-2013 INSO - Industrial Software
+
+Developed by
+Wolfgang Gruber
+David Reichl
+Manuel Bogner
+
+This product includes software developed by
+
+The Eclipse Foundation (http://www.eclipse.org)
+The hsql Development Group (http://hsqldb.org/)
+The Apache Software Foundation (http://www.apache.org/)
+The Hibernate Project (http://www.hibernate.org)
+Object Refinery Limited and Contributors (http://www.jfree.org/jfreechart/)
+Quality Open Software (http://www.qos.ch)

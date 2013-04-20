@@ -1,0 +1,15 @@
+Copyright (C) 2013 - INSO - Industrial Software
+
+Die Software, sowie dazugehörige Dokumentation (zusammengefasst als "Software"
+bezeichnet) darf von den Studenten der Lehrveranstaltung 183.241 Software
+Engineering und Projektmanagement benutzt werden. Die Software darf im Rahmen
+der Lehrveranstaltung genutzt, kopiert, modifiziert und weitergegeben werden.
+Eine über die Lehrveranstaltung hinausgehende Verwendung der Software ist nicht
+gestattet. Die Software unterliegt darüber hinaus folgenden Bedingungen:
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
+OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

@@ -1,2 +1,5 @@
 db/
 bin/
+.DS_STORE
+*.class
+

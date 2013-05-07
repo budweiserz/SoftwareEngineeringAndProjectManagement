@@ -20,6 +20,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -34,7 +35,9 @@ import org.hibernate.validator.constraints.Email;
  * 
  */
 @Entity
-@Table(name = "PERSON")
+@Table(name = "PERSON", uniqueConstraints={
+		@UniqueConstraint(columnNames={"username"})
+})
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "TYP", discriminatorType = DiscriminatorType.CHAR)
 public abstract class Person extends BaseEntity {

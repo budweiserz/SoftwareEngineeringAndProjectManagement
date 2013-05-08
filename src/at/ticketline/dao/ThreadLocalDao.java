@@ -22,6 +22,7 @@ public class ThreadLocalDao extends ThreadLocal<GenericDao<?, ?>> {
 		}
 	}
 	
+	@Override
 	protected GenericDao<?, ?> initialValue() {
 		LOG.info("Creating new thread-local DAO {}", this.className);
 		GenericDao<?, ?> dao = DaoUtils.createDaoObject(this.className);
@@ -32,6 +33,7 @@ public class ThreadLocalDao extends ThreadLocal<GenericDao<?, ?>> {
 		return dao;
 	}
 	
+	@Override
 	public void set(GenericDao<?, ?> dao) {
 		throw new DaoException("Setting DAO is forbidden");
 	}

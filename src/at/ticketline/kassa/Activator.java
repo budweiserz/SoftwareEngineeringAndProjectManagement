@@ -23,6 +23,7 @@ public class Activator implements BundleActivator {
 		return CONTEXT;
 	}
 
+	@Override
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.CONTEXT = bundleContext;
 
@@ -31,6 +32,7 @@ public class Activator implements BundleActivator {
 		this.registerServices();
 	}
 
+	@Override
 	public void stop(BundleContext bundleContext) throws Exception {
 		Log.info("Stopping bundle " + PLUGIN_ID);
 		

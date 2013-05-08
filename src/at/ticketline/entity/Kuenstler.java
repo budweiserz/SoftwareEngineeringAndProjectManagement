@@ -161,6 +161,8 @@ public class Kuenstler extends BaseEntity {
 					+ getNachname();
 		}
 	}
+	
+	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("Kuenstler [");

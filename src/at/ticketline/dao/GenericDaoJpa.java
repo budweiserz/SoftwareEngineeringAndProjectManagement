@@ -37,25 +37,30 @@ public abstract class GenericDaoJpa<E, ID extends Serializable> implements Gener
 		this.validator = validator;
 	}
 
-	public void remove(E entity) {
+	@Override
+    public void remove(E entity) {
 		this.entityManager.remove(entity);
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<E> findAll() {
 		return (List<E>) this.entityManager
 		.createQuery(this.findAllQueryString).getResultList();
 	}
 
+	@Override
 	public E findById(ID id) {
 		return this.entityManager.find(entityClass, id);
 	}
 
+	@Override
 	public Long count() {
 		return (Long)this.entityManager
 				.createQuery(this.countQueryString).getSingleResult();
 	}
 	
+	@Override
 	public E merge(E entity) {
 		Set<ConstraintViolation<E>> violations = this.validator.validate(entity);
 		if (violations.isEmpty() == false) {
@@ -65,10 +70,12 @@ public abstract class GenericDaoJpa<E, ID extends Serializable> implements Gener
 		return this.entityManager.merge(entity);
 	}
 	
+	@Override
     public void flush() {
     	this.entityManager.flush();
     }
     
+	@Override
 	public E persist(E entity) {
 		Set<ConstraintViolation<E>> violations = this.validator.validate(entity);
 		if (violations.isEmpty() == false) {

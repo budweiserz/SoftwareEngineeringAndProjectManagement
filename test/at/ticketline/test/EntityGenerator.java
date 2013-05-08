@@ -7,12 +7,13 @@ import java.util.GregorianCalendar;
 import at.ticketline.entity.*;
 
 /**
- * Simplify testing with EntityGenerator:
+ * Erleichtertes Testen mit dem EntityGenerator:
  * 
- * Calling getValid<Entity>(int modifier) will return an already initialized
- * instance, that is ready to be persisted or merged in the db No foreign
- * relationships to other entities are set Variate entities by choosing
- * different indices Create invalid entities by modifiing single values
+ * Aufruf der Methode getValid<Entity>(int modifier) liefert eine initialisierte
+ * Instanz der Entitaet, die zum Testen verwendet werden kann
+ * Fremdbeziehungen zu anderen Entitaeten sind nicht gesetzt
+ * Leicht unterschiedliche Instanzen lassen sich durch unterschiedliche Wahl des
+ * Arguments erzielen
  * 
  * @author Rafael Konlechner
  * 

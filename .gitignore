@@ -2,3 +2,5 @@ db/
 bin/
 .DS_STORE
 .idea
+*.class
+*.swp

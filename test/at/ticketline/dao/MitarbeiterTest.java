@@ -31,7 +31,8 @@ public class MitarbeiterTest extends AbstractDaoTest {
 	
 	@Test
 	public void testIfNewMitarbeiterPersistsWithoutException() {
-		this.mitarbeiterDao = (MitarbeiterDao)DaoFactory.getByEntity(Mitarbeiter.class);
+		this.mitarbeiterDao = (MitarbeiterDao)DaoFactory.getByEntity(
+		        Mitarbeiter.class);
 		Mitarbeiter m = new Mitarbeiter();
 
 		m.setUsername("bernd");
@@ -54,7 +55,8 @@ public class MitarbeiterTest extends AbstractDaoTest {
 	
 	@Test
 	public void testGetMitarbeiterByUsername() {
-		this.mitarbeiterDao = (MitarbeiterDao)DaoFactory.getByEntity(Mitarbeiter.class);
+		this.mitarbeiterDao = (MitarbeiterDao)DaoFactory.getByEntity(
+		        Mitarbeiter.class);
 		Mitarbeiter m = new Mitarbeiter();
 
 		m.setUsername("bernd");
@@ -65,13 +67,16 @@ public class MitarbeiterTest extends AbstractDaoTest {
 		
 		this.mitarbeiterDao.persist(m);
 		
-		assertEquals("bernd", this.mitarbeiterDao.findByUsername("bernd").getUsername());
+		assertEquals("bernd", 
+		        this.mitarbeiterDao.findByUsername("bernd").getUsername());
 	}
 	
 	@Test
 	public void testSuccessfulMitarbeiterLogin() {
-		this.mitarbeiterDao = (MitarbeiterDao)DaoFactory.getByEntity(Mitarbeiter.class);
-		this.mitarbeiterService = new MitarbeiterServiceImpl(this.mitarbeiterDao);
+		this.mitarbeiterDao = (MitarbeiterDao)DaoFactory.getByEntity(
+		        Mitarbeiter.class);
+		this.mitarbeiterService = new MitarbeiterServiceImpl(
+		        this.mitarbeiterDao);
 		Mitarbeiter m = new Mitarbeiter();
 
 		m.setUsername("bernd");

@@ -3,6 +3,7 @@ package at.ticketline.service.api;
 import at.ticketline.entity.Mitarbeiter;
 
 public interface MitarbeiterService {
+    
 	/**
 	 * Speichert einen neuen bzw. einen bereits bestehenden Mitarbeiter.
 	 *  
@@ -11,7 +12,8 @@ public interface MitarbeiterService {
 	public void save(Mitarbeiter mitarbeiter);
 	
 	/**
-	 * Einloggen mit den übergebenen Benutzernamen und dem dazugehörigen Passworts.
+	 * Einloggen mit den übergebenen Benutzernamen und dem dazugehörigen 
+	 * Passworts.
 	 * 
 	 * @param username Benutzername, mit dem man angemeldet werden möchte
 	 * @param password Passwort des Benutzers

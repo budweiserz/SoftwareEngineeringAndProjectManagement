@@ -25,292 +25,292 @@ import javax.validation.constraints.Size;
 @Entity
 public class Veranstaltung extends BaseEntity {
 
-	private static final long serialVersionUID = -2376468057851018229L;
+    private static final long serialVersionUID = -2376468057851018229L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@Column(nullable = false, length = 30)
-	@Size(max = 30)
-	@NotNull
-	private String bezeichnung;
+    @Column(nullable = false, length = 30)
+    @Size(max = 30)
+    @NotNull
+    private String bezeichnung;
 
-	@Column(nullable = false, length = 30)
-	@Size(max = 30)
-	@NotNull
-	private String kategorie;
+    @Column(nullable = false, length = 30)
+    @Size(max = 30)
+    @NotNull
+    private String kategorie;
 
-	@Column(length = 30)
-	@Size(max = 30)
-	private String subkategorie;
+    @Column(length = 30)
+    @Size(max = 30)
+    private String subkategorie;
 
-	private Integer jahrerstellung;
+    private Integer jahrerstellung;
 
-	@Column(length = 30)
-	@Size(max = 30)
-	private String spracheton;
+    @Column(length = 30)
+    @Size(max = 30)
+    private String spracheton;
 
-	@Column(length = 30)
-	@Size(max = 30)
-	private String spracheut;
+    @Column(length = 30)
+    @Size(max = 30)
+    private String spracheut;
 
-	@Column(nullable = false)
-	@Min(value = 0)
-	@NotNull
-	private Integer dauer;
+    @Column(nullable = false)
+    @Min(value = 0)
+    @NotNull
+    private Integer dauer;
 
-	@Column(length = 30)
-	@Size(max = 30)
-	private String freigabe;
+    @Column(length = 30)
+    @Size(max = 30)
+    private String freigabe;
 
-	/**
-	 * Dateiname eines Bild, das im Dateisystem gespeichert ist
-	 */
-	@Column(length = 100)
-	@Size(max = 100)
-	private String abbildung;
+    /**
+     * Dateiname eines Bild, das im Dateisystem gespeichert ist
+     */
+    @Column(length = 100)
+    @Size(max = 100)
+    private String abbildung;
 
-	@Lob
-	private String inhalt;
+    @Lob
+    private String inhalt;
 
-	@Size(max = 255)
-	private String kritik;
+    @Size(max = 255)
+    private String kritik;
 
-	@Size(max = 255)
-	private String bewertung;
+    @Size(max = 255)
+    private String bewertung;
 
-	@Size(max = 255)
-	private String hinweis;
+    @Size(max = 255)
+    private String hinweis;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "veranstaltung")
-	private Set<Artikel> artikel = new HashSet<Artikel>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "veranstaltung")
+    private Set<Artikel> artikel = new HashSet<Artikel>();
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "veranstaltung")
-	private Set<Auffuehrung> auffuehrungen = new HashSet<Auffuehrung>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "veranstaltung")
+    private Set<Auffuehrung> auffuehrungen = new HashSet<Auffuehrung>();
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "veranstaltung", cascade = CascadeType.ALL)
-	private Set<Engagement> engagements = new HashSet<Engagement>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "veranstaltung", cascade = CascadeType.ALL)
+    private Set<Engagement> engagements = new HashSet<Engagement>();
 
-	public Integer getId() {
-		return this.id;
-	}
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getBezeichnung() {
-		return this.bezeichnung;
-	}
+    public String getBezeichnung() {
+        return this.bezeichnung;
+    }
 
-	public void setBezeichnung(String bezeichnung) {
-		this.bezeichnung = bezeichnung;
-	}
+    public void setBezeichnung(String bezeichnung) {
+        this.bezeichnung = bezeichnung;
+    }
 
-	public String getKategorie() {
-		return this.kategorie;
-	}
+    public String getKategorie() {
+        return this.kategorie;
+    }
 
-	public void setKategorie(String kategorie) {
-		this.kategorie = kategorie;
-	}
+    public void setKategorie(String kategorie) {
+        this.kategorie = kategorie;
+    }
 
-	/**
-	 * Unterteilung von Kategorie; z.B. Thriller, Drama
-	 */
-	public String getSubkategorie() {
-		return this.subkategorie;
-	}
+    /**
+     * Unterteilung von Kategorie; z.B. Thriller, Drama
+     */
+    public String getSubkategorie() {
+        return this.subkategorie;
+    }
 
-	public void setSubkategorie(String subkategorie) {
-		this.subkategorie = subkategorie;
-	}
+    public void setSubkategorie(String subkategorie) {
+        this.subkategorie = subkategorie;
+    }
 
-	/**
-	 * Erstellungsjahr <= Heuer
-	 */
-	public Integer getJahrerstellung() {
-		return this.jahrerstellung;
-	}
+    /**
+     * Erstellungsjahr <= Heuer
+     */
+    public Integer getJahrerstellung() {
+        return this.jahrerstellung;
+    }
 
-	public void setJahrerstellung(Integer jahrerstellung) {
-		this.jahrerstellung = jahrerstellung;
-	}
+    public void setJahrerstellung(Integer jahrerstellung) {
+        this.jahrerstellung = jahrerstellung;
+    }
 
-	/**
-	 * z.B.: Deutsch, Englisch
-	 */
-	public String getSpracheton() {
-		return this.spracheton;
-	}
+    /**
+     * z.B.: Deutsch, Englisch
+     */
+    public String getSpracheton() {
+        return this.spracheton;
+    }
 
-	public void setSpracheton(String spracheton) {
-		this.spracheton = spracheton;
-	}
+    public void setSpracheton(String spracheton) {
+        this.spracheton = spracheton;
+    }
 
-	/**
-	 * Sprache des Untertitels; z.B.: Deutsch, English
-	 */
-	public String getSpracheut() {
-		return this.spracheut;
-	}
+    /**
+     * Sprache des Untertitels; z.B.: Deutsch, English
+     */
+    public String getSpracheut() {
+        return this.spracheut;
+    }
 
-	public void setSpracheut(String spracheut) {
-		this.spracheut = spracheut;
-	}
+    public void setSpracheut(String spracheut) {
+        this.spracheut = spracheut;
+    }
 
-	/**
-	 * 0 < Dauer in Minuten <= 999
-	 */
-	public Integer getDauer() {
-		return this.dauer;
-	}
+    /**
+     * 0 < Dauer in Minuten <= 999
+     */
+    public Integer getDauer() {
+        return this.dauer;
+    }
 
-	public void setDauer(Integer dauer) {
-		this.dauer = dauer;
-	}
+    public void setDauer(Integer dauer) {
+        this.dauer = dauer;
+    }
 
-	/**
-	 * Altersfreigabe; z.B.: ab 18
-	 */
-	public String getFreigabe() {
-		return this.freigabe;
-	}
+    /**
+     * Altersfreigabe; z.B.: ab 18
+     */
+    public String getFreigabe() {
+        return this.freigabe;
+    }
 
-	public void setFreigabe(String freigabe) {
-		this.freigabe = freigabe;
-	}
+    public void setFreigabe(String freigabe) {
+        this.freigabe = freigabe;
+    }
 
-	/**
-	 * Speicherort eines Bilds zur Veranstaltung
-	 */
-	public String getAbbildung() {
-		return this.abbildung;
-	}
+    /**
+     * Speicherort eines Bilds zur Veranstaltung
+     */
+    public String getAbbildung() {
+        return this.abbildung;
+    }
 
-	public void setAbbildung(String abbildung) {
-		this.abbildung = abbildung;
-	}
+    public void setAbbildung(String abbildung) {
+        this.abbildung = abbildung;
+    }
 
-	/**
-	 * kurze Inhaltsangabe zur Veranstaltung
-	 */
-	public String getInhalt() {
-		return this.inhalt;
-	}
+    /**
+     * kurze Inhaltsangabe zur Veranstaltung
+     */
+    public String getInhalt() {
+        return this.inhalt;
+    }
 
-	public void setInhalt(String inhalt) {
-		this.inhalt = inhalt;
-	}
+    public void setInhalt(String inhalt) {
+        this.inhalt = inhalt;
+    }
 
-	/**
-	 * kurze Kritik zur Veranstaltung
-	 */
-	public String getKritik() {
-		return this.kritik;
-	}
+    /**
+     * kurze Kritik zur Veranstaltung
+     */
+    public String getKritik() {
+        return this.kritik;
+    }
 
-	public void setKritik(String kritik) {
-		this.kritik = kritik;
-	}
+    public void setKritik(String kritik) {
+        this.kritik = kritik;
+    }
 
-	/**
-	 * kurze Bewertung zur Veranstaltung
-	 */
-	public String getBewertung() {
-		return this.bewertung;
-	}
+    /**
+     * kurze Bewertung zur Veranstaltung
+     */
+    public String getBewertung() {
+        return this.bewertung;
+    }
 
-	public void setBewertung(String bewertung) {
-		this.bewertung = bewertung;
-	}
+    public void setBewertung(String bewertung) {
+        this.bewertung = bewertung;
+    }
 
-	/**
-	 * kurzer Hinweis zur Veranstaltung
-	 */
-	public String getHinweis() {
-		return this.hinweis;
-	}
+    /**
+     * kurzer Hinweis zur Veranstaltung
+     */
+    public String getHinweis() {
+        return this.hinweis;
+    }
 
-	public void setHinweis(String hinweis) {
-		this.hinweis = hinweis;
-	}
+    public void setHinweis(String hinweis) {
+        this.hinweis = hinweis;
+    }
 
-	public Set<Artikel> getArtikel() {
-		return this.artikel;
-	}
+    public Set<Artikel> getArtikel() {
+        return this.artikel;
+    }
 
-	public void setArtikel(Set<Artikel> artikel) {
-		this.artikel = artikel;
-	}
+    public void setArtikel(Set<Artikel> artikel) {
+        this.artikel = artikel;
+    }
 
-	public Set<Auffuehrung> getAuffuehrungen() {
-		return this.auffuehrungen;
-	}
+    public Set<Auffuehrung> getAuffuehrungen() {
+        return this.auffuehrungen;
+    }
 
-	public void setAuffuehrungen(Set<Auffuehrung> auffuehrungen) {
-		this.auffuehrungen = auffuehrungen;
-	}
+    public void setAuffuehrungen(Set<Auffuehrung> auffuehrungen) {
+        this.auffuehrungen = auffuehrungen;
+    }
 
-	public Set<Engagement> getEngagements() {
-		return this.engagements;
-	}
+    public Set<Engagement> getEngagements() {
+        return this.engagements;
+    }
 
-	public void setEngagements(Set<Engagement> engagements) {
-		this.engagements = engagements;
-	}
+    public void setEngagements(Set<Engagement> engagements) {
+        this.engagements = engagements;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Veranstaltung [");
-		if (this.id != null) {
-			builder.append("id=").append(this.id).append(", ");
-		}
-		if (this.abbildung != null) {
-			builder.append("abbildung=").append(this.abbildung).append(", ");
-		}
-		if (this.bewertung != null) {
-			builder.append("bewertung=").append(this.bewertung).append(", ");
-		}
-		if (this.bezeichnung != null) {
-			builder.append("bezeichnung=").append(this.bezeichnung)
-					.append(", ");
-		}
-		if (this.dauer != null) {
-			builder.append("dauer=").append(this.dauer).append(", ");
-		}
-		if (this.freigabe != null) {
-			builder.append("freigabe=").append(this.freigabe).append(", ");
-		}
-		if (this.hinweis != null) {
-			builder.append("hinweis=").append(this.hinweis).append(", ");
-		}
-		if (this.inhalt != null) {
-			builder.append("inhalt=").append(this.inhalt).append(", ");
-		}
-		if (this.jahrerstellung != null) {
-			builder.append("jahrerstellung=").append(this.jahrerstellung)
-					.append(", ");
-		}
-		if (this.kategorie != null) {
-			builder.append("kategorie=").append(this.kategorie).append(", ");
-		}
-		if (this.kritik != null) {
-			builder.append("kritik=").append(this.kritik).append(", ");
-		}
-		if (this.spracheton != null) {
-			builder.append("spracheton=").append(this.spracheton).append(", ");
-		}
-		if (this.spracheut != null) {
-			builder.append("spracheut=").append(this.spracheut).append(", ");
-		}
-		if (this.subkategorie != null) {
-			builder.append("subkategorie=").append(this.subkategorie);
-		}
-		builder.append("]");
-		return builder.toString();
-	}
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Veranstaltung [");
+        if (this.id != null) {
+            builder.append("id=").append(this.id).append(", ");
+        }
+        if (this.abbildung != null) {
+            builder.append("abbildung=").append(this.abbildung).append(", ");
+        }
+        if (this.bewertung != null) {
+            builder.append("bewertung=").append(this.bewertung).append(", ");
+        }
+        if (this.bezeichnung != null) {
+            builder.append("bezeichnung=").append(this.bezeichnung)
+                    .append(", ");
+        }
+        if (this.dauer != null) {
+            builder.append("dauer=").append(this.dauer).append(", ");
+        }
+        if (this.freigabe != null) {
+            builder.append("freigabe=").append(this.freigabe).append(", ");
+        }
+        if (this.hinweis != null) {
+            builder.append("hinweis=").append(this.hinweis).append(", ");
+        }
+        if (this.inhalt != null) {
+            builder.append("inhalt=").append(this.inhalt).append(", ");
+        }
+        if (this.jahrerstellung != null) {
+            builder.append("jahrerstellung=").append(this.jahrerstellung)
+                    .append(", ");
+        }
+        if (this.kategorie != null) {
+            builder.append("kategorie=").append(this.kategorie).append(", ");
+        }
+        if (this.kritik != null) {
+            builder.append("kritik=").append(this.kritik).append(", ");
+        }
+        if (this.spracheton != null) {
+            builder.append("spracheton=").append(this.spracheton).append(", ");
+        }
+        if (this.spracheut != null) {
+            builder.append("spracheut=").append(this.spracheut).append(", ");
+        }
+        if (this.subkategorie != null) {
+            builder.append("subkategorie=").append(this.subkategorie);
+        }
+        builder.append("]");
+        return builder.toString();
+    }
 
 }

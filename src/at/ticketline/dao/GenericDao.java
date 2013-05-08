@@ -5,21 +5,21 @@ import java.util.List;
 
 public interface GenericDao<E, ID extends Serializable> {
 
-	@Transactional
-	public E persist(E entity);
+    @Transactional
+    public E persist(E entity);
 
-	@Transactional
-	public void remove(E entity);
+    @Transactional
+    public void remove(E entity);
 
-	public E findById(ID id);
+    public E findById(ID id);
 
-	public List<E> findAll();
+    public List<E> findAll();
 
-	@Transactional
-	public E merge(E entity);
+    @Transactional
+    public E merge(E entity);
 
-	public void flush();
+    public void flush();
 
-	public Long count();
+    public Long count();
 
 }

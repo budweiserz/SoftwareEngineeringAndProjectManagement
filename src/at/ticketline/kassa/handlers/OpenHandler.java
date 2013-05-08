@@ -13,12 +13,12 @@ import org.eclipse.swt.widgets.Shell;
 @SuppressWarnings("restriction")
 public class OpenHandler {
 
-	@Execute
-	public void execute(
-			IEclipseContext context,
-			@Named(IServiceConstants.ACTIVE_SHELL) Shell shell)
-			throws InvocationTargetException, InterruptedException {
-		FileDialog dialog = new FileDialog(shell);
-		dialog.open();
-	}
+    @Execute
+    public void execute(
+            IEclipseContext context,
+            @Named(IServiceConstants.ACTIVE_SHELL) Shell shell)
+            throws InvocationTargetException, InterruptedException {
+        FileDialog dialog = new FileDialog(shell);
+        dialog.open();
+    }
 }

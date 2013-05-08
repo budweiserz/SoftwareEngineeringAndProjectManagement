@@ -13,37 +13,37 @@ import at.ticketline.service.api.KuenstlerService;
 import at.ticketline.service.impl.KuenstlerServiceImpl;
 
 public class Activator implements BundleActivator {
-	
-	// The plug-in ID
-	public static final String PLUGIN_ID = "at.ticketline.kassa";
+    
+    // The plug-in ID
+    public static final String PLUGIN_ID = "at.ticketline.kassa";
 
-	private static BundleContext CONTEXT;
+    private static BundleContext CONTEXT;
 
-	static BundleContext getContext() {
-		return CONTEXT;
-	}
+    static BundleContext getContext() {
+        return CONTEXT;
+    }
 
-	@Override
-	public void start(BundleContext bundleContext) throws Exception {
-		Activator.CONTEXT = bundleContext;
+    @Override
+    public void start(BundleContext bundleContext) throws Exception {
+        Activator.CONTEXT = bundleContext;
 
-		EntityManagerUtil.init("ticketline", new PersistenceProvider());
+        EntityManagerUtil.init("ticketline", new PersistenceProvider());
 
-		this.registerServices();
-	}
+        this.registerServices();
+    }
 
-	@Override
-	public void stop(BundleContext bundleContext) throws Exception {
-		Log.info("Stopping bundle " + PLUGIN_ID);
-		
-		Activator.CONTEXT = null;
-		
-		EntityManagerUtil.closeFactory();
-	}
-	
-	private void registerServices() {
-		KuenstlerDao kuenstlerDao = (KuenstlerDao)DaoFactory.getByEntity(Kuenstler.class);
-		CONTEXT.registerService(KuenstlerService.class.getName(), new KuenstlerServiceImpl(kuenstlerDao), null);
-	}
+    @Override
+    public void stop(BundleContext bundleContext) throws Exception {
+        Log.info("Stopping bundle " + PLUGIN_ID);
+        
+        Activator.CONTEXT = null;
+        
+        EntityManagerUtil.closeFactory();
+    }
+    
+    private void registerServices() {
+        KuenstlerDao kuenstlerDao = (KuenstlerDao)DaoFactory.getByEntity(Kuenstler.class);
+        CONTEXT.registerService(KuenstlerService.class.getName(), new KuenstlerServiceImpl(kuenstlerDao), null);
+    }
 
 }

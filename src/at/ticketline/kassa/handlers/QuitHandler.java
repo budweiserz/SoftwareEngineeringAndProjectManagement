@@ -13,13 +13,13 @@ import org.eclipse.swt.widgets.Shell;
 
 @SuppressWarnings("restriction")
 public class QuitHandler {
-	@Execute
-	public void execute(IWorkbench workbench, IEclipseContext context,
-			@Named(IServiceConstants.ACTIVE_SHELL) Shell shell)
-			throws InvocationTargetException, InterruptedException {
-		if (MessageDialog.openConfirm(shell, "Confirmation",
-				"Do you want to exit?")) {
-			workbench.close();
-		}
-	}
+    @Execute
+    public void execute(IWorkbench workbench, IEclipseContext context,
+            @Named(IServiceConstants.ACTIVE_SHELL) Shell shell)
+            throws InvocationTargetException, InterruptedException {
+        if (MessageDialog.openConfirm(shell, "Confirmation",
+                "Do you want to exit?")) {
+            workbench.close();
+        }
+    }
 }

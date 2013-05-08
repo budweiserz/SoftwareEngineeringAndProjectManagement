@@ -11,17 +11,17 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService;
 
 @SuppressWarnings("restriction")
 public class SavePartHandler {
-	@CanExecute
-	public boolean canExecute(
-			@Named(IServiceConstants.ACTIVE_PART) MDirtyable dirtyable) {
-		if (dirtyable == null) {
-			return false;
-		}
-		return dirtyable.isDirty();
-	}
+    @CanExecute
+    public boolean canExecute(
+            @Named(IServiceConstants.ACTIVE_PART) MDirtyable dirtyable) {
+        if (dirtyable == null) {
+            return false;
+        }
+        return dirtyable.isDirty();
+    }
 
-	@Execute
-	  void execute(EPartService partService, @Named(IServiceConstants.ACTIVE_PART) MPart part) {
-	    partService.savePart(part, false);
-	  }	
+    @Execute
+      void execute(EPartService partService, @Named(IServiceConstants.ACTIVE_PART) MPart part) {
+        partService.savePart(part, false);
+      } 
 }

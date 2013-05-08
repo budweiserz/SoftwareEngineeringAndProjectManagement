@@ -27,107 +27,107 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Platz extends BaseEntity {
 
-	private static final long serialVersionUID = 8231117682597707232L;
+    private static final long serialVersionUID = 8231117682597707232L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@Column(nullable = false)
-	@NotNull
-	private Integer nummer;
+    @Column(nullable = false)
+    @NotNull
+    private Integer nummer;
 
-	@Column(nullable = false)
-	@Enumerated(EnumType.ORDINAL)
-	@NotNull
-	private PlatzStatus status = PlatzStatus.FREI;
+    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    @NotNull
+    private PlatzStatus status = PlatzStatus.FREI;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "AUFFUEHRUNG_ID")
-	private Auffuehrung auffuehrung;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "AUFFUEHRUNG_ID")
+    private Auffuehrung auffuehrung;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "REIHE_ID")
-	private Reihe reihe;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "REIHE_ID")
+    private Reihe reihe;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "TRANSAKTION_ID")
-	private Transaktion transaktion;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TRANSAKTION_ID")
+    private Transaktion transaktion;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "KATEGORIE_ID")
-	private Kategorie kategorie;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "KATEGORIE_ID")
+    private Kategorie kategorie;
 
-	public Integer getId() {
-		return this.id;
-	}
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Integer getNummer() {
-		return this.nummer;
-	}
+    public Integer getNummer() {
+        return this.nummer;
+    }
 
-	public void setNummer(Integer nummer) {
-		this.nummer = nummer;
-	}
+    public void setNummer(Integer nummer) {
+        this.nummer = nummer;
+    }
 
-	public PlatzStatus getStatus() {
-		return this.status;
-	}
+    public PlatzStatus getStatus() {
+        return this.status;
+    }
 
-	public void setStatus(PlatzStatus status) {
-		this.status = status;
-	}
+    public void setStatus(PlatzStatus status) {
+        this.status = status;
+    }
 
-	public Auffuehrung getAuffuehrung() {
-		return this.auffuehrung;
-	}
+    public Auffuehrung getAuffuehrung() {
+        return this.auffuehrung;
+    }
 
-	public void setAuffuehrung(Auffuehrung auffuehrung) {
-		this.auffuehrung = auffuehrung;
-	}
+    public void setAuffuehrung(Auffuehrung auffuehrung) {
+        this.auffuehrung = auffuehrung;
+    }
 
-	public Reihe getReihe() {
-		return this.reihe;
-	}
+    public Reihe getReihe() {
+        return this.reihe;
+    }
 
-	public void setReihe(Reihe reihe) {
-		this.reihe = reihe;
-	}
+    public void setReihe(Reihe reihe) {
+        this.reihe = reihe;
+    }
 
-	public Transaktion getTransaktion() {
-		return this.transaktion;
-	}
+    public Transaktion getTransaktion() {
+        return this.transaktion;
+    }
 
-	public void setTransaktion(Transaktion transaktion) {
-		this.transaktion = transaktion;
-	}
+    public void setTransaktion(Transaktion transaktion) {
+        this.transaktion = transaktion;
+    }
 
-	public Kategorie getKategorie() {
-		return this.kategorie;
-	}
+    public Kategorie getKategorie() {
+        return this.kategorie;
+    }
 
-	public void setKategorie(Kategorie kategorie) {
-		this.kategorie = kategorie;
-	}
+    public void setKategorie(Kategorie kategorie) {
+        this.kategorie = kategorie;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Platz [");
-		if (this.id != null) {
-			builder.append("id=").append(this.id).append(", ");
-		}
-		if (this.nummer != null) {
-			builder.append("nummer=").append(this.nummer).append(", ");
-		}
-		if (this.status != null) {
-			builder.append("status=").append(this.status);
-		}
-		builder.append("]");
-		return builder.toString();
-	}
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Platz [");
+        if (this.id != null) {
+            builder.append("id=").append(this.id).append(", ");
+        }
+        if (this.nummer != null) {
+            builder.append("nummer=").append(this.nummer).append(", ");
+        }
+        if (this.status != null) {
+            builder.append("status=").append(this.status);
+        }
+        builder.append("]");
+        return builder.toString();
+    }
 }

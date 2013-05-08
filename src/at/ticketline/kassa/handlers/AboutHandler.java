@@ -9,8 +9,8 @@ import org.eclipse.swt.widgets.Shell;
 
 @SuppressWarnings("restriction")
 public class AboutHandler {
-	@Execute
-	public void execute(@Named(IServiceConstants.ACTIVE_SHELL) Shell shell) {
-		MessageDialog.openInformation(shell, "Über Ticketline RCP", "Gruppe XX");
-	}
+    @Execute
+    public void execute(@Named(IServiceConstants.ACTIVE_SHELL) Shell shell) {
+        MessageDialog.openInformation(shell, "Über Ticketline RCP", "Gruppe XX");
+    }
 }

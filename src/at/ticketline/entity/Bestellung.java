@@ -37,134 +37,134 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Bestellung extends BaseEntity {
 
-	private static final long serialVersionUID = -2047473610304940961L;
+    private static final long serialVersionUID = -2047473610304940961L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(nullable = false)
-	@NotNull
-	private Date bestellzeitpunkt;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
+    @NotNull
+    private Date bestellzeitpunkt;
 
-	@Column(nullable = false)
-	@Enumerated(EnumType.ORDINAL)
-	@NotNull
-	private Zahlungsart zahlungsart;
+    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    @NotNull
+    private Zahlungsart zahlungsart;
 
-	private boolean bezahlt = false;
+    private boolean bezahlt = false;
 
-	private boolean versandt = false;
+    private boolean versandt = false;
 
-	@Lob
-	private String anmerkungen;
+    @Lob
+    private String anmerkungen;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "KUNDE_ID")
-	private Kunde kunde;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "KUNDE_ID")
+    private Kunde kunde;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "bestellung")
-	private Set<BestellPosition> bestellPositionen = new HashSet<BestellPosition>();
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "bestellung")
+    private Set<BestellPosition> bestellPositionen = new HashSet<BestellPosition>();
 
-	public Integer getId() {
-		return this.id;
-	}
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Date getBestellzeitpunkt() {
-		return this.bestellzeitpunkt;
-	}
+    public Date getBestellzeitpunkt() {
+        return this.bestellzeitpunkt;
+    }
 
-	public void setBestellzeitpunkt(Date bestellzeitpunkt) {
-		this.bestellzeitpunkt = bestellzeitpunkt;
-	}
+    public void setBestellzeitpunkt(Date bestellzeitpunkt) {
+        this.bestellzeitpunkt = bestellzeitpunkt;
+    }
 
-	/**
-	 * z.B.: TicketCard, Kreditkarte, Nachname
-	 */
-	public Zahlungsart getZahlungsart() {
-		return this.zahlungsart;
-	}
+    /**
+     * z.B.: TicketCard, Kreditkarte, Nachname
+     */
+    public Zahlungsart getZahlungsart() {
+        return this.zahlungsart;
+    }
 
-	public void setZahlungsart(Zahlungsart zahlungsart) {
-		this.zahlungsart = zahlungsart;
-	}
+    public void setZahlungsart(Zahlungsart zahlungsart) {
+        this.zahlungsart = zahlungsart;
+    }
 
-	/**
-	 * Wurde die Bestellung bereits bezahlt?
-	 */
-	public boolean isBezahlt() {
-		return this.bezahlt;
-	}
+    /**
+     * Wurde die Bestellung bereits bezahlt?
+     */
+    public boolean isBezahlt() {
+        return this.bezahlt;
+    }
 
-	public void setBezahlt(boolean bezahlt) {
-		this.bezahlt = bezahlt;
-	}
+    public void setBezahlt(boolean bezahlt) {
+        this.bezahlt = bezahlt;
+    }
 
-	/**
-	 * Wurde die Bestellung bereits versandt?
-	 */
-	public boolean isVersandt() {
-		return this.versandt;
-	}
+    /**
+     * Wurde die Bestellung bereits versandt?
+     */
+    public boolean isVersandt() {
+        return this.versandt;
+    }
 
-	public void setVersandt(boolean versandt) {
-		this.versandt = versandt;
-	}
+    public void setVersandt(boolean versandt) {
+        this.versandt = versandt;
+    }
 
-	/**
-	 * Anmerkungen zur Bestellung (zB bei Problemen)
-	 */
-	public String getAnmerkungen() {
-		return this.anmerkungen;
-	}
+    /**
+     * Anmerkungen zur Bestellung (zB bei Problemen)
+     */
+    public String getAnmerkungen() {
+        return this.anmerkungen;
+    }
 
-	public void setAnmerkungen(String anmerkungen) {
-		this.anmerkungen = anmerkungen;
-	}
+    public void setAnmerkungen(String anmerkungen) {
+        this.anmerkungen = anmerkungen;
+    }
 
-	public Kunde getKunde() {
-		return this.kunde;
-	}
+    public Kunde getKunde() {
+        return this.kunde;
+    }
 
-	public void setKunde(Kunde kunde) {
-		this.kunde = kunde;
-	}
+    public void setKunde(Kunde kunde) {
+        this.kunde = kunde;
+    }
 
-	public Set<BestellPosition> getBestellPositionen() {
-		return this.bestellPositionen;
-	}
+    public Set<BestellPosition> getBestellPositionen() {
+        return this.bestellPositionen;
+    }
 
-	public void setBestellPositionen(Set<BestellPosition> bestellPositionen) {
-		this.bestellPositionen = bestellPositionen;
-	}
+    public void setBestellPositionen(Set<BestellPosition> bestellPositionen) {
+        this.bestellPositionen = bestellPositionen;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Bestellung [");
-		if (this.id != null) {
-			builder.append("id=").append(this.id).append(", ");
-		}
-		if (this.anmerkungen != null) {
-			builder.append("anmerkungen=").append(this.anmerkungen)
-					.append(", ");
-		}
-		if (this.bestellzeitpunkt != null) {
-			builder.append("bestellzeitpunkt=").append(this.bestellzeitpunkt)
-					.append(", ");
-		}
-		builder.append("bezahlt=").append(this.bezahlt).append(", ");
-		builder.append("versandt=").append(this.versandt).append(", ");
-		if (this.zahlungsart != null) {
-			builder.append("zahlungsart=").append(this.zahlungsart);
-		}
-		builder.append("]");
-		return builder.toString();
-	}
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Bestellung [");
+        if (this.id != null) {
+            builder.append("id=").append(this.id).append(", ");
+        }
+        if (this.anmerkungen != null) {
+            builder.append("anmerkungen=").append(this.anmerkungen)
+                    .append(", ");
+        }
+        if (this.bestellzeitpunkt != null) {
+            builder.append("bestellzeitpunkt=").append(this.bestellzeitpunkt)
+                    .append(", ");
+        }
+        builder.append("bezahlt=").append(this.bezahlt).append(", ");
+        builder.append("versandt=").append(this.versandt).append(", ");
+        if (this.zahlungsart != null) {
+            builder.append("zahlungsart=").append(this.zahlungsart);
+        }
+        builder.append("]");
+        return builder.toString();
+    }
 
 }

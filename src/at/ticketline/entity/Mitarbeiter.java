@@ -22,52 +22,52 @@ import javax.validation.constraints.Size;
 @DiscriminatorValue(value = "M")
 public class Mitarbeiter extends Person {
 
-	private static final long serialVersionUID = 3949640748689103253L;
+    private static final long serialVersionUID = 3949640748689103253L;
 
-	@Enumerated(EnumType.ORDINAL)
-	private Berechtigung berechtigung;
-	
-	@Column(length = 12)
-	@Size(max = 12)
-	private String sozialversicherungsnr;
+    @Enumerated(EnumType.ORDINAL)
+    private Berechtigung berechtigung;
+    
+    @Column(length = 12)
+    @Size(max = 12)
+    private String sozialversicherungsnr;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "mitarbeiter")
-	private Set<Transaktion> mtransaktionen = new HashSet<Transaktion>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "mitarbeiter")
+    private Set<Transaktion> mtransaktionen = new HashSet<Transaktion>();
 
-	public Berechtigung getBerechtigung() {
-		return this.berechtigung;
-	}
+    public Berechtigung getBerechtigung() {
+        return this.berechtigung;
+    }
 
-	public void setBerechtigung(Berechtigung berechtigung) {
-		this.berechtigung = berechtigung;
-	}
+    public void setBerechtigung(Berechtigung berechtigung) {
+        this.berechtigung = berechtigung;
+    }
 
-	public String getSozialversicherungsnr() {
-		return sozialversicherungsnr;
-	}
+    public String getSozialversicherungsnr() {
+        return sozialversicherungsnr;
+    }
 
-	public void setSozialversicherungsnr(String sozialversicherungsnr) {
-		this.sozialversicherungsnr = sozialversicherungsnr;
-	}
+    public void setSozialversicherungsnr(String sozialversicherungsnr) {
+        this.sozialversicherungsnr = sozialversicherungsnr;
+    }
 
-	public Set<Transaktion> getTransaktionen() {
-		return this.mtransaktionen;
-	}
+    public Set<Transaktion> getTransaktionen() {
+        return this.mtransaktionen;
+    }
 
-	public void setTransaktionen(Set<Transaktion> transaktionen) {
-		this.mtransaktionen = transaktionen;
-	}
+    public void setTransaktionen(Set<Transaktion> transaktionen) {
+        this.mtransaktionen = transaktionen;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Mitarbeiter [");
-		if (this.berechtigung != null) {
-			builder.append("berechtigung=").append(this.berechtigung).append(
-					", ");
-		}
-		builder.append("]");
-		return builder.toString();
-	}
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Mitarbeiter [");
+        if (this.berechtigung != null) {
+            builder.append("berechtigung=").append(this.berechtigung).append(
+                    ", ");
+        }
+        builder.append("]");
+        return builder.toString();
+    }
 
 }

@@ -15,6 +15,8 @@ import org.junit.Test;
 import at.ticketline.dao.api.MitarbeiterDao;
 import at.ticketline.entity.Geschlecht;
 import at.ticketline.entity.Mitarbeiter;
+import at.ticketline.service.api.MitarbeiterService;
+import at.ticketline.service.impl.MitarbeiterServiceImpl;
 import at.ticketline.test.AbstractDaoTest;
 
 /**
@@ -24,6 +26,8 @@ import at.ticketline.test.AbstractDaoTest;
  */
 public class MitarbeiterTest extends AbstractDaoTest {
 	private MitarbeiterDao mitarbeiterDao;
+	private MitarbeiterService mitarbeiterService;
+	
 	
 	@Test
 	public void testIfNewMitarbeiterPersistsWithoutException() {
@@ -62,6 +66,22 @@ public class MitarbeiterTest extends AbstractDaoTest {
 		this.mitarbeiterDao.persist(m);
 		
 		assertEquals("bernd", this.mitarbeiterDao.findByUsername("bernd").getUsername());
+	}
+	
+	@Test
+	public void testSuccessfulMitarbeiterLogin() {
+		this.mitarbeiterDao = (MitarbeiterDao)DaoFactory.getByEntity(Mitarbeiter.class);
+		this.mitarbeiterService = new MitarbeiterServiceImpl(this.mitarbeiterDao);
+		Mitarbeiter m = new Mitarbeiter();
 
+		m.setUsername("bernd");
+		m.setVorname("Bernd");
+		m.setNachname("Artmüller");
+		m.setPasswort("geheim");
+		m.setGeschlecht(Geschlecht.MAENNLICH);
+		
+		this.mitarbeiterDao.persist(m);
+		
+		assertTrue(this.mitarbeiterService.login("bernd", "geheim"));
 	}
 }

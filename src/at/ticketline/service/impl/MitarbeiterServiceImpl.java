@@ -1,5 +1,7 @@
 package at.ticketline.service.impl;
 
+import javax.persistence.NoResultException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -7,6 +9,8 @@ import at.ticketline.dao.DaoException;
 import at.ticketline.dao.api.MitarbeiterDao;
 import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.service.ServiceException;
+import at.ticketline.service.UserNotFoundException;
+import at.ticketline.service.WrongPasswordException;
 import at.ticketline.service.api.MitarbeiterService;
 
 public class MitarbeiterServiceImpl implements MitarbeiterService {
@@ -51,16 +55,24 @@ public class MitarbeiterServiceImpl implements MitarbeiterService {
 		
 		// Benutzername und Passwort wurde eingegeben
 		if (!username.trim().equals("") && !password.trim().equals("")) {
-			m = this.mitarbeiterDao.findByUsername(username);
+			try {
+				// wenn kein Mitarbeiter mit dem übergebenen Usernamen gefunden wurde, werfe UserNotFoundException
+				m = this.mitarbeiterDao.findByUsername(username);
+			} catch (DaoException e) {
+				LOG.info("Login mit nicht existierenden Benutzernamen - Benutzername: {}, Passwort: {}", username, password);
+				throw new UserNotFoundException("Es existiert kein Mitarbeiter mit dem Usernamen '" + username + "'!");
+			}
 			
 			// falls Passwort mit dem des Benutzernamens übereinstimmt, dann ist Login erfolgreich
 			if (m.getPasswort().equals(password)) {
 				LOG.info("Erfolgreicher Login mit Benutzername: {}, Passwort: {}", username, password);
 				return true;
+			} else {
+				LOG.info("Login mit falschen Passwort - Benutzername: {}, Passwort: {}", username, password);
+				throw new WrongPasswordException("Passwort nicht korrekt!");
 			}
 		}
 		
-		LOG.info("Misslungener Login mit Benutzername: {}, Passwort: {}", username, password);
 		return false;
 	}
 }

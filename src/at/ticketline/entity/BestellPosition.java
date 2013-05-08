@@ -20,68 +20,68 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class BestellPosition extends BaseEntity {
 
-	private static final long serialVersionUID = -2047563610304940961L;
+    private static final long serialVersionUID = -2047563610304940961L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "ARTIKEL_ID")
-	private Artikel artikel;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ARTIKEL_ID")
+    private Artikel artikel;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "BESTELLUNG_ID")
-	private Bestellung bestellung;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "BESTELLUNG_ID")
+    private Bestellung bestellung;
 
-	@Column(nullable = false)
-	@Min(value = 1)
-	@NotNull
-	private Integer menge = 1;
+    @Column(nullable = false)
+    @Min(value = 1)
+    @NotNull
+    private Integer menge = 1;
 
-	public Integer getId() {
-		return this.id;
-	}
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Artikel getArtikel() {
-		return this.artikel;
-	}
+    public Artikel getArtikel() {
+        return this.artikel;
+    }
 
-	public void setArtikel(Artikel artikel) {
-		this.artikel = artikel;
-	}
+    public void setArtikel(Artikel artikel) {
+        this.artikel = artikel;
+    }
 
-	public Bestellung getBestellung() {
-		return this.bestellung;
-	}
+    public Bestellung getBestellung() {
+        return this.bestellung;
+    }
 
-	public void setBestellung(Bestellung bestellung) {
-		this.bestellung = bestellung;
-	}
+    public void setBestellung(Bestellung bestellung) {
+        this.bestellung = bestellung;
+    }
 
-	public Integer getMenge() {
-		return this.menge;
-	}
+    public Integer getMenge() {
+        return this.menge;
+    }
 
-	public void setMenge(Integer menge) {
-		this.menge = menge;
-	}
+    public void setMenge(Integer menge) {
+        this.menge = menge;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("BestellPosition [");
-		if (this.id != null) {
-			builder.append("id=").append(this.id).append(", ");
-		}
-		if (this.menge != null) {
-			builder.append("menge=").append(this.menge);
-		}
-		builder.append("]");
-		return builder.toString();
-	}
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("BestellPosition [");
+        if (this.id != null) {
+            builder.append("id=").append(this.id).append(", ");
+        }
+        if (this.menge != null) {
+            builder.append("menge=").append(this.menge);
+        }
+        builder.append("]");
+        return builder.toString();
+    }
 }

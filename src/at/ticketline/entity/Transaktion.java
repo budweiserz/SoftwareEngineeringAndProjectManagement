@@ -36,135 +36,135 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Transaktion extends BaseEntity {
 
-	private static final long serialVersionUID = -1109025925662055935L;
+    private static final long serialVersionUID = -1109025925662055935L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(nullable = false)
-	@NotNull
-	private Date datumuhrzeit;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
+    @NotNull
+    private Date datumuhrzeit;
 
-	@Column(nullable = false)
-	@Enumerated(EnumType.ORDINAL)
-	private Transaktionsstatus status;
+    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private Transaktionsstatus status;
 
-	@Min(value = 0)
-	private Integer reservierungsnr;
+    @Min(value = 0)
+    private Integer reservierungsnr;
 
-	@Column(nullable = false)
-	@Enumerated(EnumType.ORDINAL)
-	private Zahlungsart zahlungsart;
+    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private Zahlungsart zahlungsart;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "KUNDE_ID")
-	private Kunde kunde;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "KUNDE_ID")
+    private Kunde kunde;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "MITARBEITER_ID")
-	private Mitarbeiter mitarbeiter;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "MITARBEITER_ID")
+    private Mitarbeiter mitarbeiter;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "transaktion")
-	private Set<Platz> plaetze = new HashSet<Platz>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "transaktion")
+    private Set<Platz> plaetze = new HashSet<Platz>();
 
-	public Integer getId() {
-		return this.id;
-	}
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Date getDatumuhrzeit() {
-		return this.datumuhrzeit;
-	}
+    public Date getDatumuhrzeit() {
+        return this.datumuhrzeit;
+    }
 
-	public void setDatumuhrzeit(Date datumuhrzeit) {
-		this.datumuhrzeit = datumuhrzeit;
-	}
+    public void setDatumuhrzeit(Date datumuhrzeit) {
+        this.datumuhrzeit = datumuhrzeit;
+    }
 
-	public Transaktionsstatus getStatus() {
-		return this.status;
-	}
+    public Transaktionsstatus getStatus() {
+        return this.status;
+    }
 
-	public void setStatus(Transaktionsstatus status) {
-		this.status = status;
-	}
+    public void setStatus(Transaktionsstatus status) {
+        this.status = status;
+    }
 
-	/**
-	 * Nummer mit der sich der Kunde die reservierten Karten abholt; 0 <
-	 * Reservierungsnummer
-	 * 
-	 */
-	public Integer getReservierungsnr() {
-		return this.reservierungsnr;
-	}
+    /**
+     * Nummer mit der sich der Kunde die reservierten Karten abholt; 0 <
+     * Reservierungsnummer
+     * 
+     */
+    public Integer getReservierungsnr() {
+        return this.reservierungsnr;
+    }
 
-	public void setReservierungsnr(Integer resnr) {
-		this.reservierungsnr = resnr;
-	}
+    public void setReservierungsnr(Integer resnr) {
+        this.reservierungsnr = resnr;
+    }
 
-	/**
-	 * z.B.: bar, TicketCard, VISA...
-	 */
-	public Zahlungsart getZahlungsart() {
-		return this.zahlungsart;
-	}
+    /**
+     * z.B.: bar, TicketCard, VISA...
+     */
+    public Zahlungsart getZahlungsart() {
+        return this.zahlungsart;
+    }
 
-	public void setZahlungsart(Zahlungsart zahlart) {
-		this.zahlungsart = zahlart;
-	}
+    public void setZahlungsart(Zahlungsart zahlart) {
+        this.zahlungsart = zahlart;
+    }
 
-	public Kunde getKunde() {
-		return this.kunde;
-	}
+    public Kunde getKunde() {
+        return this.kunde;
+    }
 
-	public void setKunde(Kunde kunde) {
-		this.kunde = kunde;
-	}
+    public void setKunde(Kunde kunde) {
+        this.kunde = kunde;
+    }
 
-	public Mitarbeiter getMitarbeiter() {
-		return this.mitarbeiter;
-	}
+    public Mitarbeiter getMitarbeiter() {
+        return this.mitarbeiter;
+    }
 
-	public void setMitarbeiter(Mitarbeiter mitarbeiter) {
-		this.mitarbeiter = mitarbeiter;
-	}
+    public void setMitarbeiter(Mitarbeiter mitarbeiter) {
+        this.mitarbeiter = mitarbeiter;
+    }
 
-	public Set<Platz> getPlaetze() {
-		return this.plaetze;
-	}
+    public Set<Platz> getPlaetze() {
+        return this.plaetze;
+    }
 
-	public void setPlaetze(Set<Platz> plaetze) {
-		this.plaetze = plaetze;
-	}
+    public void setPlaetze(Set<Platz> plaetze) {
+        this.plaetze = plaetze;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Transaktion [");
-		if (this.id != null) {
-			builder.append("id=").append(this.id).append(", ");
-		}
-		if (this.datumuhrzeit != null) {
-			builder.append("datumuhrzeit=").append(this.datumuhrzeit).append(
-					", ");
-		}
-		if (this.reservierungsnr != null) {
-			builder.append("reservierungsnr=").append(this.reservierungsnr)
-					.append(", ");
-		}
-		if (this.status != null) {
-			builder.append("status=").append(this.status.toString()).append(
-					", ");
-		}
-		if (this.zahlungsart != null) {
-			builder.append("zahlungsart=").append(this.zahlungsart);
-		}
-		builder.append("]");
-		return builder.toString();
-	}
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Transaktion [");
+        if (this.id != null) {
+            builder.append("id=").append(this.id).append(", ");
+        }
+        if (this.datumuhrzeit != null) {
+            builder.append("datumuhrzeit=").append(this.datumuhrzeit).append(
+                    ", ");
+        }
+        if (this.reservierungsnr != null) {
+            builder.append("reservierungsnr=").append(this.reservierungsnr)
+                    .append(", ");
+        }
+        if (this.status != null) {
+            builder.append("status=").append(this.status.toString()).append(
+                    ", ");
+        }
+        if (this.zahlungsart != null) {
+            builder.append("zahlungsart=").append(this.zahlungsart);
+        }
+        builder.append("]");
+        return builder.toString();
+    }
 
 }

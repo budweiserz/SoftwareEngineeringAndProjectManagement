@@ -1,5 +1,5 @@
 package at.ticketline.entity;
 
 public enum Kundengruppe {
-	STANDARD, VIP, GOLD, PREMIUM
+    STANDARD, VIP, GOLD, PREMIUM
 }

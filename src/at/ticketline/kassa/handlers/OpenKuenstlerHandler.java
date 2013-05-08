@@ -15,50 +15,50 @@ import org.slf4j.LoggerFactory;
 @SuppressWarnings("restriction")
 public class OpenKuenstlerHandler {
 
-	private static final Logger LOG = LoggerFactory.getLogger(OpenKuenstlerHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OpenKuenstlerHandler.class);
 
-	/**
-	 * Oeffnet neuen leeren KuenstlerPart im PartStack "at.ticketline.kassa.partstack"
-	 * @param application
-	 * @param modelService
-	 * @param partService
-	 * @param context
-	 * @throws ExecutionException
-	 */
-	@Execute
-	public void execute(
-			MApplication application,
-			EModelService modelService,
-			EPartService partService,
-			IEclipseContext context
-			) throws ExecutionException {
-		openPart(application, modelService, partService, context);
-	}
+    /**
+     * Oeffnet neuen leeren KuenstlerPart im PartStack "at.ticketline.kassa.partstack"
+     * @param application
+     * @param modelService
+     * @param partService
+     * @param context
+     * @throws ExecutionException
+     */
+    @Execute
+    public void execute(
+            MApplication application,
+            EModelService modelService,
+            EPartService partService,
+            IEclipseContext context
+            ) throws ExecutionException {
+        openPart(application, modelService, partService, context);
+    }
 
-	private void openPart(MApplication application,
-							EModelService modelService,
-							EPartService partService,
-							IEclipseContext context
-							) throws ExecutionException {
+    private void openPart(MApplication application,
+                            EModelService modelService,
+                            EPartService partService,
+                            IEclipseContext context
+                            ) throws ExecutionException {
 
-		// Öffene PartStack (von Applikation Model)
-		MPartStack stack = (MPartStack) modelService.find("at.ticketline.kassa.partstack.main", application);
+        // Öffene PartStack (von Applikation Model)
+        MPartStack stack = (MPartStack) modelService.find("at.ticketline.kassa.partstack.main", application);
 
-		// Erstelle Part (basierend auf einen PartDescriptor im Application Model)
-		MPart part = partService.createPart("at.ticketline.partdescriptor.newkuenstler");
-		
-		// Allgemeine Einstellungen des Parts
-		part.setLabel("Neuer Kuenstler");
-		part.setTooltip("Neuen Kuenstler anlegen");
-		part.setCloseable(true);
-		
-		stack.getChildren().add(part);
+        // Erstelle Part (basierend auf einen PartDescriptor im Application Model)
+        MPart part = partService.createPart("at.ticketline.partdescriptor.newkuenstler");
+        
+        // Allgemeine Einstellungen des Parts
+        part.setLabel("Neuer Kuenstler");
+        part.setTooltip("Neuen Kuenstler anlegen");
+        part.setCloseable(true);
+        
+        stack.getChildren().add(part);
 
-		// Part anzeigen
-		try {
-			partService.showPart(part, PartState.ACTIVATE);
-		} catch (Exception e) {
-			LOG.error("Part fuer neuen Kuenstler konnte nicht geoeffnet werden: {}", e.getMessage());
-		}
-	}
+        // Part anzeigen
+        try {
+            partService.showPart(part, PartState.ACTIVATE);
+        } catch (Exception e) {
+            LOG.error("Part fuer neuen Kuenstler konnte nicht geoeffnet werden: {}", e.getMessage());
+        }
+    }
 }

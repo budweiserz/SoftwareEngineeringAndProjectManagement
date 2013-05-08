@@ -8,12 +8,12 @@ import javax.persistence.Version;
 @MappedSuperclass
 public abstract class BaseEntity implements Serializable {
 
-	private static final long serialVersionUID = -2142194421439108940L;
-	
-	@Version
-	protected int version = 0;
+    private static final long serialVersionUID = -2142194421439108940L;
+    
+    @Version
+    protected int version = 0;
 
-	public int getVersion() {
-		return this.version;
-	}
+    public int getVersion() {
+        return this.version;
+    }
 }

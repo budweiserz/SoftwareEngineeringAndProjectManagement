@@ -1,5 +1,5 @@
 package at.ticketline.entity;
 
 public enum PreisKategorie {
-	MINDESTPREIS,STANDARDPREIS,MAXIMALPREIS
+    MINDESTPREIS,STANDARDPREIS,MAXIMALPREIS
 }

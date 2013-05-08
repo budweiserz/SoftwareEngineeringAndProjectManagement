@@ -4,5 +4,5 @@ import at.ticketline.entity.Kuenstler;
 
 public interface KuenstlerService {
 
-	public void save(Kuenstler kuenstler);
+    public void save(Kuenstler kuenstler);
 }

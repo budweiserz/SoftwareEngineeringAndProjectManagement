@@ -31,111 +31,111 @@ import javax.validation.constraints.Size;
 @Entity
 public class Kategorie extends BaseEntity {
 
-	private static final long serialVersionUID = 3694953274460755957L;
+    private static final long serialVersionUID = 3694953274460755957L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@Column(nullable = false, length = 30)
-	@Size(max = 30)
-	@NotNull
-	private String bezeichnung;
+    @Column(nullable = false, length = 30)
+    @Size(max = 30)
+    @NotNull
+    private String bezeichnung;
 
-	@Min(value = 0)
-	@Digits(integer = 8, fraction = 2)
-	private BigDecimal preismin;
+    @Min(value = 0)
+    @Digits(integer = 8, fraction = 2)
+    private BigDecimal preismin;
 
-	@Min(value = 0)
-	@Digits(integer = 8, fraction = 2)
-	private BigDecimal preisstd;
+    @Min(value = 0)
+    @Digits(integer = 8, fraction = 2)
+    private BigDecimal preisstd;
 
-	@Min(value = 0)
-	@Digits(integer = 8, fraction = 2)
-	private BigDecimal preismax;
+    @Min(value = 0)
+    @Digits(integer = 8, fraction = 2)
+    private BigDecimal preismax;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "kategorie")
-	private Set<Reihe> reihen = new HashSet<Reihe>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "kategorie")
+    private Set<Reihe> reihen = new HashSet<Reihe>();
 
-	public Integer getId() {
-		return this.id;
-	}
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getBezeichnung() {
-		return this.bezeichnung;
-	}
+    public String getBezeichnung() {
+        return this.bezeichnung;
+    }
 
-	public void setBezeichnung(String bezeichnung) {
-		this.bezeichnung = bezeichnung;
-	}
+    public void setBezeichnung(String bezeichnung) {
+        this.bezeichnung = bezeichnung;
+    }
 
-	/**
-	 * Minimalpreis dieser Kategorie >= 0
-	 */
-	public BigDecimal getPreismin() {
-		return this.preismin;
-	}
+    /**
+     * Minimalpreis dieser Kategorie >= 0
+     */
+    public BigDecimal getPreismin() {
+        return this.preismin;
+    }
 
-	public void setPreismin(BigDecimal preismin) {
-		this.preismin = preismin;
-	}
+    public void setPreismin(BigDecimal preismin) {
+        this.preismin = preismin;
+    }
 
-	/**
-	 * Standardpreis dieser Kategorie >= 0
-	 */
-	public BigDecimal getPreisstd() {
-		return this.preisstd;
-	}
+    /**
+     * Standardpreis dieser Kategorie >= 0
+     */
+    public BigDecimal getPreisstd() {
+        return this.preisstd;
+    }
 
-	public void setPreisstd(BigDecimal preisstd) {
-		this.preisstd = preisstd;
-	}
+    public void setPreisstd(BigDecimal preisstd) {
+        this.preisstd = preisstd;
+    }
 
-	/**
-	 * Maximalpreis dieser Kategorie >= 0
-	 */
-	public BigDecimal getPreismax() {
-		return this.preismax;
-	}
+    /**
+     * Maximalpreis dieser Kategorie >= 0
+     */
+    public BigDecimal getPreismax() {
+        return this.preismax;
+    }
 
-	public void setPreismax(BigDecimal preismax) {
-		this.preismax = preismax;
-	}
+    public void setPreismax(BigDecimal preismax) {
+        this.preismax = preismax;
+    }
 
-	public Set<Reihe> getReihen() {
-		return this.reihen;
-	}
+    public Set<Reihe> getReihen() {
+        return this.reihen;
+    }
 
-	public void setReihen(Set<Reihe> reihen) {
-		this.reihen = reihen;
-	}
+    public void setReihen(Set<Reihe> reihen) {
+        this.reihen = reihen;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Kategorie [");
-		if (this.id != null) {
-			builder.append("id=").append(this.id).append(", ");
-		}
-		if (this.bezeichnung != null) {
-			builder.append("bezeichnung=").append(this.bezeichnung)
-					.append(", ");
-		}
-		if (this.preismax != null) {
-			builder.append("preismax=").append(this.preismax).append(", ");
-		}
-		if (this.preismin != null) {
-			builder.append("preismin=").append(this.preismin).append(", ");
-		}
-		if (this.preisstd != null) {
-			builder.append("preisstd=").append(this.preisstd);
-		}
-		builder.append("]");
-		return builder.toString();
-	}
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Kategorie [");
+        if (this.id != null) {
+            builder.append("id=").append(this.id).append(", ");
+        }
+        if (this.bezeichnung != null) {
+            builder.append("bezeichnung=").append(this.bezeichnung)
+                    .append(", ");
+        }
+        if (this.preismax != null) {
+            builder.append("preismax=").append(this.preismax).append(", ");
+        }
+        if (this.preismin != null) {
+            builder.append("preismin=").append(this.preismin).append(", ");
+        }
+        if (this.preisstd != null) {
+            builder.append("preisstd=").append(this.preisstd);
+        }
+        builder.append("]");
+        return builder.toString();
+    }
 
 }

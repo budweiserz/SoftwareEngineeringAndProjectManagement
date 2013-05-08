@@ -24,86 +24,86 @@ import javax.validation.constraints.Size;
 @Entity
 public class News extends BaseEntity {
 
-	private static final long serialVersionUID = -8545886494489544336L;
+    private static final long serialVersionUID = -8545886494489544336L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	@Temporal(TemporalType.DATE)
-	@Column(nullable = false)
-	@NotNull
-	private Date datum;
+    @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
+    @NotNull
+    private Date datum;
 
-	@Column(nullable = false, length = 100)
-	@Size(max = 100)
-	@NotNull
-	private String titel;
+    @Column(nullable = false, length = 100)
+    @Size(max = 100)
+    @NotNull
+    private String titel;
 
-	@Lob
-	private String text;
+    @Lob
+    private String text;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "ORT_ID", nullable = true)
-	private Ort ort;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "ORT_ID", nullable = true)
+    private Ort ort;
 
-	public Integer getId() {
-		return this.id;
-	}
+    public Integer getId() {
+        return this.id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Date getDatum() {
-		return this.datum;
-	}
+    public Date getDatum() {
+        return this.datum;
+    }
 
-	public void setDatum(Date datum) {
-		this.datum = datum;
-	}
+    public void setDatum(Date datum) {
+        this.datum = datum;
+    }
 
-	public String getTitel() {
-		return this.titel;
-	}
+    public String getTitel() {
+        return this.titel;
+    }
 
-	public void setTitel(String titel) {
-		this.titel = titel;
-	}
+    public void setTitel(String titel) {
+        this.titel = titel;
+    }
 
-	public String getText() {
-		return this.text;
-	}
+    public String getText() {
+        return this.text;
+    }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+    public void setText(String text) {
+        this.text = text;
+    }
 
-	public Ort getOrt() {
-		return this.ort;
-	}
+    public Ort getOrt() {
+        return this.ort;
+    }
 
-	public void setOrt(Ort ort) {
-		this.ort = ort;
-	}
+    public void setOrt(Ort ort) {
+        this.ort = ort;
+    }
 
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("News [");
-		if (this.id != null) {
-			builder.append("id=").append(this.id).append(", ");
-		}
-		if (this.datum != null) {
-			builder.append("datum=").append(this.datum).append(", ");
-		}
-		if (this.ort != null) {
-			builder.append("ort=").append(this.ort).append(", ");
-		}
-		if (this.titel != null) {
-			builder.append("titel=").append(this.titel);
-		}
-		builder.append("]");
-		return builder.toString();
-	}
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("News [");
+        if (this.id != null) {
+            builder.append("id=").append(this.id).append(", ");
+        }
+        if (this.datum != null) {
+            builder.append("datum=").append(this.datum).append(", ");
+        }
+        if (this.ort != null) {
+            builder.append("ort=").append(this.ort).append(", ");
+        }
+        if (this.titel != null) {
+            builder.append("titel=").append(this.titel);
+        }
+        builder.append("]");
+        return builder.toString();
+    }
 }

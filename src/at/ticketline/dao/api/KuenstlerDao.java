@@ -7,5 +7,5 @@ import at.ticketline.entity.Kuenstler;
 
 public interface KuenstlerDao extends GenericDao<Kuenstler,Integer> {
 
-	public List<Kuenstler> findByKuenstler(Kuenstler query);
+    public List<Kuenstler> findByKuenstler(Kuenstler query);
 }

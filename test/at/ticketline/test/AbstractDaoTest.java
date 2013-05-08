@@ -7,9 +7,10 @@ import org.junit.BeforeClass;
 import at.ticketline.dao.EntityManagerUtil;
 
 /**
- * This class serves as a basic structure for dao-tests and will make
- * sure that no permanent changes in the db are made during tests.
- * Every Dao-Test should extend this class
+ * Dient als Basisstruktur fuer DAO-Tests und stellt sicher, dass keine
+ * permanenten Aenderungen an der Datenbank vorgenommen werden.
+ * Jeder Dao-Test should soll von diese Klasse abgeleitet werden
+ * 
  * @author Rafael Konlechner
  *
  */

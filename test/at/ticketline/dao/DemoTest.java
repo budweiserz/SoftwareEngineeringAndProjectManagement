@@ -17,7 +17,7 @@ import at.ticketline.entity.Kuenstler;
 import at.ticketline.test.AbstractDaoTest;
 
 /**
- * This test demonstrates the usage of AbstractDaoTest
+ * Demonstriert die korrekte Verwendung von AbstractDaoTest
  * 
  * @author Rafael Konlechner
  */

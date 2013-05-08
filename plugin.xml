@@ -21,11 +21,11 @@
          </property>
          <property
                name="aboutImage"
-               value="icons/about_ticketline.png">
+               value="/TicketlineRCPJuno/icons/about_ticketline.png">
          </property>
          <property
                name="windowImages"
-               value="icons/web_16.png,icons/web_32.png,icons/web_48.png">
+               value="/TicketlineRCPJuno/icons/web_16.png,/TicketlineRCPJuno/icons/web_32.png,/TicketlineRCPJuno/icons/web_48.png">
          </property>
       </product>
    </extension>

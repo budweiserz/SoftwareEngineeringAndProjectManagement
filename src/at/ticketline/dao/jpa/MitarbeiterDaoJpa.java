@@ -6,10 +6,5 @@ import at.ticketline.entity.Mitarbeiter;
 
 public class MitarbeiterDaoJpa extends GenericDaoJpa<Mitarbeiter,Integer> implements MitarbeiterDao {
 
-    @Override
-    public Mitarbeiter findByUsername(String username) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
 }

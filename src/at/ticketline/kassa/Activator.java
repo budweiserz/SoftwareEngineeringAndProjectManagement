@@ -46,4 +46,5 @@ public class Activator implements BundleActivator {
         CONTEXT.registerService(KuenstlerService.class.getName(), new KuenstlerServiceImpl(kuenstlerDao), null);
     }
 
+
 }

@@ -6,4 +6,5 @@ import at.ticketline.entity.Mitarbeiter;
 
 public class MitarbeiterDaoJpa extends GenericDaoJpa<Mitarbeiter,Integer> implements MitarbeiterDao {
 
+
 }

@@ -1,11 +1,6 @@
 package at.ticketline.dao;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
-
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -45,7 +40,6 @@ public class MitarbeiterTest extends AbstractDaoTest {
 			this.mitarbeiterDao.persist(m);
 		}
 		catch (ConstraintViolationException cve) {
-			List<String> violations = new ArrayList<String>();
 			for (ConstraintViolation<?> cv : cve.getConstraintViolations()) {
 				//violations.add(cv.getPropertyPath().toString());
 				System.out.println( cv.getPropertyPath().toString() );

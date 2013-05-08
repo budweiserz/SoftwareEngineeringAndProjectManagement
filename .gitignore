@@ -1,6 +1,8 @@
 db/
 bin/
+*.class
+createDDL.jdbc
+dropDDL.jdbc
 .DS_STORE
 .idea
-*.class
 *.swp

@@ -1,9 +1,8 @@
-package at.ticketline.dao;
+package at.ticketline.test;
 
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import javax.validation.ConstraintViolation;
@@ -11,13 +10,12 @@ import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
 
+import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.api.KuenstlerDao;
-import at.ticketline.entity.Geschlecht;
 import at.ticketline.entity.Kuenstler;
-import at.ticketline.test.AbstractDaoTest;
 
 /**
- * Demonstriert die korrekte Verwendung von AbstractDaoTest
+ * Demonstriert die korrekte Verwendung von AbstractDaoTest und EntityGenerator
  * 
  * @author Rafael Konlechner
  */
@@ -30,14 +28,14 @@ public class DemoTest extends AbstractDaoTest {
         kuenstlerDao = (KuenstlerDao) DaoFactory.getByEntity(Kuenstler.class);
 
         /*
-         * creating valid entity
+         * creating valid entity with EntityGenerator
          */
-        Kuenstler k = new Kuenstler();
+        Kuenstler k = EntityGenerator.getValidKuenstler(0);
+        
+        /*
+         * change prefered values
+         */
         k.setNachname("Peterson");
-        k.setVorname("Hansa");
-        k.setTitel("DDr.");
-        k.setGeschlecht(Geschlecht.WEIBLICH);
-        k.setGeburtsdatum(new GregorianCalendar(1970, 11, 2, 13, 20, 0));
         k.setBiographie("Ihr Leben begann bereits kurz nach ihrer Geburt.");
 
         List<String> violations = new ArrayList<String>();

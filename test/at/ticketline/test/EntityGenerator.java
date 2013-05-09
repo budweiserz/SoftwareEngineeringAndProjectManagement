@@ -94,6 +94,53 @@ public class EntityGenerator {
         return k;
     }
 
+    public static Kunde getValidKunde(int modifier) {
+        
+        Kunde k = new Kunde();
+        k.setUsername("Username " + modifier);
+        k.setPasswort("Passwort " + modifier);
+        k.setNachname("Nachname " + modifier);
+        k.setVorname("Vorname " + modifier);
+        k.setTitel("Titel " + modifier);
+        k.setGeschlecht(Geschlecht.WEIBLICH);
+        k.setGeburtsdatum(new GregorianCalendar(1990, 1, 1, 1, 1, 1));
+        k.setTelnr("Telefonnummer " + modifier);
+        k.setEmail("email" + modifier + "@foo.com");
+        k.setBlz("1234" + modifier % 10);
+        k.setKontonr("123" + modifier % 100000);
+        k.setKreditkartennr("12345678912" + modifier % 1000);
+        k.setKreditkarteGueltigBis(new Date());
+        k.setKontostand(new BigDecimal(modifier * 100));
+        k.setKontolimit(new BigDecimal(modifier * 1000));
+        k.setErmaessigung(new BigDecimal(modifier / 10));
+        k.setTicketcardnr("Ticketcardnummer " + modifier);
+        k.setTicketcardGueltigBis(new Date());
+        k.setVorlieben("Vorlieben " + modifier);
+         
+        return k;
+    }
+
+    public static Mitarbeiter getValidMitarbeiter(int modifier) {
+        
+        Mitarbeiter m = new Mitarbeiter();
+        m.setUsername("Username " + modifier);
+        m.setPasswort("Passwort " + modifier);
+        m.setNachname("Nachname " + modifier);
+        m.setVorname("Vorname " + modifier);
+        m.setTitel("Titel " + modifier);
+        m.setGeschlecht(Geschlecht.WEIBLICH);
+        m.setGeburtsdatum(new GregorianCalendar(1990, 1, 1, 1, 1, 1));
+        m.setTelnr("Telefonnummer " + modifier);
+        m.setEmail("email" + modifier + "@foo.com");
+        m.setBlz("1234" + modifier % 5);
+        m.setKontonr("123" + modifier % 100000);
+        m.setBerechtigung(Berechtigung.MARKETING);
+        m.setSozialversicherungsnr("Sozialv.nr " + modifier % 10);
+        
+         
+        return m;
+    }
+    
     public static News getValidNews(int modifier) {
 
         News n = new News();

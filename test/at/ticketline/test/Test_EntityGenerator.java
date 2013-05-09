@@ -107,6 +107,34 @@ public class Test_EntityGenerator {
     }
 
     @Test
+    public void generateKunde_shouldBeValid() {
+
+        Kunde a;
+        Set<ConstraintViolation<Kunde>> violations;
+
+        for (int i = 0; i <= 100; i++) {
+
+            a = EntityGenerator.getValidKunde(i);
+            violations = v.validate(a);
+            assertTrue(violations.size() == 0);
+        }
+    }
+    
+    @Test
+    public void generateMitarbeiter_shouldBeValid() {
+
+        Mitarbeiter a;
+        Set<ConstraintViolation<Mitarbeiter>> violations;
+
+        for (int i = 0; i <= 100; i++) {
+
+            a = EntityGenerator.getValidMitarbeiter(i);
+            violations = v.validate(a);
+            assertTrue(violations.size() == 0);
+        }
+    }
+    
+    @Test
     public void generateKategorie_shouldBeValid() {
 
         Kategorie a;

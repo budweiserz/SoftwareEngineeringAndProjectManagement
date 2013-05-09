@@ -9,7 +9,7 @@ import at.ticketline.dao.EntityManagerUtil;
 /**
  * Dient als Basisstruktur fuer DAO-Tests und stellt sicher, dass keine
  * permanenten Aenderungen an der Datenbank vorgenommen werden.
- * Jeder Dao-Test should soll von diese Klasse abgeleitet werden
+ * Jeder Dao-Test soll von diese Klasse abgeleitet werden
  * 
  * @author Rafael Konlechner
  *
@@ -17,17 +17,17 @@ import at.ticketline.dao.EntityManagerUtil;
 public abstract class AbstractDaoTest {
     
     @BeforeClass
-    public static void init() {
+    public static void initTest() {
         TestInitializer.init();
     }
 
     @Before
-    public void setup() {
+    public void beginTransaction() {
         EntityManagerUtil.beginTransaction();
     }
     
     @After
-    public void teardown() {
+    public void rollbackTransaction() {
         EntityManagerUtil.rollbackTransaction();
     }
 }

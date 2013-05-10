@@ -59,13 +59,15 @@ import at.ticketline.dao.DaoException;
 import at.ticketline.entity.Engagement;
 import at.ticketline.entity.Geschlecht;
 import at.ticketline.entity.Kuenstler;
+import at.ticketline.entity.Kunde;
 import at.ticketline.kassa.handlers.SavePartHandler;
 import at.ticketline.service.api.KuenstlerService;
+import at.ticketline.service.api.KundeService;
 
 @SuppressWarnings("restriction")
-public class KuenstlerPart{
+public class KundePart{
     
-    private static final Logger LOG = LoggerFactory.getLogger(KuenstlerPart.class);
+    private static final Logger LOG = LoggerFactory.getLogger(KundePart.class);
     
     @Inject private MDirtyable dirty;
     @Inject private EPartService partService;
@@ -74,18 +76,23 @@ public class KuenstlerPart{
     @Inject private MPart activePart;
     @Inject @Named (IServiceConstants.ACTIVE_SHELL) private Shell shell;
     
-    @Inject private Kuenstler kuenstler;
-    @Inject private KuenstlerService kuenstlerService;
+    @Inject private Kunde kunde;
+    @Inject private KundeService kundeService;
     
     private FormToolkit toolkit;
     private ScrolledForm form;
     
-    private Text txtNachname;
-    private Text txtVorname;
     private Text txtTitel;
-    private Combo cbGeschlecht;
-    private Text txtBiographie;
+    private Text txtVorname;
+    private Text txtNachname;
     private DateTime dtGeburtsdatum;
+    private Text txtTelefon;
+    private Text txtAdresse;
+    private Text txtOrt;
+    private Text txtEmail;
+    private Text txtErmaessigung;
+    //private Combo cbGeschlecht;
+
 
     private Button btnSave;
 
@@ -93,13 +100,13 @@ public class KuenstlerPart{
 
     @Inject
     public void init(Composite parent,
-                    @Named (IServiceConstants.ACTIVE_SELECTION) @Optional Kuenstler kuenstler) throws PartInitException {
-        if(kuenstler != null){
-            this.kuenstler = kuenstler;
+                    @Named (IServiceConstants.ACTIVE_SELECTION) @Optional Kunde kunde) throws PartInitException {
+        if(kunde != null){
+            this.kunde = kunde;
         }
         createControls(parent);
         
-        if(kuenstler != null){
+        if(kunde != null){
             setInput();
         }
     }
@@ -134,55 +141,33 @@ public class KuenstlerPart{
         leftSection.addExpansionListener(new ExpansionAdapter() {
             @Override
             public void expansionStateChanged(ExpansionEvent e) {
-                KuenstlerPart.this.form.reflow(true);
+                KundePart.this.form.reflow(true);
             }
         });
+        
         leftSection.setText("Daten");
         leftSection.setLayoutData(new ColumnLayoutData(ColumnLayoutData.FILL));
         Composite left = this.toolkit.createComposite(leftSection);
         left.setLayout(new GridLayout(2, false));
 
-        Label lblNachname = this.toolkit.createLabel(left, "Nachname:",
-                SWT.LEFT);
-        lblNachname.setSize(230, lblNachname.getSize().y);
+        this.toolkit.createLabel(left, "Titel:", SWT.LEFT);
 
-        this.txtNachname = this.toolkit.createText(left, this.kuenstler
-                .getNachname(), SWT.LEFT | SWT.BORDER);
+        this.txtTitel = this.toolkit.createText(left,
+                this.kunde.getTitel(), SWT.LEFT | SWT.BORDER);
         
-        this.txtNachname.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        this.txtNachname.addModifyListener(listener);
-
+        this.txtTitel
+                .setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+        this.txtTitel.addModifyListener(listener);
+        
         this.toolkit.createLabel(left, "Vorname:", SWT.LEFT);
 
-        this.txtVorname = this.toolkit.createText(left, this.kuenstler
+        this.txtVorname = this.toolkit.createText(left, this.kunde
                 .getVorname(), SWT.LEFT | SWT.BORDER);
         
         this.txtVorname.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true,
                 false));
         this.txtVorname.addModifyListener(listener);
-
-        this.toolkit.createLabel(left, "Titel:", SWT.LEFT);
-
-        this.txtTitel = this.toolkit.createText(left,
-                this.kuenstler.getTitel(), SWT.LEFT | SWT.BORDER);
         
-        this.txtTitel
-                .setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-        this.txtTitel.addModifyListener(listener);
-
-        this.toolkit.createLabel(left, "Geschlecht:",
-                SWT.LEFT);
-
-        this.cbGeschlecht = new Combo(left, SWT.FLAT | SWT.READ_ONLY
-                | SWT.BORDER);
-        this.cbGeschlecht.setItems(Geschlecht.toStringArray());
-        
-        this.cbGeschlecht.select(0);
-        
-        this.cbGeschlecht.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        this.cbGeschlecht.addModifyListener(listener);
-        this.toolkit.adapt(this.cbGeschlecht, true, true);
-
         this.toolkit.createLabel(left, "Geburtsdatum:",
                 SWT.LEFT);
 
@@ -193,6 +178,33 @@ public class KuenstlerPart{
         this.toolkit.adapt(this.dtGeburtsdatum, true, true);
 
         leftSection.setClient(left);
+        
+        Label lblNachname = this.toolkit.createLabel(left, "Nachname:",
+                SWT.LEFT);
+        lblNachname.setSize(230, lblNachname.getSize().y);
+
+        this.txtNachname = this.toolkit.createText(left, this.kunde
+                .getNachname(), SWT.LEFT | SWT.BORDER);
+        
+        this.txtNachname.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        this.txtNachname.addModifyListener(listener);
+
+        /*
+        this.toolkit.createLabel(left, "Geschlecht:",
+                SWT.LEFT);
+        
+        this.cbGeschlecht = new Combo(left, SWT.FLAT | SWT.READ_ONLY
+                | SWT.BORDER);
+        this.cbGeschlecht.setItems(Geschlecht.toStringArray());
+        
+        this.cbGeschlecht.select(0);
+        
+        this.cbGeschlecht.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+        this.cbGeschlecht.addModifyListener(listener);
+        this.toolkit.adapt(this.cbGeschlecht, true, true);
+        */
+
+
 
         // Right Side
         Section rightSection = this.toolkit.createSection(c,
@@ -201,20 +213,24 @@ public class KuenstlerPart{
         rightSection.addExpansionListener(new ExpansionAdapter() {
             @Override
             public void expansionStateChanged(ExpansionEvent e) {
-                KuenstlerPart.this.form.reflow(true);
+                KundePart.this.form.reflow(true);
             }
         });
+        
+        
         rightSection.setText("Biographie");
         rightSection.setLayoutData(new ColumnLayoutData(ColumnLayoutData.FILL));
         
         Composite right = this.toolkit.createComposite(rightSection);
         right.setLayout(new GridLayout(1, false));
 
-        this.txtBiographie = this.toolkit.createText(right, this.kuenstler
+        /*
+        this.txtBiographie = this.toolkit.createText(right, this.kunde
                 .getBiographie(), SWT.MULTI | SWT.BORDER | SWT.WRAP);
         
         this.txtBiographie.setLayoutData(new GridData(GridData.FILL_BOTH));
         this.txtBiographie.addModifyListener(listener);
+        */
         rightSection.setClient(right);
     }
 
@@ -225,7 +241,7 @@ public class KuenstlerPart{
         engagementSection.addExpansionListener(new ExpansionAdapter() {
             @Override
             public void expansionStateChanged(ExpansionEvent e) {
-                KuenstlerPart.this.form.reflow(true);
+                KundePart.this.form.reflow(true);
             }
         });
         engagementSection.setText("Engagements");
@@ -331,7 +347,7 @@ public class KuenstlerPart{
         this.btnSave.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                if (!KuenstlerPart.this.dirty.isDirty()) {
+                if (!KundePart.this.dirty.isDirty()) {
                     return;
                 }
                 handlerService.activateHandler("at.ticketline.handler.savePartHandler", new SavePartHandler());
@@ -341,7 +357,7 @@ public class KuenstlerPart{
                     handlerService.executeHandler(cmd);
                 } catch (Exception ex) {
                     LOG.error(ex.getMessage(), ex);
-                    MessageDialog.openError(KuenstlerPart.this.shell, "Error",
+                    MessageDialog.openError(KundePart.this.shell, "Error",
                             "Kuenstler kann nicht gespeichert werden: "
                                     + ex.getMessage());
                 }
@@ -351,19 +367,22 @@ public class KuenstlerPart{
     }
     
     private void setInput(){
-        this.form.setText(this.kuenstler.getName());
-        if ((this.kuenstler.getEngagements() != null)
-                && (this.kuenstler.getEngagements().size() > 0)) {
-            this.tableViewer.setInput(this.kuenstler.getEngagements());
+
+        this.form.setText(this.kunde.getNachname());
+        /*
+        if ((this.kunde.getEngagements() != null)
+                && (this.kunde.getEngagements().size() > 0)) {
+            this.tableViewer.setInput(this.kunde.getEngagements());
         }
 
-        if (this.kuenstler.getGeschlecht() == Geschlecht.WEIBLICH) {
+        if (this.kunde.getGeschlecht() == Geschlecht.WEIBLICH) {
             this.cbGeschlecht.select(1);
         } else {
             this.cbGeschlecht.select(0);
         }
-        if (this.kuenstler.getGeburtsdatum() != null) {
-            GregorianCalendar gc = this.kuenstler.getGeburtsdatum();
+        */
+        if (this.kunde.getGeburtsdatum() != null) {
+            GregorianCalendar gc = this.kunde.getGeburtsdatum();
             this.dtGeburtsdatum.setYear(gc.get(Calendar.YEAR));
             this.dtGeburtsdatum.setMonth(gc.get(Calendar.MONTH));
             this.dtGeburtsdatum.setDay(gc.get(Calendar.DAY_OF_MONTH));
@@ -384,36 +403,39 @@ public class KuenstlerPart{
     public void save() {
         LOG.info("Künstler speichern");
         if(this.txtNachname.getText().equals("")){
-            this.kuenstler.setNachname(null);
+            this.kunde.setNachname(null);
         }
         else{
-            this.kuenstler.setNachname(this.txtNachname.getText());
+            this.kunde.setNachname(this.txtNachname.getText());
         }
         if(this.txtVorname.getText().equals("")){
-            this.kuenstler.setVorname(null);
+            this.kunde.setVorname(null);
         }
         else{
-            this.kuenstler.setVorname(this.txtVorname.getText());
+            this.kunde.setVorname(this.txtVorname.getText());
         }
-        this.kuenstler.setTitel(this.txtTitel.getText());
-        this.kuenstler.setGeschlecht(Geschlecht.getValueOf(this.cbGeschlecht
+        this.kunde.setTitel(this.txtTitel.getText());
+        /*
+        this.kunde.setGeschlecht(Geschlecht.getValueOf(this.cbGeschlecht
                 .getText()));
-        if (this.kuenstler.getGeburtsdatum() == null) {
-            this.kuenstler.setGeburtsdatum(new GregorianCalendar());
+        */
+        if (this.kunde.getGeburtsdatum() == null) {
+            this.kunde.setGeburtsdatum(new GregorianCalendar());
         }
-        this.kuenstler.getGeburtsdatum().set(Calendar.YEAR,
+        this.kunde.getGeburtsdatum().set(Calendar.YEAR,
                 this.dtGeburtsdatum.getYear());
-        this.kuenstler.getGeburtsdatum().set(Calendar.MONTH,
+        this.kunde.getGeburtsdatum().set(Calendar.MONTH,
                 this.dtGeburtsdatum.getMonth());
-        this.kuenstler.getGeburtsdatum().set(Calendar.DAY_OF_MONTH,
+        this.kunde.getGeburtsdatum().set(Calendar.DAY_OF_MONTH,
                 this.dtGeburtsdatum.getDay());
-        this.kuenstler.setBiographie(this.txtBiographie.getText());
-
+        /*
+        this.kunde.setBiographie(this.txtBiographie.getText());
+        */
         try {
-            this.kuenstlerService.save(kuenstler);
+            this.kundeService.save(kunde);
             this.dirty.setDirty(false);
             
-            MessageDialog.openInformation(this.shell, "Speichervorgang", "Künstler wurde erfolgreich gespeichert");
+            MessageDialog.openInformation(this.shell, "Speichervorgang", "Kunde wurde erfolgreich gespeichert");
         } catch (ConstraintViolationException c) {
             StringBuilder sb = new StringBuilder(
                     "Die eingegebene Daten weisen folgende Fehler auf:\n");
@@ -439,9 +461,9 @@ public class KuenstlerPart{
 
         @Override
         public void modifyText(ModifyEvent e) {
-            if ((e.getSource().equals(KuenstlerPart.this.txtNachname))
-                    || (e.getSource().equals(KuenstlerPart.this.txtVorname))) {
-                KuenstlerPart.this.updateTitle();
+            if ((e.getSource().equals(KundePart.this.txtNachname))
+                    || (e.getSource().equals(KundePart.this.txtVorname))) {
+                KundePart.this.updateTitle();
             }
             dirty.setDirty(true);
         }
@@ -453,21 +475,21 @@ public class KuenstlerPart{
 
         @Override
         public void focusLost(FocusEvent e) {
-            if (e.getSource().equals(KuenstlerPart.this.dtGeburtsdatum) == false) {
+            if (e.getSource().equals(KundePart.this.dtGeburtsdatum) == false) {
                 return;
             }
             try {
-                GregorianCalendar gc = KuenstlerPart.this.kuenstler
+                GregorianCalendar gc = KundePart.this.kunde
                         .getGeburtsdatum();
                 if (gc == null) {
                     dirty.setDirty(true);
                     return;
                 }
-                if ((KuenstlerPart.this.dtGeburtsdatum.getYear() != gc
+                if ((KundePart.this.dtGeburtsdatum.getYear() != gc
                         .get(Calendar.YEAR))
-                        || (KuenstlerPart.this.dtGeburtsdatum.getMonth() != gc
+                        || (KundePart.this.dtGeburtsdatum.getMonth() != gc
                                 .get(Calendar.MONTH))
-                        || (KuenstlerPart.this.dtGeburtsdatum.getDay() != gc
+                        || (KundePart.this.dtGeburtsdatum.getDay() != gc
                                 .get(Calendar.DAY_OF_MONTH))) {
                     dirty.setDirty(true);
                 }

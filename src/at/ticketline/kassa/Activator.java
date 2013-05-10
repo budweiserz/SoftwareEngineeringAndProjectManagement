@@ -7,13 +7,13 @@ import org.osgi.framework.BundleContext;
 
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.EntityManagerUtil;
-import at.ticketline.dao.api.KuenstlerDao;
-import at.ticketline.entity.Kuenstler;
-import at.ticketline.service.api.KuenstlerService;
-import at.ticketline.service.impl.KuenstlerServiceImpl;
+import at.ticketline.dao.api.KundeDao;
+import at.ticketline.entity.Kunde;
+import at.ticketline.service.api.KundeService;
+import at.ticketline.service.impl.KundeServiceImpl;
 
 public class Activator implements BundleActivator {
-    
+
     // The plug-in ID
     public static final String PLUGIN_ID = "at.ticketline.kassa";
 
@@ -35,17 +35,15 @@ public class Activator implements BundleActivator {
     @Override
     public void stop(BundleContext bundleContext) throws Exception {
         Log.info("Stopping bundle " + PLUGIN_ID);
-        
+
         Activator.CONTEXT = null;
-        
+
         EntityManagerUtil.closeFactory();
     }
-    
+
     private void registerServices() {
-        KuenstlerDao kuenstlerDao = (KuenstlerDao)DaoFactory.getByEntity(Kuenstler.class);
-        CONTEXT.registerService(KuenstlerService.class.getName(), new KuenstlerServiceImpl(kuenstlerDao), null);
+        KundeDao kundeDao = (KundeDao) DaoFactory.getByEntity(Kunde.class);
+        CONTEXT.registerService(KundeService.class.getName(),
+                new KundeServiceImpl(kundeDao), null);
     }
-
-
-
 }

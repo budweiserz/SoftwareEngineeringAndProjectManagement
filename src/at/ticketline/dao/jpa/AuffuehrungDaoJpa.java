@@ -32,7 +32,7 @@ public class AuffuehrungDaoJpa extends GenericDaoJpa<Auffuehrung,Integer> implem
          *  Suchkriterien sind: Datum/Uhrzeit, Preis, Veranstaltung, Säle
          */
         if(auffuehrung.getDatumuhrzeit() != null) {
-            
+           wherePredicates.add( builder.equal(rootAuffuehrung.get("datumuhrzeit"), auffuehrung.getDatumuhrzeit()));
         }
         
         if(auffuehrung.getVeranstaltung() != null && auffuehrung.getVeranstaltung().getBezeichnung() != null) {
@@ -46,7 +46,7 @@ public class AuffuehrungDaoJpa extends GenericDaoJpa<Auffuehrung,Integer> implem
         }
         
         if(auffuehrung.getPreis() != null) {
-            
+            wherePredicates.add( builder.equal(rootAuffuehrung.get("preis"), auffuehrung.getPreis()));
         }
         
         Predicate whereClause = builder.and(wherePredicates.toArray(new Predicate[0]));

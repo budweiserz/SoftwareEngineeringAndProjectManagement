@@ -10,6 +10,7 @@ public interface AuffuehrungDao extends GenericDao<Auffuehrung,Integer> {
 
     /**
      * Gibt eine Liste der Auffuehrungen zurück, die den Werten von query entsprechen
+     * Nach den Kriterien Datum/Uhrzeit, Preis, Veranstaltung und Säle muss gefiltert werden
      */
     public List<Auffuehrung> findByAuffuehrung(Auffuehrung query);
 }

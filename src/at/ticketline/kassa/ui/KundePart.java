@@ -65,23 +65,32 @@ import at.ticketline.service.api.KuenstlerService;
 import at.ticketline.service.api.KundeService;
 
 @SuppressWarnings("restriction")
-public class KundePart{
-    
+public class KundePart {
+
     private static final Logger LOG = LoggerFactory.getLogger(KundePart.class);
-    
-    @Inject private MDirtyable dirty;
-    @Inject private EPartService partService;
-    @Inject private EHandlerService handlerService;
-    @Inject private ECommandService commandService;
-    @Inject private MPart activePart;
-    @Inject @Named (IServiceConstants.ACTIVE_SHELL) private Shell shell;
-    
-    @Inject private Kunde kunde;
-    @Inject private KundeService kundeService;
-    
+
+    @Inject
+    private MDirtyable dirty;
+    @Inject
+    private EPartService partService;
+    @Inject
+    private EHandlerService handlerService;
+    @Inject
+    private ECommandService commandService;
+    @Inject
+    private MPart activePart;
+    @Inject
+    @Named(IServiceConstants.ACTIVE_SHELL)
+    private Shell shell;
+
+    @Inject
+    private Kunde kunde;
+    @Inject
+    private KundeService kundeService;
+
     private FormToolkit toolkit;
     private ScrolledForm form;
-    
+
     private Text txtTitel;
     private Text txtVorname;
     private Text txtNachname;
@@ -91,8 +100,7 @@ public class KundePart{
     private Text txtOrt;
     private Text txtEmail;
     private Text txtErmaessigung;
-    //private Combo cbGeschlecht;
-
+    private Combo cbGeschlecht;
 
     private Button btnSave;
 
@@ -100,18 +108,19 @@ public class KundePart{
 
     @Inject
     public void init(Composite parent,
-                    @Named (IServiceConstants.ACTIVE_SELECTION) @Optional Kunde kunde) throws PartInitException {
-        if(kunde != null){
+            @Named(IServiceConstants.ACTIVE_SELECTION) @Optional Kunde kunde)
+            throws PartInitException {
+        if (kunde != null) {
             this.kunde = kunde;
         }
         createControls(parent);
-        
-        if(kunde != null){
+
+        if (kunde != null) {
             setInput();
         }
     }
 
-    private void createControls(Composite parent){
+    private void createControls(Composite parent) {
         parent.setLayout(new GridLayout(1, false));
 
         this.toolkit = new FormToolkit(parent.getDisplay());
@@ -123,7 +132,7 @@ public class KundePart{
         this.createTable(this.form.getBody());
         this.createSaveButton(this.form.getBody());
     }
-    
+
     private void createForm(Composite parent) {
         Composite c = this.toolkit.createComposite(parent);
         c.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -144,7 +153,7 @@ public class KundePart{
                 KundePart.this.form.reflow(true);
             }
         });
-        
+
         leftSection.setText("Daten");
         leftSection.setLayoutData(new ColumnLayoutData(ColumnLayoutData.FILL));
         Composite left = this.toolkit.createComposite(leftSection);
@@ -152,24 +161,23 @@ public class KundePart{
 
         this.toolkit.createLabel(left, "Titel:", SWT.LEFT);
 
-        this.txtTitel = this.toolkit.createText(left,
-                this.kunde.getTitel(), SWT.LEFT | SWT.BORDER);
-        
+        this.txtTitel = this.toolkit.createText(left, this.kunde.getTitel(),
+                SWT.LEFT | SWT.BORDER);
+
         this.txtTitel
                 .setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
         this.txtTitel.addModifyListener(listener);
-        
+
         this.toolkit.createLabel(left, "Vorname:", SWT.LEFT);
 
-        this.txtVorname = this.toolkit.createText(left, this.kunde
-                .getVorname(), SWT.LEFT | SWT.BORDER);
-        
+        this.txtVorname = this.toolkit.createText(left,
+                this.kunde.getVorname(), SWT.LEFT | SWT.BORDER);
+
         this.txtVorname.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true,
                 false));
         this.txtVorname.addModifyListener(listener);
-        
-        this.toolkit.createLabel(left, "Geburtsdatum:",
-                SWT.LEFT);
+
+        this.toolkit.createLabel(left, "Geburtsdatum:", SWT.LEFT);
 
         this.dtGeburtsdatum = new DateTime(left, SWT.DROP_DOWN | SWT.BORDER);
         this.dtGeburtsdatum
@@ -178,33 +186,28 @@ public class KundePart{
         this.toolkit.adapt(this.dtGeburtsdatum, true, true);
 
         leftSection.setClient(left);
-        
+
         Label lblNachname = this.toolkit.createLabel(left, "Nachname:",
                 SWT.LEFT);
         lblNachname.setSize(230, lblNachname.getSize().y);
 
-        this.txtNachname = this.toolkit.createText(left, this.kunde
-                .getNachname(), SWT.LEFT | SWT.BORDER);
-        
+        this.txtNachname = this.toolkit.createText(left,
+                this.kunde.getNachname(), SWT.LEFT | SWT.BORDER);
+
         this.txtNachname.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         this.txtNachname.addModifyListener(listener);
 
-        /*
-        this.toolkit.createLabel(left, "Geschlecht:",
-                SWT.LEFT);
-        
+        this.toolkit.createLabel(left, "Geschlecht:", SWT.LEFT);
+
         this.cbGeschlecht = new Combo(left, SWT.FLAT | SWT.READ_ONLY
                 | SWT.BORDER);
         this.cbGeschlecht.setItems(Geschlecht.toStringArray());
-        
+
         this.cbGeschlecht.select(0);
-        
+
         this.cbGeschlecht.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
         this.cbGeschlecht.addModifyListener(listener);
         this.toolkit.adapt(this.cbGeschlecht, true, true);
-        */
-
-
 
         // Right Side
         Section rightSection = this.toolkit.createSection(c,
@@ -216,21 +219,20 @@ public class KundePart{
                 KundePart.this.form.reflow(true);
             }
         });
-        
-        
+
         rightSection.setText("Biographie");
         rightSection.setLayoutData(new ColumnLayoutData(ColumnLayoutData.FILL));
-        
+
         Composite right = this.toolkit.createComposite(rightSection);
         right.setLayout(new GridLayout(1, false));
 
         /*
-        this.txtBiographie = this.toolkit.createText(right, this.kunde
-                .getBiographie(), SWT.MULTI | SWT.BORDER | SWT.WRAP);
-        
-        this.txtBiographie.setLayoutData(new GridData(GridData.FILL_BOTH));
-        this.txtBiographie.addModifyListener(listener);
-        */
+         * this.txtBiographie = this.toolkit.createText(right, this.kunde
+         * .getBiographie(), SWT.MULTI | SWT.BORDER | SWT.WRAP);
+         * 
+         * this.txtBiographie.setLayoutData(new GridData(GridData.FILL_BOTH));
+         * this.txtBiographie.addModifyListener(listener);
+         */
         rightSection.setClient(right);
     }
 
@@ -322,8 +324,8 @@ public class KundePart{
             }
         });
 
-        TableColumn colVeranstaltung = new TableColumn(this.tableViewer
-                .getTable(), SWT.LEFT);
+        TableColumn colVeranstaltung = new TableColumn(
+                this.tableViewer.getTable(), SWT.LEFT);
         colVeranstaltung.setText("Veranstaltung");
         TableColumn colKategorie = new TableColumn(this.tableViewer.getTable(),
                 SWT.LEFT);
@@ -338,8 +340,8 @@ public class KundePart{
         this.toolkit.adapt(this.tableViewer.getTable(), true, true);
         engagementSection.setClient(this.tableViewer.getTable());
     }
-    
-    private void createSaveButton(Composite parent){
+
+    private void createSaveButton(Composite parent) {
         this.btnSave = new Button(parent, SWT.PUSH);
         this.btnSave.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false,
                 false));
@@ -350,14 +352,19 @@ public class KundePart{
                 if (!KundePart.this.dirty.isDirty()) {
                     return;
                 }
-                handlerService.activateHandler("at.ticketline.handler.savePartHandler", new SavePartHandler());
-                
-                ParameterizedCommand cmd = commandService.createCommand("at.ticketline.handler.savePartHandler", null);
-                try{
+                handlerService.activateHandler(
+                        "at.ticketline.handler.savePartHandler",
+                        new SavePartHandler());
+
+                ParameterizedCommand cmd = commandService.createCommand(
+                        "at.ticketline.handler.savePartHandler", null);
+                try {
                     handlerService.executeHandler(cmd);
                 } catch (Exception ex) {
                     LOG.error(ex.getMessage(), ex);
-                    MessageDialog.openError(KundePart.this.shell, "Error",
+                    MessageDialog.openError(
+                            KundePart.this.shell,
+                            "Error",
                             "Kuenstler kann nicht gespeichert werden: "
                                     + ex.getMessage());
                 }
@@ -365,22 +372,21 @@ public class KundePart{
         });
 
     }
-    
-    private void setInput(){
+
+    private void setInput() {
 
         this.form.setText(this.kunde.getNachname());
         /*
-        if ((this.kunde.getEngagements() != null)
-                && (this.kunde.getEngagements().size() > 0)) {
-            this.tableViewer.setInput(this.kunde.getEngagements());
-        }
-
+         * if ((this.kunde.getEngagements() != null) &&
+         * (this.kunde.getEngagements().size() > 0)) {
+         * this.tableViewer.setInput(this.kunde.getEngagements()); }
+         */
         if (this.kunde.getGeschlecht() == Geschlecht.WEIBLICH) {
             this.cbGeschlecht.select(1);
         } else {
             this.cbGeschlecht.select(0);
         }
-        */
+
         if (this.kunde.getGeburtsdatum() != null) {
             GregorianCalendar gc = this.kunde.getGeburtsdatum();
             this.dtGeburtsdatum.setYear(gc.get(Calendar.YEAR));
@@ -390,35 +396,32 @@ public class KundePart{
     }
 
     @PreDestroy
-    public void dispose(){
+    public void dispose() {
         // nothing to do
     }
-    
+
     @Focus
     public void setFocus() {
         // nothing to do
     }
-    
+
     @Persist
     public void save() {
         LOG.info("Künstler speichern");
-        if(this.txtNachname.getText().equals("")){
+        if (this.txtNachname.getText().equals("")) {
             this.kunde.setNachname(null);
-        }
-        else{
+        } else {
             this.kunde.setNachname(this.txtNachname.getText());
         }
-        if(this.txtVorname.getText().equals("")){
+        if (this.txtVorname.getText().equals("")) {
             this.kunde.setVorname(null);
-        }
-        else{
+        } else {
             this.kunde.setVorname(this.txtVorname.getText());
         }
         this.kunde.setTitel(this.txtTitel.getText());
-        /*
+
         this.kunde.setGeschlecht(Geschlecht.getValueOf(this.cbGeschlecht
                 .getText()));
-        */
         if (this.kunde.getGeburtsdatum() == null) {
             this.kunde.setGeburtsdatum(new GregorianCalendar());
         }
@@ -429,13 +432,14 @@ public class KundePart{
         this.kunde.getGeburtsdatum().set(Calendar.DAY_OF_MONTH,
                 this.dtGeburtsdatum.getDay());
         /*
-        this.kunde.setBiographie(this.txtBiographie.getText());
-        */
+         * this.kunde.setBiographie(this.txtBiographie.getText());
+         */
         try {
             this.kundeService.save(kunde);
             this.dirty.setDirty(false);
-            
-            MessageDialog.openInformation(this.shell, "Speichervorgang", "Kunde wurde erfolgreich gespeichert");
+
+            MessageDialog.openInformation(this.shell, "Speichervorgang",
+                    "Kunde wurde erfolgreich gespeichert");
         } catch (ConstraintViolationException c) {
             StringBuilder sb = new StringBuilder(
                     "Die eingegebene Daten weisen folgende Fehler auf:\n");
@@ -447,14 +451,17 @@ public class KundePart{
 
         } catch (DaoException e) {
             LOG.error(e.getMessage(), e);
-            MessageDialog.openError(this.shell, "Error",
-                    "Künstler konnte nicht gespeichert werden: " + e.getMessage());
+            MessageDialog.openError(
+                    this.shell,
+                    "Error",
+                    "Künstler konnte nicht gespeichert werden: "
+                            + e.getMessage());
         }
     }
-    
+
     private void updateTitle() {
-        partService.getActivePart().setLabel(this.txtVorname.getText() + " "
-                + this.txtNachname.getText());
+        partService.getActivePart().setLabel(
+                this.txtVorname.getText() + " " + this.txtNachname.getText());
     }
 
     class EditorModifyListener implements ModifyListener, FocusListener {
@@ -479,8 +486,7 @@ public class KundePart{
                 return;
             }
             try {
-                GregorianCalendar gc = KundePart.this.kunde
-                        .getGeburtsdatum();
+                GregorianCalendar gc = KundePart.this.kunde.getGeburtsdatum();
                 if (gc == null) {
                     dirty.setDirty(true);
                     return;

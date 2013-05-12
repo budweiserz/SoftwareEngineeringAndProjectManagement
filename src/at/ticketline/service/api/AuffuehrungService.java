@@ -15,4 +15,10 @@ public interface AuffuehrungService {
      * @return eine Liste von Suchergebnissen
      */
     public List<Auffuehrung> find(Auffuehrung auffuehrung);
+    
+    /**
+     * Speichert eine Auffuehrung ab
+     * @param auffuehrung die zu speichernde Auffeuhrung
+     */
+    public void save(Auffuehrung auffuehrung);
 }

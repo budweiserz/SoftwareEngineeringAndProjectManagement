@@ -29,7 +29,7 @@
       </children>
     </trimBars>
   </children>
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_A6k5ULfiEeK5r4ZRsi2uzQ" elementId="ticketlinercp.trimmedwindow.0" label="Login" x="200" y="200" width="300" height="300">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_A6k5ULfiEeK5r4ZRsi2uzQ" elementId="ticketlinercp.trimmedwindow.0" label="Login" x="200" y="200" width="320" height="360">
     <children xsi:type="basic:Part" xmi:id="_FUEpILfiEeK5r4ZRsi2uzQ" elementId="ticketlinercp.part.0" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.LoginPart" label="LoginPart"/>
   </children>
   <handlers xmi:id="_J1qjG57KEeKyV7_6Xf9MMA" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.QuitHandler" command="_J1qjGp7KEeKyV7_6Xf9MMA"/>

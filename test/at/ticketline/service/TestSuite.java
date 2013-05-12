@@ -1,4 +1,4 @@
-package at.ticketline.dao;
+package at.ticketline.service;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -6,15 +6,17 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import at.ticketline.service.KundeTest;
+
 /**
- * Testsuite fuer Persistence-Layer
+ * Testsuite fuer Service-Layer
  * 
  * @author Rafael Konlechner
  */
 @RunWith(Suite.class)
 @SuiteClasses({
-    MitarbeiterTest.class,
-    KuenstlerTest.class //,
+    KundeTest.class,
+    NewsTest.class //,
     //add your test here
     })
 

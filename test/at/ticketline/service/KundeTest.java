@@ -1,4 +1,4 @@
-package at.ticketline.dao;
+package at.ticketline.service;
 
 import static org.junit.Assert.assertTrue;
 
@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.api.KundeDao;
 import at.ticketline.entity.Kunde;
 import at.ticketline.service.ServiceException;

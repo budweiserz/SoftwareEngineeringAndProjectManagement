@@ -17,6 +17,11 @@ public class KuenstlerDaoJpa extends GenericDaoJpa<Kuenstler, Integer>
 
     @Override
     public List<Kuenstler> findByKuenstler(final Kuenstler kuenstler) {
+    	
+    	if (kuenstler == null) {
+    		throw new IllegalArgumentException("Der Suchparameter 'kuenstler' darf nicht null sein");
+    	}
+    	
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<Kuenstler> query = builder.createQuery(Kuenstler.class);
         Root<Kuenstler> rootKuenstler = query.from(Kuenstler.class);

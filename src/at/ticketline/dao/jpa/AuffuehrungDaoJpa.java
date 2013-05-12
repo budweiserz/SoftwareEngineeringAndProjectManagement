@@ -37,12 +37,12 @@ public class AuffuehrungDaoJpa extends GenericDaoJpa<Auffuehrung,Integer> implem
         
         if(auffuehrung.getVeranstaltung() != null && auffuehrung.getVeranstaltung().getBezeichnung() != null) {
             String vb = auffuehrung.getVeranstaltung().getBezeichnung().replace('*', '%').replace('?', '_').toUpperCase();
-            wherePredicates.add( builder.like( builder.upper( rootAuffuehrung.<Veranstaltung>get("veranstaltung").<String>get("nachname") ), vb) );
+            wherePredicates.add( builder.like( builder.upper( rootAuffuehrung.<Veranstaltung>get("veranstaltung").<String>get("bezeichnung") ), vb) );
         }
         
         if(auffuehrung.getSaal() != null && auffuehrung.getSaal().getBezeichnung() != null) {
             String sb = auffuehrung.getSaal().getBezeichnung().replace('*', '%').replace('?', '_').toUpperCase();
-            wherePredicates.add( builder.like( builder.upper( rootAuffuehrung.<Saal>get("saal").<String>get("nachname") ), sb) );
+            wherePredicates.add( builder.like( builder.upper( rootAuffuehrung.<Saal>get("saal").<String>get("bezeichnung") ), sb) );
         }
         
         if(auffuehrung.getPreis() != null) {

@@ -39,7 +39,7 @@ public class AuffuehrungTest extends AbstractDaoTest {
         a.setPreis(PreisKategorie.STANDARDPREIS);
         a.setPlaetze(plaetze);
         a.setStorniert(false);
-        a.setSaal(EntityGenerator.getValidSaal(2));
+        a.setSaal(EntityGenerator.getValidSaal(5));
         
         try {
             this.auffuehrungDao.persist(a);
@@ -63,13 +63,14 @@ public class AuffuehrungTest extends AbstractDaoTest {
         a = new Auffuehrung();
         a.setDatumuhrzeit(date);
         a.setHinweis("Der einschlaegigste Schlager-schlagabtausch seit es geschlagenen Schlagobers gibt!");
-        a.setVeranstaltung(EntityGenerator.getValidVeranstaltung(3));
+        //a.setVeranstaltung(EntityGenerator.getValidVeranstaltung(3));
         a.setId(14);
         a.setPreis(PreisKategorie.STANDARDPREIS);
         a.setPlaetze(plaetze);
         a.setStorniert(false);
-        a.setSaal(EntityGenerator.getValidSaal(5));
+        //a.setSaal(EntityGenerator.getValidSaal(5));
         
+        query = new Auffuehrung();
         query.setPreis(PreisKategorie.STANDARDPREIS);
         query.setDatumuhrzeit(date);
         
@@ -84,6 +85,7 @@ public class AuffuehrungTest extends AbstractDaoTest {
     public void testFindByWithNoResults() {
         this.auffuehrungDao = (AuffuehrungDao)DaoFactory.getByEntity(Auffuehrung.class);
         
+        query = new Auffuehrung();
         query.setVeranstaltung(EntityGenerator.getValidVeranstaltung(13));
         query.setSaal(EntityGenerator.getValidSaal(5));
         query.setPreis(PreisKategorie.STANDARDPREIS);

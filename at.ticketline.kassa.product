@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Ticketline" uid="at.ticketine.kassa.product" id="org.eclipse.equinox.p2.director.app.product" application="org.eclipse.e4.ui.workbench.swt.E4Application" version="1.0.0.qualifier" useFeatures="false" includeLaunchers="true">
+<product name="Ticketline" uid="at.ticketine.kassa.product" id="at.ticketline.kassa.product" application="org.eclipse.e4.ui.workbench.swt.E4Application" version="1.0.0.qualifier" useFeatures="false" includeLaunchers="true">
 
    <aboutInfo>
       <image path="/TicketlineRCPJuno/icons/about_ticketline.png"/>
@@ -18,6 +18,7 @@
 
    <windowImages i16="/TicketlineRCPJuno/icons/web_16.png" i32="/TicketlineRCPJuno/icons/web_32.png" i48="/TicketlineRCPJuno/icons/web_48.png"/>
 
+
    <launcher name="Ticketline">
       <solaris/>
       <win useIco="true">
@@ -26,8 +27,10 @@
       </win>
    </launcher>
 
+
    <vm>
    </vm>
+
 
    <plugins>
       <plugin id="at.ticketline.kassa"/>

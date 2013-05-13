@@ -12,14 +12,20 @@ import javax.validation.ConstraintViolationException;
 import org.junit.Test;
 
 import at.ticketline.dao.api.AuffuehrungDao;
+import at.ticketline.dao.api.SaalDao;
+import at.ticketline.dao.api.VeranstaltungDao;
 import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.Platz;
 import at.ticketline.entity.PreisKategorie;
+import at.ticketline.entity.Saal;
+import at.ticketline.entity.Veranstaltung;
 import at.ticketline.test.AbstractDaoTest;
 import at.ticketline.test.EntityGenerator;
 
 public class AuffuehrungTest extends AbstractDaoTest {
     private AuffuehrungDao auffuehrungDao;
+    private VeranstaltungDao veranstaltungDao;
+    private SaalDao saalDao;
     private Auffuehrung a;
     private Auffuehrung query;
     
@@ -30,7 +36,8 @@ public class AuffuehrungTest extends AbstractDaoTest {
         plaetze.add(EntityGenerator.getValidPlatz(2));
         plaetze.add(EntityGenerator.getValidPlatz(3));
         plaetze.add(EntityGenerator.getValidPlatz(4));
-        
+
+
         a = new Auffuehrung();
         a.setDatumuhrzeit(new Date());
         a.setHinweis("Der rockigste Rockabend seit Nachmittag!");
@@ -52,33 +59,181 @@ public class AuffuehrungTest extends AbstractDaoTest {
     }
     
     @Test
-    public void testFindByWithValidEntity() {
+    public void testFindByWithValidEntityAllCriteria() {
         this.auffuehrungDao = (AuffuehrungDao)DaoFactory.getByEntity(Auffuehrung.class);
         HashSet<Platz> plaetze = new HashSet<Platz>();
         plaetze.add(EntityGenerator.getValidPlatz(12));
         plaetze.add(EntityGenerator.getValidPlatz(14));
         plaetze.add(EntityGenerator.getValidPlatz(15));
         Date date = new Date();
+        Saal saal = EntityGenerator.getValidSaal(5);
+        Veranstaltung veranstaltung = EntityGenerator.getValidVeranstaltung(3);
+
+        this.saalDao = (SaalDao)DaoFactory.getByEntity(Saal.class);
+        this.veranstaltungDao = (VeranstaltungDao)DaoFactory.getByEntity(Veranstaltung.class);
+        this.saalDao.persist(saal);
+        this.veranstaltungDao.persist(veranstaltung);
         
         a = new Auffuehrung();
         a.setDatumuhrzeit(date);
         a.setHinweis("Der einschlaegigste Schlager-schlagabtausch seit es geschlagenen Schlagobers gibt!");
-        //a.setVeranstaltung(EntityGenerator.getValidVeranstaltung(3));
+        a.setVeranstaltung(veranstaltung);
         a.setId(14);
         a.setPreis(PreisKategorie.STANDARDPREIS);
         a.setPlaetze(plaetze);
         a.setStorniert(false);
-        //a.setSaal(EntityGenerator.getValidSaal(5));
+        a.setSaal(saal);
         
         query = new Auffuehrung();
         query.setPreis(PreisKategorie.STANDARDPREIS);
         query.setDatumuhrzeit(date);
+        query.setSaal(saal);
+        query.setVeranstaltung(veranstaltung);
         
         this.auffuehrungDao.persist(a);
         
-        
         List<Auffuehrung> results = this.auffuehrungDao.findByAuffuehrung(query);
         assertTrue(results.contains(a));
+    }
+    
+    @Test
+    public void testFindByWithValidEntityByDate() {
+        this.auffuehrungDao = (AuffuehrungDao)DaoFactory.getByEntity(Auffuehrung.class);
+        HashSet<Platz> plaetze = new HashSet<Platz>();
+        plaetze.add(EntityGenerator.getValidPlatz(12));
+        plaetze.add(EntityGenerator.getValidPlatz(14));
+        plaetze.add(EntityGenerator.getValidPlatz(15));
+        Date date = new Date();
+        Saal saal = EntityGenerator.getValidSaal(5);
+        Veranstaltung veranstaltung = EntityGenerator.getValidVeranstaltung(3);
+
+        this.saalDao = (SaalDao)DaoFactory.getByEntity(Saal.class);
+        this.veranstaltungDao = (VeranstaltungDao)DaoFactory.getByEntity(Veranstaltung.class);
+        this.saalDao.persist(saal);
+        this.veranstaltungDao.persist(veranstaltung);
+        
+        a = new Auffuehrung();
+        a.setDatumuhrzeit(date);
+        a.setHinweis("Der einschlaegigste Schlager-schlagabtausch seit es geschlagenen Schlagobers gibt!");
+        a.setVeranstaltung(veranstaltung);
+        a.setId(14);
+        a.setPreis(PreisKategorie.STANDARDPREIS);
+        a.setPlaetze(plaetze);
+        a.setStorniert(false);
+        a.setSaal(saal);
+        
+        query = new Auffuehrung();
+        query.setDatumuhrzeit(date);
+        
+        this.auffuehrungDao.persist(a);
+        
+        List<Auffuehrung> results = this.auffuehrungDao.findByAuffuehrung(query);
+        assertTrue(results.contains(a));       
+    }
+    
+    @Test
+    public void testFindByWithValidEntityByPrice() {
+        this.auffuehrungDao = (AuffuehrungDao)DaoFactory.getByEntity(Auffuehrung.class);
+        HashSet<Platz> plaetze = new HashSet<Platz>();
+        plaetze.add(EntityGenerator.getValidPlatz(12));
+        plaetze.add(EntityGenerator.getValidPlatz(14));
+        plaetze.add(EntityGenerator.getValidPlatz(15));
+        Date date = new Date();
+        Saal saal = EntityGenerator.getValidSaal(5);
+        Veranstaltung veranstaltung = EntityGenerator.getValidVeranstaltung(3);
+
+        this.saalDao = (SaalDao)DaoFactory.getByEntity(Saal.class);
+        this.veranstaltungDao = (VeranstaltungDao)DaoFactory.getByEntity(Veranstaltung.class);
+        this.saalDao.persist(saal);
+        this.veranstaltungDao.persist(veranstaltung);
+        
+        a = new Auffuehrung();
+        a.setDatumuhrzeit(date);
+        a.setHinweis("Der einschlaegigste Schlager-schlagabtausch seit es geschlagenen Schlagobers gibt!");
+        a.setVeranstaltung(veranstaltung);
+        a.setId(14);
+        a.setPreis(PreisKategorie.STANDARDPREIS);
+        a.setPlaetze(plaetze);
+        a.setStorniert(false);
+        a.setSaal(saal);
+        
+        query = new Auffuehrung();
+        query.setPreis(PreisKategorie.STANDARDPREIS);
+        
+        this.auffuehrungDao.persist(a);
+       
+        List<Auffuehrung> results = this.auffuehrungDao.findByAuffuehrung(query);
+        assertTrue(results.contains(a));      
+    }
+    
+    @Test
+    public void testFindByWithValidEntityBySaal() {
+        this.auffuehrungDao = (AuffuehrungDao)DaoFactory.getByEntity(Auffuehrung.class);
+        HashSet<Platz> plaetze = new HashSet<Platz>();
+        plaetze.add(EntityGenerator.getValidPlatz(12));
+        plaetze.add(EntityGenerator.getValidPlatz(14));
+        plaetze.add(EntityGenerator.getValidPlatz(15));
+        Date date = new Date();
+        Saal saal = EntityGenerator.getValidSaal(5);
+        Veranstaltung veranstaltung = EntityGenerator.getValidVeranstaltung(3);
+
+        this.saalDao = (SaalDao)DaoFactory.getByEntity(Saal.class);
+        this.veranstaltungDao = (VeranstaltungDao)DaoFactory.getByEntity(Veranstaltung.class);
+        this.saalDao.persist(saal);
+        this.veranstaltungDao.persist(veranstaltung);
+        
+        a = new Auffuehrung();
+        a.setDatumuhrzeit(date);
+        a.setHinweis("Der einschlaegigste Schlager-schlagabtausch seit es geschlagenen Schlagobers gibt!");
+        a.setVeranstaltung(veranstaltung);
+        a.setId(14);
+        a.setPreis(PreisKategorie.STANDARDPREIS);
+        a.setPlaetze(plaetze);
+        a.setStorniert(false);
+        a.setSaal(saal);
+        
+        query = new Auffuehrung();
+        query.setSaal(saal);
+
+        this.auffuehrungDao.persist(a);
+        
+        List<Auffuehrung> results = this.auffuehrungDao.findByAuffuehrung(query);
+        assertTrue(results.contains(a));       
+    }
+    
+    @Test
+    public void testFindByWithValidEntityByVeranstaltung() {
+        this.auffuehrungDao = (AuffuehrungDao)DaoFactory.getByEntity(Auffuehrung.class);
+        HashSet<Platz> plaetze = new HashSet<Platz>();
+        plaetze.add(EntityGenerator.getValidPlatz(12));
+        plaetze.add(EntityGenerator.getValidPlatz(14));
+        plaetze.add(EntityGenerator.getValidPlatz(15));
+        Date date = new Date();
+        Saal saal = EntityGenerator.getValidSaal(5);
+        Veranstaltung veranstaltung = EntityGenerator.getValidVeranstaltung(3);
+
+        this.saalDao = (SaalDao)DaoFactory.getByEntity(Saal.class);
+        this.veranstaltungDao = (VeranstaltungDao)DaoFactory.getByEntity(Veranstaltung.class);
+        this.saalDao.persist(saal);
+        this.veranstaltungDao.persist(veranstaltung);
+        
+        a = new Auffuehrung();
+        a.setDatumuhrzeit(date);
+        a.setHinweis("Der einschlaegigste Schlager-schlagabtausch seit es geschlagenen Schlagobers gibt!");
+        a.setVeranstaltung(veranstaltung);
+        a.setId(14);
+        a.setPreis(PreisKategorie.STANDARDPREIS);
+        a.setPlaetze(plaetze);
+        a.setStorniert(false);
+        a.setSaal(saal);
+        
+        query = new Auffuehrung();
+        query.setVeranstaltung(veranstaltung);
+        
+        this.auffuehrungDao.persist(a);
+        
+        List<Auffuehrung> results = this.auffuehrungDao.findByAuffuehrung(query);
+        assertTrue(results.contains(a));       
     }
     
     @Test

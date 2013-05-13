@@ -31,7 +31,6 @@ import at.ticketline.service.UserNotFoundException;
 import at.ticketline.service.WrongPasswordException;
 import at.ticketline.service.api.MitarbeiterService;
 
-
 @SuppressWarnings("restriction")
 public class LoginPart{
     

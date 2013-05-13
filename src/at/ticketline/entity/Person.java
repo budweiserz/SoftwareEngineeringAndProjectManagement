@@ -1,5 +1,7 @@
 package at.ticketline.entity;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.GregorianCalendar;
 
 import javax.persistence.Column;
@@ -27,6 +29,8 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.hibernate.validator.constraints.Email;
 
 /**
@@ -36,12 +40,13 @@ import org.hibernate.validator.constraints.Email;
  */
 @Entity
 @Table(name = "PERSON", uniqueConstraints={
-		@UniqueConstraint(columnNames={"username"})
+        @UniqueConstraint(columnNames={"username"})
 })
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "TYP", discriminatorType = DiscriminatorType.CHAR)
 public abstract class Person extends BaseEntity {
 
+    private static final Logger LOG = LoggerFactory.getLogger(Person.class);
     private static final long serialVersionUID = 7257677923410786298L;
 
     @Id
@@ -53,8 +58,8 @@ public abstract class Person extends BaseEntity {
     @NotNull
     private String username;
 
-    @Column(nullable = false, length = 20)
-    @Size(max = 20)
+    @Column(nullable = false, length = 64)
+    @Size(max = 64)
     @NotNull
     private String passwort;
 
@@ -122,7 +127,7 @@ public abstract class Person extends BaseEntity {
     }
 
     public void setPasswort(String passwort) {
-        this.passwort = passwort;
+        this.passwort = this.hashPassword(passwort);
     }
 
     /**
@@ -307,5 +312,33 @@ public abstract class Person extends BaseEntity {
         builder.append("]");
         return builder.toString();
     }
-
+    
+    /**
+     * Hilfsfunktion zum hashen der Passwörter
+     * 
+     * @param password plain text password
+     * @return sha-256 hash des passworts
+     */
+    private String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(password.getBytes());
+            byte byteData[] = md.digest();
+        
+            // convert the byte to hex format method 1
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < byteData.length; i++) {
+                sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            
+            LOG.debug(sb.toString());
+            
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            LOG.error("Hash-Algorithmus wird nicht unterstützt");
+            return "";
+        }
+    }
 }
+
+

@@ -32,6 +32,9 @@
   <children xsi:type="basic:TrimmedWindow" xmi:id="_A6k5ULfiEeK5r4ZRsi2uzQ" elementId="ticketlinercp.trimmedwindow.0" label="Login" x="200" y="200" width="320" height="370">
     <children xsi:type="basic:Part" xmi:id="_FUEpILfiEeK5r4ZRsi2uzQ" elementId="ticketlinercp.part.0" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.LoginPart" label="LoginPart"/>
   </children>
+  <children xsi:type="basic:Window" xmi:id="_83xp8LwNEeKWktz_QUnnMQ" elementId="ticketlinercp.window.0" label="Unternehmensnews">
+    <children xsi:type="basic:Part" xmi:id="_-vpKgLwNEeKWktz_QUnnMQ" elementId="ticketlinercp.part.1" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.NewsPart" label="NewsPart"/>
+  </children>
   <handlers xmi:id="_J1qjG57KEeKyV7_6Xf9MMA" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.QuitHandler" command="_J1qjGp7KEeKyV7_6Xf9MMA"/>
   <handlers xmi:id="_J1qjH57KEeKyV7_6Xf9MMA" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenHandler" command="_J1qjHp7KEeKyV7_6Xf9MMA"/>
   <handlers xmi:id="_ibj-IJ7zEeKyV7_6Xf9MMA" elementId="ticketline.handler.savePartHandler" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.SavePartHandler" command="_nFqVwJ7zEeKyV7_6Xf9MMA"/>

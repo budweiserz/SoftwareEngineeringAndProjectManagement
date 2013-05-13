@@ -58,10 +58,8 @@ import org.slf4j.LoggerFactory;
 import at.ticketline.dao.DaoException;
 import at.ticketline.entity.Engagement;
 import at.ticketline.entity.Geschlecht;
-import at.ticketline.entity.Kuenstler;
 import at.ticketline.entity.Kunde;
 import at.ticketline.kassa.handlers.SavePartHandler;
-import at.ticketline.service.api.KuenstlerService;
 import at.ticketline.service.api.KundeService;
 
 @SuppressWarnings("restriction")

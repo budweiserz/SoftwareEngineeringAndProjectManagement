@@ -2,28 +2,21 @@ package at.ticketline.kassa.ui;
 
 import javax.annotation.PostConstruct;
 
-import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.e4.ui.di.Focus;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import at.ticketline.kassa.handlers.SavePartHandler;
-import org.eclipse.wb.swt.ResourceManager;
-import org.eclipse.swt.custom.StackLayout;
 
 @SuppressWarnings("restriction")
 public class LoginPart{

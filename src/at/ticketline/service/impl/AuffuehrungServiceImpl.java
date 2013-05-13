@@ -25,10 +25,7 @@ public class AuffuehrungServiceImpl implements AuffuehrungService {
     
     @Override
     public List<Auffuehrung> find(Auffuehrung auffuehrung) {
-        LOG.info("Suche nach Auffuehrung mit den Kriterien: Preis: {}, Datum/Uhrzeit: {}, Veranstaltung: {}, Saele: {}",
-                auffuehrung.getPreis().toString(), auffuehrung.getDatumuhrzeit().toString(),
-                auffuehrung.getVeranstaltung(), auffuehrung.getSaal()
-                );
+        LOG.info("Suche nach Auffuehrung");
         return auffuehrungDao.findByAuffuehrung(auffuehrung);
     }
 

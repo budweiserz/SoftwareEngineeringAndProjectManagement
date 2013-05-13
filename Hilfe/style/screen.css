@@ -1,0 +1,87 @@
+/* CSS Document */
+body
+{
+	background-color:#AAAAAA;
+	font-family:"Arial", Helvetica, sans-serif;
+	padding-top: 2.0em;
+	padding-left:2.0em; 
+	padding-right: 2.0em;
+	min-width:650px;
+	max-width:1000px;
+	display:block;
+	margin-left: auto;
+    margin-right: auto;
+
+}
+
+
+#header
+{
+	background-color:#404448;
+	border-style:solid;
+	border-width:1px;
+	clear:both;
+}
+
+#main
+{
+	background-color:#FFFFFF;
+	border-style:solid;
+	border-width:1px;
+	padding: 10px;
+}
+
+#footer
+{
+	text-align:right;
+}
+
+#banner
+{
+	background: url("../img/header.png") #FFFFFF no-repeat;
+	width: 998px;
+	height: 104px;
+
+}
+/* Navigation Bar (Menue) */
+#navbar
+{
+	text-align:left;
+	display:block;
+	margin-top:-10px;
+	margin-bottom:-10px;
+	margin-left: -20px;
+}
+
+#navbar li
+{
+	display:inline;
+	list-style: none;
+	text-decoration:none;
+	color:#FFFFFF;
+	padding-right:2px;
+}
+
+#navbar li:after {
+	content: '|';
+	color: #555555;
+}
+
+#navbar a
+{
+	text-decoration:none;
+	color:#FFFFFF;
+	
+}
+
+/* Overwriting standard templates  */
+h1
+{
+	color:#B22;
+}
+
+/* accessibility */
+.accessibility 
+{
+	display:none;
+}

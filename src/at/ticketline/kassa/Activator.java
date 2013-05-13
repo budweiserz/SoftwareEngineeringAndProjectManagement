@@ -8,9 +8,13 @@ import org.osgi.framework.BundleContext;
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.EntityManagerUtil;
 import at.ticketline.dao.api.KundeDao;
+import at.ticketline.dao.api.MitarbeiterDao;
 import at.ticketline.entity.Kunde;
+import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.service.api.KundeService;
+import at.ticketline.service.api.MitarbeiterService;
 import at.ticketline.service.impl.KundeServiceImpl;
+import at.ticketline.service.impl.MitarbeiterServiceImpl;
 
 public class Activator implements BundleActivator {
 
@@ -45,5 +49,11 @@ public class Activator implements BundleActivator {
         KundeDao kundeDao = (KundeDao) DaoFactory.getByEntity(Kunde.class);
         CONTEXT.registerService(KundeService.class.getName(),
                 new KundeServiceImpl(kundeDao), null);
+        
+        MitarbeiterDao mitarbeiterDao = (MitarbeiterDao) 
+        		DaoFactory.getByEntity(Mitarbeiter.class);
+        CONTEXT.registerService(MitarbeiterService.class.getName(), 
+        		new MitarbeiterServiceImpl(mitarbeiterDao), null);
+        
     }
 }

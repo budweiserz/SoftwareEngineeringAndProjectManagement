@@ -20,11 +20,11 @@
 
    <launcher name="Ticketline">
       <solaris/>
-      <win useIco="false">
+      <win useIco="true">
+         <ico path="/inso-sepm-ss13-07/icons/icon.ico"/>
          <bmp/>
       </win>
    </launcher>
-
 
    <vm>
    </vm>

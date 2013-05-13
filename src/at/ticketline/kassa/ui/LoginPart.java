@@ -22,6 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ticketline.kassa.handlers.SavePartHandler;
+import org.eclipse.wb.swt.ResourceManager;
+import org.eclipse.swt.custom.StackLayout;
 
 
 @SuppressWarnings("restriction")
@@ -35,17 +37,21 @@ public class LoginPart{
     @PostConstruct
     public void createComposite(Composite parent) {
         parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        parent.setLayout(new RowLayout(SWT.HORIZONTAL));
+        GridLayout gl_parent = new GridLayout(1, false);
+        gl_parent.marginWidth = 15;
+        gl_parent.verticalSpacing = 15;
+        parent.setLayout(gl_parent);
         
         Label label = new Label(parent, SWT.NONE);
         label.setAlignment(SWT.CENTER);
         label.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
         label.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        label.setImage(SWTResourceManager.getImage("./icons/logo.png"));
+        label.setImage(ResourceManager.getPluginImage("at.ticketline.kassa", "icons/logo.png"));
         
         Composite compContent = new Composite(parent, SWT.NONE);
         compContent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        compContent.setLayout(new GridLayout(2, false));
+        GridLayout gl_compContent = new GridLayout(2, false);
+        compContent.setLayout(gl_compContent);
         
         Label lblUsername = new Label(compContent, SWT.NONE);
         lblUsername.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -67,7 +73,12 @@ public class LoginPart{
         gd_txtPassword.minimumWidth = 200;
         txtPassword.setLayoutData(gd_txtPassword);
         
-        Button btnLogin = new Button(compContent, SWT.NONE);
+        Composite composite = new Composite(compContent, SWT.NONE);
+        FillLayout fl_composite = new FillLayout(SWT.HORIZONTAL);
+        fl_composite.marginHeight = 10;
+        composite.setLayout(fl_composite);
+        
+        Button btnLogin = new Button(composite, SWT.NONE);
         btnLogin.setText("Login");
         new Label(compContent, SWT.NONE);
         
@@ -77,17 +88,18 @@ public class LoginPart{
                 LOG.info("Login Button pressed");
             }
         });
+        
+        Label lblVersion = new Label(parent, SWT.SHADOW_NONE | SWT.RIGHT);
+        lblVersion.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        lblVersion.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+        lblVersion.setAlignment(SWT.RIGHT);
+        lblVersion.setText("Version 0.1");
 
         
         
         Composite compFooter = new Composite(parent, SWT.NONE);
-        compFooter.setLayoutData(new RowData(290, 17));
+        compFooter.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
         compFooter.setLayout(new FillLayout(SWT.HORIZONTAL));
-        
-        Label lblVersion = new Label(compFooter, SWT.RIGHT);
-        lblVersion.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        lblVersion.setAlignment(SWT.RIGHT);
-        lblVersion.setText("Version 0.1");
     }
 
     @Focus

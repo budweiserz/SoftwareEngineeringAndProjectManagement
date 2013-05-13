@@ -13,6 +13,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.widgets.Button;
 
 public class NewsPart {
 
@@ -27,13 +28,31 @@ public class NewsPart {
 		parent.setLayout(new GridLayout(1, false));
 		
 		Browser browser = new Browser(parent, SWT.FILL);
-		GridData gd_browser = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
-		gd_browser.widthHint = 298;
+		GridData gd_browser = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+		gd_browser.heightHint = 172;
+		gd_browser.widthHint = 417;
 		browser.setLayoutData(gd_browser);
 		
 		Composite composite = new Composite(parent, SWT.FILL);
-		composite.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, false, false, 1, 1));
+		composite.setLayout(new GridLayout(13, false));
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.BOTTOM, true, false, 1, 1));
 		composite.setSize(100, 40);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
+		
+		Button btnWeiter = new Button(composite, SWT.NONE);
+		btnWeiter.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
+		btnWeiter.setText("Weiter");
 	}
 
 	@PreDestroy

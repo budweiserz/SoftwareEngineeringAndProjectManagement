@@ -25,7 +25,6 @@ import at.ticketline.kassa.handlers.SavePartHandler;
 import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.swt.custom.StackLayout;
 
-
 @SuppressWarnings("restriction")
 public class LoginPart{
     

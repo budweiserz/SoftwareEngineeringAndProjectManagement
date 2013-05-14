@@ -35,7 +35,7 @@
   <handlers xmi:id="_J1qjG57KEeKyV7_6Xf9MMA" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.QuitHandler" command="_J1qjGp7KEeKyV7_6Xf9MMA"/>
   <handlers xmi:id="_J1qjH57KEeKyV7_6Xf9MMA" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenHandler" command="_J1qjHp7KEeKyV7_6Xf9MMA"/>
   <handlers xmi:id="_ibj-IJ7zEeKyV7_6Xf9MMA" elementId="ticketline.handler.savePartHandler" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.SavePartHandler" command="_nFqVwJ7zEeKyV7_6Xf9MMA"/>
-  <handlers xmi:id="_y4d1cJ7zEeKyV7_6Xf9MMA" elementId="at.ticketline.openKundeCommand" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenKundeHandler" command="_QskM0J7zEeKyV7_6Xf9MMA"/>
+  <handlers xmi:id="_y4d1cJ7zEeKyV7_6Xf9MMA" elementId="at.ticketline.openKuenstlerCommand" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenKuenstlerHandler" command="_QskM0J7zEeKyV7_6Xf9MMA"/>
   <handlers xmi:id="_meapYJ8QEeKkI_Z6em8JPw" elementId="" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.AboutHandler" command="_snLXYJ8QEeKkI_Z6em8JPw"/>
   <bindingTables xmi:id="_J1qjHJ7KEeKyV7_6Xf9MMA" bindingContext="_J1qjEZ7KEeKyV7_6Xf9MMA">
     <bindings xmi:id="_J1qjHZ7KEeKyV7_6Xf9MMA" keySequence="M1+Q" command="_J1qjGp7KEeKyV7_6Xf9MMA"/>
@@ -47,10 +47,10 @@
     <children xmi:id="_J1qjEp7KEeKyV7_6Xf9MMA" elementId="org.eclipse.ui.contexts.window" name="In Windows"/>
     <children xmi:id="_J1qjE57KEeKyV7_6Xf9MMA" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
   </rootContext>
-  <descriptors xmi:id="_zg_f8J7xEeKyV7_6Xf9MMA" elementId="at.ticketline.partdescriptor.newkunde" label="Kunde" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.KundePart"/>
+  <descriptors xmi:id="_zg_f8J7xEeKyV7_6Xf9MMA" elementId="at.ticketline.partdescriptor.newkuenstler" label="Künstler" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.KuenstlerPart"/>
   <commands xmi:id="_J1qjGp7KEeKyV7_6Xf9MMA" elementId="org.eclipse.ui.file.exit" commandName="quitCommand"/>
   <commands xmi:id="_J1qjHp7KEeKyV7_6Xf9MMA" elementId="at.ticketline.kassa.open" commandName="openCommand"/>
-  <commands xmi:id="_QskM0J7zEeKyV7_6Xf9MMA" elementId="at.ticketline.command.openKunde" commandName="Kundenansicht öffnen"/>
+  <commands xmi:id="_QskM0J7zEeKyV7_6Xf9MMA" elementId="at.ticketline.command.openKuenstler" commandName="Künstleransicht öffnen"/>
   <commands xmi:id="_nFqVwJ7zEeKyV7_6Xf9MMA" elementId="at.ticketline.command.saveCommand" commandName="savePartCommand"/>
   <commands xmi:id="_snLXYJ8QEeKkI_Z6em8JPw" elementId="org.eclipse.ui.help.aboutAction" commandName="aboutCommand"/>
   <addons xmi:id="_J1qjFJ7KEeKyV7_6Xf9MMA" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>

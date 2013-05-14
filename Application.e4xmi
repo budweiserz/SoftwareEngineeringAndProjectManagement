@@ -12,26 +12,29 @@
     <mainMenu xmi:id="_J1qjKJ7KEeKyV7_6Xf9MMA" elementId="menu:org.eclipse.ui.main.menu">
       <children xsi:type="menu:Menu" xmi:id="_J1qjKZ7KEeKyV7_6Xf9MMA" label="Datei">
         <children xsi:type="menu:Menu" xmi:id="_-WnwQJ7yEeKyV7_6Xf9MMA" elementId="at.ticketline.handledmenuitem.newMenu" label="Neu">
-          <children xsi:type="menu:HandledMenuItem" xmi:id="_IUFe8J7zEeKyV7_6Xf9MMA" elementId="" label="Künstler" iconURI="platform:/plugin/at.ticketline.kassa/icons/add.gif" tooltip="Neuen Künstler erstellen" command="_QskM0J7zEeKyV7_6Xf9MMA"/>
-          <children xsi:type="menu:HandledMenuItem" xmi:id="_SuAigLxzEeKT_IzQOUkC4g" elementId="" label="Kunde" iconURI="platform:/plugin/at.ticketline.kassa/icons/add.gif" tooltip="Neuen Kunden erstellen" command="_JJKkoLxyEeKT_IzQOUkC4g"/>
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_IUFe8J7zEeKyV7_6Xf9MMA" elementId="" label="Künstler" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/round_plus_icon&amp;16.png" tooltip="Neuen Künstler erstellen" command="_QskM0J7zEeKyV7_6Xf9MMA"/>
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_SuAigLxzEeKT_IzQOUkC4g" elementId="" label="Kunde" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/round_plus_icon&amp;16.png" tooltip="Neuen Kunden erstellen" command="_JJKkoLxyEeKT_IzQOUkC4g"/>
         </children>
         <children xsi:type="menu:MenuSeparator" xmi:id="__nOcgJ7yEeKyV7_6Xf9MMA" elementId="ticketlinercpjuno.menuseparator.0"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_J1qjK57KEeKyV7_6Xf9MMA" label="Save" iconURI="platform:/plugin/at.ticketline.kassa/icons/save_edit.gif" command="_nFqVwJ7zEeKyV7_6Xf9MMA"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_J1qjK57KEeKyV7_6Xf9MMA" label="Save" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/save_icon&amp;16.png" command="_nFqVwJ7zEeKyV7_6Xf9MMA"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_J1qjLJ7KEeKyV7_6Xf9MMA" label="Quit" command="_J1qjGp7KEeKyV7_6Xf9MMA"/>
+        <children xsi:type="menu:Menu" xmi:id="_Alf3oLy4EeKlkobWpntiug" elementId="at.ticketline.handledmenuitem.searchMenu" label="Suche">
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_K_GIsLy4EeKlkobWpntiug" elementId="sepm.handledmenuitem.0" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/zoom_icon&amp;16.png"/>
+        </children>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_J1qjLZ7KEeKyV7_6Xf9MMA" label="Hilfe">
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_J1qjLp7KEeKyV7_6Xf9MMA" label="Über Ticketline RCP" iconURI="platform:/plugin/at.ticketline.kassa/icons/web_16.png" tooltip="Über Ticketline RCP" command="_snLXYJ8QEeKkI_Z6em8JPw"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_J1qjLp7KEeKyV7_6Xf9MMA" label="Über Ticketline RCP" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/info_icon&amp;16.png" tooltip="Über Ticketline RCP" command="_snLXYJ8QEeKkI_Z6em8JPw"/>
       </children>
     </mainMenu>
     <trimBars xmi:id="_J1qjM57KEeKyV7_6Xf9MMA">
       <children xsi:type="menu:ToolBar" xmi:id="_J1qjNJ7KEeKyV7_6Xf9MMA" elementId="toolbar:org.eclipse.ui.main.toolbar">
-        <children xsi:type="menu:HandledToolItem" xmi:id="_J1qjNp7KEeKyV7_6Xf9MMA" iconURI="platform:/plugin/at.ticketline.kassa/icons/save_edit.gif" tooltip="Part speichern" command="_nFqVwJ7zEeKyV7_6Xf9MMA"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_9v_4UJ72EeKyV7_6Xf9MMA" elementId="" iconURI="platform:/plugin/at.ticketline.kassa/icons/add.gif" tooltip="Neuen Künstler erstellen" command="_QskM0J7zEeKyV7_6Xf9MMA"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_rO-98LxzEeKT_IzQOUkC4g" elementId="" label="" iconURI="platform:/plugin/at.ticketline.kassa/icons/add.gif" tooltip="Neuen Kunden erstellen" command="_JJKkoLxyEeKT_IzQOUkC4g"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_J1qjNp7KEeKyV7_6Xf9MMA" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/save_icon&amp;16.png" tooltip="Part speichern" command="_nFqVwJ7zEeKyV7_6Xf9MMA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_9v_4UJ72EeKyV7_6Xf9MMA" elementId="" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/round_plus_icon&amp;16.png" tooltip="Neuen Künstler erstellen" command="_QskM0J7zEeKyV7_6Xf9MMA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_rO-98LxzEeKT_IzQOUkC4g" elementId="" label="" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/round_plus_icon&amp;16.png" tooltip="Neuen Kunden erstellen" command="_JJKkoLxyEeKT_IzQOUkC4g"/>
       </children>
     </trimBars>
   </children>
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_A6k5ULfiEeK5r4ZRsi2uzQ" elementId="ticketlinercp.trimmedwindow.0" label="Login" x="200" y="200" width="320" height="370">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_A6k5ULfiEeK5r4ZRsi2uzQ" elementId="ticketlinercp.trimmedwindow.0" label="Login" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/key_icon&amp;16.png" x="200" y="200" width="320" height="370">
     <children xsi:type="basic:Part" xmi:id="_FUEpILfiEeK5r4ZRsi2uzQ" elementId="ticketlinercp.part.0" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.LoginPart" label="LoginPart"/>
   </children>
   <children xsi:type="basic:Window" xmi:id="_83xp8LwNEeKWktz_QUnnMQ" elementId="ticketlinercp.window.0" label="Unternehmensnews">
@@ -55,12 +58,14 @@
   </rootContext>
   <descriptors xmi:id="_zg_f8J7xEeKyV7_6Xf9MMA" elementId="at.ticketline.partdescriptor.newkuenstler" label="Künstler" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.KuenstlerPart"/>
   <descriptors xmi:id="_la_Q8LxxEeKT_IzQOUkC4g" elementId="at.ticketline.partdescriptor.newkunde" label="Kunde" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.KundePart"/>
+  <descriptors xmi:id="_XDMpMLy3EeKlkobWpntiug" elementId="at.ticketline.partdescriptor.searchVeranstaltungsort" label="Veranstaltungsort"/>
   <commands xmi:id="_J1qjGp7KEeKyV7_6Xf9MMA" elementId="org.eclipse.ui.file.exit" commandName="quitCommand"/>
   <commands xmi:id="_J1qjHp7KEeKyV7_6Xf9MMA" elementId="at.ticketline.kassa.open" commandName="openCommand"/>
   <commands xmi:id="_QskM0J7zEeKyV7_6Xf9MMA" elementId="at.ticketline.command.openKuenstler" commandName="Künstleransicht öffnen"/>
   <commands xmi:id="_nFqVwJ7zEeKyV7_6Xf9MMA" elementId="at.ticketline.command.saveCommand" commandName="savePartCommand"/>
   <commands xmi:id="_snLXYJ8QEeKkI_Z6em8JPw" elementId="org.eclipse.ui.help.aboutAction" commandName="aboutCommand"/>
   <commands xmi:id="_JJKkoLxyEeKT_IzQOUkC4g" elementId="at.ticketline.command.openKunde" commandName="Kundenansicht öffnen"/>
+  <commands xmi:id="_it1rYLy3EeKlkobWpntiug" elementId="at.ticketline.command.searchVeranstaltungsort" commandName="Vewranstaltungsort suchen"/>
   <addons xmi:id="_J1qjFJ7KEeKyV7_6Xf9MMA" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_J1qjFZ7KEeKyV7_6Xf9MMA" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_J1qjFp7KEeKyV7_6Xf9MMA" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

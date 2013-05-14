@@ -59,7 +59,7 @@
   </rootContext>
   <descriptors xmi:id="_zg_f8J7xEeKyV7_6Xf9MMA" elementId="at.ticketline.partdescriptor.newkuenstler" label="Künstler" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.KuenstlerPart"/>
   <descriptors xmi:id="_la_Q8LxxEeKT_IzQOUkC4g" elementId="at.ticketline.partdescriptor.newkunde" label="Kunde" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.KundePart"/>
-  <descriptors xmi:id="_XDMpMLy3EeKlkobWpntiug" elementId="at.ticketline.partdescriptor.searchVeranstaltungsort" label="Veranstaltungsort"/>
+  <descriptors xmi:id="_XDMpMLy3EeKlkobWpntiug" elementId="at.ticketline.partdescriptor.searchVeranstaltungsort" label="Veranstaltungsort" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.VeranstaltungsortSearchPart"/>
   <commands xmi:id="_J1qjGp7KEeKyV7_6Xf9MMA" elementId="org.eclipse.ui.file.exit" commandName="quitCommand"/>
   <commands xmi:id="_J1qjHp7KEeKyV7_6Xf9MMA" elementId="at.ticketline.kassa.open" commandName="openCommand"/>
   <commands xmi:id="_QskM0J7zEeKyV7_6Xf9MMA" elementId="at.ticketline.command.openKuenstler" commandName="Künstleransicht öffnen"/>

@@ -53,14 +53,11 @@ public class Activator implements BundleActivator {
         KuenstlerDao kuenstlerDao = (KuenstlerDao)DaoFactory.getByEntity(Kuenstler.class);
         CONTEXT.registerService(KuenstlerService.class.getName(), new KuenstlerServiceImpl(kuenstlerDao), null);
 
-       	//KundeDao kundeDao = (KundeDao) DaoFactory.getByEntity(Kunde.class);
-       	//CONTEXT.registerService(KundeService.class.getName(),
-       	//        new KundeServiceImpl(kundeDao), null);
+       	KundeDao kundeDao = (KundeDao) DaoFactory.getByEntity(Kunde.class);
+       	CONTEXT.registerService(KundeService.class.getName(), new KundeServiceImpl(kundeDao), null);
         
-        MitarbeiterDao mitarbeiterDao = (MitarbeiterDao) 
-        		DaoFactory.getByEntity(Mitarbeiter.class);
-        CONTEXT.registerService(MitarbeiterService.class.getName(), 
-        		new MitarbeiterServiceImpl(mitarbeiterDao), null);
+        MitarbeiterDao mitarbeiterDao = (MitarbeiterDao) DaoFactory.getByEntity(Mitarbeiter.class);
+        CONTEXT.registerService(MitarbeiterService.class.getName(), new MitarbeiterServiceImpl(mitarbeiterDao), null);
         
     }
 }

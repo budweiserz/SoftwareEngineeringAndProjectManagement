@@ -15,6 +15,7 @@ import at.ticketline.entity.Geschlecht;
 import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.Veranstaltung;
 import at.ticketline.service.api.VeranstaltungService;
+import at.ticketline.service.impl.VeranstaltungServiceImpl;
 import at.ticketline.test.AbstractDaoTest;
 
 public class VeranstaltungTest extends AbstractDaoTest{
@@ -44,6 +45,8 @@ public class VeranstaltungTest extends AbstractDaoTest{
 	@Test
 	public void testIfFindByVeranstaltungReturnsCorrectVeranstaltung() {
 		this.veranstaltungDao = (VeranstaltungDao)DaoFactory.getByEntity(Veranstaltung.class);
+		this.veranstaltungsService = new VeranstaltungServiceImpl(this.veranstaltungDao);
+		
 		List<Veranstaltung> result;
 		
 		Veranstaltung v1 = new Veranstaltung();
@@ -71,7 +74,7 @@ public class VeranstaltungTest extends AbstractDaoTest{
 			this.veranstaltungDao.persist(v2);
 			this.veranstaltungDao.persist(v3);
 			
-			result = this.veranstaltungDao.findByVeranstaltung(filter);
+			result = this.veranstaltungsService.find(filter);
 			
 			assertEquals(1, result.size());
 		}

@@ -31,6 +31,7 @@ public class OrtTest extends AbstractDaoTest {
 	@Test
 	public void findByOrt_withBezeichnung() {
 		Ort o = EntityGenerator.getValidOrt(0);
+		ortDao.persist(o);
 		o.setBezeichnung("Bezeichnung");
 		ortDao.persist(o);
 		
@@ -42,6 +43,7 @@ public class OrtTest extends AbstractDaoTest {
 	@Test
 	public void findByOrt_withStraße() {
 		Ort o = EntityGenerator.getValidOrt(0);
+		ortDao.persist(o);
 		Adresse adresse = new Adresse();
 		adresse.setStrasse("Straße");
 		o.setAdresse(adresse);
@@ -55,6 +57,7 @@ public class OrtTest extends AbstractDaoTest {
 	@Test
 	public void findByOrt_withOrt() {
 		Ort o = EntityGenerator.getValidOrt(0);
+		ortDao.persist(o);
 		Adresse adresse = new Adresse();
 		adresse.setOrt("Ort");
 		o.setAdresse(adresse);
@@ -68,6 +71,7 @@ public class OrtTest extends AbstractDaoTest {
 	@Test
 	public void findByOrt_withPlz() {
 		Ort o = EntityGenerator.getValidOrt(0);
+		ortDao.persist(o);
 		Adresse adresse = new Adresse();
 		adresse.setPlz("1111");
 		o.setAdresse(adresse);
@@ -81,6 +85,7 @@ public class OrtTest extends AbstractDaoTest {
 	@Test
 	public void findByOrt_withLand() {
 		Ort o = EntityGenerator.getValidOrt(0);
+		ortDao.persist(o);
 		Adresse adresse = new Adresse();
 		adresse.setLand("Land");
 		o.setAdresse(adresse);
@@ -94,6 +99,7 @@ public class OrtTest extends AbstractDaoTest {
 	@Test
 	public void findByOrt_withTyp() {
 		Ort o = EntityGenerator.getValidOrt(0);
+		ortDao.persist(o);
 		o.setOrtstyp(Ortstyp.KINO);
 		ortDao.persist(o);
 		

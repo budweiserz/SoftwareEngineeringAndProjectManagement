@@ -18,7 +18,7 @@ import org.junit.runners.Suite.SuiteClasses;
     //add your test here
     })
 
-public class TestSuite {
+public class AllTestSuites {
 
     @BeforeClass
     public static void setup() {

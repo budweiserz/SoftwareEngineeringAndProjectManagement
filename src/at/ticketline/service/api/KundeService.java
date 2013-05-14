@@ -1,5 +1,7 @@
 package at.ticketline.service.api;
 
+import java.util.List;
+
 import at.ticketline.entity.Kunde;
 
 /**
@@ -15,4 +17,6 @@ public interface KundeService {
      *            != null, wird gespeichert
      */
     public void save(Kunde kunde);
+    
+    public List<Kunde> findAll();
 }

@@ -1,5 +1,7 @@
 package at.ticketline.kassa.ui;
 
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -23,6 +25,8 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -68,8 +72,9 @@ public class KundePart {
     @Named(IServiceConstants.ACTIVE_SHELL)
     private Shell shell;
 
-    @Inject
+    // @Inject
     private Kunde kunde;
+
     @Inject
     private KundeService kundeService;
 
@@ -98,12 +103,17 @@ public class KundePart {
         if (kunde != null) {
             LOG.info("kunde not null");
             this.kunde = kunde;
+
+        } else {
+
+            kunde = new Kunde();
         }
+
         createControls(parent);
 
         if (kunde != null) {
-            LOG.info("kunde null");
-            setInput();
+
+            //setInput();
         }
     }
 
@@ -128,6 +138,8 @@ public class KundePart {
         columnLayout.minNumColumns = 2;
         columnLayout.maxNumColumns = 2;
         c.setLayout(columnLayout);
+        
+        EditorModifyListener listener = new EditorModifyListener();
 
         // Left Side
         Section leftSection = this.toolkit.createSection(c, Section.EXPANDED
@@ -145,24 +157,22 @@ public class KundePart {
         Label lblTitel = this.toolkit.createLabel(left, "Titel", SWT.LEFT);
         lblTitel.setSize(230, lblTitel.getSize().y);
 
-        this.txtTitel = this.toolkit.createText(left, this.kunde.getNachname(),
-                SWT.LEFT | SWT.BORDER);
+        this.txtTitel = new Text(left, SWT.BORDER);
         txtTitel.setText("");
 
         this.txtTitel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        // this.txtTitel.addModifyListener(listener);
+        this.txtTitel.addModifyListener(listener);
 
         Label lblVorname = new Label(left, SWT.NONE);
         toolkit.adapt(lblVorname, true, true);
         lblVorname.setText("Vorname");
 
-        this.txtVorname = this.toolkit.createText(left,
-                this.kunde.getVorname(), SWT.LEFT | SWT.BORDER);
+        this.txtVorname = new Text(left, SWT.BORDER);
         txtVorname.setText("");
 
         this.txtVorname.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true,
                 false));
-        // this.txtVorname.addModifyListener(listener);
+        this.txtVorname.addModifyListener(listener);
 
         Label lblGeburtsdatum = new Label(left, SWT.NONE);
         toolkit.adapt(lblGeburtsdatum, true, true);
@@ -171,7 +181,7 @@ public class KundePart {
         this.dtGeburtsdatum = new DateTime(left, SWT.DROP_DOWN | SWT.BORDER);
         this.dtGeburtsdatum
                 .setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        // this.dtGeburtsdatum.addFocusListener(listener);
+        //this.dtGeburtsdatum.addFocusListener(listener);
         this.toolkit.adapt(this.dtGeburtsdatum, true, true);
 
         Label lblAdresse = new Label(left, SWT.NONE);
@@ -204,50 +214,46 @@ public class KundePart {
             }
         });
         rightSection.setLayoutData(new ColumnLayoutData(ColumnLayoutData.FILL));
-
-        Composite right = this.toolkit.createComposite(rightSection);
-        right.setLayout(new GridLayout(2, false));
-        rightSection.setClient(right);
-
-        Label lblPlaceholder = new Label(right, SWT.NONE);
-        toolkit.adapt(lblPlaceholder, true, true);
-        new Label(right, SWT.NONE);
-
-        Label lblNachname = new Label(right, SWT.NONE);
-        toolkit.adapt(lblNachname, true, true);
-        lblNachname.setText("Nachname");
-
-        txtNachname = new Text(right, SWT.BORDER);
-        txtNachname.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false,
-                1, 1));
-        toolkit.adapt(txtNachname, true, true);
-
-        Label lblTelefonnummer = new Label(right, SWT.NONE);
-        toolkit.adapt(lblTelefonnummer, true, true);
-        lblTelefonnummer.setText("Telefonnummer");
-
-        txtTelefonnummer = new Text(right, SWT.BORDER);
-        txtTelefonnummer.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-                false, 1, 1));
-        toolkit.adapt(txtTelefonnummer, true, true);
-
-        Label lblOrt = new Label(right, SWT.NONE);
-        toolkit.adapt(lblOrt, true, true);
-        lblOrt.setText("Ort");
-
-        txtOrt = new Text(right, SWT.BORDER);
-        txtOrt.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
-                1));
-        toolkit.adapt(txtOrt, true, true);
-
-        Label lblErmigung = new Label(right, SWT.NONE);
-        toolkit.adapt(lblErmigung, true, true);
-        lblErmigung.setText("Ermäßigung (%)");
-
-        txtErmaessigung = new Text(right, SWT.BORDER);
-        txtErmaessigung.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
-                false, 1, 1));
-        toolkit.adapt(txtErmaessigung, true, true);
+        
+                Composite right = this.toolkit.createComposite(rightSection);
+                rightSection.setClient(right);
+                right.setLayout(new GridLayout(2, false));
+                
+                        Label lblNachname = new Label(right, SWT.NONE);
+                        toolkit.adapt(lblNachname, true, true);
+                        lblNachname.setText("Nachname");
+                        
+                                txtNachname = new Text(right, SWT.BORDER);
+                                txtNachname.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false,
+                                        1, 1));
+                                toolkit.adapt(txtNachname, true, true);
+                                
+                                        Label lblTelefonnummer = new Label(right, SWT.NONE);
+                                        toolkit.adapt(lblTelefonnummer, true, true);
+                                        lblTelefonnummer.setText("Telefonnummer");
+                                        
+                                                txtTelefonnummer = new Text(right, SWT.BORDER);
+                                                txtTelefonnummer.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+                                                        false, 1, 1));
+                                                toolkit.adapt(txtTelefonnummer, true, true);
+                                                
+                                                        Label lblOrt = new Label(right, SWT.NONE);
+                                                        toolkit.adapt(lblOrt, true, true);
+                                                        lblOrt.setText("Ort");
+                                                        
+                                                                txtOrt = new Text(right, SWT.BORDER);
+                                                                txtOrt.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1,
+                                                                        1));
+                                                                toolkit.adapt(txtOrt, true, true);
+                                                                
+                                                                        Label lblErmigung = new Label(right, SWT.NONE);
+                                                                        toolkit.adapt(lblErmigung, true, true);
+                                                                        lblErmigung.setText("Ermäßigung (%)");
+                                                                        
+                                                                                txtErmaessigung = new Text(right, SWT.BORDER);
+                                                                                txtErmaessigung.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true,
+                                                                                        false, 1, 1));
+                                                                                toolkit.adapt(txtErmaessigung, true, true);
     }
 
     private void createTable(Composite parent) {
@@ -267,6 +273,7 @@ public class KundePart {
             @Override
             public void widgetSelected(SelectionEvent e) {
                 if (!KundePart.this.dirty.isDirty()) {
+                    LOG.info("not dirty return");
                     return;
                 }
                 handlerService.activateHandler(
@@ -289,20 +296,22 @@ public class KundePart {
         });
 
     }
-
+    
+    /*
     private void setInput() {
         LOG.info("set input");
-        this.form.setText(this.kunde.getVorname() + " "
-                + this.kunde.getNachname());
 
-        if (this.kunde.getGeburtsdatum() != null) {
-            GregorianCalendar gc = this.kunde.getGeburtsdatum();
-            this.dtGeburtsdatum.setYear(gc.get(Calendar.YEAR));
-            this.dtGeburtsdatum.setMonth(gc.get(Calendar.MONTH));
-            this.dtGeburtsdatum.setDay(gc.get(Calendar.DAY_OF_MONTH));
-        }
+         * this.form.setText(this.kunde.getVorname() + " " +
+         * this.kunde.getNachname());
+         * 
+         * if (this.kunde.getGeburtsdatum() != null) { GregorianCalendar gc =
+         * this.kunde.getGeburtsdatum();
+         * this.dtGeburtsdatum.setYear(gc.get(Calendar.YEAR));
+         * this.dtGeburtsdatum.setMonth(gc.get(Calendar.MONTH));
+         * this.dtGeburtsdatum.setDay(gc.get(Calendar.DAY_OF_MONTH)); }
     }
-
+    */
+    
     @PreDestroy
     public void dispose() {
         // nothing to do
@@ -317,6 +326,7 @@ public class KundePart {
     public void save() {
 
         LOG.info("Kunde speichern");
+
         if (this.txtTitel.getText().equals("")) {
             this.kunde.setNachname(null);
         } else {
@@ -367,5 +377,47 @@ public class KundePart {
     private void updateTitle() {
         partService.getActivePart().setLabel(
                 this.txtVorname.getText() + " " + this.txtTitel.getText());
+    }
+    
+    class EditorModifyListener implements ModifyListener, FocusListener {
+
+        @Override
+        public void modifyText(ModifyEvent e) {
+            if ((e.getSource().equals(KundePart.this.txtNachname))
+                    || (e.getSource().equals(KundePart.this.txtVorname))) {
+                KundePart.this.updateTitle();
+            }
+            dirty.setDirty(true);
+        }
+
+        @Override
+        public void focusGained(FocusEvent e) {
+            // nothing to do
+        }
+
+        @Override
+        public void focusLost(FocusEvent e) {
+            if (e.getSource().equals(KundePart.this.dtGeburtsdatum) == false) {
+                return;
+            }
+            try {
+                GregorianCalendar gc = KundePart.this.kunde
+                        .getGeburtsdatum();
+                if (gc == null) {
+                    dirty.setDirty(true);
+                    return;
+                }
+                if ((KundePart.this.dtGeburtsdatum.getYear() != gc
+                        .get(Calendar.YEAR))
+                        || (KundePart.this.dtGeburtsdatum.getMonth() != gc
+                                .get(Calendar.MONTH))
+                        || (KundePart.this.dtGeburtsdatum.getDay() != gc
+                                .get(Calendar.DAY_OF_MONTH))) {
+                    dirty.setDirty(true);
+                }
+            } catch (Exception ex) {
+                LOG.error(ex.getMessage(), ex);
+            }
+        }
     }
 }

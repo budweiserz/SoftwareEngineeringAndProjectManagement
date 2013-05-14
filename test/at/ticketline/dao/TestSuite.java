@@ -15,7 +15,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
     MitarbeiterTest.class,
     KuenstlerTest.class,
-    OrtTest.class //,
+    OrtTest.class,
+    AuffuehrungTest.class //,
     //add your test here
     })
 

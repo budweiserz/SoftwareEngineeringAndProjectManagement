@@ -12,7 +12,7 @@ import at.ticketline.service.ServiceException;
 import at.ticketline.service.api.KundeService;
 
 /**
- * @author Rafael Konlechner
+ * @author Rafael Konlechner, Florian Klampfer
  */
 public class KundeServiceImpl implements KundeService {
     private static final Logger LOG = LoggerFactory.getLogger(KundeServiceImpl.class);

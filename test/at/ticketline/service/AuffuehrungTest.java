@@ -22,7 +22,7 @@ import at.ticketline.service.impl.AuffuehrungServiceImpl;
 import at.ticketline.test.AbstractDaoTest;
 import at.ticketline.test.EntityGenerator;
 
-public class AuffuehrungServiceTest extends AbstractDaoTest {
+public class AuffuehrungTest extends AbstractDaoTest {
     AuffuehrungDao auffuehrungDao ;
     SaalDao saalDao;
     VeranstaltungDao veranstaltungDao;

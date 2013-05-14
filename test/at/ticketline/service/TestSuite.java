@@ -16,7 +16,8 @@ import at.ticketline.service.KundeTest;
 @RunWith(Suite.class)
 @SuiteClasses({
     KundeTest.class,
-    NewsTest.class //,
+    NewsTest.class,
+    OrtTest.class //,
     //add your test here
     })
 

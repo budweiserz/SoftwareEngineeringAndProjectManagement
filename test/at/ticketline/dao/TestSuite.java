@@ -14,7 +14,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
     MitarbeiterTest.class,
-    KuenstlerTest.class //,
+    KuenstlerTest.class,
+    OrtTest.class //,
     //add your test here
     })
 

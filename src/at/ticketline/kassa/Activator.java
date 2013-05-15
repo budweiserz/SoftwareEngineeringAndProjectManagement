@@ -7,30 +7,28 @@ import org.osgi.framework.BundleContext;
 
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.EntityManagerUtil;
-import at.ticketline.dao.api.KuenstlerDao;
-import at.ticketline.entity.Kuenstler;
-import at.ticketline.service.api.KuenstlerService;
-import at.ticketline.service.impl.KuenstlerServiceImpl;
 import at.ticketline.dao.api.AuffuehrungDao;
+import at.ticketline.dao.api.KuenstlerDao;
 import at.ticketline.dao.api.KundeDao;
 import at.ticketline.dao.api.MitarbeiterDao;
 import at.ticketline.dao.api.NewsDao;
+import at.ticketline.entity.Auffuehrung;
+import at.ticketline.entity.Kuenstler;
 import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.News;
+import at.ticketline.service.api.AuffuehrungService;
+import at.ticketline.service.api.KuenstlerService;
 import at.ticketline.service.api.KundeService;
 import at.ticketline.service.api.MitarbeiterService;
 import at.ticketline.service.api.NewsService;
-import at.ticketline.entity.Auffuehrung;
-import at.ticketline.entity.Kunde;
-import at.ticketline.entity.Mitarbeiter;
-import at.ticketline.service.api.AuffuehrungService;
-import at.ticketline.service.api.KundeService;
-import at.ticketline.service.api.MitarbeiterService;
 import at.ticketline.service.impl.AuffuehrungServiceImpl;
+import at.ticketline.service.impl.KuenstlerServiceImpl;
 import at.ticketline.service.impl.KundeServiceImpl;
 import at.ticketline.service.impl.MitarbeiterServiceImpl;
 import at.ticketline.service.impl.NewsServiceImpl;
+
+
 
 public class Activator implements BundleActivator {
 
@@ -62,9 +60,12 @@ public class Activator implements BundleActivator {
     }
 
     private void registerServices() {
-        KuenstlerDao kuenstlerDao = (KuenstlerDao)DaoFactory.getByEntity(Kuenstler.class);
+    	AuffuehrungDao auffuehrungDao = (AuffuehrungDao) DaoFactory.getByEntity(Auffuehrung.class);
+       	CONTEXT.registerService(AuffuehrungService.class.getName(), new AuffuehrungServiceImpl(auffuehrungDao), null);
+        
+    	KuenstlerDao kuenstlerDao = (KuenstlerDao)DaoFactory.getByEntity(Kuenstler.class);
         CONTEXT.registerService(KuenstlerService.class.getName(), new KuenstlerServiceImpl(kuenstlerDao), null);
-
+        
        	KundeDao kundeDao = (KundeDao) DaoFactory.getByEntity(Kunde.class);
        	CONTEXT.registerService(KundeService.class.getName(), new KundeServiceImpl(kundeDao), null);
         
@@ -74,9 +75,14 @@ public class Activator implements BundleActivator {
         NewsDao newsDao = (NewsDao)DaoFactory.getByEntity(News.class);
         CONTEXT.registerService(NewsService.class.getName(), new NewsServiceImpl(newsDao), null);
 
-        AuffuehrungDao auffuehrungDao = (AuffuehrungDao) DaoFactory.getByEntity(Auffuehrung.class);
-        CONTEXT.registerService(AuffuehrungService.class.getName(), new AuffuehrungServiceImpl(auffuehrungDao), null);
+        /*AuffuehrungDao auffuehrungDao = (AuffuehrungDao) DaoFactory.getByEntity(Auffuehrung.class);
+        CONTEXT.registerService(AuffuehrungService.class.getName(), new AuffuehrungServiceImpl(auffuehrungDao), null);*/
         
+        
+        /*
+        VeranstaltungDao veranstaltungDao = (VeranstaltungDao) DaoFactory.getByEntity(Veranstaltung.class);
+       	CONTEXT.registerService(VeranstaltungService.class.getName(), new VeranstaltungServiceImpl(veranstaltungDao), null);
+        */
         
     }
 }

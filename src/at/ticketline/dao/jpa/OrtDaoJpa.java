@@ -27,25 +27,30 @@ public class OrtDaoJpa extends GenericDaoJpa<Ort,Integer> implements OrtDao {
 
 		List<Predicate> wherePredicates = new ArrayList<Predicate>();
 
-		if (ort.getBezeichnung() != null) {
-			wherePredicates.add( builder.equal(rootOrt.get("bezeichnung"), ort.getBezeichnung()) );
+		if (ort.getBezeichnung() != null) {			
+			String nn = ort.getBezeichnung().replace('*', '%').replace('?', '_').toUpperCase();
+            wherePredicates.add( builder.like( builder.upper( rootOrt.<String>get("bezeichnung") ), nn) );
 		}
 
 		if (ort.getAdresse() != null) {
 			if (ort.getAdresse().getStrasse() != null) {
-				wherePredicates.add( builder.equal(rootOrt.get("adresse").get("strasse"), ort.getAdresse().getStrasse()) );
+				String nn = ort.getAdresse().getStrasse().replace('*', '%').replace('?', '_').toUpperCase();
+	            wherePredicates.add( builder.like( builder.upper( rootOrt.get("adresse").<String>get("strasse") ), nn) );
 			}
 
 			if (ort.getAdresse().getPlz() != null) {
-				wherePredicates.add( builder.equal(rootOrt.get("adresse").get("plz"), ort.getAdresse().getPlz()) );
+				String nn = ort.getAdresse().getPlz().replace('*', '%').replace('?', '_').toUpperCase();
+	            wherePredicates.add( builder.like( builder.upper( rootOrt.get("adresse").<String>get("plz") ), nn) );
 			}
 
 			if (ort.getAdresse().getOrt() != null) {
-				wherePredicates.add( builder.equal(rootOrt.get("adresse").get("ort"), ort.getAdresse().getOrt()) );
+				String nn = ort.getAdresse().getOrt().replace('*', '%').replace('?', '_').toUpperCase();
+	            wherePredicates.add( builder.like( builder.upper( rootOrt.get("adresse").<String>get("ort") ), nn) );
 			}
 
 			if (ort.getAdresse().getLand() != null) {
-				wherePredicates.add( builder.equal(rootOrt.get("adresse").get("land"), ort.getAdresse().getLand()) );
+				String nn = ort.getAdresse().getLand().replace('*', '%').replace('?', '_').toUpperCase();
+	            wherePredicates.add( builder.like( builder.upper( rootOrt.get("adresse").<String>get("land") ), nn) );
 			}
 		}
 		

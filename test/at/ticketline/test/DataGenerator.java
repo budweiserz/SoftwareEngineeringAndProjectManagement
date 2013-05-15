@@ -6,5 +6,6 @@ public class DataGenerator {
         
         TestInitializer.init();        
         TestUtility.generateTestData();
+        TestUtility.resetDatabase();
     }
 }

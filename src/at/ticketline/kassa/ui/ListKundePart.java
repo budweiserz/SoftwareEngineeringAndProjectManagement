@@ -1,5 +1,7 @@
 package at.ticketline.kassa.ui;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -15,6 +17,7 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -32,9 +35,13 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import at.ticketline.dao.DaoFactory;
+import at.ticketline.dao.api.KundeDao;
 import at.ticketline.entity.Kunde;
 import at.ticketline.service.api.KundeService;
+import at.ticketline.test.EntityGenerator;
 
+import org.eclipse.jface.viewers.IStructuredContentProvider;
 public class ListKundePart {
     private static final Logger LOG = LoggerFactory.getLogger(ListKundePart.class);
     @Inject private MDirtyable dirty;
@@ -53,6 +60,11 @@ public class ListKundePart {
 
     @Inject
     public void init(Composite parent) throws PartInitException {
+        // XXX: dummy data
+		//KundeDao kundeDao = (KundeDao)DaoFactory.getByEntity(Kunde.class);
+		//kundeDao.persist(EntityGenerator.getValidKunde(1));
+		//kundeDao.persist(EntityGenerator.getValidKunde(2));
+		
         createControls(parent);
     }
     
@@ -77,99 +89,6 @@ public class ListKundePart {
         columnLayout.minNumColumns = 1;
         columnLayout.maxNumColumns = 1;
         c.setLayout(columnLayout);
-
-        /*
-        EditorModifyListener listener = new EditorModifyListener();
-
-        // Left Side
-        Section leftSection = this.toolkit.createSection(c, Section.DESCRIPTION
-                | Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-        leftSection.addExpansionListener(new ExpansionAdapter() {
-            @Override
-            public void expansionStateChanged(ExpansionEvent e) {
-                KuenstlerPart.this.form.reflow(true);
-            }
-        });
-        leftSection.setText("Daten");
-        leftSection.setLayoutData(new ColumnLayoutData(ColumnLayoutData.FILL));
-        Composite left = this.toolkit.createComposite(leftSection);
-        left.setLayout(new GridLayout(2, false));
-
-        Label lblNachname = this.toolkit.createLabel(left, "Nachname:",
-                SWT.LEFT);
-        lblNachname.setSize(230, lblNachname.getSize().y);
-
-        this.txtNachname = this.toolkit.createText(left, this.kuenstler
-                .getNachname(), SWT.LEFT | SWT.BORDER);
-        
-        this.txtNachname.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        this.txtNachname.addModifyListener(listener);
-
-        this.toolkit.createLabel(left, "Vorname:", SWT.LEFT);
-
-        this.txtVorname = this.toolkit.createText(left, this.kuenstler
-                .getVorname(), SWT.LEFT | SWT.BORDER);
-        
-        this.txtVorname.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true,
-                false));
-        this.txtVorname.addModifyListener(listener);
-
-        this.toolkit.createLabel(left, "Titel:", SWT.LEFT);
-
-        this.txtTitel = this.toolkit.createText(left,
-                this.kuenstler.getTitel(), SWT.LEFT | SWT.BORDER);
-        
-        this.txtTitel
-                .setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
-        this.txtTitel.addModifyListener(listener);
-
-        this.toolkit.createLabel(left, "Geschlecht:",
-                SWT.LEFT);
-
-        this.cbGeschlecht = new Combo(left, SWT.FLAT | SWT.READ_ONLY
-                | SWT.BORDER);
-        this.cbGeschlecht.setItems(Geschlecht.toStringArray());
-        
-        this.cbGeschlecht.select(0);
-        
-        this.cbGeschlecht.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        this.cbGeschlecht.addModifyListener(listener);
-        this.toolkit.adapt(this.cbGeschlecht, true, true);
-
-        this.toolkit.createLabel(left, "Geburtsdatum:",
-                SWT.LEFT);
-
-        this.dtGeburtsdatum = new DateTime(left, SWT.DROP_DOWN | SWT.BORDER);
-        this.dtGeburtsdatum
-                .setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-        this.dtGeburtsdatum.addFocusListener(listener);
-        this.toolkit.adapt(this.dtGeburtsdatum, true, true);
-
-        leftSection.setClient(left);
-
-        // Right Side
-        Section rightSection = this.toolkit.createSection(c,
-                Section.DESCRIPTION | Section.TITLE_BAR | Section.TWISTIE
-                        | Section.EXPANDED);
-        rightSection.addExpansionListener(new ExpansionAdapter() {
-            @Override
-            public void expansionStateChanged(ExpansionEvent e) {
-                KuenstlerPart.this.form.reflow(true);
-            }
-        });
-        rightSection.setText("Biographie");
-        rightSection.setLayoutData(new ColumnLayoutData(ColumnLayoutData.FILL));
-        
-        Composite right = this.toolkit.createComposite(rightSection);
-        right.setLayout(new GridLayout(1, false));
-
-        this.txtBiographie = this.toolkit.createText(right, this.kuenstler
-                .getBiographie(), SWT.MULTI | SWT.BORDER | SWT.WRAP);
-        
-        this.txtBiographie.setLayoutData(new GridData(GridData.FILL_BOTH));
-        this.txtBiographie.addModifyListener(listener);
-        rightSection.setClient(right);
-        */
     }
 
     private void createTable(Composite parent) {
@@ -180,7 +99,7 @@ public class ListKundePart {
                 ListKundePart.this.form.reflow(true);
             }
         });
-        engagementSection.setText("Engagements");
+        engagementSection.setText("Kunden");
         engagementSection.setLayoutData(new GridData(GridData.FILL_BOTH));
     
         this.tableViewer = new TableViewer(engagementSection, SWT.BORDER | SWT.FULL_SELECTION);
@@ -195,7 +114,19 @@ public class ListKundePart {
         this.tableViewer.getTable().setLinesVisible(true);
         this.tableViewer.getTable().setHeaderVisible(true);
     
-        this.tableViewer.setContentProvider(new ArrayContentProvider());
+        this.tableViewer.setContentProvider(new IStructuredContentProvider() {
+            @Override
+            public Object[] getElements(Object inputElement) {
+                // The inputElement comes from view.setInput()
+                if (inputElement instanceof List) {
+                    List models = (List)inputElement;
+                    return models.toArray();
+                }
+                return new Object[0];
+            }
+            @Override public void dispose() { }
+            @Override public void inputChanged(Viewer viewer, Object oldInput, Object newInput) { }
+        });
         
         this.tableViewer.setLabelProvider(new ITableLabelProvider() {
             @Override
@@ -221,7 +152,7 @@ public class ListKundePart {
                     }
                 case 2:
                     if (e.getGeburtsdatum() != null) {
-                        return e.getGeburtsdatum().toString();
+                        return e.getGeburtsdatum().getTime().toString();
                     } else {
                         return "";
                     }
@@ -258,6 +189,9 @@ public class ListKundePart {
         col3.setText("Geburtsdatum");
         //TableColumn col4 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
         //col4.setText("Gage");
+        
+        // MAGIC HAPPENS HERE
+        this.tableViewer.setInput(this.kundeService.findAll());
     
         this.toolkit.adapt(this.tableViewer.getTable(), true, true);
         engagementSection.setClient(this.tableViewer.getTable());

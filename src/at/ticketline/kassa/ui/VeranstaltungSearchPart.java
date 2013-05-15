@@ -1,13 +1,23 @@
 package at.ticketline.kassa.ui;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Inject;
 
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -22,8 +32,15 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import at.ticketline.entity.Veranstaltung;
+import at.ticketline.service.api.VeranstaltungService;
 
 public class VeranstaltungSearchPart {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(VeranstaltungSearchPart.class);
 
 	private Text txtBezeichnung;
 	private Text txtDauerVon;
@@ -31,6 +48,12 @@ public class VeranstaltungSearchPart {
 	private Text txtOrt;
 	private Text txtInhalt;
 	private Table table;
+	private Combo comboKategorie;
+	
+	private TableViewer tableViewer;
+	
+	@Inject
+	private VeranstaltungService veranstaltungService;
 
 	public VeranstaltungSearchPart() {
 	}
@@ -117,7 +140,7 @@ parent.setLayout(new GridLayout(1, false));
 		txtInhalt.setLayoutData(fd_txtInhalt);
 		
 		ComboViewer comboViewer = new ComboViewer(SearchComposite, SWT.NONE);
-		Combo comboKategorie = comboViewer.getCombo();
+		comboKategorie = comboViewer.getCombo();
 		FormData fd_comboKategorie = new FormData();
 		fd_comboKategorie.right = new FormAttachment(lblOrtstyp, 132, SWT.RIGHT);
 		fd_comboKategorie.left = new FormAttachment(lblOrtstyp, 10);
@@ -133,7 +156,7 @@ parent.setLayout(new GridLayout(1, false));
 		label.setLayoutData(fd_label);
 		SearchComposite.setTabList(new Control[]{txtBezeichnung, txtDauerVon, txtDauerBis, comboKategorie, txtInhalt, btnSuchen});
 		
-		TableViewer tableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION);
+		tableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION);
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -147,27 +170,114 @@ parent.setLayout(new GridLayout(1, false));
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.LEFT);
 		TableColumn tblclmnStrasse = tableViewerColumn_1.getColumn();
 		tblclmnStrasse.setWidth(150);
-		tblclmnStrasse.setText("Straße");
+		tblclmnStrasse.setText("Dauer");
 		
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(tableViewer, SWT.LEFT);
 		TableColumn tblclmnPlz = tableViewerColumn_2.getColumn();
 		tblclmnPlz.setWidth(70);
-		tblclmnPlz.setText("PLZ");
+		tblclmnPlz.setText("Kategorie");
 		
 		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(tableViewer, SWT.LEFT);
 		TableColumn tblclmnOrt = tableViewerColumn_3.getColumn();
 		tblclmnOrt.setWidth(100);
-		tblclmnOrt.setText("Ort");
+		tblclmnOrt.setText("Inhalt");
 		
-		TableViewerColumn tableViewerColumn_4 = new TableViewerColumn(tableViewer, SWT.LEFT);
-		TableColumn tblclmnOrtstyp = tableViewerColumn_4.getColumn();
-		tblclmnOrtstyp.setWidth(100);
-		tblclmnOrtstyp.setText("Ortstyp");
-		
-		TableViewerColumn tableViewerColumn_5 = new TableViewerColumn(tableViewer, SWT.LEFT);
-		TableColumn tblclmnLand = tableViewerColumn_5.getColumn();
-		tblclmnLand.setWidth(150);
-		tblclmnLand.setText("Land");
+		tableViewer.setContentProvider(new IStructuredContentProvider() {
+            @Override
+            public Object[] getElements(Object inputElement) {
+                // The inputElement comes from view.setInput()
+                if (inputElement instanceof List) {
+                    List models = (List)inputElement;
+                    return models.toArray();
+                }
+                return new Object[0];
+            }
+            @Override public void dispose() { }
+            @Override public void inputChanged(Viewer viewer, Object oldInput, Object newInput) { }
+        });
+        
+        tableViewer.setLabelProvider(new ITableLabelProvider() {
+
+            @Override
+            public Image getColumnImage(Object arg0, int arg1) {
+                return null;
+            }
+    
+            @Override
+            public String getColumnText(Object element, int index) {
+                Veranstaltung e = (Veranstaltung) element;
+                switch (index) {
+                case 0:
+                    if (e.getBezeichnung() != null) {
+                        return e.getBezeichnung();
+                    } else {
+                        return "";
+                    }
+                case 1:
+                    if (e.getDauer() != null) {
+                        return e.getDauer().toString();
+                    } else {
+                        return "";
+                    }
+                case 2:
+                    if (e.getKategorie() != null) {
+                        return e.getKategorie();
+                    } else {
+                        return "";
+                    }
+                case 3:
+                    if (e.getInhalt() != null) {
+                        return e.getInhalt();
+                    } else {
+                        return "";
+                    }
+                }
+                return null;
+            }
+    
+            @Override
+            public void addListener(ILabelProviderListener listener) {
+                // nothing to do
+            }
+    
+            @Override
+            public void dispose() {
+                // nothing to do
+            }
+    
+            @Override
+            public boolean isLabelProperty(Object arg0, String arg1) {
+                return true;
+            }
+    
+            @Override
+            public void removeListener(ILabelProviderListener arg0) {
+                // nothing to do
+            }
+        });
+        
+        btnSuchen.addMouseListener(new MouseListener() {
+            @Override public void mouseDoubleClick(MouseEvent e) { }
+            @Override public void mouseDown(MouseEvent e) { }
+
+            @Override
+            public void mouseUp(MouseEvent e) {
+                Veranstaltung query = new Veranstaltung();
+            	query.setBezeichnung(txtBezeichnung.getText().length() > 0 ? txtBezeichnung.getText() : null);
+            	query.setKategorie(comboKategorie.getText().length() > 0 ? comboKategorie.getText() : null);
+            	query.setInhalt(txtInhalt.getText().length() > 0 ? txtInhalt.getText() : null);
+            	try {
+            	query.setDauer(txtDauerVon.getText().length() > 0 ? Integer.parseInt(txtDauerVon.getText()) : null);
+            	} catch (NumberFormatException ex) {
+            		LOG.error("Minimale Dauer keine gültige Eingabe {}", ex);
+            	}
+            	
+            	LOG.info("Query Veranstaltung {}", query);
+            	
+            	VeranstaltungSearchPart.this.tableViewer.setInput(veranstaltungService.find(query));
+            	VeranstaltungSearchPart.this.tableViewer.refresh();
+            }
+        });
 	}
 
 	@PreDestroy

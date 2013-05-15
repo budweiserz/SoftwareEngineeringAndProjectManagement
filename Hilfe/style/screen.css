@@ -77,7 +77,14 @@ body
 /* Overwriting standard templates  */
 h1
 {
-	color:#B22;
+	margin-top: 40px;
+	color:#B40;
+}
+
+h2
+{
+	color:#B40;
+	margin-left: 20px;
 }
 
 /* accessibility */

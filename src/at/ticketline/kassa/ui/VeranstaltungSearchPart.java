@@ -7,7 +7,6 @@ import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
 import org.eclipse.e4.ui.di.Focus;
-import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -24,7 +23,6 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -36,8 +34,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ticketline.entity.Veranstaltung;
+import at.ticketline.service.api.KategorieService;
 import at.ticketline.service.api.VeranstaltungService;
 
+@SuppressWarnings("restriction")
 public class VeranstaltungSearchPart {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(VeranstaltungSearchPart.class);
@@ -45,15 +45,17 @@ public class VeranstaltungSearchPart {
 	private Text txtBezeichnung;
 	private Text txtDauerVon;
 	private Text txtDauerBis;
-	private Text txtOrt;
+	private Text txtKategorie;
 	private Text txtInhalt;
 	private Table table;
-	private Combo comboKategorie;
 	
 	private TableViewer tableViewer;
 	
 	@Inject
 	private VeranstaltungService veranstaltungService;
+	
+	@Inject
+	private KategorieService kategorieService;
 
 	public VeranstaltungSearchPart() {
 	}
@@ -139,14 +141,6 @@ parent.setLayout(new GridLayout(1, false));
 		fd_txtInhalt.top = new FormAttachment(lblStrae, -3, SWT.TOP);
 		txtInhalt.setLayoutData(fd_txtInhalt);
 		
-		ComboViewer comboViewer = new ComboViewer(SearchComposite, SWT.NONE);
-		comboKategorie = comboViewer.getCombo();
-		FormData fd_comboKategorie = new FormData();
-		fd_comboKategorie.right = new FormAttachment(lblOrtstyp, 132, SWT.RIGHT);
-		fd_comboKategorie.left = new FormAttachment(lblOrtstyp, 10);
-		fd_comboKategorie.top = new FormAttachment(lblBezeichnung, -4, SWT.TOP);
-		comboKategorie.setLayoutData(fd_comboKategorie);
-		
 		Label label = new Label(SearchComposite, SWT.NONE);
 		fd_txtDauerBis.left = new FormAttachment(label, 6);
 		label.setText("-");
@@ -154,7 +148,14 @@ parent.setLayout(new GridLayout(1, false));
 		fd_label.top = new FormAttachment(lblStrae, 0, SWT.TOP);
 		fd_label.left = new FormAttachment(txtDauerVon, 6);
 		label.setLayoutData(fd_label);
-		SearchComposite.setTabList(new Control[]{txtBezeichnung, txtDauerVon, txtDauerBis, comboKategorie, txtInhalt, btnSuchen});
+		
+		txtKategorie = new Text(SearchComposite, SWT.BORDER);
+		FormData fd_txtKategorie_1 = new FormData();
+		fd_txtKategorie_1.right = new FormAttachment(txtInhalt, 0, SWT.RIGHT);
+		fd_txtKategorie_1.top = new FormAttachment(lblBezeichnung, -3, SWT.TOP);
+		fd_txtKategorie_1.left = new FormAttachment(txtInhalt, 0, SWT.LEFT);
+		txtKategorie.setLayoutData(fd_txtKategorie_1);
+		SearchComposite.setTabList(new Control[]{txtBezeichnung, txtDauerVon, txtDauerBis, txtInhalt, btnSuchen});
 		
 		tableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION);
 		table = tableViewer.getTable();
@@ -187,7 +188,7 @@ parent.setLayout(new GridLayout(1, false));
             public Object[] getElements(Object inputElement) {
                 // The inputElement comes from view.setInput()
                 if (inputElement instanceof List) {
-                    List models = (List)inputElement;
+                    List<?> models = (List<?>)inputElement;
                     return models.toArray();
                 }
                 return new Object[0];
@@ -264,7 +265,7 @@ parent.setLayout(new GridLayout(1, false));
             public void mouseUp(MouseEvent e) {
                 Veranstaltung query = new Veranstaltung();
             	query.setBezeichnung(txtBezeichnung.getText().length() > 0 ? txtBezeichnung.getText() : null);
-            	query.setKategorie(comboKategorie.getText().length() > 0 ? comboKategorie.getText() : null);
+            	query.setKategorie(txtKategorie.getText().length() > 0 ? txtKategorie.getText() : null);
             	query.setInhalt(txtInhalt.getText().length() > 0 ? txtInhalt.getText() : null);
             	try {
             	query.setDauer(txtDauerVon.getText().length() > 0 ? Integer.parseInt(txtDauerVon.getText()) : null);

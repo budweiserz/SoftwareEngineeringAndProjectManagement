@@ -8,6 +8,7 @@ import org.osgi.framework.BundleContext;
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.EntityManagerUtil;
 import at.ticketline.dao.api.AuffuehrungDao;
+import at.ticketline.dao.api.KategorieDao;
 import at.ticketline.dao.api.KuenstlerDao;
 import at.ticketline.dao.api.KundeDao;
 import at.ticketline.dao.api.MitarbeiterDao;
@@ -15,6 +16,7 @@ import at.ticketline.dao.api.NewsDao;
 import at.ticketline.dao.api.OrtDao;
 import at.ticketline.dao.api.VeranstaltungDao;
 import at.ticketline.entity.Auffuehrung;
+import at.ticketline.entity.Kategorie;
 import at.ticketline.entity.Kuenstler;
 import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Mitarbeiter;
@@ -22,6 +24,7 @@ import at.ticketline.entity.News;
 import at.ticketline.entity.Ort;
 import at.ticketline.entity.Veranstaltung;
 import at.ticketline.service.api.AuffuehrungService;
+import at.ticketline.service.api.KategorieService;
 import at.ticketline.service.api.KuenstlerService;
 import at.ticketline.service.api.KundeService;
 import at.ticketline.service.api.MitarbeiterService;
@@ -29,6 +32,7 @@ import at.ticketline.service.api.NewsService;
 import at.ticketline.service.api.OrtService;
 import at.ticketline.service.api.VeranstaltungService;
 import at.ticketline.service.impl.AuffuehrungServiceImpl;
+import at.ticketline.service.impl.KategorieServiceImpl;
 import at.ticketline.service.impl.KuenstlerServiceImpl;
 import at.ticketline.service.impl.KundeServiceImpl;
 import at.ticketline.service.impl.MitarbeiterServiceImpl;
@@ -92,6 +96,8 @@ public class Activator implements BundleActivator {
         VeranstaltungDao veranstaltungDao = (VeranstaltungDao) DaoFactory.getByEntity(Veranstaltung.class);
        	CONTEXT.registerService(VeranstaltungService.class.getName(), new VeranstaltungServiceImpl(veranstaltungDao), null);
         
+       	KategorieDao kategorieDao = (KategorieDao) DaoFactory.getByEntity(Kategorie.class);
+       	CONTEXT.registerService(KategorieService.class.getName(), new KategorieServiceImpl(kategorieDao), null);
         
     }
 }

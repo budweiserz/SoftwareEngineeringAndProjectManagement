@@ -2,8 +2,10 @@ import org.eclipse.persistence.jpa.PersistenceProvider;
 
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.EntityManagerUtil;
+import at.ticketline.dao.api.KategorieDao;
 import at.ticketline.dao.api.OrtDao;
 import at.ticketline.dao.api.VeranstaltungDao;
+import at.ticketline.entity.Kategorie;
 import at.ticketline.entity.Ort;
 import at.ticketline.entity.Veranstaltung;
 import at.ticketline.test.EntityGenerator;
@@ -30,6 +32,13 @@ public class EazyDummyDataGenerator {
 		for(int i=0; i<10; i++) {
 			Veranstaltung v = EntityGenerator.getValidVeranstaltung(i);
 			daoV.persist(v);
+		}
+		
+		KategorieDao daoK = (KategorieDao)DaoFactory.getByEntity(Kategorie.class);
+
+		for(int i=0; i<10; i++) {
+			Kategorie k = EntityGenerator.getValidKategorie(i);
+			daoK.persist(k);
 		}
 	}
 }

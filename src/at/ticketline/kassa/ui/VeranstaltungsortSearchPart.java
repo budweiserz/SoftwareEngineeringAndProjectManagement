@@ -16,6 +16,13 @@ import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.swt.widgets.Control;
 
 public class VeranstaltungsortSearchPart {
 	private Text txtBezeichnung;
@@ -23,6 +30,7 @@ public class VeranstaltungsortSearchPart {
 	private Text txtPlz;
 	private Text txtOrt;
 	private Text txtLand;
+	private Table table;
 
 	public VeranstaltungsortSearchPart() {
 	}
@@ -40,8 +48,8 @@ public class VeranstaltungsortSearchPart {
 		GridData gd_SearchComposite = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
 		gd_SearchComposite.heightHint = 100;
 		gd_SearchComposite.widthHint = 1920;
-		gd_SearchComposite.minimumHeight = 110;
-		gd_SearchComposite.minimumWidth = 550;
+		gd_SearchComposite.minimumHeight = 100;
+		gd_SearchComposite.minimumWidth = 600;
 		SearchComposite.setLayoutData(gd_SearchComposite);
 		
 		Button btnSuchen = new Button(SearchComposite, SWT.NONE);
@@ -60,7 +68,6 @@ public class VeranstaltungsortSearchPart {
 		txtBezeichnung = new Text(SearchComposite, SWT.BORDER);
 		fd_lblBezeichnung.top = new FormAttachment(txtBezeichnung, 3, SWT.TOP);
 		fd_lblBezeichnung.right = new FormAttachment(txtBezeichnung, -6);
-		txtBezeichnung.setText("Bezeichnung");
 		FormData fd_txtBezeichnung = new FormData();
 		fd_txtBezeichnung.top = new FormAttachment(0, 4);
 		fd_txtBezeichnung.left = new FormAttachment(0, 96);
@@ -81,7 +88,6 @@ public class VeranstaltungsortSearchPart {
 		lblOrt.setText("Ort");
 		
 		txtStrasse = new Text(SearchComposite, SWT.BORDER);
-		txtStrasse.setText("Strasse");
 		FormData fd_txtStrasse = new FormData();
 		fd_txtStrasse.right = new FormAttachment(txtBezeichnung, 0, SWT.RIGHT);
 		fd_txtStrasse.top = new FormAttachment(txtBezeichnung, 6);
@@ -89,7 +95,6 @@ public class VeranstaltungsortSearchPart {
 		txtStrasse.setLayoutData(fd_txtStrasse);
 		
 		txtPlz = new Text(SearchComposite, SWT.BORDER);
-		txtPlz.setText("PLZ");
 		FormData fd_txtPlz = new FormData();
 		fd_txtPlz.right = new FormAttachment(txtBezeichnung, 0, SWT.RIGHT);
 		fd_txtPlz.top = new FormAttachment(txtStrasse, 5);
@@ -118,32 +123,63 @@ public class VeranstaltungsortSearchPart {
 		lblLand.setText("Land");
 		
 		txtOrt = new Text(SearchComposite, SWT.BORDER);
-		txtOrt.setText("Ort");
 		FormData fd_txtOrt = new FormData();
-		fd_txtOrt.top = new FormAttachment(txtBezeichnung, 0, SWT.TOP);
+		fd_txtOrt.right = new FormAttachment(lblOrt, 163, SWT.RIGHT);
+		fd_txtOrt.top = new FormAttachment(0, 4);
 		fd_txtOrt.left = new FormAttachment(lblOrt, 48);
 		txtOrt.setLayoutData(fd_txtOrt);
 		
-		Combo combo = new Combo(SearchComposite, SWT.NONE);
-		fd_txtOrt.right = new FormAttachment(combo, 0, SWT.RIGHT);
+		txtLand = new Text(SearchComposite, SWT.BORDER);
+		FormData fd_txtLand = new FormData();
+		fd_txtLand.right = new FormAttachment(lblLand, 152, SWT.RIGHT);
+		fd_txtLand.left = new FormAttachment(lblLand, 37);
+		fd_txtLand.top = new FormAttachment(txtPlz, 0, SWT.TOP);
+		txtLand.setLayoutData(fd_txtLand);
+		
+		ComboViewer comboViewer = new ComboViewer(SearchComposite, SWT.NONE);
+		Combo combo = comboViewer.getCombo();
 		FormData fd_combo = new FormData();
+		fd_combo.right = new FormAttachment(lblOrtstyp, 136, SWT.RIGHT);
 		fd_combo.left = new FormAttachment(lblOrtstyp, 21);
 		fd_combo.top = new FormAttachment(lblStrae, -3, SWT.TOP);
 		combo.setLayoutData(fd_combo);
+		SearchComposite.setTabList(new Control[]{txtBezeichnung, txtStrasse, txtPlz, txtOrt, combo, txtLand, btnSuchen});
 		
-		txtLand = new Text(SearchComposite, SWT.BORDER);
-		txtLand.setText("Land");
-		FormData fd_txtLand = new FormData();
-		fd_txtLand.right = new FormAttachment(txtOrt, 0, SWT.RIGHT);
-		fd_txtLand.left = new FormAttachment(lblLand, 37);
-		fd_txtLand.top = new FormAttachment(combo, 3);
-		txtLand.setLayoutData(fd_txtLand);
+		TableViewer tableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION);
+		table = tableViewer.getTable();
+		table.setLinesVisible(true);
+		table.setHeaderVisible(true);
+		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
-		Composite contentComposite = new Composite(parent, SWT.NONE);
-		GridData gd_contentComposite = new GridData(SWT.LEFT, SWT.CENTER, true, true, 1, 1);
-		gd_contentComposite.minimumHeight = 500;
-		gd_contentComposite.minimumWidth = 800;
-		contentComposite.setLayoutData(gd_contentComposite);
+		TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.LEFT);
+		TableColumn tblclmnBezeichnung = tableViewerColumn.getColumn();
+		tblclmnBezeichnung.setWidth(110);
+		tblclmnBezeichnung.setText("Bezeichnung");
+		
+		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.LEFT);
+		TableColumn tblclmnStrasse = tableViewerColumn_1.getColumn();
+		tblclmnStrasse.setWidth(150);
+		tblclmnStrasse.setText("Straße");
+		
+		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(tableViewer, SWT.LEFT);
+		TableColumn tblclmnPlz = tableViewerColumn_2.getColumn();
+		tblclmnPlz.setWidth(70);
+		tblclmnPlz.setText("PLZ");
+		
+		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(tableViewer, SWT.LEFT);
+		TableColumn tblclmnOrt = tableViewerColumn_3.getColumn();
+		tblclmnOrt.setWidth(100);
+		tblclmnOrt.setText("Ort");
+		
+		TableViewerColumn tableViewerColumn_4 = new TableViewerColumn(tableViewer, SWT.LEFT);
+		TableColumn tblclmnOrtstyp = tableViewerColumn_4.getColumn();
+		tblclmnOrtstyp.setWidth(100);
+		tblclmnOrtstyp.setText("Ortstyp");
+		
+		TableViewerColumn tableViewerColumn_5 = new TableViewerColumn(tableViewer, SWT.LEFT);
+		TableColumn tblclmnLand = tableViewerColumn_5.getColumn();
+		tblclmnLand.setWidth(150);
+		tblclmnLand.setText("Land");
 	}
 
 	@PreDestroy
@@ -152,6 +188,6 @@ public class VeranstaltungsortSearchPart {
 
 	@Focus
 	public void setFocus() {
-		// TODO	Set the focus to control
+		txtBezeichnung.setFocus();
 	}
 }

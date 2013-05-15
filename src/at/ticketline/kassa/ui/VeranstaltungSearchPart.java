@@ -26,10 +26,10 @@ import org.eclipse.wb.swt.SWTResourceManager;
 public class VeranstaltungSearchPart {
 
 	private Text txtBezeichnung;
-	private Text txtStrasse;
-	private Text txtPlz;
+	private Text txtDauerVon;
+	private Text txtDauerBis;
 	private Text txtOrt;
-	private Text txtLand;
+	private Text txtInhalt;
 	private Table table;
 
 	public VeranstaltungSearchPart() {
@@ -62,74 +62,76 @@ parent.setLayout(new GridLayout(1, false));
 		
 		Label lblBezeichnung = new Label(SearchComposite, SWT.NONE);
 		FormData fd_lblBezeichnung = new FormData();
+		fd_lblBezeichnung.left = new FormAttachment(0, 10);
+		fd_lblBezeichnung.top = new FormAttachment(0, 24);
 		lblBezeichnung.setLayoutData(fd_lblBezeichnung);
 		lblBezeichnung.setText("Bezeichnung");
 		
 		txtBezeichnung = new Text(SearchComposite, SWT.BORDER);
-		fd_lblBezeichnung.top = new FormAttachment(txtBezeichnung, 3, SWT.TOP);
 		fd_lblBezeichnung.right = new FormAttachment(txtBezeichnung, -6);
 		FormData fd_txtBezeichnung = new FormData();
-		fd_txtBezeichnung.top = new FormAttachment(0, 4);
-		fd_txtBezeichnung.left = new FormAttachment(0, 96);
+		fd_txtBezeichnung.right = new FormAttachment(0, 168);
+		fd_txtBezeichnung.top = new FormAttachment(0, 21);
+		fd_txtBezeichnung.left = new FormAttachment(0, 88);
 		txtBezeichnung.setLayoutData(fd_txtBezeichnung);
 		
 		Label lblStrae = new Label(SearchComposite, SWT.NONE);
 		FormData fd_lblStrae = new FormData();
+		fd_lblStrae.top = new FormAttachment(lblBezeichnung, 11);
 		fd_lblStrae.left = new FormAttachment(lblBezeichnung, 0, SWT.LEFT);
 		lblStrae.setLayoutData(fd_lblStrae);
 		lblStrae.setText("Dauer (min)");
 		
-		txtStrasse = new Text(SearchComposite, SWT.BORDER);
-		fd_lblStrae.top = new FormAttachment(txtStrasse, 3, SWT.TOP);
-		FormData fd_txtStrasse = new FormData();
-		fd_txtStrasse.right = new FormAttachment(txtBezeichnung, 0, SWT.RIGHT);
-		fd_txtStrasse.top = new FormAttachment(txtBezeichnung, 6);
-		fd_txtStrasse.left = new FormAttachment(txtBezeichnung, 0, SWT.LEFT);
-		txtStrasse.setLayoutData(fd_txtStrasse);
+		txtDauerVon = new Text(SearchComposite, SWT.BORDER);
+		FormData fd_txtDauerVon = new FormData();
+		fd_txtDauerVon.right = new FormAttachment(txtBezeichnung, 0, SWT.RIGHT);
+		fd_txtDauerVon.left = new FormAttachment(lblStrae, 11);
+		fd_txtDauerVon.top = new FormAttachment(txtBezeichnung, 6);
+		txtDauerVon.setLayoutData(fd_txtDauerVon);
 		
-		txtPlz = new Text(SearchComposite, SWT.BORDER);
-		FormData fd_txtPlz = new FormData();
-		fd_txtPlz.top = new FormAttachment(txtStrasse, 0, SWT.TOP);
-		txtPlz.setLayoutData(fd_txtPlz);
+		txtDauerBis = new Text(SearchComposite, SWT.BORDER);
+		FormData fd_txtDauerBis = new FormData();
+		fd_txtDauerBis.top = new FormAttachment(lblStrae, -3, SWT.TOP);
+		txtDauerBis.setLayoutData(fd_txtDauerBis);
 		
 		Label lblOrtstyp = new Label(SearchComposite, SWT.NONE);
 		FormData fd_lblOrtstyp = new FormData();
-		fd_lblOrtstyp.left = new FormAttachment(txtBezeichnung, 130);
+		fd_lblOrtstyp.left = new FormAttachment(txtBezeichnung, 114);
 		fd_lblOrtstyp.top = new FormAttachment(lblBezeichnung, 0, SWT.TOP);
 		lblOrtstyp.setLayoutData(fd_lblOrtstyp);
 		lblOrtstyp.setText("Kategorie");
 		
 		Label lblLand = new Label(SearchComposite, SWT.NONE);
-		fd_txtPlz.right = new FormAttachment(lblLand, -43);
+		fd_txtDauerBis.right = new FormAttachment(lblLand, -11);
 		FormData fd_lblLand = new FormData();
 		fd_lblLand.top = new FormAttachment(lblOrtstyp, 12);
 		fd_lblLand.left = new FormAttachment(lblOrtstyp, 0, SWT.LEFT);
 		lblLand.setLayoutData(fd_lblLand);
 		lblLand.setText("Inhalt");
 		
-		txtLand = new Text(SearchComposite, SWT.BORDER);
-		FormData fd_txtLand = new FormData();
-		fd_txtLand.right = new FormAttachment(100, -219);
-		fd_txtLand.left = new FormAttachment(lblLand, 30);
-		txtLand.setLayoutData(fd_txtLand);
+		txtInhalt = new Text(SearchComposite, SWT.BORDER);
+		FormData fd_txtInhalt = new FormData();
+		fd_txtInhalt.right = new FormAttachment(lblLand, 147, SWT.RIGHT);
+		fd_txtInhalt.left = new FormAttachment(lblLand, 30);
+		fd_txtInhalt.top = new FormAttachment(lblStrae, -3, SWT.TOP);
+		txtInhalt.setLayoutData(fd_txtInhalt);
 		
 		ComboViewer comboViewer = new ComboViewer(SearchComposite, SWT.NONE);
-		Combo combo = comboViewer.getCombo();
-		fd_txtLand.top = new FormAttachment(combo, 1);
-		FormData fd_combo = new FormData();
-		fd_combo.left = new FormAttachment(txtBezeichnung, 195);
-		fd_combo.right = new FormAttachment(100, -219);
-		fd_combo.top = new FormAttachment(lblBezeichnung, 0, SWT.TOP);
-		combo.setLayoutData(fd_combo);
+		Combo comboKategorie = comboViewer.getCombo();
+		FormData fd_comboKategorie = new FormData();
+		fd_comboKategorie.right = new FormAttachment(lblOrtstyp, 132, SWT.RIGHT);
+		fd_comboKategorie.left = new FormAttachment(lblOrtstyp, 10);
+		fd_comboKategorie.top = new FormAttachment(lblBezeichnung, -4, SWT.TOP);
+		comboKategorie.setLayoutData(fd_comboKategorie);
 		
 		Label label = new Label(SearchComposite, SWT.NONE);
-		fd_txtPlz.left = new FormAttachment(label, 6);
+		fd_txtDauerBis.left = new FormAttachment(label, 6);
 		label.setText("-");
 		FormData fd_label = new FormData();
-		fd_label.top = new FormAttachment(txtStrasse, 3, SWT.TOP);
-		fd_label.left = new FormAttachment(txtStrasse, 6);
+		fd_label.top = new FormAttachment(lblStrae, 0, SWT.TOP);
+		fd_label.left = new FormAttachment(txtDauerVon, 6);
 		label.setLayoutData(fd_label);
-		SearchComposite.setTabList(new Control[]{txtBezeichnung, txtStrasse, txtPlz, combo, txtLand, btnSuchen});
+		SearchComposite.setTabList(new Control[]{txtBezeichnung, txtDauerVon, txtDauerBis, comboKategorie, txtInhalt, btnSuchen});
 		
 		TableViewer tableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION);
 		table = tableViewer.getTable();

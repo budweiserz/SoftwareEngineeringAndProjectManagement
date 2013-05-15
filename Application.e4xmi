@@ -46,7 +46,7 @@
   <handlers xmi:id="_y4d1cJ7zEeKyV7_6Xf9MMA" elementId="at.ticketline.openKuenstlerCommand" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenKuenstlerHandler" command="_QskM0J7zEeKyV7_6Xf9MMA"/>
   <handlers xmi:id="_meapYJ8QEeKkI_Z6em8JPw" elementId="" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.AboutHandler" command="_snLXYJ8QEeKkI_Z6em8JPw"/>
   <handlers xmi:id="_-GycULxxEeKT_IzQOUkC4g" elementId="at.ticketline.openKuenstlerCommand" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenKundeHandler" command="_JJKkoLxyEeKT_IzQOUkC4g"/>
-  <handlers xmi:id="_8HZT0LznEeK0toR6uXEIpQ" elementId="at.ticketline.openVeranstaltungsortCommand" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenVeranstaltungsortHandler" command="_it1rYLy3EeKlkobWpntiug"/>
+  <handlers xmi:id="_8HZT0LznEeK0toR6uXEIpQ" elementId="at.ticketline.openVeranstaltungsortCommand" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenVeranstaltungsortSearchHandler" command="_it1rYLy3EeKlkobWpntiug"/>
   <bindingTables xmi:id="_J1qjHJ7KEeKyV7_6Xf9MMA" bindingContext="_J1qjEZ7KEeKyV7_6Xf9MMA">
     <bindings xmi:id="_J1qjHZ7KEeKyV7_6Xf9MMA" keySequence="M1+Q" command="_J1qjGp7KEeKyV7_6Xf9MMA"/>
     <bindings xmi:id="_J1qjIJ7KEeKyV7_6Xf9MMA" keySequence="M1+O" command="_J1qjHp7KEeKyV7_6Xf9MMA"/>

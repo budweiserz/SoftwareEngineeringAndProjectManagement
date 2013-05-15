@@ -13,12 +13,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("restriction")
-public class OpenVeranstaltungsortHandler {
+public class OpenVeranstaltungsortSearchHandler {
 
-    private static final Logger LOG = LoggerFactory.getLogger(OpenKuenstlerHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(OpenVeranstaltungsortSearchHandler.class);
 
     /**
-     * Oeffnet neuen leeren KuenstlerPart im PartStack "at.ticketline.kassa.partstack"
+     * Oeffnet neue leere VeranstaltungsortSearchPart im PartStack "at.ticketline.kassa.partstack"
      * @param application
      * @param modelService
      * @param partService
@@ -58,7 +58,7 @@ public class OpenVeranstaltungsortHandler {
         try {
             partService.showPart(part, PartState.ACTIVATE);
         } catch (Exception e) {
-            LOG.error("Part fuer neuen Kuenstler konnte nicht geoeffnet werden: {}", e.getMessage());
+            LOG.error("Part fuer neue Veranstaltungsortsuche konnte nicht geoeffnet werden: {}", e.getMessage());
         }
     }
 }

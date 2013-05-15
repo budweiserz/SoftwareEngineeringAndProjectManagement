@@ -37,16 +37,18 @@ public class VeranstaltungsortSearchPart {
 		Composite SearchComposite = new Composite(parent, SWT.BORDER);
 		SearchComposite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		SearchComposite.setLayout(new FormLayout());
-		GridData gd_SearchComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_SearchComposite.heightHint = 96;
-		gd_SearchComposite.widthHint = 1176;
+		GridData gd_SearchComposite = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
+		gd_SearchComposite.heightHint = 100;
+		gd_SearchComposite.widthHint = 1920;
+		gd_SearchComposite.minimumHeight = 110;
+		gd_SearchComposite.minimumWidth = 550;
 		SearchComposite.setLayoutData(gd_SearchComposite);
 		
 		Button btnSuchen = new Button(SearchComposite, SWT.NONE);
 		FormData fd_btnSuchen = new FormData();
-		fd_btnSuchen.top = new FormAttachment(0, 62);
+		fd_btnSuchen.left = new FormAttachment(100, -67);
+		fd_btnSuchen.bottom = new FormAttachment(100, -10);
 		fd_btnSuchen.right = new FormAttachment(100, -10);
-		fd_btnSuchen.left = new FormAttachment(0, 900);
 		btnSuchen.setLayoutData(fd_btnSuchen);
 		btnSuchen.setText("suchen");
 		
@@ -138,9 +140,9 @@ public class VeranstaltungsortSearchPart {
 		txtLand.setLayoutData(fd_txtLand);
 		
 		Composite contentComposite = new Composite(parent, SWT.NONE);
-		GridData gd_contentComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_contentComposite.widthHint = 439;
-		gd_contentComposite.heightHint = 187;
+		GridData gd_contentComposite = new GridData(SWT.LEFT, SWT.CENTER, true, true, 1, 1);
+		gd_contentComposite.minimumHeight = 500;
+		gd_contentComposite.minimumWidth = 800;
 		contentComposite.setLayoutData(gd_contentComposite);
 	}
 

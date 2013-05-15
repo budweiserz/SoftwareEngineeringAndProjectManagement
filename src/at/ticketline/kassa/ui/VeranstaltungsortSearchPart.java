@@ -1,12 +1,26 @@
 package at.ticketline.kassa.ui;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Inject;
 
+import org.eclipse.e4.core.commands.ECommandService;
+import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.e4.ui.model.application.ui.MDirtyable;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.workbench.modeling.EPartService;
+import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -22,17 +36,46 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IDoubleClickListener; 
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.widgets.Control;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import at.ticketline.entity.Adresse;
+import at.ticketline.entity.Ort;
+import at.ticketline.service.api.OrtService;
+
+@SuppressWarnings("restriction")
 public class VeranstaltungsortSearchPart {
+    private static final Logger LOG = LoggerFactory.getLogger(VeranstaltungsortSearchPart.class);
+    
+    @Inject private MDirtyable dirty;
+    @Inject private EPartService partService;
+    @Inject private EHandlerService handlerService;
+    @Inject private ECommandService commandService;
+    @Inject private ESelectionService selectionService;
+    @Inject private MPart activePart;
+    //@Inject @Named (IServiceConstants.ACTIVE_SHELL) private Shell shell;
+    
+    //@Inject private Ort ort;
+    @Inject private OrtService ortService;
+    
+    TableViewer tableViewer;
+    
 	private Text txtBezeichnung;
 	private Text txtStrasse;
 	private Text txtPlz;
 	private Text txtOrt;
 	private Text txtLand;
 	private Table table;
-
-	public VeranstaltungsortSearchPart() {
-	}
 
 	/**
 	 * Create contents of the view part.
@@ -144,7 +187,7 @@ public class VeranstaltungsortSearchPart {
 		combo.setLayoutData(fd_combo);
 		SearchComposite.setTabList(new Control[]{txtBezeichnung, txtStrasse, txtPlz, txtOrt, combo, txtLand, btnSuchen});
 		
-		TableViewer tableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION);
+		tableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION);
 		table = tableViewer.getTable();
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
@@ -179,6 +222,113 @@ public class VeranstaltungsortSearchPart {
 		TableColumn tblclmnLand = tableViewerColumn_5.getColumn();
 		tblclmnLand.setWidth(150);
 		tblclmnLand.setText("Land");
+		
+        tableViewer.setContentProvider(new IStructuredContentProvider() {
+            @Override
+            public Object[] getElements(Object inputElement) {
+                // The inputElement comes from view.setInput()
+                if (inputElement instanceof List) {
+                    List models = (List)inputElement;
+                    return models.toArray();
+                }
+                return new Object[0];
+            }
+            @Override public void dispose() { }
+            @Override public void inputChanged(Viewer viewer, Object oldInput, Object newInput) { }
+        });
+        
+        tableViewer.setLabelProvider(new ITableLabelProvider() {
+
+            @Override
+            public Image getColumnImage(Object arg0, int arg1) {
+                return null;
+            }
+    
+            @Override
+            public String getColumnText(Object element, int index) {
+                Ort e = (Ort) element;
+                switch (index) {
+                case 0:
+                    if (e.getBezeichnung() != null) {
+                        return e.getBezeichnung();
+                    } else {
+                        return "";
+                    }
+                case 1:
+                    if (e.getAdresse().getStrasse() != null) {
+                        return e.getAdresse().getStrasse();
+                    } else {
+                        return "";
+                    }
+                case 2:
+                    if (e.getAdresse().getPlz() != null) {
+                        return e.getAdresse().getPlz();
+                    } else {
+                        return "";
+                    }
+                case 3:
+                    if (e.getAdresse().getOrt() != null) {
+                        return e.getAdresse().getOrt();
+                    } else {
+                        return "";
+                    }
+                case 4:
+                    if (e.getOrtstyp() != null) {
+                        return e.getOrtstyp().toString();
+                    } else {
+                        return "";
+                    }
+                case 5:
+                    if (e.getAdresse().getLand() != null) {
+                        return e.getAdresse().getLand();
+                    } else {
+                        return "";
+                    }
+                }
+                return null;
+            }
+    
+            @Override
+            public void addListener(ILabelProviderListener listener) {
+                // nothing to do
+            }
+    
+            @Override
+            public void dispose() {
+                // nothing to do
+            }
+    
+            @Override
+            public boolean isLabelProperty(Object arg0, String arg1) {
+                return true;
+            }
+    
+            @Override
+            public void removeListener(ILabelProviderListener arg0) {
+                // nothing to do
+            }
+        });
+        
+        btnSuchen.addMouseListener(new MouseListener() {
+            @Override public void mouseDoubleClick(MouseEvent e) { }
+            @Override public void mouseDown(MouseEvent e) { }
+
+            @Override
+            public void mouseUp(MouseEvent e) {
+                Ort query = new Ort();
+            	query.setBezeichnung(txtBezeichnung.getText().length() > 0 ? txtBezeichnung.getText() : null);
+            	query.setAdresse(new Adresse());
+            	query.getAdresse().setStrasse(txtStrasse.getText().length() > 0 ? txtStrasse.getText() : null);
+            	query.getAdresse().setPlz(txtPlz.getText().length() > 0 ? txtPlz.getText() : null);
+            	query.getAdresse().setOrt(txtOrt.getText().length() > 0 ? txtOrt.getText() : null);
+            	query.getAdresse().setLand(txtLand.getText().length() > 0 ? txtLand.getText() : null);
+            	
+            	LOG.debug("Query Ort: {}", query);
+            	
+            	tableViewer.setInput(ortService.findByOrt(query));
+            	tableViewer.refresh();
+            }
+        });
 	}
 
 	@PreDestroy

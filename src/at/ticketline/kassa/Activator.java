@@ -82,6 +82,9 @@ public class Activator implements BundleActivator {
         
         NewsDao newsDao = (NewsDao)DaoFactory.getByEntity(News.class);
         CONTEXT.registerService(NewsService.class.getName(), new NewsServiceImpl(newsDao), null);
+        
+        OrtDao ortDao = (OrtDao)DaoFactory.getByEntity(Ort.class);
+        CONTEXT.registerService(OrtService.class.getName(), new OrtServiceImpl(ortDao), null);
 
         OrtDao veranstaltungsOrtDao = (OrtDao) DaoFactory.getByEntity(Ort.class);
         CONTEXT.registerService(OrtService.class.getName(), new OrtServiceImpl(veranstaltungsOrtDao), null);

@@ -32,6 +32,10 @@ public class OrtServiceImpl implements OrtService {
 			throw new ServiceException(e);
 		}
 		
+		for(Ort o : orte) {
+		    LOG.debug("Ort gefunden: {}", o.toString());
+		}
+		
 		return orte;
 	}
 

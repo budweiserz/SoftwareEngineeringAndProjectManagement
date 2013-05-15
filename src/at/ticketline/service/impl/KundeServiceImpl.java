@@ -1,5 +1,7 @@
 package at.ticketline.service.impl;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,11 +12,10 @@ import at.ticketline.service.ServiceException;
 import at.ticketline.service.api.KundeService;
 
 /**
- * @author Rafael Konlechner
+ * @author Rafael Konlechner, Florian Klampfer
  */
 public class KundeServiceImpl implements KundeService {
-    private static final Logger LOG = LoggerFactory
-            .getLogger(KundeServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(KundeServiceImpl.class);
 
     private KundeDao kundeDao;
 
@@ -38,16 +39,34 @@ public class KundeServiceImpl implements KundeService {
                 throw new ServiceException("Argument darf nicht null sein");
             }
             if (kunde.getId() == null) {
-                LOG.info("Persisting new customer {} {}", kunde.getVorname(),
-                        kunde.getNachname());
+                LOG.info("Persisting new customer {} {}", kunde.getVorname(), kunde.getNachname());
                 this.kundeDao.persist(kunde);
             } else {
-                LOG.info("Persisting customer {} ({} {})", kunde.getId(),
-                        kunde.getVorname(), kunde.getNachname());
+                LOG.info("Persisting customer {} ({} {})", kunde.getId(), kunde.getVorname(), kunde.getNachname());
                 this.kundeDao.merge(kunde);
             }
         } catch (DaoException e) {
             throw new ServiceException(e);
         }
+    }
+    
+    /**
+     * @return alle Kunden
+     */
+    @Override
+    public List<Kunde> findAll() {
+    	
+    	List<Kunde> found = null;
+    	try {
+    		found = this.kundeDao.findAll();
+    		LOG.info("List all Kunden");
+    		for (Kunde k: found) {
+    			LOG.info("Kunde gefunden: {} {} {}", k.getVorname(), k.getNachname(), k.getGeschlecht());
+    		}
+    	} catch (DaoException e) {
+    		throw new ServiceException(e);
+    	}
+    	
+    	return found;
     }
 }

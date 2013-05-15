@@ -105,4 +105,17 @@ public class KundeTest extends AbstractDaoTest {
         }
         assertTrue(violations.size() == 0);
     }
+    
+    @Test
+    public void listAllKunden() {
+        kundeService.save(EntityGenerator.getValidKunde(1));
+        kundeService.save(EntityGenerator.getValidKunde(2));
+        kundeService.save(EntityGenerator.getValidKunde(3));
+        assertTrue(kundeService.findAll().size() == 3);
+    }
+    
+    @Test
+    public void listAllKundenIs0() {
+        assertTrue(kundeService.findAll().size() == 0);
+    }
 }

@@ -11,10 +11,15 @@ import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
+import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
@@ -42,12 +47,16 @@ import at.ticketline.service.api.KundeService;
 import at.ticketline.test.EntityGenerator;
 
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IDoubleClickListener; 
+
+@SuppressWarnings("restriction")
 public class ListKundePart {
     private static final Logger LOG = LoggerFactory.getLogger(ListKundePart.class);
     @Inject private MDirtyable dirty;
     @Inject private EPartService partService;
     @Inject private EHandlerService handlerService;
     @Inject private ECommandService commandService;
+    @Inject private ESelectionService selectionService;
     @Inject private MPart activePart;
     @Inject @Named (IServiceConstants.ACTIVE_SHELL) private Shell shell;
     
@@ -125,7 +134,8 @@ public class ListKundePart {
                 return new Object[0];
             }
             @Override public void dispose() { }
-            @Override public void inputChanged(Viewer viewer, Object oldInput, Object newInput) { }
+            @Override 
+            public void inputChanged(Viewer viewer, Object oldInput, Object newInput) { }
         });
         
         this.tableViewer.setLabelProvider(new ITableLabelProvider() {
@@ -192,6 +202,20 @@ public class ListKundePart {
         
         // MAGIC HAPPENS HERE
         this.tableViewer.setInput(this.kundeService.findAll());
+        this.tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+            @Override
+            public void selectionChanged(SelectionChangedEvent event) {
+                IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection(); 
+                selectionService.setSelection(selection.getFirstElement());
+                LOG.info("Selection changed: {}", selection.getFirstElement().toString());
+            }
+        });
+        this.tableViewer.addDoubleClickListener(new IDoubleClickListener() {
+            @Override
+            public void doubleClick(DoubleClickEvent event) {
+                //selectionService.
+            }
+        });
     
         this.toolkit.adapt(this.tableViewer.getTable(), true, true);
         engagementSection.setClient(this.tableViewer.getTable());

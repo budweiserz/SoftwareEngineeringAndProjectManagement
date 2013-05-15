@@ -1,6 +1,6 @@
 package at.ticketline.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
@@ -9,10 +9,7 @@ import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
 
-import at.ticketline.dao.api.MitarbeiterDao;
 import at.ticketline.dao.api.VeranstaltungDao;
-import at.ticketline.entity.Geschlecht;
-import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.Veranstaltung;
 import at.ticketline.service.api.VeranstaltungService;
 import at.ticketline.service.impl.VeranstaltungServiceImpl;

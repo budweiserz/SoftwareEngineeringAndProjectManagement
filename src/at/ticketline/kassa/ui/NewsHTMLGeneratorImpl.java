@@ -1,7 +1,6 @@
 package at.ticketline.kassa.ui;
 
 import java.text.SimpleDateFormat;
-import java.util.Formatter;
 import java.util.List;
 
 import at.ticketline.entity.News;

@@ -3,28 +3,21 @@ package at.ticketline.kassa.ui;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
-import javax.inject.Named;
 
-import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Focus;
-import org.eclipse.e4.ui.services.IServiceConstants;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.layout.RowData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.ui.PartInitException;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 
 import at.ticketline.service.api.NewsService;
-import at.ticketline.service.impl.NewsServiceImpl;
 
 public class NewsPart {
 	
+	private Button btnWeiter;
 	@Inject
 	private NewsService newsService;
 
@@ -62,7 +55,7 @@ public class NewsPart {
 		new Label(composite, SWT.NONE);
 		new Label(composite, SWT.NONE);
 		
-		Button btnWeiter = new Button(composite, SWT.NONE);
+		btnWeiter = new Button(composite, SWT.NONE);
 		btnWeiter.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
 		btnWeiter.setText("Weiter");
 	}
@@ -73,7 +66,7 @@ public class NewsPart {
 
 	@Focus
 	public void setFocus() {
-		// TODO	Set the focus to control
+		btnWeiter.setFocus();
 	}
 
 }

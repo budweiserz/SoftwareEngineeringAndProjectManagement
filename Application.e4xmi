@@ -21,7 +21,7 @@
       </children>
       <children xsi:type="menu:Menu" xmi:id="_Alf3oLy4EeKlkobWpntiug" elementId="at.ticketline.handledmenuitem.searchMenu" label="Suche" iconURI="">
         <children xsi:type="menu:HandledMenuItem" xmi:id="__9EFALy_EeKlkobWpntiug" elementId="sepm.handledmenuitem.1" label="Aufführungen" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/zoom_icon&amp;16.png"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_A4mgMLzAEeKlkobWpntiug" elementId="sepm.handledmenuitem.3" label="Künstler" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/zoom_icon&amp;16.png"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_A4mgMLzAEeKlkobWpntiug" elementId="sepm.handledmenuitem.3" label="Künstler" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/zoom_icon&amp;16.png" command="_iMMOQL1kEeKT_IzQOUkC4g"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_AfRaMLzAEeKlkobWpntiug" elementId="sepm.handledmenuitem.2" label="Veranstaltungen" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/zoom_icon&amp;16.png" command="_cBlTsL1EEeKvqu4NU28Xow"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_K_GIsLy4EeKlkobWpntiug" elementId="sepm.handledmenuitem.0" label="Veranstaltungsort" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/zoom_icon&amp;16.png" command="_it1rYLy3EeKlkobWpntiug"/>
       </children>
@@ -52,6 +52,7 @@
   <handlers xmi:id="_sgLPgLy0EeKT_IzQOUkC4g" elementId="" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenKundeListHandler" command="_wLd1gLy0EeKT_IzQOUkC4g"/>
   <handlers xmi:id="_8HZT0LznEeK0toR6uXEIpQ" elementId="at.ticketline.openVeranstaltungsortCommand" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenVeranstaltungsortSearchHandler" command="_it1rYLy3EeKlkobWpntiug"/>
   <handlers xmi:id="_f-P9kL1EEeKvqu4NU28Xow" elementId="ticketlinercp.handler.0" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenVeranstaltungsSucheHandler" command="_cBlTsL1EEeKvqu4NU28Xow"/>
+  <handlers xmi:id="_hezHUL1lEeKT_IzQOUkC4g" elementId="inso-sepm-ss13-07.handler.0" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenKuenstlerSearchHandler" command="_iMMOQL1kEeKT_IzQOUkC4g"/>
   <bindingTables xmi:id="_J1qjHJ7KEeKyV7_6Xf9MMA" bindingContext="_J1qjEZ7KEeKyV7_6Xf9MMA">
     <bindings xmi:id="_J1qjHZ7KEeKyV7_6Xf9MMA" keySequence="M1+Q" command="_J1qjGp7KEeKyV7_6Xf9MMA"/>
     <bindings xmi:id="_J1qjIJ7KEeKyV7_6Xf9MMA" keySequence="M1+O" command="_J1qjHp7KEeKyV7_6Xf9MMA"/>
@@ -67,6 +68,7 @@
   <descriptors xmi:id="_VpB4oLy0EeKT_IzQOUkC4g" elementId="at.ticketline.partdescriptor.listkunde" label="ListKunde" closeable="true" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.ListKundePart"/>
   <descriptors xmi:id="_XDMpMLy3EeKlkobWpntiug" elementId="at.ticketline.partdescriptor.searchVeranstaltungsort" label="Veranstaltungsort" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.VeranstaltungsortSearchPart"/>
   <descriptors xmi:id="_PTh3QL1FEeKvqu4NU28Xow" elementId="at.ticketline.partdescriptor.searchVeranstaltung" label="Veranstaltung" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.VeranstaltungSearchPart"/>
+  <descriptors xmi:id="_OcB2cL1kEeKT_IzQOUkC4g" elementId="at.ticketline.partdescriptor.searchKuenstler" label="Kuenstler Suche" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.KuenstlerSearchPart"/>
   <commands xmi:id="_J1qjGp7KEeKyV7_6Xf9MMA" elementId="org.eclipse.ui.file.exit" commandName="quitCommand"/>
   <commands xmi:id="_J1qjHp7KEeKyV7_6Xf9MMA" elementId="at.ticketline.kassa.open" commandName="openCommand"/>
   <commands xmi:id="_QskM0J7zEeKyV7_6Xf9MMA" elementId="at.ticketline.command.openKuenstler" commandName="Künstleransicht öffnen"/>
@@ -76,6 +78,7 @@
   <commands xmi:id="_wLd1gLy0EeKT_IzQOUkC4g" elementId="at.ticketline.command.openListKunden" commandName="Kundenliste öffnen"/>
   <commands xmi:id="_it1rYLy3EeKlkobWpntiug" elementId="at.ticketline.command.searchVeranstaltungsort" commandName="Veranstaltungsort suchen"/>
   <commands xmi:id="_cBlTsL1EEeKvqu4NU28Xow" elementId="at.ticketline.command.searchVeranstaltung" commandName="Veranstaltung suchen"/>
+  <commands xmi:id="_iMMOQL1kEeKT_IzQOUkC4g" elementId="at.ticketline.command.searchKuenstler" commandName="Künstler suchen"/>
   <addons xmi:id="_J1qjFJ7KEeKyV7_6Xf9MMA" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_J1qjFZ7KEeKyV7_6Xf9MMA" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_J1qjFp7KEeKyV7_6Xf9MMA" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

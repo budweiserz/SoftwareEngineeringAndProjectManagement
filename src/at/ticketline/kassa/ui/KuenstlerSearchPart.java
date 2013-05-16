@@ -1,7 +1,5 @@
 package at.ticketline.kassa.ui;
 
-import java.util.List;
-
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
@@ -10,19 +8,25 @@ import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.ui.di.Focus;
-import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -31,34 +35,17 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.IDoubleClickListener; 
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.swt.widgets.Control;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import at.ticketline.entity.Adresse;
-import at.ticketline.entity.Kuenstler;
-import at.ticketline.entity.Ort;
 import at.ticketline.entity.Geschlecht;
+import at.ticketline.entity.Kuenstler;
 import at.ticketline.service.api.KuenstlerService;
-import at.ticketline.service.api.OrtService;
 
 @SuppressWarnings("restriction")
 public class KuenstlerSearchPart {
@@ -76,12 +63,12 @@ public class KuenstlerSearchPart {
     @Inject private KuenstlerService kuenstlerService;
     
     private TableViewer tableViewer;
-    
+	
+    private Button btnSuchen;
+	private Table table;
 	private Text txtVorname;
 	private Text txtNachname;
 	private Combo combo;
-	
-	private Table table;
 
 	/**
 	 * Create contents of the view part.
@@ -94,69 +81,63 @@ public class KuenstlerSearchPart {
 		SearchComposite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		SearchComposite.setLayout(new FormLayout());
 		GridData gd_SearchComposite = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
-		gd_SearchComposite.heightHint = 79;
+		gd_SearchComposite.heightHint = 100;
 		gd_SearchComposite.widthHint = 1920;
 		gd_SearchComposite.minimumHeight = 100;
 		gd_SearchComposite.minimumWidth = 600;
 		SearchComposite.setLayoutData(gd_SearchComposite);
 		
-		Button btnSuchen = new Button(SearchComposite, SWT.NONE);
-		FormData fd_btnSuchen = new FormData();
-		fd_btnSuchen.bottom = new FormAttachment(100, -10);
-		fd_btnSuchen.right = new FormAttachment(100, -10);
-		fd_btnSuchen.left = new FormAttachment(100, -67);
-		btnSuchen.setLayoutData(fd_btnSuchen);
-		btnSuchen.setText("suchen");
+		Label lblVorname = new Label(SearchComposite, SWT.NONE);
+		FormData fd_lblVorname = new FormData();
+		fd_lblVorname.top = new FormAttachment(0, 10);
+		fd_lblVorname.left = new FormAttachment(0, 10);
+		lblVorname.setLayoutData(fd_lblVorname);
+		lblVorname.setText("Vorname");
 		
-		Label lblBezeichnung = new Label(SearchComposite, SWT.NONE);
-		FormData fd_lblBezeichnung = new FormData();
-		fd_lblBezeichnung.right = new FormAttachment(0, 90);
-		fd_lblBezeichnung.left = new FormAttachment(0, 38);
-		fd_lblBezeichnung.top = new FormAttachment(0, 13);
-		lblBezeichnung.setLayoutData(fd_lblBezeichnung);
-		lblBezeichnung.setText("Vorname");
+		Label lblNachname = new Label(SearchComposite, SWT.NONE);
+		FormData fd_lblNachname = new FormData();
+		fd_lblNachname.top = new FormAttachment(lblVorname, 20);
+		fd_lblNachname.left = new FormAttachment(0, 10);
+		lblNachname.setLayoutData(fd_lblNachname);
+		lblNachname.setText("Nachname");
 		
 		txtVorname = new Text(SearchComposite, SWT.BORDER);
 		FormData fd_txtVorname = new FormData();
-		fd_txtVorname.top = new FormAttachment(lblBezeichnung, -3, SWT.TOP);
-		fd_txtVorname.left = new FormAttachment(lblBezeichnung, 6);
-		fd_txtVorname.right = new FormAttachment(100, -415);
+		fd_txtVorname.top = new FormAttachment(lblVorname, -5, SWT.TOP);
+		fd_txtVorname.right = new FormAttachment(lblVorname, 135, SWT.RIGHT);
+		fd_txtVorname.left = new FormAttachment(lblVorname, 35);
 		txtVorname.setLayoutData(fd_txtVorname);
 		
-		Label lblOrt = new Label(SearchComposite, SWT.NONE);
-		FormData fd_lblOrt = new FormData();
-		fd_lblOrt.top = new FormAttachment(lblBezeichnung, 0, SWT.TOP);
-		fd_lblOrt.left = new FormAttachment(txtVorname, 32);
-		lblOrt.setLayoutData(fd_lblOrt);
-		lblOrt.setText("Nachname");
-		
-		Label lblOrtstyp = new Label(SearchComposite, SWT.NONE);
-		FormData fd_lblOrtstyp = new FormData();
-		lblOrtstyp.setLayoutData(fd_lblOrtstyp);
-		lblOrtstyp.setText("Geschlecht");
-		
 		txtNachname = new Text(SearchComposite, SWT.BORDER);
-		fd_lblOrt.right = new FormAttachment(100, -323);
 		FormData fd_txtNachname = new FormData();
-		fd_txtNachname.top = new FormAttachment(lblBezeichnung, -3, SWT.TOP);
-		fd_txtNachname.left = new FormAttachment(lblOrt, 21);
-		fd_txtNachname.right = new FormAttachment(100, -187);
+		fd_txtNachname.right = new FormAttachment(txtVorname, 0, SWT.RIGHT);
+		fd_txtNachname.top = new FormAttachment(lblNachname, -5, SWT.TOP);
+		fd_txtNachname.left = new FormAttachment(txtVorname, 0, SWT.LEFT);
 		txtNachname.setLayoutData(fd_txtNachname);
 		
-		ComboViewer comboViewer = new ComboViewer(SearchComposite, SWT.READ_ONLY);
+		Label lblGeschlecht = new Label(SearchComposite, SWT.NONE);
+		FormData fd_lblGeschlecht = new FormData();
+		fd_lblGeschlecht.top = new FormAttachment(lblVorname, 0, SWT.TOP);
+		fd_lblGeschlecht.left = new FormAttachment(txtVorname, 50);
+		lblGeschlecht.setLayoutData(fd_lblGeschlecht);
+		lblGeschlecht.setText("Geschlecht");
+		
+		ComboViewer comboViewer = new ComboViewer(SearchComposite, SWT.NONE);
 		combo = comboViewer.getCombo();
+		FormData fd_combo = new FormData();
+		fd_combo.top = new FormAttachment(0, 5);
+		fd_combo.left = new FormAttachment(lblGeschlecht, 20);
+		combo.setLayoutData(fd_combo);
 		combo.add("");
 		combo.add(Geschlecht.MAENNLICH.toString());
 		combo.add(Geschlecht.WEIBLICH.toString());
 		
-		fd_lblOrtstyp.top = new FormAttachment(combo, 4, SWT.TOP);
-		fd_lblOrtstyp.right = new FormAttachment(combo, -6);
-		FormData fd_combo = new FormData();
-		fd_combo.top = new FormAttachment(txtVorname, 6);
-		fd_combo.right = new FormAttachment(btnSuchen, -341);
-		fd_combo.left = new FormAttachment(0, 96);
-		combo.setLayoutData(fd_combo);
-		SearchComposite.setTabList(new Control[]{txtVorname, txtNachname, combo, btnSuchen});
+		btnSuchen = new Button(SearchComposite, SWT.NONE);
+		FormData fd_btnSuchen = new FormData();
+		fd_btnSuchen.bottom = new FormAttachment(100, -10);
+		fd_btnSuchen.right = new FormAttachment(100, -10);
+		btnSuchen.setLayoutData(fd_btnSuchen);
+		btnSuchen.setText("Suchen");
 		
 		tableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION);
 		table = tableViewer.getTable();

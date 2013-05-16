@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
@@ -213,7 +214,8 @@ public class ListKundePart {
         this.tableViewer.addDoubleClickListener(new IDoubleClickListener() {
             @Override
             public void doubleClick(DoubleClickEvent event) {
-                //selectionService.
+                ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openKunde", null);
+                handlerService.executeHandler(c);
             }
         });
     

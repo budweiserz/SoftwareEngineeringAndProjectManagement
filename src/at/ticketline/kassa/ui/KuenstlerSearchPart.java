@@ -6,6 +6,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
+import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.ui.di.Focus;
@@ -36,6 +37,9 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ILabelProviderListener;
@@ -175,20 +179,7 @@ public class KuenstlerSearchPart {
 		tblclmnSex.setWidth(100);
 		tblclmnSex.setText("Geschlecht");
 		
-        tableViewer.setContentProvider(new IStructuredContentProvider() {
-            @Override
-            public Object[] getElements(Object inputElement) {
-                // The inputElement comes from view.setInput()
-                if (inputElement instanceof List) {
-                    List models = (List)inputElement;
-                    return models.toArray();
-                }
-                return new Object[0];
-            }
-            @Override public void dispose() { }
-            @Override public void inputChanged(Viewer viewer, Object oldInput, Object newInput) { }
-        });
-        
+        tableViewer.setContentProvider(new ArrayContentProvider());
         tableViewer.setLabelProvider(new ITableLabelProvider() {
 
             @Override
@@ -240,6 +231,23 @@ public class KuenstlerSearchPart {
             @Override
             public void removeListener(ILabelProviderListener arg0) {
                 // nothing to do
+            }
+        });
+        
+        this.tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+            @Override
+            public void selectionChanged(SelectionChangedEvent event) {
+                IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection(); 
+                selectionService.setSelection(selection.getFirstElement());
+                LOG.info("Selection changed: {}", selection.getFirstElement().toString());
+            }
+        });
+        
+        this.tableViewer.addDoubleClickListener(new IDoubleClickListener() {
+            @Override
+            public void doubleClick(DoubleClickEvent event) {
+                ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openKuenstler", null);
+                handlerService.executeHandler(c);
             }
         });
         

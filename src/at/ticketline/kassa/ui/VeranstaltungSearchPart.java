@@ -6,10 +6,20 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
+import org.eclipse.core.commands.ParameterizedCommand;
+import org.eclipse.e4.core.commands.ECommandService;
+import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.ui.di.Focus;
+import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
+import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -56,6 +66,10 @@ public class VeranstaltungSearchPart {
 	
 	@Inject
 	private KategorieService kategorieService;
+	
+    @Inject private ESelectionService selectionService;
+    @Inject private EHandlerService handlerService;
+    @Inject private ECommandService commandService;
 
 	public VeranstaltungSearchPart() {
 	}
@@ -65,7 +79,7 @@ public class VeranstaltungSearchPart {
 	 */
 	@PostConstruct
 	public void createControls(Composite parent) {
-parent.setLayout(new GridLayout(1, false));
+	    parent.setLayout(new GridLayout(1, false));
 		
 		Composite SearchComposite = new Composite(parent, SWT.BORDER);
 		SearchComposite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -183,19 +197,7 @@ parent.setLayout(new GridLayout(1, false));
 		tblclmnOrt.setWidth(100);
 		tblclmnOrt.setText("Inhalt");
 		
-		tableViewer.setContentProvider(new IStructuredContentProvider() {
-            @Override
-            public Object[] getElements(Object inputElement) {
-                // The inputElement comes from view.setInput()
-                if (inputElement instanceof List) {
-                    List<?> models = (List<?>)inputElement;
-                    return models.toArray();
-                }
-                return new Object[0];
-            }
-            @Override public void dispose() { }
-            @Override public void inputChanged(Viewer viewer, Object oldInput, Object newInput) { }
-        });
+		tableViewer.setContentProvider(new ArrayContentProvider());
         
         tableViewer.setLabelProvider(new ITableLabelProvider() {
 
@@ -257,6 +259,25 @@ parent.setLayout(new GridLayout(1, false));
             }
         });
         
+        this.tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+            @Override
+            public void selectionChanged(SelectionChangedEvent event) {
+                IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection(); 
+                selectionService.setSelection(selection.getFirstElement());
+                
+                LOG.info("Selection changed: {}", selection.getFirstElement().toString());
+            }
+        });
+        
+        this.tableViewer.addDoubleClickListener(new IDoubleClickListener() {
+            @Override
+            public void doubleClick(DoubleClickEvent event) {
+                ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openVeranstaltung", null);
+                handlerService.executeHandler(c);
+            }
+        });
+        
+        
         btnSuchen.addMouseListener(new MouseListener() {
             @Override public void mouseDoubleClick(MouseEvent e) { }
             @Override public void mouseDown(MouseEvent e) { }
@@ -279,6 +300,9 @@ parent.setLayout(new GridLayout(1, false));
             	VeranstaltungSearchPart.this.tableViewer.refresh();
             }
         });
+        
+        
+        this.tableViewer.setInput(veranstaltungService.find(new Veranstaltung()));
 	}
 
 	@PreDestroy

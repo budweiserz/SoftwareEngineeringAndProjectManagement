@@ -329,6 +329,8 @@ public class VeranstaltungsortSearchPart {
             	tableViewer.refresh();
             }
         });
+        
+        tableViewer.setInput(ortService.findByOrt(new Ort()));
 	}
 
 	@PreDestroy

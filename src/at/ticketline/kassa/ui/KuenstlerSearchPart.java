@@ -256,6 +256,8 @@ public class KuenstlerSearchPart {
                 tableViewer.refresh();
             }
         });
+        
+        tableViewer.setInput(kuenstlerService.findByKuenstlerWithAnySex(new Kuenstler()));
 	}
 
 	@PreDestroy

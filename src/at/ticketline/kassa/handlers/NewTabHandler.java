@@ -12,6 +12,20 @@ import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Base class for handler classes that open the part in a new tab.
+ * 
+ * Usage:
+ *  
+ * public class OpenKuenstlerSearchHandler extends NewTabHandler {
+ *     public OpenKuenstlerSearchHandler() {
+ *         super("at.ticketline.partdescriptor.searchKuenstler", 
+ *               "Suche Künstler", "Eine Suche für einen Künstler starten");
+ *     }
+ * }
+ * 
+ * @author Florian Klampfer
+ */
 @SuppressWarnings("restriction")
 public abstract class NewTabHandler {
     private static final Logger LOG = LoggerFactory.getLogger(NewTabHandler.class);
@@ -21,7 +35,7 @@ public abstract class NewTabHandler {
     private String tooltip;
     
     /**
-     * @param partName full qualified part name like "at.ticketline.partdescriptor.searchVeranstaltungsort"
+     * @param partName full qualified part descriptor id, like "at.ticketline.partdescriptor.searchVeranstaltungsort"
      */
     public NewTabHandler(String partName) {
         this.partName = partName;
@@ -29,9 +43,9 @@ public abstract class NewTabHandler {
     
     /**
      * 
-     * @param partName full qualified part name like "at.ticketline.partdescriptor.searchVeranstaltungsort"
-     * @param label Label of the Tab
-     * @param tooltip Tooltip of the Tab
+     * @param partName full qualified part descriptor id, like "at.ticketline.partdescriptor.searchVeranstaltungsort"
+     * @param label Label of the tab
+     * @param tooltip Tooltip of the tab
      */
     public NewTabHandler(String partName, String label, String tooltip) {
         this(partName);

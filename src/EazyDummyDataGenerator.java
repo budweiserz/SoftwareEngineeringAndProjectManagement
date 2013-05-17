@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.EntityManagerUtil;
+import at.ticketline.dao.api.AuffuehrungDao;
 import at.ticketline.dao.api.EngagementDao;
 import at.ticketline.dao.api.KategorieDao;
 import at.ticketline.dao.api.KuenstlerDao;
@@ -14,12 +15,14 @@ import at.ticketline.dao.api.KundeDao;
 import at.ticketline.dao.api.NewsDao;
 import at.ticketline.dao.api.OrtDao;
 import at.ticketline.dao.api.VeranstaltungDao;
+import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.Engagement;
 import at.ticketline.entity.Kategorie;
 import at.ticketline.entity.Kuenstler;
 import at.ticketline.entity.Kunde;
 import at.ticketline.entity.News;
 import at.ticketline.entity.Ort;
+import at.ticketline.entity.PreisKategorie;
 import at.ticketline.entity.Veranstaltung;
 import at.ticketline.test.EntityGenerator;
 
@@ -66,6 +69,17 @@ public class EazyDummyDataGenerator {
 			daoKunde.persist(k);
 		}
 		
+		AuffuehrungDao auffuehrungDao = (AuffuehrungDao) DaoFactory.getByEntity(Auffuehrung.class);
+		Set<Auffuehrung> auffuehrungen = new LinkedHashSet<Auffuehrung>();
+		
+		for(int i=0; i<10; i++) {
+		    Auffuehrung a = EntityGenerator.getValidAuffuehrung(i);
+		    a.setPreis(PreisKategorie.MINDESTPREIS);
+		    auffuehrungen.add(a);
+		    a.setVeranstaltung(varr[i]);
+		    auffuehrungDao.persist(a);
+		}
+		
 		NewsDao daoNews = (NewsDao) DaoFactory.getByEntity(News.class);
 		
 		for(int i=0; i<20; i++) {
@@ -82,6 +96,7 @@ public class EazyDummyDataGenerator {
 			
 			//Veranstaltung v = EntityGenerator.getValidVeranstaltung(i);
 			Veranstaltung v = varr[i];
+			v.setAuffuehrungen(auffuehrungen);
 			daoVer.merge(v);
 			Set<Engagement> engs = new LinkedHashSet<Engagement>();
 			

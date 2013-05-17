@@ -45,10 +45,11 @@ public class EazyDummyDataGenerator {
 		}
 
 		VeranstaltungDao daoVeranstaltung = (VeranstaltungDao)DaoFactory.getByEntity(Veranstaltung.class);
-
+		Veranstaltung[] varr = new Veranstaltung[10];
 		for(int i=0; i<10; i++) {
 			Veranstaltung v = EntityGenerator.getValidVeranstaltung(i);
 			daoVeranstaltung.persist(v);
+			varr[i] = v;
 		}
 		
 		KategorieDao daoKategorie = (KategorieDao)DaoFactory.getByEntity(Kategorie.class);
@@ -79,8 +80,9 @@ public class EazyDummyDataGenerator {
 			Kuenstler k = EntityGenerator.getValidKuenstler(i);
 			daoKu.persist(k);
 			
-			Veranstaltung v = EntityGenerator.getValidVeranstaltung(i);
-			daoVer.persist(v);
+			//Veranstaltung v = EntityGenerator.getValidVeranstaltung(i);
+			Veranstaltung v = varr[i];
+			daoVer.merge(v);
 			Set<Engagement> engs = new LinkedHashSet<Engagement>();
 			
 			for(int j=0; j<10; j++) {

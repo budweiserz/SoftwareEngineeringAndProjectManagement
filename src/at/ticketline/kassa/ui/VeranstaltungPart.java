@@ -2,6 +2,7 @@ package at.ticketline.kassa.ui;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -63,18 +64,42 @@ public class VeranstaltungPart {
     @Inject private MPart activePart;
     @Inject @Named (IServiceConstants.ACTIVE_SHELL) private Shell shell;
     
-    //@Inject private Kunde kuenstler;
+    @Inject private Veranstaltung veranstaltung;
     @Inject private AuffuehrungService auffuehrungService;
     
     private FormToolkit toolkit;
     private ScrolledForm form;
     private TableViewer tableViewer;
-
+    
+    private boolean created = false;
+    
     @Inject
     public void init(Composite parent, @Named (IServiceConstants.ACTIVE_SELECTION)
     				 @Optional Veranstaltung veranstaltung) throws PartInitException {
-		
-        createControls(parent);
+		        
+        /*
+         * XXX: When multiple Tabs are open Eclipse will show the first x 
+         * Kuenstler in the first tab. Then the first x-1 Kuenstler in the 
+         * second tab and so on.
+         * Having a created boolean fixes this.
+         */
+        if(created == false) {
+            created = true;
+            if(veranstaltung != null){
+                this.veranstaltung = veranstaltung;
+            }
+            createControls(parent);
+            
+            if(veranstaltung != null){
+                setInput();
+            }
+        }            
+    }
+    
+    @PostConstruct
+    private void initTitle() {
+        LOG.debug("post construct veranstaltung");
+        this.updateTitle();
     }
     
     private void createControls(Composite parent){
@@ -99,6 +124,10 @@ public class VeranstaltungPart {
         columnLayout.maxNumColumns = 1;
         c.setLayout(columnLayout);
     }
+    
+    private void updateTitle() {
+        activePart.setLabel(this.veranstaltung.getBezeichnung());
+    }
 
     private void createTable(Composite parent) {
         Section auffuehrungSection = this.toolkit.createSection(parent, Section.DESCRIPTION | Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
@@ -114,6 +143,7 @@ public class VeranstaltungPart {
         this.tableViewer = new TableViewer(auffuehrungSection, SWT.BORDER | SWT.FULL_SELECTION);
         this.tableViewer.getTable().setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
         TableLayout layout = new TableLayout();
+        layout.addColumnData(new ColumnWeightData(33, 100, true));
         layout.addColumnData(new ColumnWeightData(33, 100, true));
         layout.addColumnData(new ColumnWeightData(33, 100, true));
         layout.addColumnData(new ColumnWeightData(33, 100, true));
@@ -152,6 +182,12 @@ public class VeranstaltungPart {
                     } else {
                         return "";
                     }
+                case 3:
+                    if (a.getPreis() != null) {
+                        return a.getPreis().toString();
+                    } else {
+                        return "";
+                    }
                 }
                 return null;
             }
@@ -183,11 +219,14 @@ public class VeranstaltungPart {
         col2.setText("Bezeichnung");
         TableColumn col3 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
         col3.setText("Saal");
-        //TableColumn col4 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
-        //col4.setText("Gage");
+        TableColumn col4 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
+        col4.setText("Preiskategorie");
         
-        // MAGIC HAPPENS HERE
-        this.tableViewer.setInput(this.auffuehrungService.find(new Auffuehrung()));
+        
+        
+        //this.tableViewer.setInput(this.auffuehrungService.find(new Auffuehrung()));
+        
+        //FANCY THAT
         this.tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
@@ -199,6 +238,7 @@ public class VeranstaltungPart {
         this.tableViewer.addDoubleClickListener(new IDoubleClickListener() {
             @Override
             public void doubleClick(DoubleClickEvent event) {
+                //TODO: change to open buy dialog
                 ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openKunde", null);
                 handlerService.executeHandler(c);
             }
@@ -206,5 +246,9 @@ public class VeranstaltungPart {
     
         this.toolkit.adapt(this.tableViewer.getTable(), true, true);
         auffuehrungSection.setClient(this.tableViewer.getTable());
+    }
+    
+    private void setInput() {
+        this.tableViewer.setInput(null);
     }
 }

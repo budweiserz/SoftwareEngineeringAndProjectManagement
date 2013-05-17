@@ -105,7 +105,14 @@ public class KuenstlerPart{
     @Inject
     public void init(Composite parent,
                     @Named (IServiceConstants.ACTIVE_SELECTION) @Optional Kuenstler kuenstler) throws PartInitException {
+        /*
+         * XXX: When multiple Tabs are open Eclipse will show the first x 
+         * Kuenstler in the first tab. Then the first x-1 Kuenstler in the 
+         * second tab and so on.
+         * Having a created boolean fixes this.
+         */
         if(created == false) {
+            created = true;
             if(kuenstler != null){
                 this.kuenstler = kuenstler;
             }
@@ -114,7 +121,6 @@ public class KuenstlerPart{
             if(kuenstler != null){
                 setInput();
             }
-            created = true;
         }
     }
     

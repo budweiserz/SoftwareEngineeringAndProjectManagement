@@ -1,6 +1,4 @@
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.persistence.jpa.PersistenceProvider;
@@ -23,7 +21,6 @@ import at.ticketline.entity.Kunde;
 import at.ticketline.entity.News;
 import at.ticketline.entity.Ort;
 import at.ticketline.entity.Veranstaltung;
-import at.ticketline.test.AbstractDaoTest;
 import at.ticketline.test.EntityGenerator;
 
 /**

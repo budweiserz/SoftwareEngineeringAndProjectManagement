@@ -73,7 +73,7 @@ public class VeranstaltungTest extends AbstractDaoTest{
 			this.veranstaltungDao.persist(v2);
 			this.veranstaltungDao.persist(v3);
 
-			result = this.veranstaltungsService.find(filter);
+			result = this.veranstaltungsService.find(filter, null, null);
 
 			assertEquals(3, result.size());
 		}
@@ -95,6 +95,22 @@ public class VeranstaltungTest extends AbstractDaoTest{
 		}
 		
 		Veranstaltung v = new Veranstaltung();
+		
+		List<Veranstaltung> found = veranstaltungDao.findByVeranstaltung(v, 3, 6);
+		assertTrue(found.size() == 4);
+	}
+	
+	@Test
+	public void testFindByWithMinMaxDauer_shouldIgnoreDauerOfQueryObject() {
+		this.veranstaltungDao = (VeranstaltungDao)DaoFactory.getByEntity(Veranstaltung.class);
+		for (int i = 0; i < 10; i++) {
+			Veranstaltung v = EntityGenerator.getValidVeranstaltung(i);
+			v.setDauer(i);
+			veranstaltungDao.persist(v);
+		}
+		
+		Veranstaltung v = new Veranstaltung();
+		v.setDauer(10);
 		
 		List<Veranstaltung> found = veranstaltungDao.findByVeranstaltung(v, 3, 6);
 		assertTrue(found.size() == 4);

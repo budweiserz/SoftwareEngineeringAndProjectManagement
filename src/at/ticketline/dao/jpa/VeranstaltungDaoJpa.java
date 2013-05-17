@@ -10,7 +10,6 @@ import javax.persistence.criteria.Root;
 
 import at.ticketline.dao.GenericDaoJpa;
 import at.ticketline.dao.api.VeranstaltungDao;
-import at.ticketline.entity.Kuenstler;
 import at.ticketline.entity.Veranstaltung;
 
 public class VeranstaltungDaoJpa extends GenericDaoJpa<Veranstaltung,Integer> implements VeranstaltungDao {

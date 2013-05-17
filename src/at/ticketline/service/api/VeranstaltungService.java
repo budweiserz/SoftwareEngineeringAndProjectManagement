@@ -8,10 +8,13 @@ public interface VeranstaltungService {
 	/**
 	 * Sucht nach ähnlichen Veranstaltungen, die mit der übergebenen Veranstaltung übereinstimmen
 	 * 
-	 * @param veranstaltung Das Veranstaltungsobjekt, dass die Suchkriterien beinhaltet
+	 * @param veranstaltung Das Veranstaltungsobjekt, dass die Suchkriterien beinhaltet. Die Dauer Variable
+	 * wird beim Suchen ignoriert.
+	 * @param minDauer die minimale Dauer, die die gefundenen Veranstaltungen haben sollen
+	 * @param maxDauer die maximale Dauer, die die gefundenen Veranstaltungen haben sollen
 	 * @return Eine Liste aller gefundenen Veranstaltungen
 	 */
-	public List<Veranstaltung> find(Veranstaltung veranstaltung);
+	public List<Veranstaltung> find(Veranstaltung veranstaltung, Integer minDauer, Integer maxDauer);
 	
 	/**
 	 * Speichert eine neue bzw. eine bereits bestehende Veranstaltung.

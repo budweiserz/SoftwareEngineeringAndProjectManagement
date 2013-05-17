@@ -296,13 +296,13 @@ public class VeranstaltungSearchPart {
             	
             	LOG.info("Query Veranstaltung {}", query);
             	
-            	VeranstaltungSearchPart.this.tableViewer.setInput(veranstaltungService.find(query));
+            	VeranstaltungSearchPart.this.tableViewer.setInput(veranstaltungService.find(query, null, null));
             	VeranstaltungSearchPart.this.tableViewer.refresh();
             }
         });
         
         
-        this.tableViewer.setInput(veranstaltungService.find(new Veranstaltung()));
+        this.tableViewer.setInput(veranstaltungService.find(new Veranstaltung(), null, null));
 	}
 
 	@PreDestroy

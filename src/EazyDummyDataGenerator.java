@@ -5,11 +5,13 @@ import at.ticketline.dao.EntityManagerUtil;
 import at.ticketline.dao.api.KategorieDao;
 import at.ticketline.dao.api.KuenstlerDao;
 import at.ticketline.dao.api.KundeDao;
+import at.ticketline.dao.api.NewsDao;
 import at.ticketline.dao.api.OrtDao;
 import at.ticketline.dao.api.VeranstaltungDao;
 import at.ticketline.entity.Kategorie;
 import at.ticketline.entity.Kuenstler;
 import at.ticketline.entity.Kunde;
+import at.ticketline.entity.News;
 import at.ticketline.entity.Ort;
 import at.ticketline.entity.Veranstaltung;
 import at.ticketline.test.EntityGenerator;
@@ -57,6 +59,13 @@ public class EazyDummyDataGenerator {
 		for(int i=0; i<10; i++) {
 			Kuenstler k = EntityGenerator.getValidKuenstler(i);
 			daoKuenstler.persist(k);
+		}
+		
+		NewsDao daoNews = (NewsDao) DaoFactory.getByEntity(News.class);
+		
+		for(int i=0; i<20; i++) {
+			News n = EntityGenerator.getValidNews(i);
+			daoNews.persist(n);
 		}
 	}
 }

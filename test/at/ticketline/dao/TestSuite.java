@@ -16,7 +16,8 @@ import org.junit.runners.Suite.SuiteClasses;
     MitarbeiterTest.class,
     KuenstlerTest.class,
     OrtTest.class,
-    AuffuehrungTest.class //,
+    AuffuehrungTest.class,
+    VeranstaltungTest.class //,
     //add your test here
     })
 

@@ -13,22 +13,24 @@ import at.ticketline.service.api.VeranstaltungService;
 
 public class VeranstaltungServiceImpl implements VeranstaltungService {
 	private static final Logger LOG = LoggerFactory.getLogger(VeranstaltungServiceImpl.class);
-	
+
 	private VeranstaltungDao veranstaltungDao;
 
 	public VeranstaltungServiceImpl(VeranstaltungDao veranstaltungDao) {
 		this.veranstaltungDao = veranstaltungDao;
 	}
-	
+
 	/**
 	 * Sucht nach ähnlichen Veranstaltungen, die mit der übergebenen Veranstaltung übereinstimmen
 	 * 
 	 * @param veranstaltung Das Veranstaltungsobjekt, dass die Suchkriterien beinhaltet
+	 * @param minDauer die minimale Dauer, die die gefundenen Veranstaltungen haben sollen
+	 * @param maxDauer die maximale Dauer, die die gefundenen Veranstaltungen haben sollen
 	 * @return Eine Liste aller gefundenen Veranstaltungen
 	 */
 	@Override
-	public List<Veranstaltung> find(Veranstaltung veranstaltung) {
-		return this.veranstaltungDao.findByVeranstaltung(veranstaltung);
+	public List<Veranstaltung> find(Veranstaltung veranstaltung, Integer minDauer, Integer maxDauer) {
+		return this.veranstaltungDao.findByVeranstaltung(veranstaltung, minDauer, maxDauer);
 	}
 
 	/**

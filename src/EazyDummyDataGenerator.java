@@ -1,6 +1,4 @@
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.persistence.jpa.PersistenceProvider;
@@ -23,7 +21,6 @@ import at.ticketline.entity.Kunde;
 import at.ticketline.entity.News;
 import at.ticketline.entity.Ort;
 import at.ticketline.entity.Veranstaltung;
-import at.ticketline.test.AbstractDaoTest;
 import at.ticketline.test.EntityGenerator;
 
 /**
@@ -48,10 +45,11 @@ public class EazyDummyDataGenerator {
 		}
 
 		VeranstaltungDao daoVeranstaltung = (VeranstaltungDao)DaoFactory.getByEntity(Veranstaltung.class);
-
+		Veranstaltung[] varr = new Veranstaltung[10];
 		for(int i=0; i<10; i++) {
 			Veranstaltung v = EntityGenerator.getValidVeranstaltung(i);
 			daoVeranstaltung.persist(v);
+			varr[i] = v;
 		}
 		
 		KategorieDao daoKategorie = (KategorieDao)DaoFactory.getByEntity(Kategorie.class);
@@ -68,13 +66,6 @@ public class EazyDummyDataGenerator {
 			daoKunde.persist(k);
 		}
 		
-		KuenstlerDao daoKuenstler = (KuenstlerDao) DaoFactory.getByEntity(Kuenstler.class);
-		
-		for(int i=0; i<10; i++) {
-			Kuenstler k = EntityGenerator.getValidKuenstler(i);
-			daoKuenstler.persist(k);
-		}
-		
 		NewsDao daoNews = (NewsDao) DaoFactory.getByEntity(News.class);
 		
 		for(int i=0; i<20; i++) {
@@ -89,8 +80,9 @@ public class EazyDummyDataGenerator {
 			Kuenstler k = EntityGenerator.getValidKuenstler(i);
 			daoKu.persist(k);
 			
-			Veranstaltung v = EntityGenerator.getValidVeranstaltung(i);
-			daoVer.persist(v);
+			//Veranstaltung v = EntityGenerator.getValidVeranstaltung(i);
+			Veranstaltung v = varr[i];
+			daoVer.merge(v);
 			Set<Engagement> engs = new LinkedHashSet<Engagement>();
 			
 			for(int j=0; j<10; j++) {

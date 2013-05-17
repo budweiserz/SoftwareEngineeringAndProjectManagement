@@ -68,13 +68,6 @@ public class EazyDummyDataGenerator {
 			daoKunde.persist(k);
 		}
 		
-		KuenstlerDao daoKuenstler = (KuenstlerDao) DaoFactory.getByEntity(Kuenstler.class);
-		
-		for(int i=0; i<10; i++) {
-			Kuenstler k = EntityGenerator.getValidKuenstler(i);
-			daoKuenstler.persist(k);
-		}
-		
 		NewsDao daoNews = (NewsDao) DaoFactory.getByEntity(News.class);
 		
 		for(int i=0; i<20; i++) {

@@ -19,7 +19,7 @@ import at.ticketline.dao.api.VeranstaltungDao;
     KuenstlerTest.class,
     OrtTest.class,
     AuffuehrungTest.class,
-    VeranstaltungDao.class //,
+    VeranstaltungTest.class //,
     //add your test here
     })
 

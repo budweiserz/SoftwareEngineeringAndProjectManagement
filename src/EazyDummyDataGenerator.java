@@ -27,7 +27,9 @@ import at.ticketline.test.AbstractDaoTest;
 import at.ticketline.test.EntityGenerator;
 
 /**
- * In ya face!!111
+ * Populates the database with dummy data.
+ * 
+ * To clear the databease run "drop schema public cascade".
  * 
  * @author cell303
  */

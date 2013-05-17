@@ -9,19 +9,21 @@ import javax.inject.Inject;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.ui.di.Focus;
-import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.jface.viewers.ComboViewer;
+import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
@@ -36,21 +38,12 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
-import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.IDoubleClickListener; 
-import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.swt.widgets.Control;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ticketline.entity.Adresse;
 import at.ticketline.entity.Ort;
+import at.ticketline.entity.Ortstyp;
 import at.ticketline.service.api.OrtService;
 
 @SuppressWarnings("restriction")
@@ -76,6 +69,7 @@ public class VeranstaltungsortSearchPart {
 	private Text txtOrt;
 	private Text txtLand;
 	private Table table;
+	private Combo combo;
 
 	/**
 	 * Create contents of the view part.
@@ -104,86 +98,91 @@ public class VeranstaltungsortSearchPart {
 		
 		Label lblBezeichnung = new Label(SearchComposite, SWT.NONE);
 		FormData fd_lblBezeichnung = new FormData();
+		fd_lblBezeichnung.top = new FormAttachment(0, 7);
 		lblBezeichnung.setLayoutData(fd_lblBezeichnung);
 		lblBezeichnung.setText("Bezeichnung");
 		
 		txtBezeichnung = new Text(SearchComposite, SWT.BORDER);
-		fd_lblBezeichnung.top = new FormAttachment(txtBezeichnung, 3, SWT.TOP);
 		fd_lblBezeichnung.right = new FormAttachment(txtBezeichnung, -6);
 		FormData fd_txtBezeichnung = new FormData();
-		fd_txtBezeichnung.top = new FormAttachment(0, 4);
 		fd_txtBezeichnung.left = new FormAttachment(0, 96);
+		fd_txtBezeichnung.top = new FormAttachment(0, 4);
 		txtBezeichnung.setLayoutData(fd_txtBezeichnung);
 		
 		Label lblStrae = new Label(SearchComposite, SWT.NONE);
 		FormData fd_lblStrae = new FormData();
-		fd_lblStrae.top = new FormAttachment(lblBezeichnung, 12);
-		fd_lblStrae.left = new FormAttachment(0, 10);
+		fd_lblStrae.left = new FormAttachment(lblBezeichnung, 0, SWT.LEFT);
 		lblStrae.setLayoutData(fd_lblStrae);
 		lblStrae.setText("Straße");
 		
 		Label lblOrt = new Label(SearchComposite, SWT.NONE);
+		fd_txtBezeichnung.right = new FormAttachment(lblOrt, -79);
 		FormData fd_lblOrt = new FormData();
-		fd_lblOrt.top = new FormAttachment(txtBezeichnung, 0, SWT.TOP);
-		fd_lblOrt.left = new FormAttachment(txtBezeichnung, 130);
+		fd_lblOrt.top = new FormAttachment(0, 4);
+		fd_lblOrt.left = new FormAttachment(0, 290);
 		lblOrt.setLayoutData(fd_lblOrt);
 		lblOrt.setText("Ort");
 		
 		txtStrasse = new Text(SearchComposite, SWT.BORDER);
+		fd_lblStrae.top = new FormAttachment(txtStrasse, 3, SWT.TOP);
 		FormData fd_txtStrasse = new FormData();
-		fd_txtStrasse.right = new FormAttachment(txtBezeichnung, 0, SWT.RIGHT);
+		fd_txtStrasse.left = new FormAttachment(lblStrae, 40);
 		fd_txtStrasse.top = new FormAttachment(txtBezeichnung, 6);
-		fd_txtStrasse.left = new FormAttachment(txtBezeichnung, 0, SWT.LEFT);
 		txtStrasse.setLayoutData(fd_txtStrasse);
 		
 		txtPlz = new Text(SearchComposite, SWT.BORDER);
 		FormData fd_txtPlz = new FormData();
-		fd_txtPlz.right = new FormAttachment(txtBezeichnung, 0, SWT.RIGHT);
 		fd_txtPlz.top = new FormAttachment(txtStrasse, 5);
-		fd_txtPlz.left = new FormAttachment(txtBezeichnung, 0, SWT.LEFT);
 		txtPlz.setLayoutData(fd_txtPlz);
 		
 		Label lblPlz = new Label(SearchComposite, SWT.NONE);
+		fd_txtPlz.left = new FormAttachment(lblPlz, 55);
 		FormData fd_lblPlz = new FormData();
-		fd_lblPlz.top = new FormAttachment(lblStrae, 11);
+		fd_lblPlz.top = new FormAttachment(lblStrae, 12);
 		fd_lblPlz.left = new FormAttachment(lblBezeichnung, 0, SWT.LEFT);
 		lblPlz.setLayoutData(fd_lblPlz);
 		lblPlz.setText("PLZ");
 		
 		Label lblOrtstyp = new Label(SearchComposite, SWT.NONE);
+		fd_txtStrasse.right = new FormAttachment(lblOrtstyp, -79);
 		FormData fd_lblOrtstyp = new FormData();
-		fd_lblOrtstyp.bottom = new FormAttachment(lblStrae, 0, SWT.BOTTOM);
-		fd_lblOrtstyp.left = new FormAttachment(lblOrt, 0, SWT.LEFT);
+		fd_lblOrtstyp.left = new FormAttachment(0, 290);
 		lblOrtstyp.setLayoutData(fd_lblOrtstyp);
 		lblOrtstyp.setText("Ortstyp");
 		
 		Label lblLand = new Label(SearchComposite, SWT.NONE);
+		fd_lblOrtstyp.bottom = new FormAttachment(lblLand, -14);
+		fd_txtPlz.right = new FormAttachment(lblLand, -79);
 		FormData fd_lblLand = new FormData();
-		fd_lblLand.top = new FormAttachment(lblOrtstyp, 14);
+		fd_lblLand.top = new FormAttachment(0, 61);
 		fd_lblLand.left = new FormAttachment(lblOrt, 0, SWT.LEFT);
 		lblLand.setLayoutData(fd_lblLand);
 		lblLand.setText("Land");
 		
 		txtOrt = new Text(SearchComposite, SWT.BORDER);
 		FormData fd_txtOrt = new FormData();
-		fd_txtOrt.right = new FormAttachment(lblOrt, 163, SWT.RIGHT);
-		fd_txtOrt.top = new FormAttachment(0, 4);
-		fd_txtOrt.left = new FormAttachment(lblOrt, 48);
+		fd_txtOrt.top = new FormAttachment(lblBezeichnung, -3, SWT.TOP);
 		txtOrt.setLayoutData(fd_txtOrt);
 		
 		txtLand = new Text(SearchComposite, SWT.BORDER);
+		fd_txtOrt.right = new FormAttachment(txtLand, 0, SWT.RIGHT);
+		fd_txtOrt.left = new FormAttachment(txtLand, 0, SWT.LEFT);
 		FormData fd_txtLand = new FormData();
 		fd_txtLand.right = new FormAttachment(lblLand, 152, SWT.RIGHT);
 		fd_txtLand.left = new FormAttachment(lblLand, 37);
-		fd_txtLand.top = new FormAttachment(txtPlz, 0, SWT.TOP);
 		txtLand.setLayoutData(fd_txtLand);
 		
-		ComboViewer comboViewer = new ComboViewer(SearchComposite, SWT.NONE);
-		Combo combo = comboViewer.getCombo();
+		ComboViewer comboViewer = new ComboViewer(SearchComposite, SWT.READ_ONLY);
+		combo = comboViewer.getCombo();
+		fd_txtLand.top = new FormAttachment(0, 53);
+		combo.add("");
+		for (int i=0; i < Ortstyp.values().length; i++) {
+			combo.add(Ortstyp.values()[i].toString());
+		}
 		FormData fd_combo = new FormData();
-		fd_combo.right = new FormAttachment(lblOrtstyp, 136, SWT.RIGHT);
-		fd_combo.left = new FormAttachment(lblOrtstyp, 21);
-		fd_combo.top = new FormAttachment(lblStrae, -3, SWT.TOP);
+		fd_combo.left = new FormAttachment(lblOrtstyp, 19);
+		fd_combo.right = new FormAttachment(lblOrtstyp, 141, SWT.RIGHT);
+		fd_combo.bottom = new FormAttachment(txtLand, -1);
 		combo.setLayoutData(fd_combo);
 		SearchComposite.setTabList(new Control[]{txtBezeichnung, txtStrasse, txtPlz, txtOrt, combo, txtLand, btnSuchen});
 		
@@ -228,7 +227,7 @@ public class VeranstaltungsortSearchPart {
             public Object[] getElements(Object inputElement) {
                 // The inputElement comes from view.setInput()
                 if (inputElement instanceof List) {
-                    List models = (List)inputElement;
+                    List<?> models = (List<?>)inputElement;
                     return models.toArray();
                 }
                 return new Object[0];
@@ -322,6 +321,7 @@ public class VeranstaltungsortSearchPart {
             	query.getAdresse().setPlz(txtPlz.getText().length() > 0 ? txtPlz.getText() : null);
             	query.getAdresse().setOrt(txtOrt.getText().length() > 0 ? txtOrt.getText() : null);
             	query.getAdresse().setLand(txtLand.getText().length() > 0 ? txtLand.getText() : null);
+            	query.setOrtstyp(combo.getSelectionIndex() > 0 ? Ortstyp.values()[combo.getSelectionIndex() - 1] : null);
             	
             	LOG.debug("Query Ort: {}", query);
             	

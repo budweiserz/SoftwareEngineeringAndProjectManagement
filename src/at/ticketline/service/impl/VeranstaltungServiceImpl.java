@@ -28,7 +28,7 @@ public class VeranstaltungServiceImpl implements VeranstaltungService {
 	 */
 	@Override
 	public List<Veranstaltung> find(Veranstaltung veranstaltung) {
-		return this.veranstaltungDao.findByVeranstaltung(veranstaltung);
+		return this.veranstaltungDao.findByVeranstaltung(veranstaltung, null, null);
 	}
 
 	/**

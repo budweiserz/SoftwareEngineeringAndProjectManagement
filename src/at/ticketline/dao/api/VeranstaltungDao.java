@@ -6,5 +6,5 @@ import at.ticketline.dao.GenericDao;
 import at.ticketline.entity.Veranstaltung;
 
 public interface VeranstaltungDao extends GenericDao<Veranstaltung,Integer> {
-	public List<Veranstaltung> findByVeranstaltung(Veranstaltung query);
+	public List<Veranstaltung> findByVeranstaltung(Veranstaltung query, Integer minDauer, Integer maxDauer);
 }

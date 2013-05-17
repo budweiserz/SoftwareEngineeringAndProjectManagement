@@ -6,6 +6,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import at.ticketline.dao.api.VeranstaltungDao;
+
 /**
  * Testsuite fuer Persistence-Layer
  * 
@@ -16,7 +18,8 @@ import org.junit.runners.Suite.SuiteClasses;
     MitarbeiterTest.class,
     KuenstlerTest.class,
     OrtTest.class,
-    AuffuehrungTest.class //,
+    AuffuehrungTest.class,
+    VeranstaltungDao.class //,
     //add your test here
     })
 

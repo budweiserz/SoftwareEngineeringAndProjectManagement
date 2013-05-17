@@ -21,4 +21,5 @@ public interface AuffuehrungService {
      * @param auffuehrung die zu speichernde Auffeuhrung
      */
     public void save(Auffuehrung auffuehrung);
+
 }

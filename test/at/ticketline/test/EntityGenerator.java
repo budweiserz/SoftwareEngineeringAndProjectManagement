@@ -102,7 +102,7 @@ public class EntityGenerator {
         k.setNachname("Nachname " + modifier);
         k.setVorname("Vorname " + modifier);
         k.setTitel("Titel " + modifier);
-        k.setGeschlecht(Geschlecht.WEIBLICH);
+        k.setGeschlecht(modifier%2 == 0 ? Geschlecht.WEIBLICH : Geschlecht.MAENNLICH);
         k.setGeburtsdatum(new GregorianCalendar(1990, 1, 1, 1, 1, 1));
         k.setTelnr("Telefonnummer " + modifier);
         k.setEmail("email" + modifier + "@foo.com");

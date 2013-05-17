@@ -19,6 +19,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.eclipse.e4.core.di.annotations.Creatable;
+
 /**
  * 
  * Im Kunden werden alle Daten eines Kunden abgelegt. Jeder Kunde ist einem Ort
@@ -26,6 +28,8 @@ import javax.validation.constraints.Size;
  * darueber hinaus ueber einen Web Account, wenn der Username und das
  * Passwort gesetzt sind.
  */
+@SuppressWarnings("restriction")
+@Creatable
 @Entity
 @DiscriminatorValue(value = "K")
 public class Kunde extends Person {

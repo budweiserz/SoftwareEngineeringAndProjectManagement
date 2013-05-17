@@ -13,6 +13,8 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
+import org.eclipse.e4.core.di.annotations.Creatable;
+
 /**
  * Ein Engagement beschreibt die Mitwirkung eines Kuenstlers an einer
  * Veranstaltung. Neben der Nummer des Kuenstlers und den Daten fuer die
@@ -20,7 +22,9 @@ import javax.validation.constraints.Size;
  * und seine Gage gespeichert.
  * 
  */
+@SuppressWarnings("restriction")
 @Entity
+@Creatable
 public class Engagement extends BaseEntity {
 
     private static final long serialVersionUID = 2423452444675834992L;

@@ -18,7 +18,7 @@ public class NewsHTMLGeneratorImpl implements NewsHTMLGenerator {
 		page+= "<body>";
 		
 		//Tabelle mit News Elementen hinzufuegen
-		page+= "<table>";
+		page+= "<table style='width:100%;'>";
 		
 		for (int i = 0; i < items.size(); i++) {
 			//News Element hinzufuegen

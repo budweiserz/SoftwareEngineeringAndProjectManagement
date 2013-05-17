@@ -16,12 +16,16 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.eclipse.e4.core.di.annotations.Creatable;
+
 /**
  * Jedes Theaterstueck, jede Oper, jeder Kinofilm usw. des Systems wird in Form
  * einer Veranstaltung gespeichert. Von jeder Veranstaltung werden dann mehrere
  * Auffuehrungen in verschiedenen Saelen zu verschiedenen Zeiten verwaltet.
  * 
  */
+@SuppressWarnings("restriction")
+@Creatable
 @Entity
 public class Veranstaltung extends BaseEntity {
 

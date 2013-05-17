@@ -5,6 +5,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
@@ -123,21 +124,7 @@ public class ListKundePart {
         this.tableViewer.getTable().setLinesVisible(true);
         this.tableViewer.getTable().setHeaderVisible(true);
     
-        this.tableViewer.setContentProvider(new IStructuredContentProvider() {
-            @Override
-            public Object[] getElements(Object inputElement) {
-                // The inputElement comes from view.setInput()
-                if (inputElement instanceof List) {
-                    List models = (List)inputElement;
-                    return models.toArray();
-                }
-                return new Object[0];
-            }
-            @Override public void dispose() { }
-            @Override 
-            public void inputChanged(Viewer viewer, Object oldInput, Object newInput) { }
-        });
-        
+        this.tableViewer.setContentProvider(new ArrayContentProvider());
         this.tableViewer.setLabelProvider(new ITableLabelProvider() {
             @Override
             public Image getColumnImage(Object arg0, int arg1) {
@@ -213,7 +200,8 @@ public class ListKundePart {
         this.tableViewer.addDoubleClickListener(new IDoubleClickListener() {
             @Override
             public void doubleClick(DoubleClickEvent event) {
-                //selectionService.
+                ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openKunde", null);
+                handlerService.executeHandler(c);
             }
         });
     

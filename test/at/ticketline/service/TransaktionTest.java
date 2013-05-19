@@ -41,4 +41,7 @@ public class TransaktionTest extends AbstractDaoTest {
         dao = (TransaktionDao)DaoFactory.getByEntity(Transaktion.class);
         service = new TransaktionServiceImpl(dao);
     }
+    
+    @Test
+    public void placeholder() {}
 }

@@ -11,8 +11,10 @@ import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.EntityManagerUtil;
 import at.ticketline.dao.api.EngagementDao;
 import at.ticketline.dao.api.KuenstlerDao;
+import at.ticketline.dao.api.KundeDao;
 import at.ticketline.entity.Engagement;
 import at.ticketline.entity.Kuenstler;
+import at.ticketline.entity.Kunde;
 
 public class TestUtility {
 
@@ -38,15 +40,15 @@ public class TestUtility {
     public static void generateTestData() {
 
         resetDatabase();
-
+        KundeDao kundedao = (KundeDao) DaoFactory.getByEntity(Kunde.class);
         KuenstlerDao kuenstlerDao = (KuenstlerDao) DaoFactory.getByEntity(Kuenstler.class);
         EngagementDao engagementDao = (EngagementDao) DaoFactory.getByEntity(Engagement.class);
 
-        Kuenstler k;
-        Engagement e;
+        Kunde kunde;
+        Kuenstler kuenstler;
 
-        ArrayList<Kuenstler> kuenstler = new ArrayList<Kuenstler>();
-        ArrayList<Engagement> engagements = new ArrayList<Engagement>();
+        ArrayList<Kunde> kunden = new ArrayList<Kunde>();
+        ArrayList<Kuenstler> kuenstlers = new ArrayList<Kuenstler>();
 
         // Kuenstler
         for (int i = 0; i < 20; i++) {

@@ -146,8 +146,7 @@ public class VeranstaltungPart {
         layout.addColumnData(new ColumnWeightData(33, 100, true));
         layout.addColumnData(new ColumnWeightData(33, 100, true));
         layout.addColumnData(new ColumnWeightData(33, 100, true));
-        layout.addColumnData(new ColumnWeightData(33, 100, true));
-        //layout.addColumnData(new ColumnWeightData(15, 100, true));
+        layout.addColumnData(new ColumnWeightData(15, 80, true));
         this.tableViewer.getTable().setLayout(layout);
     
         this.tableViewer.getTable().setLinesVisible(true);
@@ -177,13 +176,14 @@ public class VeranstaltungPart {
                         return "";
                     }
                 case 2:
-                    if (a.getSaal().getBezeichnung() != null) {
+                    if (a.getSaal() != null && a.getSaal().getBezeichnung() != null) {
                         return a.getSaal().getBezeichnung();
                     } else {
                         return "";
                     }
                 case 3:
                     if (a.getPreis() != null) {
+                        LOG.info(a.getPreis().toString());
                         return a.getPreis().toString();
                     } else {
                         return "";
@@ -222,11 +222,7 @@ public class VeranstaltungPart {
         TableColumn col4 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
         col4.setText("Preiskategorie");
         
-        
-        
-        //this.tableViewer.setInput(this.auffuehrungService.find(new Auffuehrung()));
-        
-        //FANCY THAT
+        //MAGIC HAPPENS HERE
         this.tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
@@ -249,6 +245,8 @@ public class VeranstaltungPart {
     }
     
     private void setInput() {
-        this.tableViewer.setInput(null);
+        if(this.veranstaltung.getAuffuehrungen() != null && this.veranstaltung.getAuffuehrungen().size() > 0) {
+            this.tableViewer.setInput(this.veranstaltung.getAuffuehrungen());
+        }
     }
 }

@@ -3,6 +3,7 @@ package at.ticketline.test;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 
 import at.ticketline.entity.*;
 
@@ -90,6 +91,7 @@ public class EntityGenerator {
         k.setGeschlecht(Geschlecht.WEIBLICH);
         k.setGeburtsdatum(new GregorianCalendar(1990, 1, 1, 1, 1, 1));
         k.setBiographie("Biographie " + modifier);
+        k.setEngagements(new HashSet<Engagement>());
 
         return k;
     }

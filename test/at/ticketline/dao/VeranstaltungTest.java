@@ -115,4 +115,64 @@ public class VeranstaltungTest extends AbstractDaoTest{
 		List<Veranstaltung> found = veranstaltungDao.findByVeranstaltung(v, 3, 6);
 		assertTrue(found.size() == 4);
 	}
+	
+	@Test
+	public void testFind_WithWildcardBezeichnung() {
+		this.veranstaltungDao = (VeranstaltungDao)DaoFactory.getByEntity(Veranstaltung.class);
+		Veranstaltung v = EntityGenerator.getValidVeranstaltung(0);
+		v.setBezeichnung("Bezeichung 11");
+		veranstaltungDao.persist(v);
+		v = EntityGenerator.getValidVeranstaltung(1);
+		v.setBezeichnung("Bezeichung 21");
+		veranstaltungDao.persist(v);
+		v = EntityGenerator.getValidVeranstaltung(2);
+		v.setBezeichnung("Bezeichung 22");
+		veranstaltungDao.persist(v);
+		
+		Veranstaltung query = new Veranstaltung();
+		query.setBezeichnung("Bezeichung 2*");
+		
+		List<Veranstaltung> found = veranstaltungDao.findByVeranstaltung(query, null, null);
+		assertTrue(found.size() == 2);
+	}
+	
+	@Test
+	public void testFind_WithWildcardKategorie() {
+		this.veranstaltungDao = (VeranstaltungDao)DaoFactory.getByEntity(Veranstaltung.class);
+		Veranstaltung v = EntityGenerator.getValidVeranstaltung(0);
+		v.setKategorie("Kategorie 11");
+		veranstaltungDao.persist(v);
+		v = EntityGenerator.getValidVeranstaltung(1);
+		v.setKategorie("Kategorie 21");
+		veranstaltungDao.persist(v);
+		v = EntityGenerator.getValidVeranstaltung(2);
+		v.setKategorie("Kategorie 22");
+		veranstaltungDao.persist(v);
+		
+		Veranstaltung query = new Veranstaltung();
+		query.setKategorie("Kategorie 2*");
+		
+		List<Veranstaltung> found = veranstaltungDao.findByVeranstaltung(query, null, null);
+		assertTrue(found.size() == 2);		
+	}
+	
+	@Test
+	public void testFind_WithWildcardInhalt() {
+		this.veranstaltungDao = (VeranstaltungDao)DaoFactory.getByEntity(Veranstaltung.class);
+		Veranstaltung v = EntityGenerator.getValidVeranstaltung(0);
+		v.setInhalt("Inhalt 11");
+		veranstaltungDao.persist(v);
+		v = EntityGenerator.getValidVeranstaltung(1);
+		v.setInhalt("Inhalt 21");
+		veranstaltungDao.persist(v);
+		v = EntityGenerator.getValidVeranstaltung(2);
+		v.setInhalt("Inhalt 22");
+		veranstaltungDao.persist(v);
+		
+		Veranstaltung query = new Veranstaltung();
+		query.setInhalt("Inhalt 2*");
+		
+		List<Veranstaltung> found = veranstaltungDao.findByVeranstaltung(query, null, null);
+		assertTrue(found.size() == 2);
+	}
 }

@@ -122,7 +122,7 @@ public class KuenstlerSearchPart {
 		lblGeschlecht.setLayoutData(fd_lblGeschlecht);
 		lblGeschlecht.setText("Geschlecht");
 		
-		ComboViewer comboViewer = new ComboViewer(SearchComposite, SWT.NONE);
+		ComboViewer comboViewer = new ComboViewer(SearchComposite, SWT.READ_ONLY);
 		combo = comboViewer.getCombo();
 		FormData fd_combo = new FormData();
 		fd_combo.top = new FormAttachment(0, 5);

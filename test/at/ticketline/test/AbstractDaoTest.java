@@ -1,11 +1,5 @@
 package at.ticketline.test;
 
-import java.util.Set;
-
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.metamodel.EntityType;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -27,7 +21,7 @@ public abstract class AbstractDaoTest {
     @BeforeClass
     public static void initTest() {
         TestInitializer.init();
-        resetDatabase();
+        TestUtility.resetDatabase();
     }
 
     @Before
@@ -38,26 +32,5 @@ public abstract class AbstractDaoTest {
     @After
     public void rollbackTransaction() {
         EntityManagerUtil.rollbackTransaction();
-    }
-
-    private static void resetDatabase() {
-
-        EntityManager entityManager = EntityManagerUtil
-                .getCurrentEntityManager();
-
-        Set<EntityType<?>> entities = entityManager.getMetamodel()
-                .getEntities();
-
-        String query = "DELETE FROM ";
-
-        EntityManagerUtil.beginTransaction();
-
-        for (EntityType<?> e : entities) {
-
-            Query q = entityManager.createQuery(query + e.getName());
-            q.executeUpdate();
-        }
-
-        EntityManagerUtil.commitTransaction();
     }
 }

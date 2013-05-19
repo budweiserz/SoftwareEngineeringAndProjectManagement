@@ -1,11 +1,6 @@
-Vorname,Nachname,Geschlecht
-Daniel,Krüger,m
-Nicco,Hartmann,m
-Dominik,Lange,m
-Michael,Werner,m
-Niklas,Schmitz,m
-Hannah,Lorenz,w
-Lena,Scholz,w
-Sophie,Walter,w
-Anna,Maier,w
-Leonie,Wagner,w
+Username,Vorname,Nachname,Passwort
+johannes,Johannes,Deml,pw1
+michael,Michael,Ion,pw2
+bernd,Bernd,Artmüller,pw3
+martin,Martin,Schleiss,pw4
+rafael,Rafael,Konlechner,pw5

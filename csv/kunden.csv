@@ -1,5 +1,5 @@
 Vorname,Nachname,Geschlecht
-Lukas,Müller,m
+Lukas,Mueller,m
 Tobias,Schmidt,m
 Jonas,Schneider,m
 Maximilian,Fischer,m
@@ -8,18 +8,18 @@ Leonhard,Wagner,m
 David,Becker,m
 Julian,Schulz,m
 Alexander,Hoffmann,m
-Jakob,Schäfer,m
+Jakob,Schaefer,m
 Simon,Koch,m
 Raphael,Bauer,m
 Florian,Richter,m
 Elias,Klein,m
 Fabian,Wolf,m
 Paul,Neumann,m
-Philipp,Schröder,m
+Philipp,Schroeder,m
 Felix,Schwarz,m
 Moriz,Zimmermann,m
 Matthias,Braun,m
-Daniel,Krüger,m
+Daniel,Krueger,m
 Nicco,Hartmann,m
 Dominik,Lange,m
 Michael,Werner,m
@@ -36,7 +36,7 @@ Julia,Schmidt,w
 Emma,Schmidt,w
 Katharina,Klein,w
 Lea,Meyer,w
-Lara,Müller,w
+Lara,Mueller,w
 Johanna,Becker,w
 Mia,Bauer,w
 Lisa,Richter,w
@@ -45,7 +45,7 @@ Amelie,Kaiser,w
 Viktoria,Huber,w
 Theresa,Schmitt,w
 Jana,Wolf,w
-Sophia,Schäfer,w
+Sophia,Schaefer,w
 Marlene,Schultz,w
 Alina,Kaiser,w
-Clara,Weiß,w
+Clara,Weiss,w

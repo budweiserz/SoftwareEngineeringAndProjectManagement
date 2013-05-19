@@ -1,14 +1,9 @@
 package at.ticketline.test;
 
-import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
-
-import com.Ostermiller.util.CSVParser;
-import com.Ostermiller.util.LabeledCSVParser;
-
 import at.ticketline.entity.*;
 
 /**
@@ -25,9 +20,6 @@ import at.ticketline.entity.*;
  */
 public class EntityGenerator {
     
-    LabeledCSVParser parser = new LabeledCSVParser(new CSVParser(
-            new FileInputStream("csv/kunden.csv")));
-
     public static Adresse getValidAdresse(int modifier) {
 
         Adresse a = new Adresse();
@@ -111,7 +103,7 @@ public class EntityGenerator {
         k.setNachname("Nachname " + modifier);
         k.setVorname("Vorname " + modifier);
         k.setTitel("Titel " + modifier);
-        k.setGeschlecht(modifier%2 == 0 ? Geschlecht.WEIBLICH : Geschlecht.MAENNLICH);
+        k.setGeschlecht(modifier % 2 == 0 ? Geschlecht.WEIBLICH : Geschlecht.MAENNLICH);
         k.setGeburtsdatum(new GregorianCalendar(1990, 1, 1, 1, 1, 1));
         k.setTelnr("Telefonnummer " + modifier);
         k.setEmail("email" + modifier + "@foo.com");

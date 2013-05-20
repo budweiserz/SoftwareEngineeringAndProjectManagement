@@ -1,12 +1,16 @@
 package at.ticketline.dao.jpa;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.TemporalType;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
 
 import at.ticketline.dao.GenericDaoJpa;
 import at.ticketline.dao.api.AuffuehrungDao;
@@ -21,7 +25,7 @@ public class AuffuehrungDaoJpa extends GenericDaoJpa<Auffuehrung,Integer> implem
      * @author Michael Ion
      */
     @Override
-    public List<Auffuehrung> findByAuffuehrung(final Auffuehrung auffuehrung) {
+    public List<Auffuehrung> findByAuffuehrung(final Auffuehrung auffuehrung, final Auffuehrung bisAuffuehrung) {
         CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
         CriteriaQuery<Auffuehrung> query = builder.createQuery(Auffuehrung.class);
         Root<Auffuehrung> rootAuffuehrung = query.from(Auffuehrung.class);
@@ -31,8 +35,10 @@ public class AuffuehrungDaoJpa extends GenericDaoJpa<Auffuehrung,Integer> implem
         /*
          *  Suchkriterien sind: Datum/Uhrzeit, Preis, Veranstaltung, Säle
          */
-        if(auffuehrung.getDatumuhrzeit() != null) {
-           wherePredicates.add( builder.equal(rootAuffuehrung.get("datumuhrzeit"), auffuehrung.getDatumuhrzeit()));
+        ParameterExpression<Date> from = builder.parameter(Date.class);
+        ParameterExpression<Date> to = builder.parameter(Date.class);
+        if(auffuehrung.getDatumuhrzeit() != null && bisAuffuehrung != null && bisAuffuehrung.getDatumuhrzeit() != null) {   
+           wherePredicates.add( builder.between(rootAuffuehrung.<Date>get("datumuhrzeit"), from, to));
         }
         
         if(auffuehrung.getVeranstaltung() != null && auffuehrung.getVeranstaltung().getBezeichnung() != null) {
@@ -53,13 +59,7 @@ public class AuffuehrungDaoJpa extends GenericDaoJpa<Auffuehrung,Integer> implem
         
         query.where(whereClause);
         
-        return this.entityManager.createQuery(query).getResultList();
+        return this.entityManager.createQuery(query).setParameter(from, auffuehrung.getDatumuhrzeit(), TemporalType.DATE)
+                .setParameter(to, bisAuffuehrung.getDatumuhrzeit(), TemporalType.DATE).getResultList();
     }
-    
-    
-    
-    
-    
-    
-
 }

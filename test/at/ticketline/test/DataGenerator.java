@@ -7,7 +7,10 @@ public class DataGenerator {
 
     public static void main(String[] args) {
         
-        TestInitializer.init();        
+        TestInitializer.init();
+
+        // TestUtility.dropDatabaseSchema();
+
         try {
             TestUtility.generateTestData();
         } catch (FileNotFoundException e) {

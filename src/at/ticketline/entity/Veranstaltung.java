@@ -35,8 +35,8 @@ public class Veranstaltung extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 30)
-    @Size(max = 30)
+    @Column(nullable = false, length = 50)
+    @Size(max = 50)
     @NotNull
     private String bezeichnung;
 

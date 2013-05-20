@@ -44,7 +44,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ticketline.entity.Auffuehrung;
+import at.ticketline.entity.PreisKategorie;
+import at.ticketline.entity.Saal;
+import at.ticketline.entity.Veranstaltung;
 import at.ticketline.service.api.AuffuehrungService;
+import org.eclipse.swt.widgets.Combo;
 
 @SuppressWarnings("restriction")
 public class AuffuehrungSearchPart {
@@ -65,11 +69,9 @@ public class AuffuehrungSearchPart {
     DateTime dateTimeFrom;
     DateTime dateTimeTo;
 	private Table table;
-	private Text text;
-	private Text text_1;
 	private Text text_2;
 	private Text text_3;
-
+	Combo preiskategorie;
 	/**
 	 * Create contents of the view part.
 	 */
@@ -104,7 +106,15 @@ public class AuffuehrungSearchPart {
 		
 		dateTimeFrom = new DateTime(SearchComposite, SWT.BORDER);
 		
+	      
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+		//set from time one year in the past
+        year -=1;
 		dateTimeFrom.setToolTipText("Von");
+		dateTimeFrom.setDate(year, month, day);
 		FormData fd_dateTimeFrom = new FormData();
 		fd_dateTimeFrom.top = new FormAttachment(lblDatum, -5, SWT.TOP);
 		fd_dateTimeFrom.left = new FormAttachment(lblDatum, 34);
@@ -117,14 +127,10 @@ public class AuffuehrungSearchPart {
 		label.setLayoutData(fd_label);
 		label.setText("-");
 		
-		
-		Calendar calendar = Calendar.getInstance();
-		int year = calendar.get(Calendar.YEAR);
-		int month = calendar.get(Calendar.MONTH);
-		int day = calendar.get(Calendar.DAY_OF_MONTH);
-		
-		// Timeperiod of two months
-		month += 2;
+
+		//add one to day to include today's generated dates
+		year += 1;
+		day+=1;
 		
 		dateTimeTo = new DateTime(SearchComposite, SWT.BORDER);
 		dateTimeTo.setDate(year, month, day);
@@ -141,29 +147,6 @@ public class AuffuehrungSearchPart {
 		lblPreis.setLayoutData(fd_lblPreis);
 		lblPreis.setText("Preis");
 		
-		text = new Text(SearchComposite, SWT.BORDER);
-		text.setToolTipText("Von");
-		FormData fd_text = new FormData();
-		fd_text.right = new FormAttachment(dateTimeFrom, 0, SWT.RIGHT);
-		fd_text.top = new FormAttachment(dateTimeFrom, 19);
-		fd_text.left = new FormAttachment(dateTimeFrom, 0, SWT.LEFT);
-		text.setLayoutData(fd_text);
-		
-		Label label_1 = new Label(SearchComposite, SWT.NONE);
-		label_1.setText("-");
-		FormData fd_label_1 = new FormData();
-		fd_label_1.top = new FormAttachment(label, 27);
-		fd_label_1.right = new FormAttachment(label, 0, SWT.RIGHT);
-		label_1.setLayoutData(fd_label_1);
-		
-		text_1 = new Text(SearchComposite, SWT.BORDER);
-		text_1.setToolTipText("Bis");
-		FormData fd_text_1 = new FormData();
-		fd_text_1.right = new FormAttachment(dateTimeTo, 0, SWT.RIGHT);
-		fd_text_1.top = new FormAttachment(lblPreis, -3, SWT.TOP);
-		fd_text_1.left = new FormAttachment(dateTimeTo, 0, SWT.LEFT);
-		text_1.setLayoutData(fd_text_1);
-		
 		Label lblSaal = new Label(SearchComposite, SWT.NONE);
 		FormData fd_lblSaal = new FormData();
 		fd_lblSaal.bottom = new FormAttachment(lblDatum, 0, SWT.BOTTOM);
@@ -173,7 +156,6 @@ public class AuffuehrungSearchPart {
 		
 		Label lblVeranstaltung = new Label(SearchComposite, SWT.NONE);
 		FormData fd_lblVeranstaltung = new FormData();
-		fd_lblVeranstaltung.left = new FormAttachment(text_1, 101);
 		fd_lblVeranstaltung.bottom = new FormAttachment(lblPreis, 0, SWT.BOTTOM);
 		lblVeranstaltung.setLayoutData(fd_lblVeranstaltung);
 		lblVeranstaltung.setText("Veranstaltung");
@@ -186,11 +168,20 @@ public class AuffuehrungSearchPart {
 		text_2.setLayoutData(fd_text_2);
 		
 		text_3 = new Text(SearchComposite, SWT.BORDER);
+		fd_lblVeranstaltung.right = new FormAttachment(text_3, -33);
 		FormData fd_text_3 = new FormData();
 		fd_text_3.right = new FormAttachment(text_2, 0, SWT.RIGHT);
-		fd_text_3.left = new FormAttachment(lblVeranstaltung, 33);
+		fd_text_3.left = new FormAttachment(0, 492);
 		fd_text_3.top = new FormAttachment(lblVeranstaltung, -3, SWT.TOP);
 		text_3.setLayoutData(fd_text_3);
+		
+		preiskategorie = new Combo(SearchComposite, SWT.NONE);
+		preiskategorie.setItems(new String[] {"Mindestpreis", "Standardpreis", "Maximalpreis"});
+		FormData fd_preiskategorie = new FormData();
+		fd_preiskategorie.right = new FormAttachment(dateTimeTo, 0, SWT.RIGHT);
+		fd_preiskategorie.top = new FormAttachment(dateTimeFrom, 15);
+		fd_preiskategorie.left = new FormAttachment(lblPreis, 45);
+		preiskategorie.setLayoutData(fd_preiskategorie);
 		SearchComposite.setTabList(new Control[]{btnSuchen});
 		
 		tableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION);
@@ -302,20 +293,43 @@ public class AuffuehrungSearchPart {
             public void mouseUp(MouseEvent e) {
                 
             	Auffuehrung query = new Auffuehrung();
-            	/*query.setBezeichnung(txtBezeichnung.getText().length() > 0 ? txtBezeichnung.getText() : null);
-            	query.setAdresse(new Adresse());
-            	query.getAdresse().setStrasse(txtStrasse.getText().length() > 0 ? txtStrasse.getText() : null);
-            	query.getAdresse().setPlz(txtPlz.getText().length() > 0 ? txtPlz.getText() : null);
-            	query.getAdresse().setOrt(txtOrt.getText().length() > 0 ? txtOrt.getText() : null);
-            	query.getAdresse().setLand(txtLand.getText().length() > 0 ? txtLand.getText() : null);
-            	*/
-            	LOG.debug("Query Ort: {}", query);
+            	Auffuehrung queryto = new Auffuehrung();
+            	query.setSaal(new Saal());
+            	query.getSaal().setBezeichnung(text_2.getText().length() > 0 ? text_2.getText() : null);
+            	query.setVeranstaltung(new Veranstaltung());
+            	query.getVeranstaltung().setBezeichnung(text_3.getText().length() > 0 ? text_3.getText() : null);
+            	PreisKategorie pk = null;
+            	switch (preiskategorie.getSelectionIndex()) {
+                case 0:
+                    pk = PreisKategorie.MINDESTPREIS;
+                    break;
+                case 1:
+                    pk = PreisKategorie.STANDARDPREIS;
+                    break;
+                case 2:
+                    pk = PreisKategorie.MAXIMALPREIS;
+                    break;
+                default:
+                    break;
+                }
+            	query.setPreis(pk);
+            	Calendar cal = Calendar.getInstance();
+            	cal.set(Calendar.YEAR, dateTimeFrom.getYear());
+            	cal.set(Calendar.MONTH, dateTimeFrom.getMonth());
+            	cal.set(Calendar.DAY_OF_MONTH, dateTimeFrom.getDay());
+            	query.setDatumuhrzeit(new Date(cal.getTimeInMillis()));
+                cal.set(Calendar.YEAR, dateTimeTo.getYear());
+                cal.set(Calendar.MONTH, dateTimeTo.getMonth());
+                cal.set(Calendar.DAY_OF_MONTH, dateTimeTo.getDay());
+            	queryto.setDatumuhrzeit(new Date(cal.getTimeInMillis()));
+                LOG.debug("Query Auffuehrung: {}", query);
             	
-            	tableViewer.setInput(auffuehrungService.find(query));
+            	tableViewer.setInput(auffuehrungService.find(query, queryto));
             	tableViewer.refresh();
             	
             }
         });
+        this.tableViewer.setInput(auffuehrungService.find(new Auffuehrung(), new Auffuehrung()));
 	}
 
 	@PreDestroy

@@ -1,5 +1,6 @@
 package at.ticketline.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -24,9 +25,9 @@ public class AuffuehrungServiceImpl implements AuffuehrungService {
     }
     
     @Override
-    public List<Auffuehrung> find(Auffuehrung auffuehrung) {
+    public List<Auffuehrung> find(Auffuehrung auffuehrung, Auffuehrung to) {
         LOG.info("Suche nach Auffuehrung");
-        return auffuehrungDao.findByAuffuehrung(auffuehrung);
+        return auffuehrungDao.findByAuffuehrung(auffuehrung, to);
     }
 
     @Override

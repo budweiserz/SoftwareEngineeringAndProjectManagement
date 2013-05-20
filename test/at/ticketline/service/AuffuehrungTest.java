@@ -29,6 +29,7 @@ public class AuffuehrungTest extends AbstractDaoTest {
     AuffuehrungService auffuehrungService;
     Auffuehrung a;
     Auffuehrung query;
+    Auffuehrung query2;
     
     @Test
     public void testIfNewAuffuehrungPersistsWithoutException() {
@@ -65,7 +66,7 @@ public class AuffuehrungTest extends AbstractDaoTest {
         plaetze.add(EntityGenerator.getValidPlatz(12));
         plaetze.add(EntityGenerator.getValidPlatz(14));
         plaetze.add(EntityGenerator.getValidPlatz(15));
-        Date date = new Date();
+        Date date = new Date(1293886372);
         Saal saal = EntityGenerator.getValidSaal(5);
         Veranstaltung veranstaltung = EntityGenerator.getValidVeranstaltung(3);
 
@@ -86,13 +87,14 @@ public class AuffuehrungTest extends AbstractDaoTest {
         
         query = new Auffuehrung();
         query.setPreis(PreisKategorie.STANDARDPREIS);
-        query.setDatumuhrzeit(date);
         query.setSaal(saal);
         query.setVeranstaltung(veranstaltung);
-        
+        query.setDatumuhrzeit(new Date(1230814372));
+        query2 = new Auffuehrung();
+        query2.setDatumuhrzeit(new Date(1388580772));
         this.auffuehrungService.save(a);
         
-        List<Auffuehrung> results = this.auffuehrungService.find(query);
+        List<Auffuehrung> results = this.auffuehrungService.find(query, query2);
         assertTrue(results.contains(a));
     }
     
@@ -104,7 +106,7 @@ public class AuffuehrungTest extends AbstractDaoTest {
         plaetze.add(EntityGenerator.getValidPlatz(12));
         plaetze.add(EntityGenerator.getValidPlatz(14));
         plaetze.add(EntityGenerator.getValidPlatz(15));
-        Date date = new Date();
+        Date date = new Date(1293886372);
         Saal saal = EntityGenerator.getValidSaal(5);
         Veranstaltung veranstaltung = EntityGenerator.getValidVeranstaltung(3);
 
@@ -124,11 +126,12 @@ public class AuffuehrungTest extends AbstractDaoTest {
         a.setSaal(saal);
         
         query = new Auffuehrung();
-        query.setDatumuhrzeit(date);
-        
+        query.setDatumuhrzeit(new Date(1230814372));
+        query2 = new Auffuehrung();
+        query2.setDatumuhrzeit(new Date(1388580772));
         this.auffuehrungService.save(a);
         
-        List<Auffuehrung> results = this.auffuehrungService.find(query);
+        List<Auffuehrung> results = this.auffuehrungService.find(query, query2);
         assertTrue(results.contains(a));       
     }
     
@@ -140,7 +143,7 @@ public class AuffuehrungTest extends AbstractDaoTest {
         plaetze.add(EntityGenerator.getValidPlatz(12));
         plaetze.add(EntityGenerator.getValidPlatz(14));
         plaetze.add(EntityGenerator.getValidPlatz(15));
-        Date date = new Date();
+        Date date = new Date(1293886372);
         Saal saal = EntityGenerator.getValidSaal(5);
         Veranstaltung veranstaltung = EntityGenerator.getValidVeranstaltung(3);
 
@@ -161,10 +164,11 @@ public class AuffuehrungTest extends AbstractDaoTest {
         
         query = new Auffuehrung();
         query.setPreis(PreisKategorie.STANDARDPREIS);
-        
+        query2 = new Auffuehrung();
+        query2.setDatumuhrzeit(new Date(1388580772));
         this.auffuehrungService.save(a);
         
-        List<Auffuehrung> results = this.auffuehrungService.find(query);
+        List<Auffuehrung> results = this.auffuehrungService.find(query, query2);
         assertTrue(results.contains(a));      
     }
     
@@ -176,7 +180,7 @@ public class AuffuehrungTest extends AbstractDaoTest {
         plaetze.add(EntityGenerator.getValidPlatz(12));
         plaetze.add(EntityGenerator.getValidPlatz(14));
         plaetze.add(EntityGenerator.getValidPlatz(15));
-        Date date = new Date();
+        Date date = new Date(1293886372);
         Saal saal = EntityGenerator.getValidSaal(5);
         Veranstaltung veranstaltung = EntityGenerator.getValidVeranstaltung(3);
 
@@ -197,10 +201,11 @@ public class AuffuehrungTest extends AbstractDaoTest {
         
         query = new Auffuehrung();
         query.setSaal(saal);
-        
+        query2 = new Auffuehrung();
+        query2.setDatumuhrzeit(new Date(1388580772));
         this.auffuehrungService.save(a);
         
-        List<Auffuehrung> results = this.auffuehrungService.find(query);
+        List<Auffuehrung> results = this.auffuehrungService.find(query, query2);
         assertTrue(results.contains(a));     
     }
     
@@ -212,7 +217,7 @@ public class AuffuehrungTest extends AbstractDaoTest {
         plaetze.add(EntityGenerator.getValidPlatz(12));
         plaetze.add(EntityGenerator.getValidPlatz(14));
         plaetze.add(EntityGenerator.getValidPlatz(15));
-        Date date = new Date();
+        Date date = new Date(1293886372);
         Saal saal = EntityGenerator.getValidSaal(5);
         Veranstaltung veranstaltung = EntityGenerator.getValidVeranstaltung(3);
 
@@ -233,10 +238,11 @@ public class AuffuehrungTest extends AbstractDaoTest {
         
         query = new Auffuehrung();
         query.setVeranstaltung(veranstaltung);
-        
+        query2 = new Auffuehrung();
+        query2.setDatumuhrzeit(new Date(1388580772));
         this.auffuehrungService.save(a);
         
-        List<Auffuehrung> results = this.auffuehrungService.find(query);
+        List<Auffuehrung> results = this.auffuehrungService.find(query, query2);
         assertTrue(results.contains(a));
     }
     
@@ -250,8 +256,9 @@ public class AuffuehrungTest extends AbstractDaoTest {
         query.setSaal(EntityGenerator.getValidSaal(5));
         query.setPreis(PreisKategorie.STANDARDPREIS);
         query.setDatumuhrzeit(new Date());
-
-        List<Auffuehrung> results = this.auffuehrungService.find(query);
+        query2 = new Auffuehrung();
+        query2.setDatumuhrzeit(new Date(1388580772));
+        List<Auffuehrung> results = this.auffuehrungService.find(query, query2);
         assertTrue(results.isEmpty());
     }
 

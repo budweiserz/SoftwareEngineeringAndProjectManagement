@@ -40,11 +40,11 @@
       </children>
     </trimBars>
   </children>
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_A6k5ULfiEeK5r4ZRsi2uzQ" elementId="ticketlinercp.trimmedwindow.0" label="Login" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/key_icon&amp;16.png" x="200" y="200" width="320" height="370">
-    <children xsi:type="basic:Part" xmi:id="_FUEpILfiEeK5r4ZRsi2uzQ" elementId="ticketlinercp.part.0" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.LoginPart" label="LoginPart"/>
-  </children>
   <children xsi:type="basic:TrimmedWindow" xmi:id="_vFkWUL7WEeKTEsAFXXSalg" elementId="ticketlinercp.trimmedwindow.1" label="Unternehmensnews" x="200" y="200" width="640" height="740">
     <children xsi:type="basic:Part" xmi:id="_CZbMoL7XEeKTEsAFXXSalg" elementId="ticketlinercp.part.1" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.NewsPart" label="NewsPart"/>
+  </children>
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_A6k5ULfiEeK5r4ZRsi2uzQ" elementId="ticketlinercp.trimmedwindow.0" label="Login" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/key_icon&amp;16.png" x="200" y="200" width="320" height="370">
+    <children xsi:type="basic:Part" xmi:id="_FUEpILfiEeK5r4ZRsi2uzQ" elementId="ticketlinercp.part.0" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.LoginPart" label="LoginPart"/>
   </children>
   <handlers xmi:id="_J1qjG57KEeKyV7_6Xf9MMA" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.QuitHandler" command="_J1qjGp7KEeKyV7_6Xf9MMA"/>
   <handlers xmi:id="_J1qjH57KEeKyV7_6Xf9MMA" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenHandler" command="_J1qjHp7KEeKyV7_6Xf9MMA"/>
@@ -57,7 +57,7 @@
   <handlers xmi:id="_f-P9kL1EEeKvqu4NU28Xow" elementId="ticketlinercp.handler.0" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenVeranstaltungsSucheHandler" command="_cBlTsL1EEeKvqu4NU28Xow"/>
   <handlers xmi:id="_hezHUL1lEeKT_IzQOUkC4g" elementId="inso-sepm-ss13-07.handler.0" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenKuenstlerSearchHandler" command="_iMMOQL1kEeKT_IzQOUkC4g"/>
   <handlers xmi:id="_y_HQcL42EeKT_IzQOUkC4g" elementId="inso-sepm-ss13-07.handler.1" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenVeranstaltungHandler" command="_AAR2IL42EeKT_IzQOUkC4g"/>
-  <handlers xmi:id="_KKK5UL1cEeKCAfdsrtuMiA" elementId="at.ticketline.openAufuehrungSearchCommand" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenAuffuehrungSearchHandler" command="_RSuQYL1cEeKCAfdsrtuMiA"/>  
+  <handlers xmi:id="_KKK5UL1cEeKCAfdsrtuMiA" elementId="at.ticketline.openAufuehrungSearchCommand" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenAuffuehrungSearchHandler" command="_RSuQYL1cEeKCAfdsrtuMiA"/>
   <bindingTables xmi:id="_J1qjHJ7KEeKyV7_6Xf9MMA" bindingContext="_J1qjEZ7KEeKyV7_6Xf9MMA">
     <bindings xmi:id="_J1qjHZ7KEeKyV7_6Xf9MMA" keySequence="M1+Q" command="_J1qjGp7KEeKyV7_6Xf9MMA"/>
     <bindings xmi:id="_J1qjIJ7KEeKyV7_6Xf9MMA" keySequence="M1+O" command="_J1qjHp7KEeKyV7_6Xf9MMA"/>

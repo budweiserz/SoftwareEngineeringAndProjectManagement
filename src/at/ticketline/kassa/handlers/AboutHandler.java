@@ -11,6 +11,6 @@ import org.eclipse.swt.widgets.Shell;
 public class AboutHandler {
     @Execute
     public void execute(@Named(IServiceConstants.ACTIVE_SHELL) Shell shell) {
-        MessageDialog.openInformation(shell, "Über Ticketline RCP", "Gruppe XX");
+        MessageDialog.openInformation(shell, "Über Ticketline RCP", "Programm von Gruppe 07");
     }
 }

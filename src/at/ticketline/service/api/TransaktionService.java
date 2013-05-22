@@ -6,6 +6,7 @@ import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.Platz;
+import at.ticketline.entity.Saal;
 import at.ticketline.entity.Transaktion;
 import at.ticketline.entity.Zahlungsart;
 
@@ -37,4 +38,17 @@ public interface TransaktionService {
      * @return Eine Transaktion welche die Zahlungsinformation beinhaltet
      */
     public Transaktion sell(Mitarbeiter mitarbeiter, Kunde kunde, Auffuehrung auffuehrung, Set<Platz> plaetze, Zahlungsart z);
+    
+    /**
+     * 
+     * @param reservierungsNr
+     */
+    public void cancel(Integer reservierungsNr);
+    
+    /**
+     * 
+     * @param k
+     * @param a
+     */
+    public void cancel(Kunde k, Auffuehrung a);
 }

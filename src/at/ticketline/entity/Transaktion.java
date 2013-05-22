@@ -99,11 +99,8 @@ public class Transaktion extends BaseEntity {
      * 
      */
     public Integer getReservierungsnr() {
-        return this.reservierungsnr;
-    }
-
-    public void setReservierungsnr(Integer resnr) {
-        this.reservierungsnr = resnr;
+        //return this.reservierungsnr;
+        return getId();
     }
 
     /**

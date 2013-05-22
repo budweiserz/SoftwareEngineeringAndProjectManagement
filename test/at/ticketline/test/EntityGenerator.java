@@ -171,6 +171,7 @@ public class EntityGenerator {
 
         Platz p = new Platz();
         p.setNummer(new Integer(modifier));
+        p.setStatus(PlatzStatus.FREI);
 
         return p;
     }
@@ -198,7 +199,6 @@ public class EntityGenerator {
         Transaktion t = new Transaktion();
         t.setDatumuhrzeit(new Date());
         t.setStatus(Transaktionsstatus.BUCHUNG);
-        t.setReservierungsnr(new Integer(modifier));
 
         return t;
     }

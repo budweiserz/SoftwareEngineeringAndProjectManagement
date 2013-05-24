@@ -43,12 +43,12 @@ public interface TransaktionService {
      * 
      * @param reservierungsNr
      */
-    public void cancel(Integer reservierungsNr);
+    public void cancelReservation(Integer reservierungsNr);
     
     /**
      * 
      * @param k
      * @param a
      */
-    public void cancel(Kunde k, Auffuehrung a);
+    public void cancelTransaktion(Kunde k, Auffuehrung a);
 }

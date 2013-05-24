@@ -1,6 +1,7 @@
 package at.ticketline.service.impl;
 
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -105,15 +106,42 @@ public class TransaktionServiceImpl implements TransaktionService {
         return t;
     }
 
-    @Override
-    public void cancel(Integer reservierungsNr) {
-        // TODO Auto-generated method stub
-        
-    }
+	@Override
+	public void cancelReservation(Integer reservierungsNr) {
+		TransaktionDao transaktionDao = (TransaktionDao)DaoFactory.getByEntity(Transaktion.class);
+		Transaktion t = transaktionDao.findById(reservierungsNr);
+		t.setStatus(Transaktionsstatus.STORNO);
+		LinkedHashSet<Platz> plaetze = new LinkedHashSet<Platz>(t.getPlaetze());
+		for (Platz p : plaetze) {
+			p.setStatus(PlatzStatus.FREI);
+		}
+		
+		t.setPlaetze(plaetze);
+		transaktionDao.merge(t);
+	}
 
-    @Override
-    public void cancel(Kunde k, Auffuehrung a) {
-        // TODO Auto-generated method stub
-        
-    }
+	@Override
+	public void cancelTransaktion(Kunde k, Auffuehrung a) {
+		TransaktionDao transaktionDao = (TransaktionDao)DaoFactory.getByEntity(Transaktion.class);
+		
+		for (Transaktion t : transaktionDao.findAll()) {
+			if (k != null && k.equals(t.getKunde())) {
+				
+				Boolean persist = false;
+				
+				for (Platz p : t.getPlaetze()) {
+					if (a != null && a.equals(p.getAuffuehrung())) {
+						persist = true;
+						t.setStatus(Transaktionsstatus.STORNO);
+						p.setStatus(PlatzStatus.FREI);
+					}
+				}
+				
+				if (persist) {
+					transaktionDao.merge(t);
+				}
+			}
+		}
+		
+	}
 }

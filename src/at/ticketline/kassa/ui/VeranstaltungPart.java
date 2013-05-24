@@ -235,11 +235,7 @@ public class VeranstaltungPart {
         this.tableViewer.addDoubleClickListener(new IDoubleClickListener() {
             @Override
             public void doubleClick(DoubleClickEvent event) {
-                //TODO: change to open buy dialog, delete create command (unnecessary?!?!)
-                WizardDialog transaktion = new WizardDialog(shell, new TransaktionWizard());
-                transaktion.open(); 
-                
-                ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openKunde", null);
+                ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openWizard", null);
                 handlerService.executeHandler(c);
             }
         });

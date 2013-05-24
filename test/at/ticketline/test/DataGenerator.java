@@ -13,6 +13,7 @@ import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.EntityManagerUtil;
 import at.ticketline.dao.api.ArtikelDao;
 import at.ticketline.dao.api.AuffuehrungDao;
+import at.ticketline.dao.api.EngagementDao;
 import at.ticketline.dao.api.KategorieDao;
 import at.ticketline.dao.api.KuenstlerDao;
 import at.ticketline.dao.api.KundeDao;
@@ -25,6 +26,7 @@ import at.ticketline.entity.Adresse;
 import at.ticketline.entity.Artikel;
 import at.ticketline.entity.ArtikelKategorie;
 import at.ticketline.entity.Auffuehrung;
+import at.ticketline.entity.Engagement;
 import at.ticketline.entity.Geschlecht;
 import at.ticketline.entity.Kategorie;
 import at.ticketline.entity.Kuenstler;
@@ -82,13 +84,13 @@ public class DataGenerator {
         ArrayList<Kategorie> kategorieList = new ArrayList<Kategorie>();
         ArrayList<Kunde> kunden = new ArrayList<Kunde>();
         ArrayList<Kuenstler> kuenstlerList = new ArrayList<Kuenstler>();
-        ArrayList<Kuenstler> musiker = new ArrayList<Kuenstler>();
-        ArrayList<Kuenstler> schauspielerKino = new ArrayList<Kuenstler>();
-        ArrayList<Kuenstler> schauspielerTheater = new ArrayList<Kuenstler>();
-        ArrayList<Kuenstler> opernsaenger = new ArrayList<Kuenstler>();
-        ArrayList<Kuenstler> kabarettist = new ArrayList<Kuenstler>();
-        ArrayList<Kuenstler> sonstiges = new ArrayList<Kuenstler>();
         
+        Set<Engagement> musik = new HashSet<Engagement>();
+        Set<Engagement> schauspielKino = new HashSet<Engagement>();
+        Set<Engagement> schauspielTheater = new HashSet<Engagement>();
+        Set<Engagement> schauspielOper = new HashSet<Engagement>();
+        Set<Engagement> schauspielKabarett = new HashSet<Engagement>();
+
         ArrayList<Mitarbeiter> mitarbeiterList = new ArrayList<Mitarbeiter>();
         ArrayList<News> newsList = new ArrayList<News>();
         ArrayList<Ort> ortList = new ArrayList<Ort>();
@@ -99,7 +101,7 @@ public class DataGenerator {
         ArrayList<Saal> kabarettSaal = new ArrayList<Saal>();
         ArrayList<Saal> saalSaal = new ArrayList<Saal>();
         ArrayList<Saal> locationSaal = new ArrayList<Saal>();
-        
+
         ArrayList<Veranstaltung> veranstaltungList = new ArrayList<Veranstaltung>();
 
         KundeDao kundedao = (KundeDao) DaoFactory.getByEntity(Kunde.class);
@@ -113,9 +115,7 @@ public class DataGenerator {
         OrtDao ortDao = (OrtDao) DaoFactory.getByEntity(Ort.class);
         SaalDao saalDao = (SaalDao) DaoFactory.getByEntity(Saal.class);
         VeranstaltungDao veranstaltungDao = (VeranstaltungDao) DaoFactory.getByEntity(Veranstaltung.class);
-
-        // EngagementDao engagementDao = (EngagementDao) DaoFactory
-        // .getByEntity(Engagement.class);
+        EngagementDao engagementDao = (EngagementDao) DaoFactory.getByEntity(Engagement.class);
 
         /*
          * reset is done by executing a delete statement on all tables
@@ -231,28 +231,73 @@ public class DataGenerator {
         }
         parser.close();
 
-        // Kuenstler
+        // Kuenstler + Engagements
         parser = new LabeledCSVParser(new CSVParser(new FileInputStream("csv/kuenstler.csv")));
         current = parser.getLine();
         i = 0;
+        Engagement e;
+        int jobs;
         while (current != null) {
 
             kuenstler = EntityGenerator.getValidKuenstler(i++);
             kuenstler.setVorname(current[0]);
             kuenstler.setNachname(current[1]);
 
+            jobs = random.nextInt(5);
+            
             if (current[2].equals("m")) {
                 kuenstler.setGeschlecht(Geschlecht.MAENNLICH);
             } else {
                 kuenstler.setGeschlecht(Geschlecht.WEIBLICH);
             }
 
-            
-            
-            
-            
-            
-            kuenstler.setBiographie(current[3]);
+            if (current[3].equals("m")) {
+
+                for (int a = 0; a < jobs; a++) {
+                    
+                    e = EntityGenerator.getValidEngagement(i++);
+                    e.setKuenstler(kuenstler);
+                    musik.add(e);
+                }
+
+            } else if (current[3].equals("t")) {
+
+                for (int a = 0; a < jobs; a++) {
+                    
+                    e = EntityGenerator.getValidEngagement(i++);
+                    e.setKuenstler(kuenstler);
+                    schauspielTheater.add(e);
+                }
+
+            } else if (current[3].equals("o")) {
+
+                for (int a = 0; a < jobs; a++) {
+                    
+                    e = EntityGenerator.getValidEngagement(i++);
+                    e.setKuenstler(kuenstler);
+                    schauspielOper.add(e);
+                }
+
+            } else if (current[3].equals("k")) {
+
+                for (int a = 0; a < jobs; a++) {
+                    
+                    e = EntityGenerator.getValidEngagement(i++);
+                    e.setKuenstler(kuenstler);
+                    schauspielKabarett.add(e);
+                }
+
+            } else { // kino
+
+                for (int a = 0; a < jobs; a++) {
+                    
+                    e = EntityGenerator.getValidEngagement(i++);
+                    e.setKuenstler(kuenstler);
+                    schauspielKino.add(e);
+                }
+            }
+
+            kuenstler.setBiographie(current[4]);
             kuenstlerList.add(kuenstler);
             kuenstlerDao.persist(kuenstler);
             current = parser.getLine();
@@ -368,7 +413,7 @@ public class DataGenerator {
             ortDao.persist(ort);
             saele.clear();
         }
-        
+
         EntityManagerUtil.commitTransaction();
 
         parser.close();
@@ -403,7 +448,7 @@ public class DataGenerator {
 
             index = random.nextInt(974);
             range = index + 1 + random.nextInt(24);
-            
+
             for (; index < range; index++) {
 
                 auffuehrung = auffuehrungList.get(index % auffuehrungList.size());
@@ -426,11 +471,11 @@ public class DataGenerator {
                     auffuehrung.setSaal(kabarettSaal.get(random.nextInt(kabarettSaal.size())));
 
                 } else if (random.nextBoolean()) {
-                    
+
                     auffuehrung.setSaal(locationSaal.get(random.nextInt(locationSaal.size())));
 
                 } else {
-                    
+
                     auffuehrung.setSaal(saalSaal.get(random.nextInt(saalSaal.size())));
                 }
 

@@ -44,7 +44,7 @@ public class NewsPart {
 	public void createControls(Composite parent) {
 		parent.setLayout(new GridLayout(1, false));
 		
-		Browser browser = new Browser(parent, SWT.FILL | SWT.SMOOTH);
+		Browser browser = new Browser(parent, SWT.NONE);
 		GridData gd_browser = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
 		gd_browser.heightHint = 172;
 		gd_browser.widthHint = 417;

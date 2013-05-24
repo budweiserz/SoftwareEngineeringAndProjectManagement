@@ -9,6 +9,7 @@ import org.eclipse.jface.wizard.Wizard;
 
 import at.ticketline.service.api.KundeService;
 
+@SuppressWarnings("restriction")
 public class TransaktionWizard extends Wizard {
     
     @Inject private KundeService kundeService;
@@ -18,6 +19,9 @@ public class TransaktionWizard extends Wizard {
     
     protected TransaktionWizardSeiteEins eins;
     protected TransaktionWizardSeiteZwei zwei;
+    protected TransaktionWizardSeiteDrei drei;
+    protected TransaktionWizardSeiteVier vier;
+    protected TransaktionWizardSeiteFuenf fuenf;
     
     public TransaktionWizard() {
         super();
@@ -29,14 +33,48 @@ public class TransaktionWizard extends Wizard {
     public void addPages() {
         eins = new TransaktionWizardSeiteEins();
         zwei = new TransaktionWizardSeiteZwei();
-        zwei.setKundeService(kundeService);
+        drei = new TransaktionWizardSeiteDrei();
+        vier  = new TransaktionWizardSeiteVier();
+        fuenf = new TransaktionWizardSeiteFuenf();
+        vier.setKundeService(kundeService);
+        vier.setECommandService(commandService);
+        vier.setEHandlerService(handlerService);
+        vier.setESelectionService(selectionService);
+        
         addPage(eins);
         addPage(zwei);
+        addPage(drei);
+        addPage(vier);
+        addPage(fuenf);
+    }
+
+    @Override
+    public boolean performCancel() {
+        if(fuenf.isCurrentPage())
+            return false;// TODO Auto-generated method stub
+        return true;
+    }
+    
+    @Override
+    public boolean canFinish() {
+        if(fuenf.isCurrentPage()) {
+            //fuenf.setPageComplete(true);
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean performFinish() {
-        return false;
+        return true;
     }
 
+//    @Override
+//    public boolean performFinish() {
+//        if(fuenf.isCurrentPage()) {
+//            fuenf.setPageComplete(true);
+//            return true;
+//        }
+//        return false;
+//    }
 }

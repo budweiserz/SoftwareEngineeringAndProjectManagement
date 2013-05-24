@@ -1,0 +1,340 @@
+diff a/csv/kuenstler.csv b/csv/kuenstler.csv	(rejected hunks)
+@@ -1,169 +1,169 @@
+ Vorname,Nachname,Geschlecht,Arbeit,Biographie
+-Leonard,Cohen,m,Musik,"Sein/Ihr Leben begann kurz nach seiner/ihrer Geburt"
+-Paolo,Conte,m,Musik,"Sein/Ihr Leben begann kurz nach seiner/ihrer Geburt"
+-Marcus,Miller,m,Musik,"Sein/Ihr Leben begann kurz nach seiner/ihrer Geburt"
+-George,Benson,m,Musik,"Sein/Ihr Leben begann kurz nach seiner/ihrer Geburt"
+-Hugh,Laurie,m,Musik,"Sein/Ihr Leben begann kurz nach seiner/ihrer Geburt"
+-Ammy,MacDonald,Musik,w,"Sein/Ihr Leben begann kurz nach seiner/ihrer Geburt"
+-Joe,Bonamassa,Musik,m,"Sein/Ihr Leben begann kurz nach seiner/ihrer Geburt"
+-Helge,Schneider,Musik,m,"Sein/Ihr Leben begann kurz nach seiner/ihrer Geburt"
+-Bobby,Womack,m,Musik,"Sein/Ihr Leben begann kurz nach seiner/ihrer Geburt"
+-Larry,Graham,m,Musik,"Sein/Ihr Leben begann kurz nach seiner/ihrer Geburt"
+-Jack Nicholson,m,Kino,""
+-Ralph Fiennes,m,Kino,""
+-Daniel Day-Lewis,m,Kino,""
+-Robert De Niro,m,Kino,""
+-Dustin Hoffman,m,Kino,""
+-Tom Hanks,m,Kino,""
+-Brad Pit,m,Kino,""
+-Anthony Hopkins,m,Kino,""
+-Marlon Brando,m,Kino,""
+-Jeremy Irons,m,Kino,""
+-Denzel Washington,m,Kino,""
+-Tim Robbins,m,Kino,""
+-Henry Fonda,m,Kino,""
+-William Hurt,m,Kino,""
+-Kevin Kostner,m,Kino,""
+-Mel Giboson,m,Kino,""
+-Samuel L. Jackson,m,Kino,""
+-Tom Cruise,m,Kino,""
+-Heath Ledger,m,Kino,""
+-Philip Seymour Hoffman,m,Kino,""
+-Jason Robards,m,Kino,""
+-Colin Firth,m,Kino,""
+-Sean Connery,m,Kino,""
+-Yves Montand,m,Kino,""
+-Richard Gere,m,Kino,""
+-Gary Oldman,m,Kino,""
+-Harrison For,m,Kino,""
+-John Gielgud,m,Kino,""
+-Joe Pesci,m,Kino,""
+-Paul Newman,m,Kino,""
+-Woody Harrelson,m,Kino,""
+-Harvey Keitel,m,Kino,""
+-Michael Madsen,m,Kino,""
+-Kevin Bacon,m,Kino,""
+-Ed Harris,m,Kino,""
+-Ed Helms,m,Kino,""
+-Zach Galifianakis,m,Kino,""
+-Chris Pratt,m,Kino,""
+-Azis Anzari,m,Kino,""
+-Rob Lowe,m,Kino,""
+-Adam Scott,m,Kino,""
+-Nick Offermann,m,Kino,""
+-Steve Carell,m,Kino,""
+-Rainn Wilson,m,Kino,""
+-Bob Baumgartner,m,Kino,""
+-Chris Cooper,m,Kino,""
+-Charlize Theron,w,Kino,""
+-Framke Janssen,w,Kino,""
+-Carla Gugino,w,Kino,""
+-Thandie Newton,w,Kino,""
+-Amy Poehler,w,Kino,""
+-Aubrey Plaza,w,Kino,""
+-Rashida Jones,w,Kino,""
+-Marg Helgenberger,w,Kino,""
+-Rachel Nichols,w,Kino,""
+-Leslie Bibb,w,Kino,""
+-Teri Polo,w,Kino,""
+-Emily Blunt,w,Kino,""
+-Eliza Dushku,w,Kino,""
+-Audrey Tauto,w,Kino,""
+-Nina Dobrev,w,Kino,""
+-Alyssa Milano,w,Kino,""
+-Gabrielle Union,w,Kino,""
+-Angela Bassett,w,Kino,""
+-Gemma Artertonv,w,Kino,""
+-Salma Hayek,w,Kino,""
+-Jennifer Garner,w,Kino,""
+-Jessica Alba,w,Kino,""
+-Regina Hall,w,Kino,""
+-Nicky Whelanv,w,Kino,""
+-Drew Barrymore,w,Kino,""
+-Odette Annable,w,Kino,""
+-Abbie Cornish,w,Kino,""
+-Roselyn Sanches,w,Kino,""
+-Vera Farmiga,w,Kino,""
+-Anne Hathaway,w,Kino,""
+-Elisha Cuthbert,w,Kino,""
+-Julia Roberts,w,Kino,""
+-Rosario Dawson,w,Kino,""
+-Natalie Portman,w,Kino,""
+-Mila Kunis,w,Kino,""
+-Jami Gertz,w,Kino,""
+-Nia Long,w,Kino,""
+-Jenna Fischer,w,Kino,""
+-Christina Ricci,w,Kino,""
+-Mary Elisabetzh Winstead,w,Kino,""
+-Maggie Grace,w,Kino,""
+-Bryce Dallas Howard,w,Kino,""
+-Jenniffer Lawrence,w,Kino,""
+-Roger Bart,m,Theater,""
+-Alan Cumming,m,Theater,""
+-Nathan Lane,m,Theater,""
+-Matthew Broderick,m,Theater,""
+-Michael Crawford,m,Theater,""
+-Patrick Wilson,m,Theater,""
+-Jason Raize,m,Theater,""
+-Terrence Mann,m,Theater,""
+-Dick Van Dyke,m,Theater,""
+-Paul Lynde,m,Theater,""
+-Mario Cantone,m,Theater,""
+-Adam Pascal,m,Theater,""
+-Anthony Rapp,m,Theater,""
+-Wilson Jermaine Heredia,m,Theater,""
+-Jesse L. Martin,m,Theater,""
+-Taye Diggs,m,Theater,""
+-Joel Grey,m,Theater,""
+-Hugh Panaro,m,Theater,""
+-Victor Garber,m,Theater,""
+-Gary Beach,m,Theater,""
+-Hinton Battle,m,Theater,""
+-Max Casella,m,Theater,""
+-Christopher Sieber,m,Theater,""
+-Daniel Breaker,m,Theater,""
+-Jeff Conaway,m,Theater,""
+-Norbert Leo Lutz,m,Theater,""
+-John Travolta,m,Theater,""
+-Sutton Foster,w,Theater,""
+-Laura Benanti,w,Theater,""
+-Audra McDonald,w,Theater,""
+-Patti LuPone,w,Theater,""
+-Bernadette Peters,w,Theater,""
+-Celia Keenan-Bolger,w,Theater,""
+-Laura Osnes,w,Theater,""
+-Cristin Milioti,w,Theater,""
+-Kelli O'Hara,w,Theater,""
+-Elaine Stritch,w,Theater,""
+-Angela Landsbury,w,Theater,""
+-Judy Kuhn,w,Theater,""
+-Lea Salonga,w,Theater,""
+-Estelle Parsons,w,Theater,""
+-Donna Murphy,w,Theater,""
+-Kristin Chenoweth,w,Theater,""
+-Liza Minnelli,w,Theater,""
+-Chita Rivera,w,Theater,""
+-Megan Hilty,w,Theater,""
+-Louis C.K,m,Kabarett,""
+-Bob Saget,m,Kabarett,""
+-Bill Burr,m,Kabarett,""
+-Nick Kroll,m,Kabarett,""
+-Jerry Seinfeld,m,Kabarett,""
+-Conan O'Brien,m,Kabarett,""
+-Rob Delaney,m,Kabarett,""
+-Günther Paal,m,Kabarett,""
+-Alfred Dorfer,m,Kabarett,""
+-Josef Hader,m,Kabarett,""
+-Viktor Gernot,m,Kabarett,""
+-Michael Niavarani,m,Kabarett,""
+-Eva Maria Marold,w,Kabarett,""
+-Elisabeth Schwarzkopf,w,Oper,""
+-Nicolai Gedda,m,Oper,""
+-Leontyne Price,w,Oper,""
+-Fritz Wunderich,m,Oper,""
+-Kirsten Flagstad,w,Oper,""
+-Luciano Pavarotti,w,Oper,""
+-Joan Sutherland,m,Oper,""
+-Placido Domingo,m,Oper,""
+-Maria Callas,w,Oper,""
+-Dietrich Fischer-Dieskau,m,Oper,""
+\ No newline at end of file
++Leonard,Cohen,m,kino,
++Paolo,Conte,m,kino,
++Marcus,Miller,m,kino,
++George,Benson,m,kino,
++Hugh,Laurie,m,kino,
++Ammy,MacDonald,m,kino,
++Joe,Bonamassa,m,kino,
++Helge,Schneider,m,kino,
++Bobby,Womack,m,kino,
++Larry,Graham,m,kino,
++Jack ,Nicholson,m,kino,
++Ralph ,Fiennes,m,kino,
++Daniel ,Day-Lewis,m,kino,
++Robert ,De Niro,m,kino,
++Dustin ,Hoffman,m,kino,
++Tom ,Hanks,m,kino,
++Brad ,Pitt,m,kino,
++Anthony ,Hopkins,m,kino,
++Marlon ,Brando,m,kino,
++Jeremy ,Irons,m,kino,
++Denzel ,Washington,m,kino,
++Tim ,Robbins,m,kino,
++Henry ,Fonda,m,kino,
++William ,Hurt,m,kino,
++Kevin ,Kostner,m,kino,
++Mel ,Giboson,m,kino,
++Samuel ,L. Jackson,m,kino,
++Tom ,Cruise,m,kino,
++Heath ,Ledger,m,kino,
++Philip ,Seymour Hoffman,m,kino,
++Jason ,Robards,m,kino,
++Colin ,Firth,m,kino,
++Sean ,Connery,m,kino,
++Yves ,Montand,m,kino,
++Richard ,Gere,m,kino,
++Gary ,Oldman,m,kino,
++Harrison ,For,m,kino,
++John ,Gielgud,m,kino,
++Joe ,Pesci,m,kino,
++Paul ,Newman,m,kino,
++Woody ,Harrelson,m,kino,
++Harvey ,Keitel,m,kino,
++Michael ,Madsen,m,kino,
++Kevin ,Bacon,m,kino,
++Ed ,Harris,m,kino,
++Ed ,Helms,m,kino,
++Zach ,Galifianakis,m,kino,
++Chris ,Pratt,m,kino,
++Azis ,Anzari,m,kino,
++Rob ,Lowe,m,kino,
++Adam ,Scott,m,kino,
++Nick ,Offermann,m,kino,
++Steve ,Carell,m,kino,
++Rainn ,Wilson,m,kino,
++Bob ,Baumgartner,m,kino,
++Chris ,Cooper,m,kino,
++Charlize ,Theron,w,kino,
++Framke ,Janssen,w,kino,
++Carla ,Gugino,w,kino,
++Thandie ,Newton,w,kino,
++Amy ,Poehler,w,kino,
++Aubrey ,Plaza,w,kino,
++Rashida ,Jones,w,kino,
++Marg ,Helgenberger,w,kino,
++Rachel ,Nichols,w,kino,
++Leslie ,Bibb,w,kino,
++Teri ,Polo,w,kino,
++Emily ,Blunt,w,kino,
++Eliza ,Dushku,w,kino,
++Audrey ,Tauto,w,kino,
++Nina ,Dobrev,w,kino,
++Alyssa ,Milano,w,kino,
++Gabrielle ,Union,w,kino,
++Angela ,Bassett,w,kino,
++Gemma ,Artertonv,w,kino,
++Salma ,Hayek,w,kino,
++Jennifer ,Garner,w,kino,
++Jessica ,Alba,w,kino,
++Regina ,Hall,w,kino,
++Nicky ,Whelanv,w,kino,
++Drew ,Barrymore,w,kino,
++Odette ,Annable,w,kino,
++Abbie ,Cornish,w,kino,
++Roselyn ,Sanches,w,kino,
++Vera ,Farmiga,w,kino,
++Anne ,Hathaway,w,kino,
++Elisha ,Cuthbert,w,kino,
++Julia ,Roberts,w,kino,
++Rosario ,Dawson,w,kino,
++Natalie ,Portman,w,kino,
++Mila ,Kunis,w,kino,
++Jami ,Gertz,w,kino,
++Nia ,Long,w,kino,
++Jenna ,Fischer,w,kino,
++Christina ,Ricci,w,kino,
++Mary ,Elisabetzh Winstead,w,kino,
++Maggie ,Grace,w,kino,
++Bryce ,Dallas Howard,w,kino,
++Jenniffer ,Lawrence,w,kino,
++Roger ,Bart,m,theater,
++Alan ,Cumming,m,theater,
++Nathan ,Lane,m,theater,
++Matthew ,Broderick,m,theater,
++Michael ,Crawford,m,theater,
++Patrick ,Wilson,m,theater,
++Jason ,Raize,m,theater,
++Terrence ,Mann,m,theater,
++Dick ,Van Dyke,m,theater,
++Paul ,Lynde,m,theater,
++Mario ,Cantone,m,theater,
++Adam ,Pascal,m,theater,
++Anthony ,Rapp,m,theater,
++Wilson ,Jermaine Heredia,m,theater,
++Jesse ,L. Martin,m,theater,
++Taye ,Diggs,m,theater,
++Joel ,Grey,m,theater,
++Hugh ,Panaro,m,theater,
++Victor ,Garber,m,theater,
++Gary ,Beach,m,theater,
++Hinton ,Battle,m,theater,
++Max ,Casella,m,theater,
++Christopher ,Sieber,m,theater,
++Daniel ,Breaker,m,theater,
++Jeff ,Conaway,m,theater,
++Norbert ,Leo Lutz,m,theater,
++John ,Travolta,m,theater,
++Sutton ,Foster,m,theater,
++Laura ,Benanti,w,theater,
++Audra ,McDonald,w,theater,
++Patti ,LuPone,w,theater,
++Bernadette ,Peters,w,theater,
++Celia ,Keenan-Bolger,w,theater,
++Laura ,Osnes,w,theater,
++Cristin ,Milioti,w,theater,
++Kelli ,O'Hara,w,theater,
++Elaine ,Stritch,w,theater,
++Angela ,Landsbury,w,theater,
++Judy ,Kuhn,w,theater,
++Lea ,Salonga,w,theater,
++Estelle ,Parsons,w,theater,
++Donna ,Murphy,w,theater,
++Kristin ,Chenoweth,w,theater,
++Liza ,Minnelli,w,theater,
++Chita ,Rivera,w,theater,
++Megan ,Hilty,w,theater,
++Louis ,C.K,m,kabarett,
++Bob ,Saget,m,kabarett,
++Bill ,Burr,m,kabarett,
++Nick ,Kroll,m,kabarett,
++Jerry ,Seinfeld,m,kabarett,
++Conan ,O'Brien,m,kabarett,
++Rob ,Delaney,m,kabarett,
++G�nther ,Paal,m,kabarett,
++Alfred ,Dorfer,m,kabarett,
++Josef ,Hader,m,kabarett,
++Viktor ,Gernot,m,kabarett,
++Michael ,Niavarani,m,kabarett,
++Eva ,Maria Marold,w,kabarett,
++Elisabeth ,Schwarzkopf,w,oper,
++Nicolai ,Gedda,m,oper,
++Leontyne ,Price,m,oper,
++Fritz ,Wunderich,m,oper,
++Kirsten ,Flagstad,w,oper,
++Luciano ,Pavarotti,m,oper,
++Joan ,Sutherland,m,oper,
++Placido ,Domingo,m,oper,
++Maria ,Callas,w,oper,
++Dietrich ,Fischer-Dieskau,m,oper,

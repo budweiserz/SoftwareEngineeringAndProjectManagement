@@ -16,17 +16,20 @@ import at.ticketline.entity.Reihe;
 import at.ticketline.entity.Saal;
 
 /**
+ * Klasse kapselt oft benoetigte Methoden und Routinen beim Generieren von
+ * Testdaten
  * 
  * @author Rafael Konlechner
- * 
- *         TODO to be continued... schon gemacht: Adressen Mitarbeiter News
- *         Kunden Veranstaltungen
- * 
  */
 public class TestUtility {
 
     private static Random random = new Random(1218327824);
 
+    /**
+     * liefert ein zufaelliges Geburtsdatum im Bereich 1950-2000
+     * 
+     * @return Datum zwischen 1950-2000, Monatstage nur jeweils bis zum 27.
+     */
     public static GregorianCalendar getRandomGeburtsdatum() {
 
         int year = 1950 + random.nextInt(50);
@@ -40,11 +43,16 @@ public class TestUtility {
         return output;
     }
 
+    /**
+     * liefert ein zufaelliges Datum im Bereich von Mitte Mai 2013
+     * 
+     * @return Datum zwischen 20. und 30. Mai 2013
+     */
     public static GregorianCalendar getRandomNewsDatum() {
 
         int year = 2013;
         int month = 5;
-        int day = 10 + random.nextInt(25);
+        int day = 20 + random.nextInt(10);
         int hour = 0;
         int minute = 0;
         int second = 0;
@@ -53,10 +61,17 @@ public class TestUtility {
         return output;
     }
 
+    /**
+     * liefert ein zufaelliges Datum im Bereich der Monate Juni bis Dezember
+     * 2013
+     * 
+     * @return Datum zwischen Juni und Dezember 2013, Monatstage ausser Feb.
+     *         jeweils bis zum 30. Tag
+     */
     public static Date getRandomAuffuehrungDatum() {
 
         int year = 2013;
-        int month = 5 + random.nextInt(7);
+        int month = 5 + random.nextInt(6);
         int day;
         if (month != 2) {
             day = random.nextInt(30);
@@ -80,6 +95,10 @@ public class TestUtility {
         return output;
     }
 
+    /**
+     * liefert eine Auffuehrung, die im Bereich von
+     * <code>getRandomAuffuehrungDatum()</code> stattfindet
+     */
     public static Auffuehrung getRandomFutureAuffuehrung(int i) {
 
         Auffuehrung output = EntityGenerator.getValidAuffuehrung(i);
@@ -88,6 +107,17 @@ public class TestUtility {
         return output;
     }
 
+    /**
+     * Liefert Reihen eines Saals, zufaellige Anzahl an Reihen pro Kategorie
+     * 
+     * @param saal
+     *            Saal, dem die Reihe zugeordnet ist
+     * @param kategorieList
+     *            Preiskategorie der Reihe
+     * @param typ
+     *            Ortstyp des Saals
+     * @return Reihen eines Saals, zufaellige Anzahl an Reihen pro Kategorie
+     */
     public static Set<Reihe> createReihenForSaal(Saal saal, ArrayList<Kategorie> kategorieList, Ortstyp typ) {
 
         HashSet<Reihe> set = new HashSet<Reihe>();
@@ -112,12 +142,28 @@ public class TestUtility {
                     order++;
                 }
             }
-
         }
 
         return set;
     }
 
+    /**
+     * Liefert eine Reihe eines Saals
+     * 
+     * @param seats
+     *            Anzahl der Sitze
+     * @param order
+     *            Reihenfolge der Reihe (Reihe A vor Reihe B)
+     * @param start
+     *            Startnummer des ersten Sitztes
+     * @param saal
+     *            Zugeordneter Saal
+     * @param k
+     *            Zugeordnete Preiskategorie
+     * @param typ
+     *            Ortstyp des Saals
+     * @return Reihe eines Saals
+     */
     private static Reihe createReihe(int seats, int order, int start, Saal saal, Kategorie k, Ortstyp typ) {
 
         Reihe r = EntityGenerator.getValidReihe(order);
@@ -136,6 +182,13 @@ public class TestUtility {
         return r;
     }
 
+    /**
+     * Parst Datum aus String mit <code>SimpleDateFormat</code>
+     * 
+     * @param date
+     * @return
+     * @throws ParseException
+     */
     public static Date parseDate(String date) throws ParseException {
 
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
@@ -145,6 +198,15 @@ public class TestUtility {
         return output;
     }
 
+    /**
+     * Regelt die maximal zulaessige Anzahl an Reihen pro Kategorie fuer einen
+     * speziellen Ortstyp Beispiel: Ein Kinosaal soll nicht so viele Reihen
+     * haben wie eine Open Air Arena
+     * 
+     * @param t
+     *            entsprechender Ortstyp
+     * @return maximale Anzahl an Reihen pro Kategorie
+     */
     private static int getRows(Ortstyp t) {
 
         if (t.equals(Ortstyp.KINO)) {
@@ -177,6 +239,15 @@ public class TestUtility {
         }
     }
 
+    /**
+     * Regelt die maximal zulaessige Anzahl an Sitzen pro Reihe fuer einen
+     * speziellen Ortstyp Beispiel: Ein Kinosaal soll nicht so viele Sitze pro
+     * Reihe haben wie eine Open Air Arena
+     * 
+     * @param t
+     *            entsprechender Ortstyp
+     * @return maximale Anzahl an Sitzen pro Reihe
+     */
     private static int getSeats(Ortstyp t) {
 
         if (t.equals(Ortstyp.KINO)) {

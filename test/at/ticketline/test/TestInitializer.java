@@ -26,5 +26,4 @@ public class TestInitializer {
 		
 		BasicConfigurator.configure();
 	}
-
 }

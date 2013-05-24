@@ -9,6 +9,9 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import org.apache.log4j.BasicConfigurator;
+import org.eclipse.persistence.jpa.PersistenceProvider;
+
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.EntityManagerUtil;
 import at.ticketline.dao.api.ArtikelDao;
@@ -45,10 +48,10 @@ public class DataGenerator {
 
     public static void main(String[] args) {
 
-        TestInitializer.init();
+        // Befuellt die Produktivdatenbank: kann mit der Änderung auf "test" auch auf der test-db ausgeführt werden
+        EntityManagerUtil.init("ticketline", new PersistenceProvider());
 
-        // TestUtility.dropDatabaseSchema();
-
+        BasicConfigurator.configure();
         try {
             generateTestData();
         } catch (FileNotFoundException e) {
@@ -60,6 +63,16 @@ public class DataGenerator {
         }
     }
 
+    /**
+     * Befuellt die Datenbank mit Testdaten (Fremdschlüssel sind gesetzt) Vor
+     * Aufruf des Programmes muss manuell "drop schema public cascade"
+     * ausgefuehrt werden
+     * 
+     * @throws FileNotFoundException
+     *             wenn das .csv-file nicht gefunden wurde
+     * @throws IOException
+     *             aufgrund des FileStreams
+     */
     private static void generateTestData() throws FileNotFoundException, IOException {
 
         LabeledCSVParser parser;
@@ -69,6 +82,7 @@ public class DataGenerator {
         Adresse adresse;
         Artikel artikel;
         Auffuehrung auffuehrung;
+        Engagement engagement;
         Kategorie kategorie;
         Kunde kunde;
         Kuenstler kuenstler;
@@ -84,13 +98,7 @@ public class DataGenerator {
         ArrayList<Kategorie> kategorieList = new ArrayList<Kategorie>();
         ArrayList<Kunde> kunden = new ArrayList<Kunde>();
         ArrayList<Kuenstler> kuenstlerList = new ArrayList<Kuenstler>();
-        
-        Set<Engagement> musik = new HashSet<Engagement>();
-        Set<Engagement> schauspielKino = new HashSet<Engagement>();
-        Set<Engagement> schauspielTheater = new HashSet<Engagement>();
-        Set<Engagement> schauspielOper = new HashSet<Engagement>();
-        Set<Engagement> schauspielKabarett = new HashSet<Engagement>();
-
+        ArrayList<Engagement> engagementList = new ArrayList<Engagement>();
         ArrayList<Mitarbeiter> mitarbeiterList = new ArrayList<Mitarbeiter>();
         ArrayList<News> newsList = new ArrayList<News>();
         ArrayList<Ort> ortList = new ArrayList<Ort>();
@@ -101,26 +109,19 @@ public class DataGenerator {
         ArrayList<Saal> kabarettSaal = new ArrayList<Saal>();
         ArrayList<Saal> saalSaal = new ArrayList<Saal>();
         ArrayList<Saal> locationSaal = new ArrayList<Saal>();
-
         ArrayList<Veranstaltung> veranstaltungList = new ArrayList<Veranstaltung>();
-
-        KundeDao kundedao = (KundeDao) DaoFactory.getByEntity(Kunde.class);
 
         AuffuehrungDao auffuehrungDao = (AuffuehrungDao) DaoFactory.getByEntity(Auffuehrung.class);
         ArtikelDao artikelDao = (ArtikelDao) DaoFactory.getByEntity(Artikel.class);
         KategorieDao kategorieDao = (KategorieDao) DaoFactory.getByEntity(Kategorie.class);
         KuenstlerDao kuenstlerDao = (KuenstlerDao) DaoFactory.getByEntity(Kuenstler.class);
+        KundeDao kundedao = (KundeDao) DaoFactory.getByEntity(Kunde.class);
         MitarbeiterDao mitarbeiterDao = (MitarbeiterDao) DaoFactory.getByEntity(Mitarbeiter.class);
         NewsDao newsDao = (NewsDao) DaoFactory.getByEntity(News.class);
         OrtDao ortDao = (OrtDao) DaoFactory.getByEntity(Ort.class);
         SaalDao saalDao = (SaalDao) DaoFactory.getByEntity(Saal.class);
         VeranstaltungDao veranstaltungDao = (VeranstaltungDao) DaoFactory.getByEntity(Veranstaltung.class);
         EngagementDao engagementDao = (EngagementDao) DaoFactory.getByEntity(Engagement.class);
-
-        /*
-         * reset is done by executing a delete statement on all tables
-         */
-        DatabaseUtility.resetDatabase();
 
         // Mitarbeiter
         parser = new LabeledCSVParser(new CSVParser(new FileInputStream("csv/mitarbeiter.csv")));
@@ -235,7 +236,7 @@ public class DataGenerator {
         parser = new LabeledCSVParser(new CSVParser(new FileInputStream("csv/kuenstler.csv")));
         current = parser.getLine();
         i = 0;
-        Engagement e;
+
         int jobs;
         while (current != null) {
 
@@ -243,69 +244,31 @@ public class DataGenerator {
             kuenstler.setVorname(current[0]);
             kuenstler.setNachname(current[1]);
 
-            jobs = random.nextInt(5);
-            
+            jobs = i + random.nextInt(5);
+
             if (current[2].equals("m")) {
                 kuenstler.setGeschlecht(Geschlecht.MAENNLICH);
             } else {
                 kuenstler.setGeschlecht(Geschlecht.WEIBLICH);
             }
 
-            if (current[3].equals("m")) {
+            for (; i < jobs; i++) {
 
-                for (int a = 0; a < jobs; a++) {
-                    
-                    e = EntityGenerator.getValidEngagement(i++);
-                    e.setKuenstler(kuenstler);
-                    musik.add(e);
-                }
-
-            } else if (current[3].equals("t")) {
-
-                for (int a = 0; a < jobs; a++) {
-                    
-                    e = EntityGenerator.getValidEngagement(i++);
-                    e.setKuenstler(kuenstler);
-                    schauspielTheater.add(e);
-                }
-
-            } else if (current[3].equals("o")) {
-
-                for (int a = 0; a < jobs; a++) {
-                    
-                    e = EntityGenerator.getValidEngagement(i++);
-                    e.setKuenstler(kuenstler);
-                    schauspielOper.add(e);
-                }
-
-            } else if (current[3].equals("k")) {
-
-                for (int a = 0; a < jobs; a++) {
-                    
-                    e = EntityGenerator.getValidEngagement(i++);
-                    e.setKuenstler(kuenstler);
-                    schauspielKabarett.add(e);
-                }
-
-            } else { // kino
-
-                for (int a = 0; a < jobs; a++) {
-                    
-                    e = EntityGenerator.getValidEngagement(i++);
-                    e.setKuenstler(kuenstler);
-                    schauspielKino.add(e);
-                }
+                engagement = EntityGenerator.getValidEngagement(i);
+                engagementList.add(engagement);
+                engagement.setKuenstler(kuenstler);
             }
 
             kuenstler.setBiographie(current[4]);
             kuenstlerList.add(kuenstler);
             kuenstlerDao.persist(kuenstler);
+
             current = parser.getLine();
         }
         parser.close();
 
-        for (int e = 0; e < 1000; e++) {
-            auffuehrungList.add(TestUtility.getRandomFutureAuffuehrung(i));
+        for (int a = 0; a < 1000; a++) {
+            auffuehrungList.add(TestUtility.getRandomFutureAuffuehrung(a));
         }
 
         // Kategorie
@@ -419,9 +382,9 @@ public class DataGenerator {
         parser.close();
 
         // Auffuehrungen
-        for (int e = 0; e < 1000; e++) {
+        for (int o = 0; o < 1000; o++) {
 
-            auffuehrung = EntityGenerator.getValidAuffuehrung(e);
+            auffuehrung = EntityGenerator.getValidAuffuehrung(o);
             auffuehrung.setDatumuhrzeit(TestUtility.getRandomAuffuehrungDatum());
 
             auffuehrungList.add(auffuehrung);
@@ -429,11 +392,12 @@ public class DataGenerator {
             current = parser.getLine();
         }
 
-        // Veranstaltungen + Auffuehrungen
+        // Veranstaltungen + Auffuehrungen + Engagements
         parser = new LabeledCSVParser(new CSVParser(new FileInputStream("csv/veranstaltungen.csv")));
         current = parser.getLine();
         i = 0;
-        Set<Auffuehrung> set = new HashSet<Auffuehrung>();
+        Set<Auffuehrung> aset = new HashSet<Auffuehrung>();
+        Set<Engagement> eset = new HashSet<Engagement>();
         int index;
         int range;
         EntityManagerUtil.beginTransaction();
@@ -480,13 +444,26 @@ public class DataGenerator {
                 }
 
                 auffuehrungDao.persist(auffuehrung);
-                set.add(auffuehrung);
+                aset.add(auffuehrung);
             }
 
-            veranstaltung.setAuffuehrungen(set);
+            index = random.nextInt(engagementList.size());
+            range = index + 1 + random.nextInt(10);
+
+            for (; index < range; index++) {
+
+                engagement = engagementList.get((index * 50) % engagementList.size());
+                engagement.setVeranstaltung(veranstaltung);
+
+                engagementDao.persist(engagement);
+                eset.add(engagement);
+            }
+
+            veranstaltung.setAuffuehrungen(aset);
+            veranstaltung.setEngagements(eset);
             veranstaltungList.add(veranstaltung);
             veranstaltungDao.persist(veranstaltung);
-            set.clear();
+            aset.clear();
             current = parser.getLine();
         }
 

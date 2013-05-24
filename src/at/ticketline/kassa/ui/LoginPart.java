@@ -1,14 +1,20 @@
 package at.ticketline.kassa.ui;
 
+import java.util.Iterator;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.ui.di.Focus;
+import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.swt.SWT;
@@ -49,6 +55,9 @@ public class LoginPart{
     @Inject
     @Named(IServiceConstants.ACTIVE_SHELL)
     private Shell shell;
+    
+    @Inject
+    MApplication application;
     
     @Inject
     private MitarbeiterService mitarbeiterService;
@@ -116,6 +125,7 @@ public class LoginPart{
             @Override
             public void widgetSelected(SelectionEvent e) {
                 LOG.info("Login Attempt with User: " + txtUsername.getText());
+                closeLoginAndGoToNextWindow();
                 try {
                 	boolean success = mitarbeiterService.login(txtUsername.getText(), txtPassword.getText());
                 	if(success) {
@@ -133,6 +143,22 @@ public class LoginPart{
                 }
                 
             }
+
+			private void closeLoginAndGoToNextWindow() {
+				List<MWindow> windows = application.getChildren();
+                Iterator<MWindow> it = windows.iterator();
+                
+                while(it.hasNext()) {
+                	MWindow window = it.next();
+                	LOG.debug(window.getElementId());
+                	if(window.getElementId().equals("ticketlinercp.trimmedwindow.news")) {
+                		window.setVisible(true);
+                	}
+                	if(window.getElementId().equals("ticketlinercp.trimmedwindow.login")) {
+                		window.setVisible(false);
+                	}
+                }
+			}
         });
         
         Label lblVersion = new Label(parent, SWT.SHADOW_NONE | SWT.RIGHT);
@@ -150,4 +176,12 @@ public class LoginPart{
     public void setFocus() {
         txtUsername.setFocus();
     }
+    
+    @PreDestroy 
+    public void preDestroy(){
+    	LOG.info("I will close the application now, Login was aborted");
+    	System.exit(-1);
+    }
+    
+
 }

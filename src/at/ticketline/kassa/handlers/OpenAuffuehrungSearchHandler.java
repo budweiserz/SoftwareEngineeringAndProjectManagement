@@ -1,6 +1,8 @@
 
 package at.ticketline.kassa.handlers;
 
+import javax.inject.Inject;
+
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.di.annotations.Execute;
@@ -18,6 +20,8 @@ public class OpenAuffuehrungSearchHandler {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(OpenAuffuehrungSearchHandler.class);
 
+	@Inject
+	MApplication application;
 	
 	@Execute
 	public void execute(

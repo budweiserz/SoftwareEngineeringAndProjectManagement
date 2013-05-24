@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_J1qjEJ7KEeKyV7_6Xf9MMA" elementId="org.eclipse.e4.ide.application" bindingContexts="_J1qjEZ7KEeKyV7_6Xf9MMA">
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_J1qjJ57KEeKyV7_6Xf9MMA" elementId="ticketlinercp.trimmedwindow.main" visible="false" selectedElement="_J1qjL57KEeKyV7_6Xf9MMA" label="Ticketline RCP" iconURI="platform:/plugin/at.ticketline.kassa/icons/web_32.png" tooltip="Ticketline" width="500" height="400">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_J1qjJ57KEeKyV7_6Xf9MMA" elementId="ticketlinercp.trimmedwindow.main" selectedElement="_J1qjL57KEeKyV7_6Xf9MMA" label="Ticketline RCP" iconURI="platform:/plugin/at.ticketline.kassa/icons/web_32.png" tooltip="Ticketline" width="500" height="400">
     <tags>shellMaximized</tags>
     <children xsi:type="advanced:PerspectiveStack" xmi:id="_J1qjL57KEeKyV7_6Xf9MMA">
       <children xsi:type="advanced:Perspective" xmi:id="_J1qjMJ7KEeKyV7_6Xf9MMA" elementId="at.ticketline.kassa.perspective" label="Ticketline">

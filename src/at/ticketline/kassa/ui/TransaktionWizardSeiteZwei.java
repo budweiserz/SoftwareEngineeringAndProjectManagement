@@ -3,8 +3,10 @@ package at.ticketline.kassa.ui;
 import javax.inject.Inject;
 
 import org.eclipse.core.commands.ParameterizedCommand;
+import org.eclipse.core.internal.registry.osgi.Activator;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
+import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -40,11 +42,12 @@ import at.ticketline.service.api.KundeService;
 public class TransaktionWizardSeiteZwei extends WizardPage {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransaktionWizardSeiteZwei.class);
-    @Inject private EHandlerService handlerService;
-    @Inject private ECommandService commandService;
-    @Inject private ESelectionService selectionService;
     
+    private EHandlerService handlerService;
+    private ECommandService commandService;
+    private ESelectionService selectionService;
     @Inject private KundeService kundeService;
+    
     private FormToolkit toolkit;
     private ScrolledForm form;
     private TableViewer tableViewer;
@@ -76,7 +79,19 @@ public class TransaktionWizardSeiteZwei extends WizardPage {
         
         setControl(container);
         
-        createKundenliste(container);
+        Button btnAnonymerKunde = new Button(container, SWT.RADIO);
+        btnAnonymerKunde.setBounds(10, 10, 554, 16);
+        btnAnonymerKunde.setText("Anonymer Kunde");
+        
+        Button btnNeuerKunde = new Button(container, SWT.RADIO);
+        btnNeuerKunde.setBounds(10, 32, 90, 16);
+        btnNeuerKunde.setText("Neuer Kunde");
+        
+        Button btnBestehenderKunde = new Button(container, SWT.RADIO);
+        btnBestehenderKunde.setBounds(10, 54, 90, 16);
+        btnBestehenderKunde.setText("Bestehender Kunde");
+        
+        //createKundenliste(container);
         //show button if service null to check
         if(kundeService == null) {
         Button btnRadioButton = new Button(container, SWT.RADIO);
@@ -200,26 +215,41 @@ public class TransaktionWizardSeiteZwei extends WizardPage {
         //col4.setText("Gage");
         
         // MAGIC HAPPENS HERE
-        //this.tableViewer.setInput(this.kundeService.findAll());
-        this.tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-            @Override
-            public void selectionChanged(SelectionChangedEvent event) {
-                IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection(); 
-                selectionService.setSelection(selection.getFirstElement());
-                LOG.info("Selection changed: {}", selection.getFirstElement().toString());
-            }
-        });
-        this.tableViewer.addDoubleClickListener(new IDoubleClickListener() {
-            @Override
-            public void doubleClick(DoubleClickEvent event) {
-                ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openKunde", null);
-                handlerService.executeHandler(c);
-            }
-        });
+        this.tableViewer.setInput(this.kundeService.findAll());
+//        this.tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+//            @Override
+//            public void selectionChanged(SelectionChangedEvent event) {
+//                IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection(); 
+//                selectionService.setSelection(selection.getFirstElement());
+//                LOG.info("Selection changed: {}", selection.getFirstElement().toString());
+//            }
+//        });
+//        this.tableViewer.addDoubleClickListener(new IDoubleClickListener() {
+//            @Override
+//            public void doubleClick(DoubleClickEvent event) {
+//                ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openKunde", null);
+//                handlerService.executeHandler(c);
+//            }
+//        });
     
         this.toolkit.adapt(this.tableViewer.getTable(), true, true);
         //TODO delete legacy aufklapper
         //engagementSection.setClient(this.tableViewer.getTable());
     }
     
+    public void setKundeService(KundeService kundeService) {
+        this.kundeService = kundeService;
+    }
+    
+    public void setEHandlerService(EHandlerService handlerService) {
+        this.handlerService = handlerService;
+    }
+    
+    public void setECommandService(ECommandService commandService) {
+        this.commandService = commandService;
+    }
+    
+    public void setESelectionService( ESelectionService selectionService) {
+        this.selectionService = selectionService;
+    }
 }

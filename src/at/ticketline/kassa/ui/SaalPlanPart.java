@@ -7,26 +7,37 @@ import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.TableCursor;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Device;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.wb.swt.SWTResourceManager;
-import org.eclipse.swt.widgets.Label;
+import org.jfree.util.Log;
 
 public class SaalPlanPart {
-	private Table table;
-	private static final Color CSELECTED = SWTResourceManager.getColor(SWT.COLOR_YELLOW);
+	
+	static Device device = Display.getCurrent ();
+	
+	private static final Color CSELECTED = new Color (device, 255, 241, 16);
 	private static final Color CHOVER = SWTResourceManager.getColor(SWT.COLOR_DARK_YELLOW);
 	private static final Color CAVAILABLE = SWTResourceManager.getColor(SWT.COLOR_WHITE);
-	private static final Color CBOOKED = SWTResourceManager.getColor(SWT.COLOR_GRAY);
-	private static final Color CSOLD = SWTResourceManager.getColor(SWT.COLOR_DARK_GRAY);
-	private static final Color CBACKGROUD = SWTResourceManager.getColor(SWT.COLOR_BLACK);
+	private static final Color CBOOKED = new Color (device, 234, 145, 30);
+	private static final Color CSOLD = new Color (device, 234, 30, 30);
+	private static final Color CBACKGROUD = new Color (device, 100, 100, 100);
+	private Table table;
+	private TableColumnLayout tcl_composite;
+	private int numOfColumns;
+	private int numOfRows;
 	
 	public SaalPlanPart() {
 		
@@ -49,43 +60,50 @@ public class SaalPlanPart {
 		gd_composite_2.widthHint = 1920;
 		composite_2.setLayoutData(gd_composite_2);
 		
-		Composite tableComposite = new Composite(parent, SWT.NONE);
-		tableComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
-		table = new Table(tableComposite, SWT.BORDER | SWT.HIDE_SELECTION | SWT.VIRTUAL | SWT.MULTI);
+		// TABLE for SAALPLAN
+		Composite composite = new Composite(parent, SWT.NONE);
+		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
+		composite.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 1, 1));
+		tcl_composite = new TableColumnLayout();
+		composite.setLayout(tcl_composite);
+		
+		table = new Table(composite, SWT.BORDER | SWT.V_SCROLL | SWT.MULTI);
+		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
-		table.setSize(770, 314);
-		table.setTouchEnabled(true);
 		
-		table.setBackground(CBACKGROUD);
 		
-		TableColumn column1 = new TableColumn(table, SWT.NONE);
-		TableColumn column2 = new TableColumn(table, SWT.NONE);
-		TableColumn column3 = new TableColumn(table, SWT.NONE);
 		
-		TableItem item = new TableItem(table, SWT.NONE);
-		item.setBackground(0, CSELECTED);
-		item.setBackground(1, CAVAILABLE);
-		item.setBackground(2, CSOLD);
+		numOfColumns = 10;
+		numOfRows = 20;
 		
-		item = new TableItem(table, SWT.NONE);
-		item.setBackground(CAVAILABLE);
+		createColumns();
+		createRows();
 		
-		item = new TableItem(table, SWT.NONE);
-		item.setBackground(CSOLD);
+		table.addListener(SWT.MouseDown, new Listener(){
+	        public void handleEvent(Event event){
+	            Point pt = new Point(event.x, event.y);
+	            TableItem item = table.getItem(pt);
+	            if(item != null) {
+	                for (int column = 0; column < table.getColumnCount(); column++) {
+	                	Rectangle rect = item.getBounds(column);
+	                    if (rect.contains(pt)) {
+	                        Log.info(item);
+	                        Color currentColor = item.getBackground(column);
+	                        if(currentColor.equals(CAVAILABLE)) {
+	                        	item.setBackground(column, CSELECTED);
+	                        } else if(currentColor.equals(CSELECTED)) {
+	                        	item.setBackground(column, CAVAILABLE);
+	                        }
+	                        
+	                    }
+	                }
+	            }
+	        }
+	    });
 		
-		TableColumnLayout talbeLayout = new TableColumnLayout();
-		tableComposite.setLayout(talbeLayout);
-		talbeLayout.setColumnData(column1, new ColumnWeightData(33, true));
-		talbeLayout.setColumnData(column2, new ColumnWeightData(33, false));
-		talbeLayout.setColumnData(column3, new ColumnWeightData(33, false));
 		
-		column1.pack();
-	    column2.pack();
-	    column3.pack();
-		
-		TableCursor tableCursor = new TableCursor(table, SWT.NONE);
-		tableCursor.setBackground(CHOVER);
+		//TABLE END
 		
 		Composite composite_1 = new Composite(parent, SWT.NONE);
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -96,6 +114,42 @@ public class SaalPlanPart {
 		gd_composite_1.minimumHeight = 100;
 		gd_composite_1.minimumWidth = 650;
 		composite_1.setLayoutData(gd_composite_1);
+	}
+
+
+	private void createColumns() {
+		TableColumn tc;
+		int colWidth = (int)Math.floor(650/numOfColumns);
+		for(int i =0; i<numOfColumns; i++) {
+			tc = new TableColumn(table, SWT.CENTER);
+			tcl_composite.setColumnData(tc, new ColumnWeightData(1,colWidth,false));
+			tc.setText(String.valueOf(i+1));
+		}
+	}
+	
+	private void createRows() {
+		TableItem tableItem;
+		for(int i=0; i<numOfRows; i++) {
+			tableItem = new TableItem(table, SWT.NONE);
+			for(int j=0; j<numOfColumns; j++) {
+				int rand = (int)Math.floor(Math.random()*4);
+				switch(rand) {
+				case 0:
+					tableItem.setBackground(j, CAVAILABLE);
+					break;
+				case 1:
+					tableItem.setBackground(j, CBOOKED);
+					break;
+				case 2:
+					tableItem.setBackground(j, CBACKGROUD);
+					break;
+				case 3:
+					tableItem.setBackground(j, CSOLD);
+					break;
+				}
+			}
+		}
+		
 	}
 
 	@PreDestroy

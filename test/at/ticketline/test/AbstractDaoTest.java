@@ -21,7 +21,7 @@ public abstract class AbstractDaoTest {
     @BeforeClass
     public static void initTest() {
         TestInitializer.init();
-        TestUtility.resetDatabase();
+        DatabaseUtility.resetDatabase();
     }
 
     @Before

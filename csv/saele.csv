@@ -1,0 +1,20 @@
+Name, Ort, Ortstyp
+Kino 1, Haydn Kino, Kino
+Kino 2, Haydn Kino, Kino
+Kino 3, Haydn Kino, Kino
+Kino 4, Haydn Kino, Kino
+Kino 1, Apollo Kino, Kino
+Kino 2, Apollo Kino, Kino
+Kino 3, Apollo Kino, Kino
+Kino 4, Apollo Kino, Kino
+Kino 5, Apollo Kino, Kino
+Bühne 1, Volkstheater, Theater
+Hauptbühne, Burgtheater, Theater
+Hauptbühne, Staatsoper, Oper
+Nebenbühne, Staatsoper, Oper
+HauptSaal, Kabarett Simpl, Kabarett
+HauptSaal, Rabenhof Theater, Karbarett 
+Saal 2, Ort, Kabarett
+KuppelSaal, TU Wien, Saal
+Ottakring Arena, Wiesen, Location
+Stadtpark, St. Pölten, Location

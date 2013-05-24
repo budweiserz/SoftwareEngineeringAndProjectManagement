@@ -1,89 +1,32 @@
 package at.ticketline.test;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.metamodel.EntityType;
-
-import com.Ostermiller.util.CSVParser;
-import com.Ostermiller.util.LabeledCSVParser;
-
-import at.ticketline.dao.DaoFactory;
-import at.ticketline.dao.EntityManagerUtil;
-import at.ticketline.dao.api.ArtikelDao;
-import at.ticketline.dao.api.KundeDao;
-import at.ticketline.dao.api.MitarbeiterDao;
-import at.ticketline.dao.api.NewsDao;
-import at.ticketline.dao.api.VeranstaltungDao;
-import at.ticketline.entity.Adresse;
-import at.ticketline.entity.Artikel;
-import at.ticketline.entity.ArtikelKategorie;
-import at.ticketline.entity.Geschlecht;
-import at.ticketline.entity.Kunde;
-import at.ticketline.entity.Mitarbeiter;
-import at.ticketline.entity.News;
-import at.ticketline.entity.Veranstaltung;
+import at.ticketline.entity.Auffuehrung;
+import at.ticketline.entity.Kategorie;
+import at.ticketline.entity.Ortstyp;
+import at.ticketline.entity.Reihe;
+import at.ticketline.entity.Saal;
 
 /**
  * 
  * @author Rafael Konlechner
  * 
- *         TODO to be continued...
- *         schon gemacht:
- *         Adressen
- *         Mitarbeiter
- *         News
- *         Kunden
- *         Veranstaltungen
+ *         TODO to be continued... schon gemacht: Adressen Mitarbeiter News
+ *         Kunden Veranstaltungen
  * 
  */
 public class TestUtility {
 
-    private static Random random = new Random(273890);
+    private static Random random = new Random(1218327824);
 
-    public static void resetDatabase() {
-
-        EntityManager entityManager = EntityManagerUtil
-                .getCurrentEntityManager();
-
-        Set<EntityType<?>> entities = entityManager.getMetamodel()
-                .getEntities();
-
-        String query = "DELETE FROM ";
-
-        EntityManagerUtil.beginTransaction();
-
-        for (EntityType<?> e : entities) {
-
-            Query q = entityManager.createQuery(query + e.getName());
-            q.executeUpdate();
-        }
-
-        EntityManagerUtil.commitTransaction();
-    }
-
-    /*
-    public static void dropDatabaseSchema() {
-
-        EntityManager entityManager = EntityManagerUtil
-                .getCurrentEntityManager();
-
-        Query q = entityManager.createNativeQuery("DROP SCHEMA PUBLIC CASCADE");
-
-        EntityManagerUtil.beginTransaction();
-        q.executeUpdate();
-        EntityManagerUtil.commitTransaction();
-    }
-    */
-    
     public static GregorianCalendar getRandomGeburtsdatum() {
 
         int year = 1950 + random.nextInt(50);
@@ -92,12 +35,11 @@ public class TestUtility {
         int hour = 0;
         int minute = 0;
         int second = 0;
-        GregorianCalendar output = new GregorianCalendar(year, month, day,
-                hour, minute, second);
+        GregorianCalendar output = new GregorianCalendar(year, month, day, hour, minute, second);
 
         return output;
     }
-    
+
     public static GregorianCalendar getRandomNewsDatum() {
 
         int year = 2013;
@@ -106,209 +48,164 @@ public class TestUtility {
         int hour = 0;
         int minute = 0;
         int second = 0;
-        GregorianCalendar output = new GregorianCalendar(year, month, day,
-                hour, minute, second);
+        GregorianCalendar output = new GregorianCalendar(year, month, day, hour, minute, second);
 
         return output;
     }
 
-    public static void generateTestData() throws FileNotFoundException,
-            IOException {
+    public static Date getRandomAuffuehrungDatum() {
 
-        LabeledCSVParser parser;
-        String[] current;
-        Random random = new Random(1210347);
-
-        Adresse adresse;
-        Artikel artikel;
-        Kunde kunde;
-        Mitarbeiter mitarbeiter;
-        News news;
-        Veranstaltung veranstaltung;
-        // Kuenstler kuenstler;
-
-        ArrayList<Adresse> adressen = new ArrayList<Adresse>();
-        ArrayList<Artikel> artikelList = new ArrayList<Artikel>();
-        ArrayList<Kunde> kunden = new ArrayList<Kunde>();
-        ArrayList<Mitarbeiter> mitarbeiterList = new ArrayList<Mitarbeiter>();
-        ArrayList<News> newsList = new ArrayList<News>();
-        ArrayList<Veranstaltung> veranstaltungen = new ArrayList<Veranstaltung>();
-        
-        // ArrayList<Kuenstler> kuenstlers = new ArrayList<Kuenstler>();
-
-        KundeDao kundedao = (KundeDao) DaoFactory.getByEntity(Kunde.class);
-        ArtikelDao artikelDao = (ArtikelDao) DaoFactory.getByEntity(Artikel.class);
-        MitarbeiterDao mitarbeiterDao = (MitarbeiterDao) DaoFactory.getByEntity(Mitarbeiter.class);
-        NewsDao newsDao = (NewsDao) DaoFactory.getByEntity(News.class);
-        VeranstaltungDao veranstaltungDao = (VeranstaltungDao) DaoFactory.getByEntity(Veranstaltung.class);
-        
-        // KuenstlerDao kuenstlerDao = (KuenstlerDao) DaoFactory
-        // .getByEntity(Kuenstler.class);
-        // EngagementDao engagementDao = (EngagementDao) DaoFactory
-        // .getByEntity(Engagement.class);
-
-        /*
-         * reset is done by executing a delete statement on all tables
-         */
-        resetDatabase();
-
-        
-        // Mitarbeiter
-        parser = new LabeledCSVParser(new CSVParser(new FileInputStream(
-                "csv/mitarbeiter.csv")));
-        current = parser.getLine();
-        int i = 0;
-        while (current != null) {
-
-            mitarbeiter = EntityGenerator.getValidMitarbeiter(i++);
-            mitarbeiter.setUsername(current[0]);
-            mitarbeiter.setVorname(current[1]);
-            mitarbeiter.setNachname(current[2]);
-            mitarbeiter.setPasswort(current[3]);
-
-            mitarbeiterList.add(mitarbeiter);
-            mitarbeiterDao.persist(mitarbeiter);
-            current = parser.getLine();
+        int year = 2013;
+        int month = 5 + random.nextInt(7);
+        int day;
+        if (month != 2) {
+            day = random.nextInt(30);
+        } else {
+            day = random.nextInt(28);
         }
-        parser.close();
+        int hour = 12 + random.nextInt(12);
+        int minute = 0 + 15 * random.nextInt(3);
+        int second = 0;
+        String date = day + "." + month + "." + year + " " + hour + ":" + minute + ":" + second;
+        Date output = null;
 
-        // News
-        parser = new LabeledCSVParser(new CSVParser(new FileInputStream(
-                "csv/news.csv")));
-        current = parser.getLine();
-        i = 0;
-        while (current != null) {
+        try {
+            output = parseDate(date);
 
-            news = EntityGenerator.getValidNews(i++);
-            news.setTitel(current[0]);
-            news.setText(current[1]);
+        } catch (ParseException e) {
 
-            newsList.add(news);
-            newsDao.persist(news);
-            current = parser.getLine();
+            e.printStackTrace();
         }
-        parser.close();
-        
-        // Adresse
-        parser = new LabeledCSVParser(new CSVParser(new FileInputStream(
-                "csv/adressen.csv")));
-        current = parser.getLine();
 
-        while (current != null) {
+        return output;
+    }
 
-            adresse = new Adresse();
-            adresse.setStrasse(current[0] + " " + current[1]);
-            adresse.setPlz(current[2]);
-            adresse.setOrt(current[3]);
-            adresse.setLand(current[4]);
+    public static Auffuehrung getRandomFutureAuffuehrung(int i) {
 
-            adressen.add(adresse);
-            current = parser.getLine();
-        }
-        parser.close();
+        Auffuehrung output = EntityGenerator.getValidAuffuehrung(i);
+        output.setDatumuhrzeit(getRandomAuffuehrungDatum());
 
-        // Kunde + Adresse
-        parser = new LabeledCSVParser(new CSVParser(new FileInputStream(
-                "csv/kunden.csv")));
-        current = parser.getLine();
-        i = 0;
-        while (current != null) {
+        return output;
+    }
 
-            kunde = EntityGenerator.getValidKunde(i++);
-            kunde.setVorname(current[0]);
-            kunde.setNachname(current[1]);
+    public static Set<Reihe> createReihenForSaal(Saal saal, ArrayList<Kategorie> kategorieList, Ortstyp typ) {
 
-            if (current[2].equals("m")) {
-                kunde.setGeschlecht(Geschlecht.MAENNLICH);
-            } else {
-                kunde.setGeschlecht(Geschlecht.WEIBLICH);
+        HashSet<Reihe> set = new HashSet<Reihe>();
+
+        boolean choose;
+
+        int order = 0;
+        int seats = 1;
+        int tmp;
+
+        for (Kategorie k : kategorieList) {
+
+            tmp = (int) (getSeats(typ) / 2) + random.nextInt(getSeats(typ) / 2);
+            choose = random.nextBoolean();
+
+            if (choose) {
+
+                for (int i = 0; i < random.nextInt(getRows(typ)); i++) {
+
+                    set.add(createReihe(tmp, order, seats, saal, k, typ));
+                    seats += tmp;
+                    order++;
+                }
             }
 
-            kunde.setGeburtsdatum(getRandomGeburtsdatum());
-            kunde.setAdresse(adressen.get(random.nextInt(adressen.size())));
-
-            kunden.add(kunde);
-            kundedao.persist(kunde);
-            current = parser.getLine();
         }
-        parser.close();
-        
-        // Artikel
-        parser = new LabeledCSVParser(new CSVParser(new FileInputStream(
-                "csv/artikel.csv")));
-        current = parser.getLine();
-        i = 0;
-        while (current != null) {
 
-            artikel = EntityGenerator.getValidArtikel(i++);
-            artikel.setKurzbezeichnung(current[0]);
-            artikel.setBeschreibung(current[1]);
-            artikel.setPreis(new BigDecimal(current[2]));
-            
-            if (current[3].equals("T-Shirt")) {
-                
-                artikel.setKategorie(ArtikelKategorie.TShirt);
-                
-            } else  if (current[3].equals("CD")) {
-                
-                artikel.setKategorie(ArtikelKategorie.CD); 
-                
-            } else  if (current[3].equals("DVD")) {
-                
-                artikel.setKategorie(ArtikelKategorie.DVD); 
-                
-            } else { // (current[3].equals("Sonstiges"))
-                
-                artikel.setKategorie(ArtikelKategorie.Sonstiges); 
-            }
+        return set;
+    }
 
-            artikelList.add(artikel);
-            artikelDao.persist(artikel);
-            current = parser.getLine();
+    private static Reihe createReihe(int seats, int order, int start, Saal saal, Kategorie k, Ortstyp typ) {
+
+        Reihe r = EntityGenerator.getValidReihe(order);
+        r.setBezeichnung("Reihe " + order);
+        r.setSaal(saal);
+        r.setReihenfolge(order);
+        r.setAnzplaetze(seats);
+        r.setStartplatz(start);
+        r.setKategorie(k);
+
+        if (typ.equals(Ortstyp.LOCATION)) {
+
+            r.setSitzplatz(false);
         }
-        parser.close();
-        
-        // Veranstaltungen
-        parser = new LabeledCSVParser(new CSVParser(new FileInputStream(
-                "csv/veranstaltungen.csv")));
-        current = parser.getLine();
-        i = 0;
-        while (current != null) {
 
-            veranstaltung = EntityGenerator.getValidVeranstaltung(i++);
-            veranstaltung.setBezeichnung(current[0]);
-            veranstaltung.setKategorie(current[1]);
-            veranstaltung.setInhalt(current[2]);  
+        return r;
+    }
 
-            veranstaltungen.add(veranstaltung);
-            System.out.println(veranstaltung.getBezeichnung());
-            veranstaltungDao.persist(veranstaltung);
-            current = parser.getLine();
+    public static Date parseDate(String date) throws ParseException {
+
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy hh:mm:ss");
+
+        Date output = format.parse(date);
+
+        return output;
+    }
+
+    private static int getRows(Ortstyp t) {
+
+        if (t.equals(Ortstyp.KINO)) {
+
+            return 5;
+
+        } else if (t.equals(Ortstyp.THEATER)) {
+
+            return 20;
+
+        } else if (t.equals(Ortstyp.OPER)) {
+
+            return 20;
+
+        } else if (t.equals(Ortstyp.KABARETT)) {
+
+            return 10;
+
+        } else if (t.equals(Ortstyp.SAAL)) {
+
+            return 50;
+
+        } else if (t.equals(Ortstyp.LOCATION)) {
+
+            return 100;
+
+        } else {
+
+            return 0;
         }
-        parser.close();
-        
-        // Engagements
-        /*
-         * for (int i = 0; i < 200; i++) {
-         * 
-         * e = EntityGenerator.getValidEngagement(i); engagements.add(e);
-         * engagementDao.persist(e);
-         * 
-         * kuenstler.get(i % 20).getEngagements().add(e);
-         * e.setKuenstler(kuenstler.get(i % 20)); }
-         */
-        /*
-         * setting foreign relationships
-         */
-        /*
-         * EntityManagerUtil.beginTransaction();
-         * 
-         * for (int i = 0; i < 200; i++) {
-         * 
-         * engagementDao.persist(engagements.get(i)); if (i < 20) {
-         * kuenstlerDao.persist(kuenstler.get(i)); } }
-         * 
-         * EntityManagerUtil.commitTransaction();
-         */
+    }
+
+    private static int getSeats(Ortstyp t) {
+
+        if (t.equals(Ortstyp.KINO)) {
+
+            return 20;
+
+        } else if (t.equals(Ortstyp.THEATER)) {
+
+            return 30;
+
+        } else if (t.equals(Ortstyp.OPER)) {
+
+            return 30;
+
+        } else if (t.equals(Ortstyp.KABARETT)) {
+
+            return 20;
+
+        } else if (t.equals(Ortstyp.SAAL)) {
+
+            return 50;
+
+        } else if (t.equals(Ortstyp.LOCATION)) {
+
+            return 200;
+
+        } else {
+
+            return 0;
+        }
     }
 }

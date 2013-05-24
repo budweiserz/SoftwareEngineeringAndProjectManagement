@@ -26,6 +26,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
 import org.eclipse.ui.forms.events.ExpansionEvent;
@@ -38,8 +40,15 @@ import org.slf4j.LoggerFactory;
 
 import at.ticketline.entity.Kunde;
 import at.ticketline.service.api.KundeService;
-
-public class TransaktionWizardSeiteZwei extends WizardPage {
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.RowLayout;
+import swing2swt.layout.BoxLayout;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
+@SuppressWarnings("restriction")
+public class TransaktionWizardSeiteZwei extends WizardPage implements Listener{
 
     private static final Logger LOG = LoggerFactory.getLogger(TransaktionWizardSeiteZwei.class);
     
@@ -48,11 +57,16 @@ public class TransaktionWizardSeiteZwei extends WizardPage {
     private ESelectionService selectionService;
     @Inject private KundeService kundeService;
     
+    private Button btnNeuerKunde;
+    private Button btnBestehenderKunde;
+    private Button btnAnonymerKunde;
+    
     private FormToolkit toolkit;
     private ScrolledForm form;
     private TableViewer tableViewer;
     /**
-     * Create the wizard.
+     * Auf dieser Seite kann zwischem neuen, bestehenden oder
+     * anonymen Kunden für die Transaktion entschieden werden
      */
     public TransaktionWizardSeiteZwei() {
         super("kundenwahl");
@@ -61,195 +75,105 @@ public class TransaktionWizardSeiteZwei extends WizardPage {
     }
 
     /**
-     * Create contents of the wizard.
-     * @param parent
+     * Erstelle die UI Inhalte dieser Seite.
      */
     public void createControl(Composite parent) {
         Composite container = new Composite(parent, SWT.NULL);
-
-        
-        //TODO Delete?? old window
- //       ListKundePart lkp = new ListKundePart();
-//        try {
-//            lkp.init(container);
-//        } catch (PartInitException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
         
         setControl(container);
+        container.setLayout(new GridLayout(3, false));
+        new Label(container, SWT.NONE);
+        new Label(container, SWT.NONE);
+        new Label(container, SWT.NONE);
+        new Label(container, SWT.NONE);
+
+        new Label(container, SWT.NONE);
         
-        Button btnAnonymerKunde = new Button(container, SWT.RADIO);
-        btnAnonymerKunde.setBounds(10, 10, 554, 16);
-        btnAnonymerKunde.setText("Anonymer Kunde");
-        
-        Button btnNeuerKunde = new Button(container, SWT.RADIO);
-        btnNeuerKunde.setBounds(10, 32, 90, 16);
+        btnNeuerKunde = new Button(container, SWT.RADIO);
+        btnNeuerKunde.addListener(SWT.Selection, this);
         btnNeuerKunde.setText("Neuer Kunde");
+        new Label(container, SWT.NONE);
+        new Label(container, SWT.NONE);
         
-        Button btnBestehenderKunde = new Button(container, SWT.RADIO);
-        btnBestehenderKunde.setBounds(10, 54, 90, 16);
+        Label lblNeu1 = new Label(container, SWT.NONE);
+        lblNeu1.setText("Ist der Kunde noch nicht bei uns registriert? Überzeugen ");
+        new Label(container, SWT.NONE);
+        new Label(container, SWT.NONE);
+        
+        Label lblNeu2 = new Label(container, SWT.NONE);
+        lblNeu2.setText("sie ihn von einer Kundenkarte und wählen diese Option!");
+        new Label(container, SWT.NONE);
+        new Label(container, SWT.NONE);
+        new Label(container, SWT.NONE);
+        new Label(container, SWT.NONE);
+        new Label(container, SWT.NONE);
+        
+        btnBestehenderKunde = new Button(container, SWT.RADIO);
+        btnBestehenderKunde.addListener(SWT.Selection, this);
+        btnBestehenderKunde.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 1));
         btnBestehenderKunde.setText("Bestehender Kunde");
+        new Label(container, SWT.NONE);
+        new Label(container, SWT.NONE);
         
-        //createKundenliste(container);
-        //show button if service null to check
-        if(kundeService == null) {
-        Button btnRadioButton = new Button(container, SWT.RADIO);
-        btnRadioButton.setBounds(10, 10, 90, 16);
-        btnRadioButton.setText("Radio Button");
+        Label lblBestehend1 = new Label(container, SWT.NONE);
+        lblBestehend1.setText("Wenn der Kunde bereits eine Kundenkarte besitzt,");
+        new Label(container, SWT.NONE);
+        new Label(container, SWT.NONE);
+        
+        Label lblBestehend2 = new Label(container, SWT.NONE);
+        lblBestehend2.setText(" ist diese Option zu wählen.");
+        new Label(container, SWT.NONE);
+        new Label(container, SWT.NONE);
+        new Label(container, SWT.NONE);
+        new Label(container, SWT.NONE);
+        new Label(container, SWT.NONE);
+        
+        btnAnonymerKunde = new Button(container, SWT.RADIO);
+        btnAnonymerKunde.setText("Anonymer Kunde");
+        btnAnonymerKunde.addListener(SWT.Selection, this);
+        new Label(container, SWT.NONE);
+        new Label(container, SWT.NONE);
+        
+        Label lblAnon1 = new Label(container, SWT.NONE);
+        lblAnon1.setText("Will der Kunde keine Kundenkarte, kann er auch anonym ");
+        new Label(container, SWT.NONE);
+        new Label(container, SWT.NONE);
+        
+        Label lblAnon2 = new Label(container, SWT.NONE);
+        lblAnon2.setText("Karten bestellen.");
+        
         //TODO set completed when customer type is selected
+        
+        setPageComplete(false);
+    }
+
+    @Override
+    public void handleEvent(Event e) {
+        if(e.widget == btnNeuerKunde) {
+            setPageComplete(true);
+        } else if(e.widget == btnAnonymerKunde) {
+            setPageComplete(true);
+        } else if(e.widget == btnBestehenderKunde) {
+            setPageComplete(true);
+        }        
+    }
+    
+    /**
+     * Gibt die jeweilige nächste Seite gemaess
+     * Radio-Button Auswahl zurueck
+     */
+    @Override
+    public WizardPage getNextPage(){
+        if (btnNeuerKunde.getSelection()) {
+            return ((TransaktionWizard)getWizard()).drei;
         }
-        
-        setPageComplete(true);
-    }
-    
-    private void createKundenliste(Composite parent){
-        parent.setLayout(new GridLayout(1, false));
-
-        this.toolkit = new FormToolkit(parent.getDisplay());
-        this.form = this.toolkit.createScrolledForm(parent);
-        this.form.setLayoutData(new GridData(GridData.FILL_BOTH));
-        this.form.getBody().setLayout(new GridLayout(1, false));
-
-        this.createForm(this.form.getBody());
-        this.createTable(this.form.getBody());
-        //this.createSaveButton(this.form.getBody());
-    }
-    
-    private void createForm(Composite parent) {
-        Composite c = this.toolkit.createComposite(parent);
-        c.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-        ColumnLayout columnLayout = new ColumnLayout();
-        columnLayout.minNumColumns = 1;
-        columnLayout.maxNumColumns = 1;
-        c.setLayout(columnLayout);
-    }
-
-    private void createTable(Composite parent) {
-        //TODO delete, aufklappbares Teil:
-//        Section engagementSection = this.toolkit.createSection(parent, Section.DESCRIPTION | Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-//        engagementSection.addExpansionListener(new ExpansionAdapter() {
-//            @Override
-//            public void expansionStateChanged(ExpansionEvent e) {
-//                ListKundePart.this.form.reflow(true);
-//            }
-//        });
-//        engagementSection.setText("Kunden");
-//        engagementSection.setLayoutData(new GridData(GridData.FILL_BOTH));
-//    
-//        this.tableViewer = new TableViewer(engagementSection, SWT.BORDER | SWT.FULL_SELECTION);
-        this.tableViewer = new TableViewer(parent);
-        this.tableViewer.getTable().setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-        TableLayout layout = new TableLayout();
-        layout.addColumnData(new ColumnWeightData(33, 100, true));
-        layout.addColumnData(new ColumnWeightData(33, 100, true));
-        layout.addColumnData(new ColumnWeightData(33, 100, true));
-        //layout.addColumnData(new ColumnWeightData(15, 100, true));
-        this.tableViewer.getTable().setLayout(layout);
-    
-        this.tableViewer.getTable().setLinesVisible(true);
-        this.tableViewer.getTable().setHeaderVisible(true);
-    
-        this.tableViewer.setContentProvider(new ArrayContentProvider());
-        this.tableViewer.setLabelProvider(new ITableLabelProvider() {
-            @Override
-            public Image getColumnImage(Object arg0, int arg1) {
-                return null;
-            }
-    
-            @Override
-            public String getColumnText(Object element, int index) {
-                Kunde e = (Kunde) element;
-                switch (index) {
-                case 0:
-                    if (e.getVorname() != null) {
-                        return e.getVorname();
-                    } else {
-                        return "";
-                    }
-                case 1:
-                    if (e.getNachname() != null) {
-                        return e.getNachname();
-                    } else {
-                        return "";
-                    }
-                case 2:
-                    if (e.getGeburtsdatum() != null) {
-                        return e.getGeburtsdatum().getTime().toString();
-                    } else {
-                        return "";
-                    }
-                }
-                return null;
-            }
-    
-            @Override
-            public void addListener(ILabelProviderListener listener) {
-                // nothing to do
-            }
-    
-            @Override
-            public void dispose() {
-                // nothing to do
-            }
-    
-            @Override
-            public boolean isLabelProperty(Object arg0, String arg1) {
-                return true;
-            }
-    
-            @Override
-            public void removeListener(ILabelProviderListener arg0) {
-                // nothing to do
-            }
-        });
-    
-        TableColumn col1 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
-        col1.setText("Vorname");
-        TableColumn col2 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
-        col2.setText("Nachname");
-        TableColumn col3 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
-        col3.setText("Geburtsdatum");
-        //TableColumn col4 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
-        //col4.setText("Gage");
-        
-        // MAGIC HAPPENS HERE
-        this.tableViewer.setInput(this.kundeService.findAll());
-//        this.tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-//            @Override
-//            public void selectionChanged(SelectionChangedEvent event) {
-//                IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection(); 
-//                selectionService.setSelection(selection.getFirstElement());
-//                LOG.info("Selection changed: {}", selection.getFirstElement().toString());
-//            }
-//        });
-//        this.tableViewer.addDoubleClickListener(new IDoubleClickListener() {
-//            @Override
-//            public void doubleClick(DoubleClickEvent event) {
-//                ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openKunde", null);
-//                handlerService.executeHandler(c);
-//            }
-//        });
-    
-        this.toolkit.adapt(this.tableViewer.getTable(), true, true);
-        //TODO delete legacy aufklapper
-        //engagementSection.setClient(this.tableViewer.getTable());
-    }
-    
-    public void setKundeService(KundeService kundeService) {
-        this.kundeService = kundeService;
-    }
-    
-    public void setEHandlerService(EHandlerService handlerService) {
-        this.handlerService = handlerService;
-    }
-    
-    public void setECommandService(ECommandService commandService) {
-        this.commandService = commandService;
-    }
-    
-    public void setESelectionService( ESelectionService selectionService) {
-        this.selectionService = selectionService;
-    }
+        if (btnBestehenderKunde.getSelection()) { 
+            return ((TransaktionWizard)getWizard()).vier;
+        }
+        if (btnAnonymerKunde.getSelection()) { 
+            WizardPage fuenf = ((TransaktionWizard)getWizard()).fuenf;
+            return fuenf;
+        }
+        return null;
+     }
 }

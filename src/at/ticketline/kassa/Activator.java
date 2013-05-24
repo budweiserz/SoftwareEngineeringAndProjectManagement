@@ -49,7 +49,7 @@ public class Activator implements BundleActivator {
 
     private static BundleContext CONTEXT;
 
-    static BundleContext getContext() {
+    public static BundleContext getContext() {
         return CONTEXT;
     }
 

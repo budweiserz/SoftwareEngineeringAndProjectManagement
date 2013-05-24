@@ -23,18 +23,21 @@ public class TransaktionWizard extends Wizard {
     protected TransaktionWizardSeiteVier vier;
     protected TransaktionWizardSeiteFuenf fuenf;
     
+    private TransaktionWizardValues values;
+    
     public TransaktionWizard() {
         super();
+        values = new TransaktionWizardValues();
         setWindowTitle("Reservierung / Kauf");
         setNeedsProgressMonitor(true);
     }
 
     @Override
     public void addPages() {
-        eins = new TransaktionWizardSeiteEins();
+        eins = new TransaktionWizardSeiteEins(values);
         zwei = new TransaktionWizardSeiteZwei();
         drei = new TransaktionWizardSeiteDrei();
-        vier  = new TransaktionWizardSeiteVier();
+        vier  = new TransaktionWizardSeiteVier(values);
         fuenf = new TransaktionWizardSeiteFuenf();
         vier.setKundeService(kundeService);
         vier.setECommandService(commandService);

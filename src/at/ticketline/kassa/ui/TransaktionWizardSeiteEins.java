@@ -5,21 +5,27 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 
-public class TransaktionWizardSeiteEins extends WizardPage {
+public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
 
     private Composite container;
+    private Button btnBuchung;
+    private Button btnReservierung;
+    private TransaktionWizardValues values;
     
     /**
      * Diese Seite stellt einen grafischen Saalplan zur Auswahl
      * der Plätze zur Verfügung sowie die Möglichkeit zwischen Reservierung
      * und Buchung zu entscheiden
      */
-    public TransaktionWizardSeiteEins() {
+    public TransaktionWizardSeiteEins(TransaktionWizardValues values) {
         super("saalplan");
         setTitle("Verfügbare Plätze");
         setDescription("Wählen Sie die gewünschten Plätze und die Art der Transaktion aus");
+        this.values = values;
     }
 
     /**
@@ -32,17 +38,32 @@ public class TransaktionWizardSeiteEins extends WizardPage {
         
         setControl(container);
         
-        Button btnBuchung = new Button(container, SWT.RADIO);
+        btnBuchung = new Button(container, SWT.RADIO);
+        btnBuchung.addListener(SWT.Selection, this);
         btnBuchung.setBounds(10, 10, 90, 16);
         btnBuchung.setText("Buchung");
         
-        Button btnReservierung = new Button(container, SWT.RADIO);
+        btnReservierung = new Button(container, SWT.RADIO);
+        btnReservierung.addListener(SWT.Selection, this);
         btnReservierung.setBounds(106, 10, 90, 16);
         btnReservierung.setText("Reservierung");
         
         //TODO make true when plaetze selected
-        setPageComplete(true);
+        setPageComplete(false);
 
+        
+    }
+
+    @Override
+    public void handleEvent(Event e) {
+        if(e.widget == btnBuchung) {
+            setPageComplete(true);
+            values.setReservierung(false);
+        }
+        if(e.widget == btnReservierung) {
+            setPageComplete(true);
+            values.setReservierung(true);
+        }
         
     }
 }

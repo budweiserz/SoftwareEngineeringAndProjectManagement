@@ -43,12 +43,14 @@ import at.ticketline.service.api.KundeService;
 @SuppressWarnings("restriction")
 public class TransaktionWizardSeiteVier extends WizardPage {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TransaktionWizardSeiteZwei.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TransaktionWizardSeiteVier.class);
     
     private EHandlerService handlerService;
     private ECommandService commandService;
     private ESelectionService selectionService;
-    @Inject private KundeService kundeService;
+    private KundeService kundeService;
+    
+    private TransaktionWizardValues values;
     
     private FormToolkit toolkit;
     private ScrolledForm form;
@@ -58,11 +60,13 @@ public class TransaktionWizardSeiteVier extends WizardPage {
      * Kunde für die Transaktion verwendet werden soll. Dabei wird die Liste
      * aus ListKundePart im Wizard-fenster angezeigt.
      */
-    public TransaktionWizardSeiteVier() {
+    public TransaktionWizardSeiteVier(TransaktionWizardValues values) {
         super("BestehenderKunde");
         setTitle("Stammkunde");
         setDescription("Wählen sie hier den Kunden aus:");
+        this.values = values;
     }
+    
 
     /**
      * Erstelle die UI Inhalte dieser Seite.
@@ -211,6 +215,8 @@ public class TransaktionWizardSeiteVier extends WizardPage {
                 temp.setPageComplete(true);
                 IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection(); 
                 selectionService.setSelection(selection.getFirstElement());
+                temp.values.setKunde((Kunde)selection.getFirstElement());
+                LOG.info("Type: " + selection.getFirstElement().getClass().getName());
                 LOG.info("Selection changed: {}", selection.getFirstElement().toString());
             }
         });

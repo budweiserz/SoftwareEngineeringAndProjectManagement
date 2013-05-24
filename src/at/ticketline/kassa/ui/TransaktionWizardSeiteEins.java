@@ -15,6 +15,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
     private Button btnBuchung;
     private Button btnReservierung;
     private TransaktionWizardValues values;
+    private Label lblAsdfasdfasdfasdf;
     
     /**
      * Diese Seite stellt einen grafischen Saalplan zur Auswahl
@@ -47,7 +48,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         btnReservierung.addListener(SWT.Selection, this);
         btnReservierung.setBounds(106, 10, 90, 16);
         btnReservierung.setText("Reservierung");
-        
+              
         //TODO make true when plaetze selected
         setPageComplete(false);
 
@@ -59,10 +60,12 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         if(e.widget == btnBuchung) {
             setPageComplete(true);
             values.setReservierung(false);
+            ((TransaktionWizard) getWizard()).fuenf.updateContent();
         }
         if(e.widget == btnReservierung) {
             setPageComplete(true);
             values.setReservierung(true);
+            ((TransaktionWizard) getWizard()).fuenf.updateContent();
         }
         
     }

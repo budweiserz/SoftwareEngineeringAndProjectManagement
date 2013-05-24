@@ -216,6 +216,7 @@ public class TransaktionWizardSeiteVier extends WizardPage {
                 IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection(); 
                 selectionService.setSelection(selection.getFirstElement());
                 temp.values.setKunde((Kunde)selection.getFirstElement());
+                ((TransaktionWizard)getWizard()).fuenf.updateContent();
                 LOG.info("Type: " + selection.getFirstElement().getClass().getName());
                 LOG.info("Selection changed: {}", selection.getFirstElement().toString());
             }

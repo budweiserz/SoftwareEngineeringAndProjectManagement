@@ -1,12 +1,16 @@
 package at.ticketline.kassa.ui;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
+import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.wizard.Wizard;
 
+import at.ticketline.entity.Auffuehrung;
 import at.ticketline.service.api.KundeService;
 
 @SuppressWarnings("restriction")
@@ -25,12 +29,15 @@ public class TransaktionWizard extends Wizard {
     
     private TransaktionWizardValues values;
     
-    public TransaktionWizard() {
+    @Inject
+    public TransaktionWizard(@ Named (IServiceConstants.ACTIVE_SELECTION) @ Optional Auffuehrung auffuehrung) {
         super();
         values = new TransaktionWizardValues();
         setWindowTitle("Reservierung / Kauf");
         setNeedsProgressMonitor(true);
+        values.setAuffuehrung(auffuehrung);
     }
+    
 
     @Override
     public void addPages() {
@@ -38,7 +45,7 @@ public class TransaktionWizard extends Wizard {
         zwei = new TransaktionWizardSeiteZwei();
         drei = new TransaktionWizardSeiteDrei();
         vier  = new TransaktionWizardSeiteVier(values);
-        fuenf = new TransaktionWizardSeiteFuenf();
+        fuenf = new TransaktionWizardSeiteFuenf(values);
         vier.setKundeService(kundeService);
         vier.setECommandService(commandService);
         vier.setEHandlerService(handlerService);

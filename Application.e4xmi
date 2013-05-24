@@ -40,7 +40,7 @@
       </children>
     </trimBars>
   </children>
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_vFkWUL7WEeKTEsAFXXSalg" elementId="ticketlinercp.trimmedwindow.news" visible="false" label="Unternehmensnews" x="200" y="200" width="640" height="740">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_vFkWUL7WEeKTEsAFXXSalg" elementId="ticketlinercp.trimmedwindow.news" visible="false" label="Unternehmensnews" width="640" height="740">
     <children xsi:type="basic:Part" xmi:id="_CZbMoL7XEeKTEsAFXXSalg" elementId="ticketlinercp.part.1" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.NewsPart" label="NewsPart"/>
   </children>
   <children xsi:type="basic:TrimmedWindow" xmi:id="_A6k5ULfiEeK5r4ZRsi2uzQ" elementId="ticketlinercp.trimmedwindow.login" label="Login" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/key_icon&amp;16.png" x="200" y="200" width="320" height="370">

@@ -65,6 +65,7 @@ public class LoginPart{
     private Text txtUsername;
     private Text txtPassword;
     private Label lblErrorMessage;
+    private boolean loggedIn = false;
     
     @PostConstruct
     public void createComposite(Composite parent) {
@@ -125,6 +126,7 @@ public class LoginPart{
             @Override
             public void widgetSelected(SelectionEvent e) {
                 LOG.info("Login Attempt with User: " + txtUsername.getText());
+                //TODO move Line to successful login
                 closeLoginAndGoToNextWindow();
                 try {
                 	boolean success = mitarbeiterService.login(txtUsername.getText(), txtPassword.getText());
@@ -147,7 +149,7 @@ public class LoginPart{
 			private void closeLoginAndGoToNextWindow() {
 				List<MWindow> windows = application.getChildren();
                 Iterator<MWindow> it = windows.iterator();
-                
+                loggedIn = true;
                 while(it.hasNext()) {
                 	MWindow window = it.next();
                 	LOG.debug(window.getElementId());
@@ -179,8 +181,10 @@ public class LoginPart{
     
     @PreDestroy 
     public void preDestroy(){
-    	LOG.info("I will close the application now, Login was aborted");
-    	System.exit(-1);
+    	if(!loggedIn) {
+    		LOG.info("I will close the application now, Login was aborted");
+    		System.exit(-1);
+    	}
     }
     
 

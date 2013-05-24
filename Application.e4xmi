@@ -58,6 +58,7 @@
   <handlers xmi:id="_hezHUL1lEeKT_IzQOUkC4g" elementId="inso-sepm-ss13-07.handler.0" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenKuenstlerSearchHandler" command="_iMMOQL1kEeKT_IzQOUkC4g"/>
   <handlers xmi:id="_y_HQcL42EeKT_IzQOUkC4g" elementId="inso-sepm-ss13-07.handler.1" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenVeranstaltungHandler" command="_AAR2IL42EeKT_IzQOUkC4g"/>
   <handlers xmi:id="_KKK5UL1cEeKCAfdsrtuMiA" elementId="at.ticketline.openAufuehrungSearchCommand" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenAuffuehrungSearchHandler" command="_RSuQYL1cEeKCAfdsrtuMiA"/>
+  <handlers xmi:id="_HLQSAMO7EeK8Ar2JK_joaQ" elementId="inso-sepm-ss13-07.handler.2" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenTransaktionWizardHandler" command="_6VAYUMO6EeK8Ar2JK_joaQ"/>
   <bindingTables xmi:id="_J1qjHJ7KEeKyV7_6Xf9MMA" bindingContext="_J1qjEZ7KEeKyV7_6Xf9MMA">
     <bindings xmi:id="_J1qjHZ7KEeKyV7_6Xf9MMA" keySequence="M1+Q" command="_J1qjGp7KEeKyV7_6Xf9MMA"/>
     <bindings xmi:id="_J1qjIJ7KEeKyV7_6Xf9MMA" keySequence="M1+O" command="_J1qjHp7KEeKyV7_6Xf9MMA"/>
@@ -76,6 +77,9 @@
   <descriptors xmi:id="_XDMpMLy3EeKlkobWpntiug" elementId="at.ticketline.partdescriptor.searchVeranstaltungsort" label="Veranstaltungsort Suche" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.VeranstaltungsortSearchPart"/>
   <descriptors xmi:id="_VpB4oLy0EeKT_IzQOUkC4g" elementId="at.ticketline.partdescriptor.listkunde" label="ListKunde" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.ListKundePart"/>
   <descriptors xmi:id="_zoRkQL1cEeKCAfdsrtuMiA" elementId="at.ticketline.partdescriptor.searchAuffuehrung" label="Aufführung" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.AuffuehrungSearchPart"/>
+  <descriptors xmi:id="_gt-W8MO-EeK8Ar2JK_joaQ" elementId="inso-sepm-ss13-07.partdescriptor.0" label="TransaktionWizard" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.TransaktionWizard"/>
+  <descriptors xmi:id="_mmj68MO-EeK8Ar2JK_joaQ" elementId="inso-sepm-ss13-07.partdescriptor.1" label="TransaktionWizardSeiteEins" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.TransaktionWizardSeiteEins"/>
+  <descriptors xmi:id="_qQaWgMO-EeK8Ar2JK_joaQ" elementId="inso-sepm-ss13-07.partdescriptor.2" label="TransaktionWizardSeiteZwei" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.TransaktionWizardSeiteZwei"/>
   <commands xmi:id="_J1qjGp7KEeKyV7_6Xf9MMA" elementId="org.eclipse.ui.file.exit" commandName="quitCommand"/>
   <commands xmi:id="_J1qjHp7KEeKyV7_6Xf9MMA" elementId="at.ticketline.kassa.open" commandName="openCommand"/>
   <commands xmi:id="_QskM0J7zEeKyV7_6Xf9MMA" elementId="at.ticketline.command.openKuenstler" commandName="Künstleransicht öffnen"/>
@@ -88,6 +92,7 @@
   <commands xmi:id="_iMMOQL1kEeKT_IzQOUkC4g" elementId="at.ticketline.command.searchKuenstler" commandName="Künstler suchen"/>
   <commands xmi:id="_AAR2IL42EeKT_IzQOUkC4g" elementId="at.ticketline.command.openVeranstaltung" commandName="Veranstaltungsansicht öffnen"/>
   <commands xmi:id="_RSuQYL1cEeKCAfdsrtuMiA" elementId="at.ticketline.command.searchAuffuehrung" commandName="Aufführung suchen"/>
+  <commands xmi:id="_6VAYUMO6EeK8Ar2JK_joaQ" elementId="at.ticketline.command.openWizard" commandName="TransaktionsWizard öffnen"/>
   <addons xmi:id="_J1qjFJ7KEeKyV7_6Xf9MMA" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_J1qjFZ7KEeKyV7_6Xf9MMA" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_J1qjFp7KEeKyV7_6Xf9MMA" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

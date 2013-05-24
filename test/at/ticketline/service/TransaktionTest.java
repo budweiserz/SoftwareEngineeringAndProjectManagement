@@ -266,6 +266,47 @@ public class TransaktionTest extends AbstractDaoTest {
 			assertEquals(PlatzStatus.FREI, p.getStatus());
 		}
 	}
+	
+	@Test
+	public void testCancelReservation_shouldNotCancelAnyReservationWithUnknownId() {
+
+		TransaktionDao transaktionDao = (TransaktionDao)DaoFactory.getByEntity(Transaktion.class);
+		assertEquals(0, transaktionDao.findAll().size());
+
+		Transaktion t = new Transaktion();
+		t.setDatumuhrzeit(new Date());
+		t.setStatus(Transaktionsstatus.RESERVIERUNG);
+		t.setZahlungsart(Zahlungsart.VORKASSE);
+		LinkedHashSet<Platz> plaetze = new LinkedHashSet<Platz>();
+
+		for (int i = 0; i < 10; i++) {
+			Platz p = new Platz();
+			p.setNummer(i);
+			p.setStatus(PlatzStatus.RESERVIERT);
+			plaetze.add(p);
+		}
+		t.setPlaetze(plaetze);
+
+		transaktionDao.persist(t);
+
+		assertEquals(1, transaktionDao.findAll().size());
+
+		t = transaktionDao.findById(t.getId());
+
+		assertEquals(Transaktionsstatus.RESERVIERUNG, t.getStatus());
+
+		TransaktionService service = new TransaktionServiceImpl();
+
+		service.cancelReservation(t.getId() + 39023);
+
+		t = transaktionDao.findById(t.getId());
+
+		assertEquals(Transaktionsstatus.RESERVIERUNG, t.getStatus());
+
+		for (Platz p : t.getPlaetze()) {
+			assertEquals(PlatzStatus.RESERVIERT, p.getStatus());
+		}
+	}
 
 	@Test
 	public void testCancelTransaktion() {
@@ -424,13 +465,13 @@ public class TransaktionTest extends AbstractDaoTest {
 			}
 		}
 	}
-	
+
 	@Test
 	public void testCancelTransaktion_shouldOnlyCancelTranaktionWithAssociatedKunde() {
 		KundeDao kundenDao = (KundeDao)DaoFactory.getByEntity(Kunde.class);
 		Kunde k1 = EntityGenerator.getValidKunde(0);
 		kundenDao.persist(k1);
-		
+
 		Kunde k2 = EntityGenerator.getValidKunde(1);
 		kundenDao.persist(k2);
 
@@ -526,6 +567,186 @@ public class TransaktionTest extends AbstractDaoTest {
 				for (Platz p : trans.getPlaetze()) {
 					assertEquals(PlatzStatus.FREI, p.getStatus());
 				}
+			}
+		}
+	}
+
+	@Test
+	public void testCancelTransaktion_shouldNotCancelAnyTransaktionWithUnassociatedAuffuehrung() {
+		KundeDao kundenDao = (KundeDao)DaoFactory.getByEntity(Kunde.class);
+		Kunde k = EntityGenerator.getValidKunde(0);
+		kundenDao.persist(k);
+
+		AuffuehrungDao auffuehrungDao = (AuffuehrungDao)DaoFactory.getByEntity(Auffuehrung.class);
+		Auffuehrung a1 = new Auffuehrung();
+		a1.setDatumuhrzeit(new Date());
+		a1.setPreis(PreisKategorie.MINDESTPREIS);
+
+		auffuehrungDao.persist(a1);
+
+		Auffuehrung a2 = new Auffuehrung();
+		a2.setDatumuhrzeit(new Date());
+		a2.setPreis(PreisKategorie.STANDARDPREIS);
+
+		auffuehrungDao.persist(a2);
+
+		Auffuehrung a3 = new Auffuehrung();
+		a2.setDatumuhrzeit(new Date());
+		a2.setPreis(PreisKategorie.STANDARDPREIS);
+
+		auffuehrungDao.persist(a2);
+
+		LinkedHashSet<Platz> plaetze = new LinkedHashSet<Platz>();
+
+		for(int i = 0; i < 10; i++) {
+			Platz p = new Platz();
+			p.setNummer(i);
+			p.setStatus(PlatzStatus.GEBUCHT);
+			plaetze.add(p);
+			p.setAuffuehrung(a1);
+		}
+
+		TransaktionDao transaktionDao = (TransaktionDao)DaoFactory.getByEntity(Transaktion.class);
+		TransaktionService service = new TransaktionServiceImpl();
+
+		assertEquals(0, transaktionDao.findAll().size());
+
+		Transaktion t1 = new Transaktion();
+		t1.setDatumuhrzeit(new Date());
+		t1.setStatus(Transaktionsstatus.BUCHUNG);
+		t1.setZahlungsart(Zahlungsart.VORKASSE);
+		t1.setKunde(k);
+		t1.setPlaetze(plaetze);
+		transaktionDao.persist(t1);
+
+		plaetze = new LinkedHashSet<Platz>();
+
+		for(int i = 0; i < 10; i++) {
+			Platz p = new Platz();
+			p.setNummer(i);
+			p.setStatus(PlatzStatus.GEBUCHT);
+			plaetze.add(p);
+			p.setAuffuehrung(a2);
+		}
+
+		Transaktion t2 = new Transaktion();
+		t2.setDatumuhrzeit(new Date());
+		t2.setStatus(Transaktionsstatus.BUCHUNG);
+		t2.setZahlungsart(Zahlungsart.VORKASSE);
+		t2.setKunde(k);
+		t2.setPlaetze(plaetze);
+		transaktionDao.persist(t2);
+
+		assertEquals(2, transaktionDao.findAll().size());
+
+		service.cancelTransaktion(k, a3);
+
+		for (Transaktion trans : transaktionDao.findAll()) {
+			if (k.equals(trans.getKunde())) {
+
+				assertEquals(Transaktionsstatus.BUCHUNG, trans.getStatus());
+
+				for (Platz p : trans.getPlaetze()) {
+					assertEquals(PlatzStatus.GEBUCHT, p.getStatus());
+				}
+
+			}
+		}
+
+		service.cancelTransaktion(k, a3);
+
+		for (Transaktion trans : transaktionDao.findAll()) {
+			if (k.equals(trans.getKunde())) {
+
+				assertEquals(Transaktionsstatus.BUCHUNG, trans.getStatus());
+
+				for (Platz p : trans.getPlaetze()) {
+					assertEquals(PlatzStatus.GEBUCHT, p.getStatus());
+				}
+
+			}
+		}
+	}
+
+	@Test
+	public void testCancelTransaktion_shouldNotCancelAnyTranaktionWithUnassociatedKunde() {
+		KundeDao kundenDao = (KundeDao)DaoFactory.getByEntity(Kunde.class);
+		Kunde k1 = EntityGenerator.getValidKunde(0);
+		kundenDao.persist(k1);
+
+		Kunde k2 = EntityGenerator.getValidKunde(1);
+		kundenDao.persist(k2);
+
+		Kunde k3 = EntityGenerator.getValidKunde(2);
+		kundenDao.persist(k3);
+
+		AuffuehrungDao auffuehrungDao = (AuffuehrungDao)DaoFactory.getByEntity(Auffuehrung.class);
+		Auffuehrung a1 = new Auffuehrung();
+		a1.setDatumuhrzeit(new Date());
+		a1.setPreis(PreisKategorie.MINDESTPREIS);
+
+		auffuehrungDao.persist(a1);
+
+		LinkedHashSet<Platz> plaetze = new LinkedHashSet<Platz>();
+
+		for(int i = 0; i < 10; i++) {
+			Platz p = new Platz();
+			p.setNummer(i);
+			p.setStatus(PlatzStatus.GEBUCHT);
+			plaetze.add(p);
+			p.setAuffuehrung(a1);
+		}
+
+		TransaktionDao transaktionDao = (TransaktionDao)DaoFactory.getByEntity(Transaktion.class);
+		TransaktionService service = new TransaktionServiceImpl();
+
+		assertEquals(0, transaktionDao.findAll().size());
+
+		Transaktion t1 = new Transaktion();
+		t1.setDatumuhrzeit(new Date());
+		t1.setStatus(Transaktionsstatus.BUCHUNG);
+		t1.setZahlungsart(Zahlungsart.VORKASSE);
+		t1.setKunde(k1);
+		t1.setPlaetze(plaetze);
+		transaktionDao.persist(t1);
+
+		plaetze = new LinkedHashSet<Platz>();
+
+		for(int i = 0; i < 10; i++) {
+			Platz p = new Platz();
+			p.setNummer(i);
+			p.setStatus(PlatzStatus.GEBUCHT);
+			plaetze.add(p);
+			p.setAuffuehrung(a1);
+		}
+
+		Transaktion t2 = new Transaktion();
+		t2.setDatumuhrzeit(new Date());
+		t2.setStatus(Transaktionsstatus.BUCHUNG);
+		t2.setZahlungsart(Zahlungsart.VORKASSE);
+		t2.setKunde(k2);
+		t2.setPlaetze(plaetze);
+		transaktionDao.persist(t2);
+
+		assertEquals(2, transaktionDao.findAll().size());
+
+		service.cancelTransaktion(k3, a1);
+
+		for (Transaktion trans : transaktionDao.findAll()) {
+			assertEquals(Transaktionsstatus.BUCHUNG, trans.getStatus());
+
+			for (Platz p : trans.getPlaetze()) {
+				assertEquals(PlatzStatus.GEBUCHT, p.getStatus());
+			}
+		}
+
+		service.cancelTransaktion(k3, a1);
+
+		for (Transaktion trans : transaktionDao.findAll()) {
+			assertEquals(Transaktionsstatus.BUCHUNG, trans.getStatus());
+
+			for (Platz p : trans.getPlaetze()) {
+				assertEquals(PlatzStatus.GEBUCHT, p.getStatus());
 			}
 		}
 	}

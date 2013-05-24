@@ -30,105 +30,107 @@ import at.ticketline.service.api.TransaktionService;
  * @author Florian Klampfer
  */
 public class TransaktionServiceImpl implements TransaktionService {
-    
-    private TransaktionDao transaktionDao;
-    private MitarbeiterDao mitarbeiterDao;
-    private KundeDao kundeDao;
-    
-    public TransaktionServiceImpl() {
-        this.transaktionDao = (TransaktionDao)DaoFactory.getByEntity(Transaktion.class);
-        this.mitarbeiterDao = (MitarbeiterDao)DaoFactory.getByEntity(Mitarbeiter.class);
-        this.kundeDao = (KundeDao)DaoFactory.getByEntity(Kunde.class);
-    }
 
-    /**
-     * Reserviert Plätze zu einer Veranstaltung für einen neuen, bestehenden oder anonymen Kunden.
-     * 
-     * @param kunde Ein bestehender oder neuer kunde, null wenn anonymer Kunde
-     * @param auffuehrung Aufführung für die reserviert werden soll
-     * @param plaetze Ein Set von Plätzen die reserviert werden soll. 
-     *        Die Plätze müssen aus getPlaetze() der Aufführung stammen!
-     * @return Eine Transaktion welche die Reservierungsnummer beinhaltet
-     */
-    @Override
-    public Transaktion reserve(Mitarbeiter m, Kunde k, Auffuehrung a, Set<Platz> ps) {
-        return execute(m, k, a, ps, null, Transaktionsstatus.RESERVIERUNG, PlatzStatus.RESERVIERT);
-    }
-    
-    /**
-     * Verkauft Plätze zu einer Veranstaltung für einen neuen, bestehenden oder anonymen Kunden.
-     * 
-     * @param kunde Ein bestehender oder neuer kunde, null wenn anonymer Kunde
-     * @param auffuehrung Aufführung für die reserviert werden soll
-     * @param plaetze Ein Set von Plätzen die reserviert werden soll. 
-     *        Die Plätze müssen aus getPlaetze() der Aufführung stammen!
-     * @return Eine Transaktion welche die Zahlungsinformation beinhaltet
-     */
-    @Override
-    public Transaktion sell(Mitarbeiter m, Kunde k, Auffuehrung a, Set<Platz> ps, Zahlungsart z) {
-        return execute(m, k, a, ps, z, Transaktionsstatus.BUCHUNG, PlatzStatus.GEBUCHT);
-    }
-    
-    private Transaktion execute(Mitarbeiter m, Kunde k, Auffuehrung a, Set<Platz> ps, Zahlungsart z, Transaktionsstatus tstat, PlatzStatus pstat) {
-        Transaktion t = new Transaktion();
-        t.setDatumuhrzeit(new Date());
-        t.setStatus(tstat);
-        
-        if(k != null) {
-            t.setKunde(k);
-        }
-        
-        t.setMitarbeiter(m);
-        t.setPlaetze(ps);
-        
-        for(Platz p : ps) {
-            p.setStatus(pstat);
-            p.setAuffuehrung(a);
-            p.setTransaktion(t);
-        }
-        
-        if (z != null) {
-            t.setZahlungsart(z);
-        }
-        
-        EntityManagerUtil.beginTransaction();
-        
-        transaktionDao.persist(t);
-        
-        m.getTransaktionen().add(t);
-        mitarbeiterDao.persist(m);
-        
-        k.getTransaktionen().add(t);
-        kundeDao.persist(k);
-        
-        EntityManagerUtil.commitTransaction();
-        
-        return t;
-    }
+	private TransaktionDao transaktionDao;
+	private MitarbeiterDao mitarbeiterDao;
+	private KundeDao kundeDao;
+
+	public TransaktionServiceImpl() {
+		this.transaktionDao = (TransaktionDao)DaoFactory.getByEntity(Transaktion.class);
+		this.mitarbeiterDao = (MitarbeiterDao)DaoFactory.getByEntity(Mitarbeiter.class);
+		this.kundeDao = (KundeDao)DaoFactory.getByEntity(Kunde.class);
+	}
+
+	/**
+	 * Reserviert Plätze zu einer Veranstaltung für einen neuen, bestehenden oder anonymen Kunden.
+	 * 
+	 * @param kunde Ein bestehender oder neuer kunde, null wenn anonymer Kunde
+	 * @param auffuehrung Aufführung für die reserviert werden soll
+	 * @param plaetze Ein Set von Plätzen die reserviert werden soll. 
+	 *        Die Plätze müssen aus getPlaetze() der Aufführung stammen!
+	 * @return Eine Transaktion welche die Reservierungsnummer beinhaltet
+	 */
+	@Override
+	public Transaktion reserve(Mitarbeiter m, Kunde k, Auffuehrung a, Set<Platz> ps) {
+		return execute(m, k, a, ps, null, Transaktionsstatus.RESERVIERUNG, PlatzStatus.RESERVIERT);
+	}
+
+	/**
+	 * Verkauft Plätze zu einer Veranstaltung für einen neuen, bestehenden oder anonymen Kunden.
+	 * 
+	 * @param kunde Ein bestehender oder neuer kunde, null wenn anonymer Kunde
+	 * @param auffuehrung Aufführung für die reserviert werden soll
+	 * @param plaetze Ein Set von Plätzen die reserviert werden soll. 
+	 *        Die Plätze müssen aus getPlaetze() der Aufführung stammen!
+	 * @return Eine Transaktion welche die Zahlungsinformation beinhaltet
+	 */
+	@Override
+	public Transaktion sell(Mitarbeiter m, Kunde k, Auffuehrung a, Set<Platz> ps, Zahlungsart z) {
+		return execute(m, k, a, ps, z, Transaktionsstatus.BUCHUNG, PlatzStatus.GEBUCHT);
+	}
+
+	private Transaktion execute(Mitarbeiter m, Kunde k, Auffuehrung a, Set<Platz> ps, Zahlungsart z, Transaktionsstatus tstat, PlatzStatus pstat) {
+		Transaktion t = new Transaktion();
+		t.setDatumuhrzeit(new Date());
+		t.setStatus(tstat);
+
+		if(k != null) {
+			t.setKunde(k);
+		}
+
+		t.setMitarbeiter(m);
+		t.setPlaetze(ps);
+
+		for(Platz p : ps) {
+			p.setStatus(pstat);
+			p.setAuffuehrung(a);
+			p.setTransaktion(t);
+		}
+
+		if (z != null) {
+			t.setZahlungsart(z);
+		}
+
+		EntityManagerUtil.beginTransaction();
+
+		transaktionDao.persist(t);
+
+		m.getTransaktionen().add(t);
+		mitarbeiterDao.persist(m);
+
+		k.getTransaktionen().add(t);
+		kundeDao.persist(k);
+
+		EntityManagerUtil.commitTransaction();
+
+		return t;
+	}
 
 	@Override
 	public void cancelReservation(Integer reservierungsNr) {
 		TransaktionDao transaktionDao = (TransaktionDao)DaoFactory.getByEntity(Transaktion.class);
 		Transaktion t = transaktionDao.findById(reservierungsNr);
-		t.setStatus(Transaktionsstatus.STORNO);
-		LinkedHashSet<Platz> plaetze = new LinkedHashSet<Platz>(t.getPlaetze());
-		for (Platz p : plaetze) {
-			p.setStatus(PlatzStatus.FREI);
+		if (t != null) {
+			t.setStatus(Transaktionsstatus.STORNO);
+			LinkedHashSet<Platz> plaetze = new LinkedHashSet<Platz>(t.getPlaetze());
+			for (Platz p : plaetze) {
+				p.setStatus(PlatzStatus.FREI);
+			}
+
+			t.setPlaetze(plaetze);
+			transaktionDao.merge(t);
 		}
-		
-		t.setPlaetze(plaetze);
-		transaktionDao.merge(t);
 	}
 
 	@Override
 	public void cancelTransaktion(Kunde k, Auffuehrung a) {
 		TransaktionDao transaktionDao = (TransaktionDao)DaoFactory.getByEntity(Transaktion.class);
-		
+
 		for (Transaktion t : transaktionDao.findAll()) {
 			if (k != null && k.equals(t.getKunde())) {
-				
+
 				Boolean persist = false;
-				
+
 				for (Platz p : t.getPlaetze()) {
 					if (a != null && a.equals(p.getAuffuehrung())) {
 						persist = true;
@@ -136,12 +138,12 @@ public class TransaktionServiceImpl implements TransaktionService {
 						p.setStatus(PlatzStatus.FREI);
 					}
 				}
-				
+
 				if (persist) {
 					transaktionDao.merge(t);
 				}
 			}
 		}
-		
+
 	}
 }

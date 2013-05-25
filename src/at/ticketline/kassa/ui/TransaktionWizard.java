@@ -8,19 +8,26 @@ import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
+import org.eclipse.jface.dialogs.IPageChangedListener;
+import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.jface.wizard.WizardDialog;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import at.ticketline.entity.Auffuehrung;
 import at.ticketline.service.api.KundeService;
 
 @SuppressWarnings("restriction")
-public class TransaktionWizard extends Wizard {
+public class TransaktionWizard extends Wizard implements IPageChangedListener{
     
     @Inject private KundeService kundeService;
     @Inject private EHandlerService handlerService;
     @Inject private ECommandService commandService;
     @Inject private ESelectionService selectionService;
-    
+
+    private static final Logger LOG = LoggerFactory.getLogger(TransaktionWizard.class);
+
     protected TransaktionWizardSeiteEins eins;
     protected TransaktionWizardSeiteZwei zwei;
     protected TransaktionWizardSeiteDrei drei;
@@ -33,7 +40,7 @@ public class TransaktionWizard extends Wizard {
     public TransaktionWizard(@ Named (IServiceConstants.ACTIVE_SELECTION) @ Optional Auffuehrung auffuehrung) {
         super();
         values = new TransaktionWizardValues();
-        setWindowTitle("Reservierung / Kauf");
+        setWindowTitle("Transaktions Wizard");
         setNeedsProgressMonitor(true);
         values.setAuffuehrung(auffuehrung);
     }
@@ -67,16 +74,33 @@ public class TransaktionWizard extends Wizard {
     
     @Override
     public boolean canFinish() {
-        if(fuenf.isCurrentPage()) {
-            //fuenf.setPageComplete(true);
-            return true;
-        }
-        return false;
+        return fuenf.isPageComplete();
+//        if(fuenf.isCurrentPage()) {
+//            //fuenf.setPageComplete(true);
+//            return true;
+//        }
+//        return false;
     }
-
+    
+    public void setDialogListener() {
+        LOG.info("set Listener to Wizard Container (" + getContainer().getClass().getName() + ")");
+        WizardDialog wd = (WizardDialog) getContainer();
+        wd.addPageChangedListener(this);
+    }
+ 
     @Override
     public boolean performFinish() {
         return true;
+    }
+
+
+    @Override
+    public void pageChanged(PageChangedEvent e) {
+        if(e.getSelectedPage() == fuenf) {
+            fuenf.doTransaction();
+            fuenf.setPageComplete(true);
+        }
+        
     }
 
 //    @Override

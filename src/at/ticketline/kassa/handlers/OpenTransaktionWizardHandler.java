@@ -21,6 +21,7 @@ public class OpenTransaktionWizardHandler {
     public void execute(IEclipseContext context, @Named(IServiceConstants.ACTIVE_SHELL) Shell shell) {
         TransaktionWizard tw = ContextInjectionFactory.make(TransaktionWizard.class, context);
         WizardDialog transaktion = new WizardDialog(shell, tw);
+        tw.setDialogListener();
         if(transaktion.open() == Window.OK) {
             LOG.info("Opened the Transaktions wizard!");
         }

@@ -55,7 +55,7 @@ public class TransaktionWizardSeiteFuenf extends WizardPage {
         lblKunde.setBounds(5, 26, 55, 15);
         lblKunde.setText("Kunde:");
         
-        setPageComplete(true);
+        setPageComplete(false);
     }
     
     @Override
@@ -67,6 +67,11 @@ public class TransaktionWizardSeiteFuenf extends WizardPage {
     @Override
     public  WizardPage getPreviousPage() {
         return null;
+    }
+    
+    //TODO gets called when wizard is complete
+    public void doTransaction() {
+        
     }
     
     public void updateContent() {

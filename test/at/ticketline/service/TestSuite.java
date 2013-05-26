@@ -19,7 +19,9 @@ import at.ticketline.service.KundeTest;
     NewsTest.class,
     OrtTest.class,
     AuffuehrungTest.class,
-    VeranstaltungTest.class //,
+    VeranstaltungTest.class,
+    BestellungTest.class,
+    ArtikelTest.class //,
     //add your test here
     })
 

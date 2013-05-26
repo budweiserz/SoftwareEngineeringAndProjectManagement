@@ -37,7 +37,6 @@ public class SaalPlanPart {
 	static Device device = Display.getCurrent ();
 	
 	private static final Color CSELECTED = new Color (device, 255, 241, 16);
-	private static final Color CHOVER = SWTResourceManager.getColor(SWT.COLOR_DARK_YELLOW);
 	private static final Color CAVAILABLE = SWTResourceManager.getColor(SWT.COLOR_WHITE);
 	private static final Color CBOOKED = new Color (device, 234, 145, 30);
 	private static final Color CSOLD = new Color (device, 234, 30, 30);
@@ -50,6 +49,7 @@ public class SaalPlanPart {
 	private Text txtPrice;
 	private int selectedSeats;
 	private Spinner spinnerChildren;
+	private Label lblSaal;
 	
 	public SaalPlanPart() {
 		selectedSeats = 0;
@@ -60,12 +60,19 @@ public class SaalPlanPart {
 	 */
 	@PostConstruct
 	public void createControls(Composite parent) {
+		initializeHead(parent);
+
+		initializeContent(parent);
+		
+		initializeFooter(parent);
+	}
+
+	private void initializeHead(Composite parent) {
 		GridLayout gl_parent = new GridLayout(1, false);
 		parent.setLayout(gl_parent);
 		
 		Composite composite_2 = new Composite(parent, SWT.NONE);
-		composite_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		composite_2.setLayout(new FormLayout());
+		composite_2.setLayout(new GridLayout(3, false));
 		GridData gd_composite_2 = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
 		gd_composite_2.minimumHeight = 50;
 		gd_composite_2.minimumWidth = 650;
@@ -73,8 +80,32 @@ public class SaalPlanPart {
 		gd_composite_2.widthHint = 1920;
 		composite_2.setLayoutData(gd_composite_2);
 		
+		Composite composite_13 = new Composite(composite_2, SWT.NONE);
+		GridData gd_composite_13 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_composite_13.widthHint = 100;
+		composite_13.setLayoutData(gd_composite_13);
 		
-		// TABLE for SAALPLAN
+		Label lblVorne = new Label(composite_2, SWT.SEPARATOR | SWT.HORIZONTAL);
+		lblVorne.setToolTipText("Bereich Vorne");
+		GridData gd_lblVorne = new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1);
+		gd_lblVorne.widthHint = 600;
+		gd_lblVorne.heightHint = 40;
+		gd_lblVorne.minimumHeight = 40;
+		lblVorne.setLayoutData(gd_lblVorne);
+		
+		Composite composite_12 = new Composite(composite_2, SWT.NONE);
+		GridData gd_composite_12 = new GridData(SWT.CENTER, SWT.CENTER, false, true, 1, 1);
+		gd_composite_12.widthHint = 100;
+		composite_12.setLayoutData(gd_composite_12);
+		
+		lblSaal = new Label(composite_12, SWT.NONE);
+		lblSaal.setBounds(24, 0, 66, 14);
+		lblSaal.setText("Saal 2");
+		
+	}
+
+	
+	private void initializeContent(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_BLACK));
 		composite.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, true, 1, 1));
@@ -190,8 +221,10 @@ public class SaalPlanPart {
 		Label label_3 = new Label(composite_10, SWT.NONE);
 		label_3.setText("Ausgewählt");
 		
-		
-		//FOOTER
+	}
+	
+	
+	private void initializeFooter(Composite parent) {
 		Composite composite_1 = new Composite(parent, SWT.NONE);
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		composite_1.setLayout(new FormLayout());
@@ -310,9 +343,9 @@ public class SaalPlanPart {
 				
 			}
 		});
+		
 	}
-
-
+	
 	private void createColumns() {
 		TableColumn tc;
 		int colWidth = (int)Math.floor(650/numOfColumns);

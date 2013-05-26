@@ -1,13 +1,13 @@
 package at.ticketline.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.api.ArtikelDao;
-import at.ticketline.dao.jpa.ArtikelDaoJpa;
 import at.ticketline.entity.Artikel;
 import at.ticketline.service.api.ArtikelService;
 import at.ticketline.service.impl.ArtikelServiceImpl;

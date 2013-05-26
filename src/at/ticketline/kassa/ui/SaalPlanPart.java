@@ -7,28 +7,30 @@ import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.jfree.util.Log;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.swt.widgets.Button;
 
 public class SaalPlanPart {
 	
@@ -44,11 +46,13 @@ public class SaalPlanPart {
 	private TableColumnLayout tcl_composite;
 	private int numOfColumns;
 	private int numOfRows;
-	private Text text;
-	private Text text_1;
+	private Text txtPersons;
+	private Text txtPrice;
+	private int selectedSeats;
+	private Spinner spinnerChildren;
 	
 	public SaalPlanPart() {
-		
+		selectedSeats = 0;
 	}
 
 	/**
@@ -77,7 +81,7 @@ public class SaalPlanPart {
 		tcl_composite = new TableColumnLayout();
 		composite.setLayout(tcl_composite);
 		
-		table = new Table(composite, SWT.BORDER | SWT.FULL_SELECTION | SWT.HIDE_SELECTION | SWT.VIRTUAL | SWT.MULTI);
+		table = new Table(composite, SWT.BORDER | SWT.FULL_SELECTION | SWT.HIDE_SELECTION | SWT.MULTI);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
@@ -101,8 +105,12 @@ public class SaalPlanPart {
 	                        Color currentColor = item.getBackground(column);
 	                        if(currentColor.equals(CAVAILABLE)) {
 	                        	item.setBackground(column, CSELECTED);
+	                        	selectedSeats++;
+	                        	refreshFooter();
 	                        } else if(currentColor.equals(CSELECTED)) {
 	                        	item.setBackground(column, CAVAILABLE);
+	                        	selectedSeats--;
+	                        	refreshFooter();
 	                        }
 	                        
 	                    }
@@ -210,36 +218,54 @@ public class SaalPlanPart {
 		lblDavonKinder.setLayoutData(fd_lblDavonKinder);
 		lblDavonKinder.setText("Davon Kinder");
 		
-		text = new Text(composite_1, SWT.BORDER);
-		text.setEditable(false);
-		FormData fd_text = new FormData();
-		fd_text.top = new FormAttachment(lblAnzahlDerPersonen, -3, SWT.TOP);
-		fd_text.right = new FormAttachment(lblAnzahlDerPersonen, 66, SWT.RIGHT);
-		fd_text.left = new FormAttachment(lblAnzahlDerPersonen, 24);
-		text.setLayoutData(fd_text);
+		txtPersons = new Text(composite_1, SWT.BORDER);
+		txtPersons.setEditable(false);
+		FormData fd_txtPersons = new FormData();
+		fd_txtPersons.top = new FormAttachment(lblAnzahlDerPersonen, -3, SWT.TOP);
+		fd_txtPersons.right = new FormAttachment(lblAnzahlDerPersonen, 66, SWT.RIGHT);
+		fd_txtPersons.left = new FormAttachment(lblAnzahlDerPersonen, 24);
+		txtPersons.setLayoutData(fd_txtPersons);
+		txtPersons.setText(String.valueOf(selectedSeats));
 		
-		Spinner spinner = new Spinner(composite_1, SWT.BORDER);
-		FormData fd_spinner = new FormData();
-		fd_spinner.top = new FormAttachment(lblDavonKinder, -4, SWT.TOP);
-		fd_spinner.right = new FormAttachment(text, 42);
-		fd_spinner.left = new FormAttachment(text, 0, SWT.LEFT);
-		spinner.setLayoutData(fd_spinner);
+		spinnerChildren = new Spinner(composite_1, SWT.BORDER);
+		spinnerChildren.setMaximum(0);
+		FormData fd_spinnerChildren = new FormData();
+		fd_spinnerChildren.top = new FormAttachment(lblDavonKinder, -4, SWT.TOP);
+		fd_spinnerChildren.right = new FormAttachment(txtPersons, 42);
+		fd_spinnerChildren.left = new FormAttachment(txtPersons, 0, SWT.LEFT);
+		spinnerChildren.setLayoutData(fd_spinnerChildren);
+		
+		spinnerChildren.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				refreshFooter();
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				//Nothing to do here
+				
+			}
+		});
 		
 		Label lblPreis = new Label(composite_1, SWT.NONE);
 		lblPreis.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		FormData fd_lblPreis = new FormData();
 		fd_lblPreis.bottom = new FormAttachment(lblAnzahlDerPersonen, 0, SWT.BOTTOM);
-		fd_lblPreis.left = new FormAttachment(text, 73);
+		fd_lblPreis.left = new FormAttachment(txtPersons, 73);
 		lblPreis.setLayoutData(fd_lblPreis);
 		lblPreis.setText("Preis");
 		
-		text_1 = new Text(composite_1, SWT.BORDER);
-		text_1.setEditable(false);
-		FormData fd_text_1 = new FormData();
-		fd_text_1.right = new FormAttachment(lblPreis, 104, SWT.RIGHT);
-		fd_text_1.top = new FormAttachment(0, 7);
-		fd_text_1.left = new FormAttachment(lblPreis, 44);
-		text_1.setLayoutData(fd_text_1);
+		txtPrice = new Text(composite_1, SWT.BORDER);
+		txtPrice.setEditable(false);
+		FormData fd_txtPrice = new FormData();
+		fd_txtPrice.right = new FormAttachment(lblPreis, 104, SWT.RIGHT);
+		fd_txtPrice.top = new FormAttachment(0, 7);
+		fd_txtPrice.left = new FormAttachment(lblPreis, 44);
+		txtPrice.setLayoutData(fd_txtPrice);
+		txtPrice.setText(String.valueOf(selectedSeats*10));
 		
 		Button btnReservieren = new Button(composite_1, SWT.NONE);
 		FormData fd_btnReservieren = new FormData();
@@ -248,12 +274,42 @@ public class SaalPlanPart {
 		btnReservieren.setLayoutData(fd_btnReservieren);
 		btnReservieren.setText("Reservieren");
 		
+		btnReservieren.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Log.info("Button reservieren wurde gedrückt!");
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				//Nothing to do here
+				
+			}
+		});
+		
 		Button btnKaufen = new Button(composite_1, SWT.NONE);
 		FormData fd_btnKaufen = new FormData();
 		fd_btnKaufen.top = new FormAttachment(lblDavonKinder, -5, SWT.TOP);
 		fd_btnKaufen.right = new FormAttachment(btnReservieren, 0, SWT.RIGHT);
 		btnKaufen.setLayoutData(fd_btnKaufen);
 		btnKaufen.setText("Kaufen");
+		
+		btnKaufen.addSelectionListener(new SelectionListener() {
+			
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Log.info("Button kaufen wurde gedrückt!");
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+				//Nothing to do here
+				
+			}
+		});
 	}
 
 
@@ -292,12 +348,23 @@ public class SaalPlanPart {
 		
 	}
 
+	private void refreshFooter() {
+		txtPersons.setText(String.valueOf(selectedSeats));
+		spinnerChildren.setMaximum(selectedSeats);
+		// Calculate Price
+		int children= Integer.valueOf(spinnerChildren.getText());
+		double pps = 9.50;
+		double ppsChildren = 4.90;
+		double price = (selectedSeats - children) * pps + children * ppsChildren;
+		txtPrice.setText(String.valueOf(price));
+	}
+	
 	@PreDestroy
 	public void dispose() {
 	}
 
 	@Focus
 	public void setFocus() {
-		// TODO	Set the focus to control
+		spinnerChildren.setFocus();
 	}
 }

@@ -36,11 +36,11 @@ public class SaalPlanPart {
 	
 	static Device device = Display.getCurrent ();
 	
-	private static final Color CSELECTED = new Color (device, 255, 241, 16);
-	private static final Color CAVAILABLE = SWTResourceManager.getColor(SWT.COLOR_WHITE);
-	private static final Color CBOOKED = new Color (device, 234, 145, 30);
-	private static final Color CSOLD = new Color (device, 234, 30, 30);
-	private static final Color CBACKGROUD = new Color (device, 100, 100, 100);
+	private static final Color CSELECTED = new Color (device, 0, 220, 255);
+	private static final Color CAVAILABLE = new Color (device, 255, 255, 255);
+	private static final Color CBOOKED = new Color (device, 250, 176, 87);
+	private static final Color CSOLD = new Color (device, 250, 124, 87);
+	private static final Color CBACKGROUD = new Color (device, 206, 206, 206);
 	private Table table;
 	private TableColumnLayout tcl_composite;
 	private int numOfColumns;
@@ -152,7 +152,7 @@ public class SaalPlanPart {
 		
 		//COLOR EXPLANATION
 		Composite composite_3 = new Composite(parent, SWT.NONE);
-		GridLayout gl_composite_3 = new GridLayout(4, false);
+		GridLayout gl_composite_3 = new GridLayout(5, false);
 		gl_composite_3.horizontalSpacing = 15;
 		composite_3.setLayout(gl_composite_3);
 		GridData gd_composite_3 = new GridData(SWT.CENTER, SWT.CENTER, true, false, 1, 1);
@@ -220,6 +220,21 @@ public class SaalPlanPart {
 		
 		Label label_3 = new Label(composite_10, SWT.NONE);
 		label_3.setText("Ausgewählt");
+		
+		Composite composite_1 = new Composite(composite_3, SWT.NONE);
+		composite_1.setLayout(new GridLayout(2, false));
+		
+		Composite composite_2 = new Composite(composite_1, SWT.BORDER);
+		GridData gd_composite_2 = new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1);
+		gd_composite_2.widthHint = 20;
+		gd_composite_2.minimumWidth = 20;
+		gd_composite_2.minimumHeight = 20;
+		gd_composite_2.heightHint = 20;
+		composite_2.setLayoutData(gd_composite_2);
+		composite_2.setBackground(CBACKGROUD);
+		
+		Label label = new Label(composite_1, SWT.NONE);
+		label.setText("Inaktiv");
 		
 	}
 	

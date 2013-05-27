@@ -108,7 +108,6 @@ public class TransaktionServiceImpl implements TransaktionService {
 
 	@Override
 	public void cancelReservation(Integer reservierungsNr) {
-		TransaktionDao transaktionDao = (TransaktionDao)DaoFactory.getByEntity(Transaktion.class);
 		Transaktion t = transaktionDao.findById(reservierungsNr);
 		if (t != null) {
 			t.setStatus(Transaktionsstatus.STORNO);
@@ -124,8 +123,6 @@ public class TransaktionServiceImpl implements TransaktionService {
 
 	@Override
 	public void cancelTransaktion(Kunde k, Auffuehrung a) {
-		TransaktionDao transaktionDao = (TransaktionDao)DaoFactory.getByEntity(Transaktion.class);
-
 		for (Transaktion t : transaktionDao.findAll()) {
 			if (k != null && k.equals(t.getKunde())) {
 
@@ -144,6 +141,5 @@ public class TransaktionServiceImpl implements TransaktionService {
 				}
 			}
 		}
-
 	}
 }

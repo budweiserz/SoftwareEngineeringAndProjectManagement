@@ -48,14 +48,13 @@ public class TransaktionWizard extends Wizard implements IPageChangedListener{
 
     @Override
     public void addPages() {
+        LOG.info("Add Pages to Wizard...");
         eins = new TransaktionWizardSeiteEins(values);
         zwei = new TransaktionWizardSeiteZwei();
         drei = new TransaktionWizardSeiteDrei();
         vier  = new TransaktionWizardSeiteVier(values);
         fuenf = new TransaktionWizardSeiteFuenf(values);
         vier.setKundeService(kundeService);
-        vier.setECommandService(commandService);
-        vier.setEHandlerService(handlerService);
         vier.setESelectionService(selectionService);
         
         addPage(eins);
@@ -98,6 +97,7 @@ public class TransaktionWizard extends Wizard implements IPageChangedListener{
     public void pageChanged(PageChangedEvent e) {
         if(e.getSelectedPage() == fuenf) {
             fuenf.doTransaction();
+            LOG.info("Transaktions Wizard erfolgreich abgeschlossen!");
             fuenf.setPageComplete(true);
         }
         

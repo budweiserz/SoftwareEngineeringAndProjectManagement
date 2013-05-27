@@ -4,16 +4,19 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.layout.GridLayout;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TransaktionWizardSeiteFuenf extends WizardPage {
 
-    TransaktionWizardValues values;
-    Label lblReservierung;
-    Label lblName;
+    private TransaktionWizardValues values;
+    private Label lblReservierung;
+    private Label lblName;
     private Label lblHinweis;
     private Label lblAuffhrung;
     private Label lblKunde;
+    private static final Logger LOG = LoggerFactory.getLogger(TransaktionWizardSeiteFuenf.class);
+
     /**
      * Diese Seite wird nach einer erfolgreichen Transaktion angezeigt.
      * Bei einem Kauf werden der Preis angezeigt, bei einer Reservierung der
@@ -56,6 +59,7 @@ public class TransaktionWizardSeiteFuenf extends WizardPage {
         lblKunde.setText("Kunde:");
         
         setPageComplete(false);
+        LOG.info("Zusammenfassungs - Wizard Seite erstellt!");
     }
     
     @Override

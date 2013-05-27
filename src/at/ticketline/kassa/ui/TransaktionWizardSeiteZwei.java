@@ -2,10 +2,6 @@ package at.ticketline.kassa.ui;
 
 import javax.inject.Inject;
 
-import org.eclipse.e4.core.commands.ECommandService;
-import org.eclipse.e4.core.commands.EHandlerService;
-import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -15,29 +11,21 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ticketline.service.api.KundeService;
-@SuppressWarnings("restriction")
+
 public class TransaktionWizardSeiteZwei extends WizardPage implements Listener{
 
     private static final Logger LOG = LoggerFactory.getLogger(TransaktionWizardSeiteZwei.class);
     
-    private EHandlerService handlerService;
-    private ECommandService commandService;
-    private ESelectionService selectionService;
     @Inject private KundeService kundeService;
     
     private Button btnNeuerKunde;
     private Button btnBestehenderKunde;
     private Button btnAnonymerKunde;
-    
-    private FormToolkit toolkit;
-    private ScrolledForm form;
-    private TableViewer tableViewer;
+
     /**
      * Auf dieser Seite kann zwischem neuen, bestehenden oder
      * anonymen Kunden für die Transaktion entschieden werden
@@ -119,6 +107,7 @@ public class TransaktionWizardSeiteZwei extends WizardPage implements Listener{
         //TODO set completed when customer type is selected
         
         setPageComplete(false);
+        LOG.info("Wizardseite zur Auswahl des Kudnentyps erstellt!");
     }
 
     @Override

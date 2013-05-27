@@ -2,12 +2,12 @@ package at.ticketline.kassa.ui;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
 
@@ -15,7 +15,8 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
     private Button btnBuchung;
     private Button btnReservierung;
     private TransaktionWizardValues values;
-    private Label lblAsdfasdfasdfasdf;
+    private static final Logger LOG = LoggerFactory.getLogger(TransaktionWizardSeiteEins.class);
+
     
     /**
      * Diese Seite stellt einen grafischen Saalplan zur Auswahl
@@ -33,7 +34,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
      * Erstelle die UI Inhalte dieser Seite.
      */
     public void createControl(Composite parent) {
-        Composite container = new Composite(parent, SWT.NULL);
+        container = new Composite(parent, SWT.NULL);
 
         //TODO Add Saalplan in here... somehow
         
@@ -51,6 +52,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
               
         //TODO make true when plaetze selected
         setPageComplete(false);
+        LOG.info("Wizardseite zum Auswahl der Plätze und Transaktionsart erstellt!");
 
         
     }

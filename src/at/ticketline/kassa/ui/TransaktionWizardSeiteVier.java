@@ -1,17 +1,8 @@
 package at.ticketline.kassa.ui;
 
-import javax.inject.Inject;
-
-import org.eclipse.core.commands.ParameterizedCommand;
-import org.eclipse.core.internal.registry.osgi.Activator;
-import org.eclipse.e4.core.commands.ECommandService;
-import org.eclipse.e4.core.commands.EHandlerService;
-import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -24,17 +15,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.ui.forms.events.ExpansionAdapter;
-import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ColumnLayout;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,8 +30,6 @@ public class TransaktionWizardSeiteVier extends WizardPage {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransaktionWizardSeiteVier.class);
     
-    private EHandlerService handlerService;
-    private ECommandService commandService;
     private ESelectionService selectionService;
     private KundeService kundeService;
     
@@ -93,6 +76,7 @@ public class TransaktionWizardSeiteVier extends WizardPage {
 
         
         setPageComplete(false);
+        LOG.info("Wizard Seite zur Kundenanzeige erstellt!");
     }
     
     private void createKundenliste(Composite parent){
@@ -119,18 +103,6 @@ public class TransaktionWizardSeiteVier extends WizardPage {
     }
 
     private void createTable(Composite parent) {
-        //TODO delete, aufklappbares Teil:
-//        Section engagementSection = this.toolkit.createSection(parent, Section.DESCRIPTION | Section.TITLE_BAR | Section.TWISTIE | Section.EXPANDED);
-//        engagementSection.addExpansionListener(new ExpansionAdapter() {
-//            @Override
-//            public void expansionStateChanged(ExpansionEvent e) {
-//                ListKundePart.this.form.reflow(true);
-//            }
-//        });
-//        engagementSection.setText("Kunden");
-//        engagementSection.setLayoutData(new GridData(GridData.FILL_BOTH));
-//    
-//        this.tableViewer = new TableViewer(engagementSection, SWT.BORDER | SWT.FULL_SELECTION);
         this.tableViewer = new TableViewer(parent);
         this.tableViewer.getTable().setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
         TableLayout layout = new TableLayout();
@@ -203,8 +175,6 @@ public class TransaktionWizardSeiteVier extends WizardPage {
         col2.setText("Nachname");
         TableColumn col3 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
         col3.setText("Geburtsdatum");
-        //TableColumn col4 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
-        //col4.setText("Gage");
         
         // MAGIC HAPPENS HERE
         this.tableViewer.setInput(this.kundeService.findAll());
@@ -221,29 +191,13 @@ public class TransaktionWizardSeiteVier extends WizardPage {
                 LOG.info("Selection changed: {}", selection.getFirstElement().toString());
             }
         });
-//        this.tableViewer.addDoubleClickListener(new IDoubleClickListener() {
-//            @Override
-//            public void doubleClick(DoubleClickEvent event) {
-//                ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openKunde", null);
-//                handlerService.executeHandler(c);
-//            }
-//        });
     
         this.toolkit.adapt(this.tableViewer.getTable(), true, true);
-        //TODO delete legacy aufklapper
-        //engagementSection.setClient(this.tableViewer.getTable());
+
     }
     
     public void setKundeService(KundeService kundeService) {
         this.kundeService = kundeService;
-    }
-    
-    public void setEHandlerService(EHandlerService handlerService) {
-        this.handlerService = handlerService;
-    }
-    
-    public void setECommandService(ECommandService commandService) {
-        this.commandService = commandService;
     }
     
     public void setESelectionService( ESelectionService selectionService) {

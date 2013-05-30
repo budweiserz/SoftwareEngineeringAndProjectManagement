@@ -27,6 +27,7 @@
       </children>
       <children xsi:type="menu:Menu" xmi:id="_1CMMgLy3EeKT_IzQOUkC4g" elementId="" label="Ansicht">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_PyCvwLy3EeKT_IzQOUkC4g" elementId="" label="Kundenliste" tooltip="Kundenliste öffnen" command="_wLd1gLy0EeKT_IzQOUkC4g"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_XaNyUMaMEeKmAb5Pic8Neg" elementId="ticketlinercp.handledmenuitem.0" label="Merchandiseartikel" tooltip="Merchandiseartikel kaufen" command="_C3ofEMaMEeKmAb5Pic8Neg"/>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_J1qjLZ7KEeKyV7_6Xf9MMA" label="Hilfe">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_J1qjLp7KEeKyV7_6Xf9MMA" label="Über Ticketline RCP" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/info_icon&amp;16.png" tooltip="Über Ticketline RCP" command="_snLXYJ8QEeKkI_Z6em8JPw"/>
@@ -59,6 +60,7 @@
   <handlers xmi:id="_y_HQcL42EeKT_IzQOUkC4g" elementId="inso-sepm-ss13-07.handler.1" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenVeranstaltungHandler" command="_AAR2IL42EeKT_IzQOUkC4g"/>
   <handlers xmi:id="_KKK5UL1cEeKCAfdsrtuMiA" elementId="at.ticketline.openAufuehrungSearchCommand" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenAuffuehrungSearchHandler" command="_RSuQYL1cEeKCAfdsrtuMiA"/>
   <handlers xmi:id="_HLQSAMO7EeK8Ar2JK_joaQ" elementId="inso-sepm-ss13-07.handler.2" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenTransaktionWizardHandler" command="_6VAYUMO6EeK8Ar2JK_joaQ"/>
+  <handlers xmi:id="_KE7zQMaMEeKmAb5Pic8Neg" elementId="at.ticketline.handler.openMerchandise" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenMerchandiseHandler" command="_C3ofEMaMEeKmAb5Pic8Neg"/>
   <bindingTables xmi:id="_J1qjHJ7KEeKyV7_6Xf9MMA" bindingContext="_J1qjEZ7KEeKyV7_6Xf9MMA">
     <bindings xmi:id="_J1qjHZ7KEeKyV7_6Xf9MMA" keySequence="M1+Q" command="_J1qjGp7KEeKyV7_6Xf9MMA"/>
     <bindings xmi:id="_J1qjIJ7KEeKyV7_6Xf9MMA" keySequence="M1+O" command="_J1qjHp7KEeKyV7_6Xf9MMA"/>
@@ -80,6 +82,7 @@
   <descriptors xmi:id="_gt-W8MO-EeK8Ar2JK_joaQ" elementId="inso-sepm-ss13-07.partdescriptor.0" label="TransaktionWizard" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.TransaktionWizard"/>
   <descriptors xmi:id="_mmj68MO-EeK8Ar2JK_joaQ" elementId="inso-sepm-ss13-07.partdescriptor.1" label="TransaktionWizardSeiteEins" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.TransaktionWizardSeiteEins"/>
   <descriptors xmi:id="_qQaWgMO-EeK8Ar2JK_joaQ" elementId="inso-sepm-ss13-07.partdescriptor.2" label="TransaktionWizardSeiteZwei" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.TransaktionWizardSeiteZwei"/>
+  <descriptors xmi:id="_z8MagMaLEeKmAb5Pic8Neg" elementId="at.ticketline.partdescriptor.merchandise" label="Merchandiseartikel" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.MerchandisePart"/>
   <commands xmi:id="_J1qjGp7KEeKyV7_6Xf9MMA" elementId="org.eclipse.ui.file.exit" commandName="quitCommand"/>
   <commands xmi:id="_J1qjHp7KEeKyV7_6Xf9MMA" elementId="at.ticketline.kassa.open" commandName="openCommand"/>
   <commands xmi:id="_QskM0J7zEeKyV7_6Xf9MMA" elementId="at.ticketline.command.openKuenstler" commandName="Künstleransicht öffnen"/>
@@ -93,6 +96,7 @@
   <commands xmi:id="_AAR2IL42EeKT_IzQOUkC4g" elementId="at.ticketline.command.openVeranstaltung" commandName="Veranstaltungsansicht öffnen"/>
   <commands xmi:id="_RSuQYL1cEeKCAfdsrtuMiA" elementId="at.ticketline.command.searchAuffuehrung" commandName="Aufführung suchen"/>
   <commands xmi:id="_6VAYUMO6EeK8Ar2JK_joaQ" elementId="at.ticketline.command.openWizard" commandName="TransaktionsWizard öffnen"/>
+  <commands xmi:id="_C3ofEMaMEeKmAb5Pic8Neg" elementId="at.ticketline.command.openMerchandise" commandName="Merchandiseartikel öffnen"/>
   <addons xmi:id="_J1qjFJ7KEeKyV7_6Xf9MMA" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_J1qjFZ7KEeKyV7_6Xf9MMA" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_J1qjFp7KEeKyV7_6Xf9MMA" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

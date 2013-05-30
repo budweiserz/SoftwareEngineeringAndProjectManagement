@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.EntityManagerUtil;
+import at.ticketline.dao.api.ArtikelDao;
 import at.ticketline.dao.api.AuffuehrungDao;
 import at.ticketline.dao.api.EngagementDao;
 import at.ticketline.dao.api.KategorieDao;
@@ -15,6 +16,7 @@ import at.ticketline.dao.api.KundeDao;
 import at.ticketline.dao.api.NewsDao;
 import at.ticketline.dao.api.OrtDao;
 import at.ticketline.dao.api.VeranstaltungDao;
+import at.ticketline.entity.Artikel;
 import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.Engagement;
 import at.ticketline.entity.Kategorie;
@@ -111,6 +113,13 @@ public class EazyDummyDataGenerator {
 			
 		    v.setEngagements(engs);
 			daoVer.persist(v);
+		}
+		
+		ArtikelDao artikelDao = (ArtikelDao)DaoFactory.getByEntity(Artikel.class);
+		
+		for (int i = 0; i < 10; i++) {
+			Artikel a = EntityGenerator.getValidArtikel(i);
+			artikelDao.persist(a);
 		}
 		
 		LOG.info("EAZY");

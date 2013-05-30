@@ -1,9 +1,13 @@
 package at.ticketline.kassa.ui;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -11,6 +15,7 @@ import org.eclipse.jface.viewers.OwnerDrawLabelProvider;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.graphics.Color;
@@ -177,20 +182,23 @@ public class MerchandisePart {
 		toolkit.paintBordersFor(composite);
 		composite.setLayout(new GridLayout(1, false));
 		auswahl = new Table(composite, SWT.BORDER | SWT.FULL_SELECTION);
-		auswahl.setHeaderVisible(true);
 		auswahl.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		TableViewer tAuswahl = new TableViewer(auswahl);
 		
 		toolkit.adapt(auswahl);
 		toolkit.paintBordersFor(auswahl);
-		auswahl.setLinesVisible(true);
 		
-		TableColumn tblclmnNewColumn = new TableColumn(auswahl, SWT.NONE);
-		tblclmnNewColumn.setText("Auswahl");
+		TableColumn tblclmnAuswahlBeschreibung = new TableColumn(auswahl, SWT.NONE);
+		tblclmnAuswahlBeschreibung.setText("Auswahl");
+		TableColumn tblclmnAuswahlPreis = new TableColumn(auswahl, SWT.RIGHT);
+		tblclmnAuswahlPreis.setText("Preis");
+				
 		TableLayout layout = new TableLayout();
         layout.addColumnData(new ColumnWeightData(33));
+        layout.addColumnData(new ColumnWeightData(33));
+        layout.addColumnData(new ColumnWeightData(10, 50));
         auswahl.setLayout(layout);
 		
-		TableViewer tAuswahl = new TableViewer(auswahl);
 		
 		tAuswahl.setContentProvider(new ArrayContentProvider());
 		tAuswahl.setLabelProvider(new ITableLabelProvider() {
@@ -209,6 +217,8 @@ public class MerchandisePart {
                     } else {
                         return "";
                     }
+                	case 1:
+                		return "0,00";
                 }
                 return null;
             }
@@ -232,6 +242,40 @@ public class MerchandisePart {
             public void removeListener(ILabelProviderListener arg0) {
                 // nothing to do
             }
+        });
+		
+		TableColumn tblclmnAuswahlEntfernen = new TableColumn(tAuswahl.getTable(), SWT.RIGHT);
+		tblclmnAuswahlEntfernen.setWidth(40);
+		tblclmnAuswahlEntfernen.setText("Entfernen");
+		
+		TableViewerColumn actionsNameCol = new TableViewerColumn(tAuswahl, tblclmnAuswahlEntfernen);
+        actionsNameCol.setLabelProvider(new ColumnLabelProvider(){
+            //make sure you dispose these buttons when viewer input changes
+            Map<Object, Button> buttons = new HashMap<Object, Button>();
+
+
+            @Override
+            public void update(ViewerCell cell) {
+
+                TableItem item = (TableItem) cell.getItem();
+                Button button;
+                if(buttons.containsKey(cell.getElement()))
+                {
+                    button = buttons.get(cell.getElement());
+                }
+                else
+                {
+                     button = new Button((Composite) cell.getViewerRow().getControl(),SWT.LEFT);
+                    button.setText("Entfernen");
+                    buttons.put(cell.getElement(), button);
+                }
+                TableEditor editor = new TableEditor(item.getParent());
+                editor.grabHorizontal  = true;
+                editor.grabVertical = true;
+                editor.setEditor(button , item, cell.getColumnIndex());
+                editor.layout();
+            }
+
         });
 		
 		tAuswahl.setInput(this.artikelService.findAll());

@@ -1,5 +1,6 @@
 package at.ticketline.kassa.ui;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,55 +11,75 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.OwnerDrawLabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.api.ArtikelDao;
+import at.ticketline.dao.api.BestellungDao;
 import at.ticketline.entity.Artikel;
+import at.ticketline.entity.Bestellung;
+import at.ticketline.entity.Zahlungsart;
+import at.ticketline.service.api.BestellungService;
 import at.ticketline.service.impl.ArtikelServiceImpl;
-import org.eclipse.swt.widgets.Table;
-import org.eclipse.jface.layout.TableColumnLayout;
-import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.swt.layout.RowData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.wb.swt.SWTResourceManager;
-import org.eclipse.swt.widgets.Text;
+import at.ticketline.service.impl.BestellungServiceImpl;
 
 public class MerchandisePart {
+	
+	private static final Logger LOG = LoggerFactory.getLogger(MerchandisePart.class);
 
 	private FormToolkit toolkit;
 	private TableViewer merchandiseList;
 	private ArtikelServiceImpl artikelService;
 	private Table auswahl;
+	private HashMap<Artikel, Integer> selected = new HashMap<Artikel, Integer>();
 
 	private static final Device device = Display.getCurrent();
 	private static final Color RED = new Color(device, 170, 34, 34);
 	private static final Color WHITE = new Color(device, 255, 255, 255);
-	private Text text;
+	private Text aAnzahlInput;
+	private Label aLblTitel;
+	private Label aLblPreis;
+	private Label aLblBeschreibung;
+	private Label aLblAnzahl;
+	private Label aLblGesamtpreis;
+	private Label aGesamtpreis;
+	private Button aBtnHinzufgen;
+	private DecimalFormat formatter = new DecimalFormat("###.##");
+	private Artikel currentSelection = null;
+
+	private TableViewer tAuswahl;
+
+	private Label overallPrice;
 
 	public MerchandisePart() {
 	}
@@ -94,23 +115,23 @@ public class MerchandisePart {
 			toolkit.adapt(header);
 			toolkit.paintBordersFor(header);
 			{
-				Label lblTitel = new Label(header, SWT.NONE);
-				lblTitel.setAlignment(SWT.CENTER);
-				GridData gd_lblTitel = new GridData(SWT.LEFT, SWT.CENTER, true, true, 1, 1);
-				gd_lblTitel.heightHint = 14;
-				lblTitel.setLayoutData(gd_lblTitel);
-				toolkit.adapt(lblTitel, true, true);
-				lblTitel.setText("Titel");
-				lblTitel.setForeground(WHITE);
-				lblTitel.setBackground(RED);
+				this.aLblTitel = new Label(header, SWT.NONE);
+				aLblTitel.setAlignment(SWT.CENTER);
+				GridData gd_aLblTitel = new GridData(SWT.LEFT, SWT.CENTER, true, true, 1, 1);
+				gd_aLblTitel.heightHint = 14;
+				aLblTitel.setLayoutData(gd_aLblTitel);
+				toolkit.adapt(aLblTitel, true, true);
+				aLblTitel.setText("Titel");
+				aLblTitel.setForeground(WHITE);
+				aLblTitel.setBackground(RED);
 			}
 			{
-				Label lblPreis = new Label(header, SWT.NONE);
-				lblPreis.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, true, 1, 1));
-				toolkit.adapt(lblPreis, true, true);
-				lblPreis.setText("Preis");
-				lblPreis.setBackground(RED);
-				lblPreis.setForeground(WHITE);
+				this.aLblPreis = new Label(header, SWT.NONE);
+				aLblPreis.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, true, 1, 1));
+				toolkit.adapt(aLblPreis, true, true);
+				aLblPreis.setText("0.00€");
+				aLblPreis.setBackground(RED);
+				aLblPreis.setForeground(WHITE);
 			}
 
 			header.setBackground(RED);
@@ -124,57 +145,93 @@ public class MerchandisePart {
 			toolkit.paintBordersFor(body);
 			body.setLayout(new GridLayout(1, false));
 
-			Label lblBeschreibung = new Label(body, SWT.NONE);
-			lblBeschreibung.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-			toolkit.adapt(lblBeschreibung, true, true);
-			lblBeschreibung.setText("Beschreibung");
+			this.aLblBeschreibung = new Label(body, SWT.NONE);
+			aLblBeschreibung.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+			toolkit.adapt(aLblBeschreibung, true, true);
+			aLblBeschreibung.setText("Beschreibung");
 		}
 		{
 			Composite footer = new Composite(composite, SWT.NONE);
 			GridData gd_footer = new GridData(SWT.FILL, SWT.BOTTOM, false, false, 1, 1);
-			gd_footer.heightHint = 120;
+			gd_footer.heightHint = 101;
 			footer.setLayoutData(gd_footer);
 			toolkit.adapt(footer);
 			toolkit.paintBordersFor(footer);
 			footer.setLayout(new GridLayout(2, false));
 
-			Label lblAnzahl = new Label(footer, SWT.NONE);
-			lblAnzahl.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
-			toolkit.adapt(lblAnzahl, true, true);
-			lblAnzahl.setText("Anzahl");
+			this.aLblAnzahl = new Label(footer, SWT.NONE);
+			aLblAnzahl.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
+			toolkit.adapt(aLblAnzahl, true, true);
+			aLblAnzahl.setText("Anzahl");
 
-			text = new Text(footer, SWT.BORDER);
-			text.setText("0");
-			text.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
-			toolkit.adapt(text, true, true);
+			aAnzahlInput = new Text(footer, SWT.BORDER | SWT.RIGHT);
+			aAnzahlInput.setText("0");
+			aAnzahlInput.setLayoutData(new GridData(SWT.FILL, SWT.TOP, false, false, 1, 1));
+			aAnzahlInput.addModifyListener(new ModifyListener() {
 
-			Label lblPreisProStck = new Label(footer, SWT.NONE);
-			lblPreisProStck.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-			toolkit.adapt(lblPreisProStck, true, true);
-			lblPreisProStck.setText("Preis pro Stück");
+				@Override
+				public void modifyText(ModifyEvent e) {
+					Text t = (Text)e.widget;
+					if (currentSelection != null) {
+						if (t.getText().equals("0")) {
+							aGesamtpreis.setText("0.00€");
+						} else {
+							try {
+								Integer i = Integer.parseInt(t.getText());
+								float preis = currentSelection.getPreis().floatValue() * i;
+								aGesamtpreis.setText(formatter.format(preis) + "€");
+							} catch (NumberFormatException ex) {
+								LOG.error("Wrong input (no Integer): {}, {}", ex, t.getText());
+							}
+						}
+					}
+				}
+				
+			});
+			toolkit.adapt(aAnzahlInput, true, true);
 
-			Label label_1 = new Label(footer, SWT.NONE);
-			label_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-			toolkit.adapt(label_1, true, true);
-			label_1.setText("0,00");
+			this.aLblGesamtpreis = new Label(footer, SWT.NONE);
+			aLblGesamtpreis.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+			toolkit.adapt(aLblGesamtpreis, true, true);
+			aLblGesamtpreis.setText("Gesamtpreis");
 
-			Label lblGesamtpreis = new Label(footer, SWT.NONE);
-			lblGesamtpreis.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-			toolkit.adapt(lblGesamtpreis, true, true);
-			lblGesamtpreis.setText("Gesamtpreis");
-
-			Label label = new Label(footer, SWT.NONE);
-			label.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-			toolkit.adapt(label, true, true);
-			label.setText("0,00");
+			this.aGesamtpreis = new Label(footer, SWT.NONE);
+			aGesamtpreis.setAlignment(SWT.RIGHT);
+			aGesamtpreis.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+			toolkit.adapt(aGesamtpreis, true, true);
+			aGesamtpreis.setText("0.00€");
 			new Label(footer, SWT.NONE);
 			new Label(footer, SWT.NONE);
 			new Label(footer, SWT.NONE);
 
-			Button btnHinzufgen = new Button(footer, SWT.NONE);
-			btnHinzufgen.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-			toolkit.adapt(btnHinzufgen, true, true);
-			btnHinzufgen.setText("Hinzufügen");
+			this.aBtnHinzufgen = new Button(footer, SWT.NONE);
+			aBtnHinzufgen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+			toolkit.adapt(aBtnHinzufgen, true, true);
+			aBtnHinzufgen.setText("Hinzufügen");
+			
+			aBtnHinzufgen.addSelectionListener(new SelectionListener() {
+
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					if (currentSelection != null && !(aAnzahlInput.getText().equals("") ||  aAnzahlInput.getText().equals("0")) && !selected.containsKey(currentSelection)) {
+						try {
+							Integer i = Integer.parseInt(aAnzahlInput.getText());
+							selected.put(currentSelection, i);
+							tAuswahl.setInput(selected.keySet());
+							tAuswahl.refresh();
+							updateOverallPrice();
+						} catch (NumberFormatException ex) {
+							LOG.error("Wrong input (no Integer): {}, {}", ex, aAnzahlInput.getText());
+						}
+					}
+				}
+
+				@Override
+				public void widgetDefaultSelected(SelectionEvent e) {
+										
+				}
+				
+			});
 		}
 	}
 
@@ -186,7 +243,7 @@ public class MerchandisePart {
 		composite.setLayout(new GridLayout(1, false));
 		auswahl = new Table(composite, SWT.BORDER | SWT.FULL_SELECTION);
 		auswahl.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		final TableViewer tAuswahl = new TableViewer(auswahl);
+		this.tAuswahl = new TableViewer(auswahl);
 
 		toolkit.adapt(auswahl);
 		toolkit.paintBordersFor(auswahl);
@@ -199,7 +256,7 @@ public class MerchandisePart {
 		TableLayout layout = new TableLayout();
 		layout.addColumnData(new ColumnWeightData(33));
 		layout.addColumnData(new ColumnWeightData(33));
-		layout.addColumnData(new ColumnWeightData(10, 50));
+		layout.addColumnData(new ColumnWeightData(10, 60));
 		auswahl.setLayout(layout);
 
 
@@ -221,7 +278,13 @@ public class MerchandisePart {
 						return "";
 					}
 				case 1:
-					return "0,00";
+					if (e.getKurzbezeichnung() != null) {
+						float preis = e.getPreis().floatValue();
+						preis *= selected.get(e);
+						return formatter.format(preis);
+					} else {
+						return "";
+					}
 				}
 				return null;
 			}
@@ -248,7 +311,7 @@ public class MerchandisePart {
 		});
 
 		TableColumn tblclmnAuswahlEntfernen = new TableColumn(tAuswahl.getTable(), SWT.RIGHT);
-		tblclmnAuswahlEntfernen.setWidth(40);
+		tblclmnAuswahlEntfernen.setWidth(60);
 		tblclmnAuswahlEntfernen.setText("Entfernen");
 
 		TableViewerColumn actionsNameCol = new TableViewerColumn(tAuswahl, tblclmnAuswahlEntfernen);
@@ -277,17 +340,17 @@ public class MerchandisePart {
 							Button b = buttons.get(element);
 							b.dispose();
 							buttons.remove(element);
-							ArtikelDao artikelDao = (ArtikelDao)DaoFactory.getByEntity(Artikel.class);
-							artikelDao.remove((Artikel)element);
-							tAuswahl.setInput(artikelDao.findAll());
+							selected.remove(element);
+							tAuswahl.setInput(selected.keySet());
 							tAuswahl.refresh();
+							updateOverallPrice();
 						}
 
 						@Override
 						public void widgetDefaultSelected(SelectionEvent e) {
-							
+
 						}
-					
+
 					});
 					button.setText("Entfernen");
 					buttons.put(cell.getElement(), button);
@@ -301,7 +364,7 @@ public class MerchandisePart {
 
 		});
 
-		tAuswahl.setInput(this.artikelService.findAll());
+		tAuswahl.setInput(this.selected.keySet());
 
 		createCheckout(composite);
 
@@ -321,14 +384,30 @@ public class MerchandisePart {
 		toolkit.adapt(lblGesamtpreis_1, true, true);
 		lblGesamtpreis_1.setText("Gesamtpreis");
 
-		Label label = new Label(checkout, SWT.NONE);
-		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, true, 1, 1));
-		toolkit.adapt(label, true, true);
-		label.setText("0,00");
+		this.overallPrice = new Label(checkout, SWT.NONE);
+		overallPrice.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, true, 1, 1));
+		toolkit.adapt(overallPrice, true, true);
+		overallPrice.setText("0.00€");
 
 		Button btnBezahlen = new Button(checkout, SWT.NONE);
 		toolkit.adapt(btnBezahlen, true, true);
 		btnBezahlen.setText("Bezahlen");
+		btnBezahlen.addSelectionListener(new SelectionListener() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				LOG.debug("Buy {}", selected);
+				// TODO: get Kunde and Zahlungsart from wizard
+				BestellungService bestellungService = new BestellungServiceImpl((BestellungDao)DaoFactory.getByEntity(Bestellung.class));
+				bestellungService.saveBestellungen(selected, Zahlungsart.BANKEINZUG);
+			}
+
+			@Override
+			public void widgetDefaultSelected(SelectionEvent e) {
+								
+			}
+				
+		});
 	}
 
 	private void createTable(Composite parent) {
@@ -386,6 +465,48 @@ public class MerchandisePart {
 		TableColumn column1 = new TableColumn(merchandiseList.getTable(), SWT.NONE);
 		column1.setText("Merchandiseartikel");
 
+		merchandiseList.addSelectionChangedListener(new ISelectionChangedListener() {
+
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				IStructuredSelection selection = (IStructuredSelection)merchandiseList.getSelection();
+				
+				Artikel firstElement = (Artikel)selection.getFirstElement();
+				if (event.getSelection().isEmpty()) {
+					aLblTitel.setText("Titel");
+					aLblPreis.setText("Preis");
+					aLblBeschreibung.setText("Beschreibung");
+					aAnzahlInput.setText("0");
+					aGesamtpreis.setText("0.00€");
+					currentSelection = null;
+				} else {
+					if (firstElement.getKurzbezeichnung() != null) {
+						aLblTitel.setText(firstElement.getKurzbezeichnung());
+					} else {
+						aLblTitel.setText("");
+					}
+					
+					if (firstElement.getPreis() != null) {
+						aLblPreis.setText(formatter.format(firstElement.getPreis()));
+					} else {
+						aLblPreis.setText("");
+					}
+					
+					if (firstElement.getBeschreibung() != null) {
+						aLblBeschreibung.setText(firstElement.getBeschreibung());
+					} else {
+						aLblBeschreibung.setText("");
+					}
+					
+					aAnzahlInput.setText("0");
+					aGesamtpreis.setText("0.00€");
+					
+					currentSelection = firstElement;
+				}				
+			}
+
+		});
+
 		// MAGIC HAPPENS HERE
 		this.artikelService = new ArtikelServiceImpl((ArtikelDao)DaoFactory.getByEntity(Artikel.class));
 
@@ -393,6 +514,16 @@ public class MerchandisePart {
 
 
 		this.toolkit.adapt(this.merchandiseList.getTable(), true, true);
+	}
+	
+	private void updateOverallPrice() {
+		float price = 0;
+		
+		for (Map.Entry<Artikel, Integer>e : selected.entrySet()) {
+			price += ((Artikel)e.getKey()).getPreis().floatValue() * e.getValue();
+		}
+
+		this.overallPrice.setText(formatter.format(price) + "€");
 	}
 
 	@PreDestroy

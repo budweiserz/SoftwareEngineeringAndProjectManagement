@@ -115,9 +115,8 @@ public class MerchandisePart {
 			toolkit.adapt(header);
 			toolkit.paintBordersFor(header);
 			{
-				this.aLblTitel = new Label(header, SWT.NONE);
-				aLblTitel.setAlignment(SWT.CENTER);
-				GridData gd_aLblTitel = new GridData(SWT.LEFT, SWT.CENTER, true, true, 1, 1);
+				this.aLblTitel = new Label(header, SWT.WRAP);
+				GridData gd_aLblTitel = new GridData(SWT.FILL, SWT.CENTER, true, true, 1, 1);
 				gd_aLblTitel.heightHint = 14;
 				aLblTitel.setLayoutData(gd_aLblTitel);
 				toolkit.adapt(aLblTitel, true, true);
@@ -127,7 +126,10 @@ public class MerchandisePart {
 			}
 			{
 				this.aLblPreis = new Label(header, SWT.NONE);
-				aLblPreis.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, true, 1, 1));
+				aLblPreis.setAlignment(SWT.RIGHT);
+				GridData gd_aLblPreis = new GridData(SWT.RIGHT, SWT.CENTER, false, true, 1, 1);
+				gd_aLblPreis.widthHint = 94;
+				aLblPreis.setLayoutData(gd_aLblPreis);
 				toolkit.adapt(aLblPreis, true, true);
 				aLblPreis.setText("0.00€");
 				aLblPreis.setBackground(RED);
@@ -145,7 +147,7 @@ public class MerchandisePart {
 			toolkit.paintBordersFor(body);
 			body.setLayout(new GridLayout(1, false));
 
-			this.aLblBeschreibung = new Label(body, SWT.NONE);
+			this.aLblBeschreibung = new Label(body, SWT.WRAP);
 			aLblBeschreibung.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 			toolkit.adapt(aLblBeschreibung, true, true);
 			aLblBeschreibung.setText("Beschreibung");
@@ -487,7 +489,7 @@ public class MerchandisePart {
 					}
 					
 					if (firstElement.getPreis() != null) {
-						aLblPreis.setText(formatter.format(firstElement.getPreis()));
+						aLblPreis.setText(formatter.format(firstElement.getPreis()) + "€");
 					} else {
 						aLblPreis.setText("");
 					}

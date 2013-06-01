@@ -19,6 +19,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.eclipse.e4.core.di.annotations.Creatable;
+
 /**
  * Eine Entitaet vom Typ Ort kann ein Auffuehrungsort, ein Kiosk oder eine
  * Verkaufsstelle sein. Handelt es sich um einen Auffuehrungsort (wie Kino,
@@ -26,6 +28,8 @@ import javax.validation.constraints.Size;
  * umfassen.
  * 
  */
+@SuppressWarnings("restriction")
+@Creatable
 @Entity
 public class Ort extends BaseEntity {
 

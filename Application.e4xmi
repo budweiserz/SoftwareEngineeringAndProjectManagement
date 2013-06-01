@@ -61,6 +61,7 @@
   <handlers xmi:id="_KKK5UL1cEeKCAfdsrtuMiA" elementId="at.ticketline.openAufuehrungSearchCommand" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenAuffuehrungSearchHandler" command="_RSuQYL1cEeKCAfdsrtuMiA"/>
   <handlers xmi:id="_HLQSAMO7EeK8Ar2JK_joaQ" elementId="inso-sepm-ss13-07.handler.2" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenTransaktionWizardHandler" command="_6VAYUMO6EeK8Ar2JK_joaQ"/>
   <handlers xmi:id="_KE7zQMaMEeKmAb5Pic8Neg" elementId="at.ticketline.handler.openMerchandise" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenMerchandiseHandler" command="_C3ofEMaMEeKmAb5Pic8Neg"/>
+  <handlers xmi:id="_bqnxcMrHEeKNAZ8ERAvdhA" elementId="inso-sepm-ss13-07.handler.3" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.OpenVeranstaltungsortHandler" command="_TZ_0gMrGEeKNAZ8ERAvdhA"/>
   <bindingTables xmi:id="_J1qjHJ7KEeKyV7_6Xf9MMA" bindingContext="_J1qjEZ7KEeKyV7_6Xf9MMA">
     <bindings xmi:id="_J1qjHZ7KEeKyV7_6Xf9MMA" keySequence="M1+Q" command="_J1qjGp7KEeKyV7_6Xf9MMA"/>
     <bindings xmi:id="_J1qjIJ7KEeKyV7_6Xf9MMA" keySequence="M1+O" command="_J1qjHp7KEeKyV7_6Xf9MMA"/>
@@ -74,6 +75,7 @@
   <descriptors xmi:id="_zg_f8J7xEeKyV7_6Xf9MMA" elementId="at.ticketline.partdescriptor.newkuenstler" label="Künstler Details" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.KuenstlerPart"/>
   <descriptors xmi:id="_la_Q8LxxEeKT_IzQOUkC4g" elementId="at.ticketline.partdescriptor.newkunde" label="Kunde Details" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.KundePart"/>
   <descriptors xmi:id="_02JiYL5pEeKT_IzQOUkC4g" elementId="at.ticketline.partdescriptor.newveranstaltung" label="Veranstaltung Details" allowMultiple="true" closeable="true" dirtyable="true" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.VeranstaltungPart"/>
+  <descriptors xmi:id="_FWoyAMrHEeKNAZ8ERAvdhA" elementId="at.ticketline.partdescriptor.newveranstaltungsort" label="Veranstaltungsort Details" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.VeranstaltungsortPart"/>
   <descriptors xmi:id="_OcB2cL1kEeKT_IzQOUkC4g" elementId="at.ticketline.partdescriptor.searchKuenstler" label="Kuenstler Suche" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.KuenstlerSearchPart"/>
   <descriptors xmi:id="_PTh3QL1FEeKvqu4NU28Xow" elementId="at.ticketline.partdescriptor.searchVeranstaltung" label="Veranstaltung Suche" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.VeranstaltungSearchPart"/>
   <descriptors xmi:id="_XDMpMLy3EeKlkobWpntiug" elementId="at.ticketline.partdescriptor.searchVeranstaltungsort" label="Veranstaltungsort Suche" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.VeranstaltungsortSearchPart"/>
@@ -94,6 +96,7 @@
   <commands xmi:id="_cBlTsL1EEeKvqu4NU28Xow" elementId="at.ticketline.command.searchVeranstaltung" commandName="Veranstaltung suchen"/>
   <commands xmi:id="_iMMOQL1kEeKT_IzQOUkC4g" elementId="at.ticketline.command.searchKuenstler" commandName="Künstler suchen"/>
   <commands xmi:id="_AAR2IL42EeKT_IzQOUkC4g" elementId="at.ticketline.command.openVeranstaltung" commandName="Veranstaltungsansicht öffnen"/>
+  <commands xmi:id="_TZ_0gMrGEeKNAZ8ERAvdhA" elementId="at.ticketline.command.openVeranstaltungsort" commandName="Veranstaltungsortansicht öffnen"/>
   <commands xmi:id="_RSuQYL1cEeKCAfdsrtuMiA" elementId="at.ticketline.command.searchAuffuehrung" commandName="Aufführung suchen"/>
   <commands xmi:id="_6VAYUMO6EeK8Ar2JK_joaQ" elementId="at.ticketline.command.openWizard" commandName="TransaktionsWizard öffnen"/>
   <commands xmi:id="_C3ofEMaMEeKmAb5Pic8Neg" elementId="at.ticketline.command.openMerchandise" commandName="Merchandiseartikel öffnen"/>

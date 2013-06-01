@@ -1,6 +1,8 @@
 package at.ticketline.kassa.ui;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -46,6 +48,8 @@ import org.slf4j.LoggerFactory;
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.Kuenstler;
+import at.ticketline.entity.Ort;
+import at.ticketline.entity.Saal;
 import at.ticketline.entity.Veranstaltung;
 import at.ticketline.service.api.AuffuehrungService;
 import at.ticketline.test.EntityGenerator;
@@ -55,8 +59,8 @@ import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.wizard.WizardDialog;
 
 @SuppressWarnings("restriction")
-public class VeranstaltungPart {
-    private static final Logger LOG = LoggerFactory.getLogger(VeranstaltungPart.class);
+public class VeranstaltungsortPart {
+    private static final Logger LOG = LoggerFactory.getLogger(VeranstaltungsortPart.class);
     @Inject private MDirtyable dirty;
     @Inject private EPartService partService;
     @Inject private EHandlerService handlerService;
@@ -65,7 +69,7 @@ public class VeranstaltungPart {
     @Inject private MPart activePart;
     @Inject @Named (IServiceConstants.ACTIVE_SHELL) private Shell shell;
     
-    @Inject private Veranstaltung veranstaltung;
+    @Inject private Ort ort;
     
     private FormToolkit toolkit;
     private ScrolledForm form;
@@ -75,7 +79,7 @@ public class VeranstaltungPart {
     
     @Inject
     public void init(Composite parent, @Named (IServiceConstants.ACTIVE_SELECTION)
-    				 @Optional Veranstaltung veranstaltung) throws PartInitException {
+    				 @Optional Ort ort) throws PartInitException {
 		        
         /*
          * XXX: When multiple Tabs are open Eclipse will show the first x 
@@ -85,12 +89,12 @@ public class VeranstaltungPart {
          */
         if(created == false) {
             created = true;
-            if(veranstaltung != null){
-                this.veranstaltung = veranstaltung;
+            if(ort != null){
+                this.ort = ort;
             }
             createControls(parent);
             
-            if(veranstaltung != null){
+            if(ort!= null){
                 setInput();
             }
         }            
@@ -126,7 +130,7 @@ public class VeranstaltungPart {
     }
     
     private void updateTitle() {
-        activePart.setLabel(this.veranstaltung.getBezeichnung());
+        activePart.setLabel(this.ort.getBezeichnung());
     }
 
     private void createTable(Composite parent) {
@@ -134,7 +138,7 @@ public class VeranstaltungPart {
         auffuehrungSection.addExpansionListener(new ExpansionAdapter() {
             @Override
             public void expansionStateChanged(ExpansionEvent e) {
-                VeranstaltungPart.this.form.reflow(true);
+                VeranstaltungsortPart.this.form.reflow(true);
             }
         });
         auffuehrungSection.setText("Aufführungen");
@@ -244,8 +248,14 @@ public class VeranstaltungPart {
     }
     
     private void setInput() {
-        if(this.veranstaltung.getAuffuehrungen() != null && this.veranstaltung.getAuffuehrungen().size() > 0) {
-            this.tableViewer.setInput(this.veranstaltung.getAuffuehrungen());
+        Set<Saal> saele = this.ort.getSaele();
+        HashSet<Auffuehrung> auffuehrungen = new HashSet<Auffuehrung>();
+        for(Saal s : saele) {
+            if(s.getAuffuehrungen() != null && s.getAuffuehrungen().size() > 0) {
+                auffuehrungen.addAll(s.getAuffuehrungen());
+            }
         }
+        if(auffuehrungen.size() > 0)
+            this.tableViewer.setInput(auffuehrungen);
     }
 }

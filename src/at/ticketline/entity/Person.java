@@ -53,14 +53,12 @@ public abstract class Person extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
     
-    @Column(nullable = false, length = 50)
+    @Column(length = 50)
     @Size(max = 50)
-    @NotNull
     private String username;
 
-    @Column(nullable = false, length = 64)
+    @Column(length = 64)
     @Size(max = 64)
-    @NotNull
     private String passwort;
 
     @Column(nullable = false, length = 50)

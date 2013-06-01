@@ -244,7 +244,7 @@ public class DataGenerator {
             kuenstler.setVorname(current[0]);
             kuenstler.setNachname(current[1]);
 
-            jobs = i + random.nextInt(5);
+            jobs = i + 1 + random.nextInt(5);
 
             if (current[2].equals("m")) {
                 kuenstler.setGeschlecht(Geschlecht.MAENNLICH);

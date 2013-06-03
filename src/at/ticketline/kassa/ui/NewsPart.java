@@ -20,6 +20,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 
 import at.ticketline.service.api.NewsService;
 
@@ -108,6 +109,7 @@ public class NewsPart {
         	}
         	if(window.getElementId().equals("ticketlinercp.trimmedwindow.main")) {
         		window.setVisible(true);
+        		((Shell)window.getWidget()).forceFocus();
         	}
         }
 	}

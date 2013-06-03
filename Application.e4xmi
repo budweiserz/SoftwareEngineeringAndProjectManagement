@@ -44,7 +44,7 @@
   <children xsi:type="basic:TrimmedWindow" xmi:id="_vFkWUL7WEeKTEsAFXXSalg" elementId="ticketlinercp.trimmedwindow.news" visible="false" label="Unternehmensnews" width="640" height="740">
     <children xsi:type="basic:Part" xmi:id="_CZbMoL7XEeKTEsAFXXSalg" elementId="ticketlinercp.part.1" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.NewsPart" label="NewsPart"/>
   </children>
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_A6k5ULfiEeK5r4ZRsi2uzQ" elementId="ticketlinercp.trimmedwindow.login" label="Login" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/key_icon&amp;16.png" x="200" y="200" width="320" height="370">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_A6k5ULfiEeK5r4ZRsi2uzQ" elementId="ticketlinercp.trimmedwindow.login" label="Login" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/key_icon&amp;16.png" x="200" y="200" width="330" height="360">
     <children xsi:type="basic:Part" xmi:id="_FUEpILfiEeK5r4ZRsi2uzQ" elementId="ticketlinercp.part.0" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.LoginPart" label="LoginPart"/>
   </children>
   <handlers xmi:id="_J1qjG57KEeKyV7_6Xf9MMA" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.handlers.QuitHandler" command="_J1qjGp7KEeKyV7_6Xf9MMA"/>

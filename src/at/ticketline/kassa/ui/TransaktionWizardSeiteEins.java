@@ -56,6 +56,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
     private static final Color CBOOKED = new Color (device, 250, 176, 87);
     private static final Color CSOLD = new Color (device, 250, 124, 87);
     private static final Color CBACKGROUD = new Color (device, 206, 206, 206);
+    private static final Color CWHITE= new Color(device, 255, 255, 255);
     private Table table;
     private TableColumnLayout tcl_composite;
     private int numOfColumns;
@@ -96,16 +97,6 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         
         initializeFooter(container);
         
-        
-        btnBuchung = new Button(container, SWT.RADIO);
-        btnBuchung.addListener(SWT.Selection, this);
-        btnBuchung.setBounds(10, 10, 90, 16);
-        btnBuchung.setText("Buchung");
-        
-        btnReservierung = new Button(container, SWT.RADIO);
-        btnReservierung.addListener(SWT.Selection, this);
-        btnReservierung.setBounds(106, 10, 90, 16);
-        btnReservierung.setText("Reservierung");
               
         //TODO make true when plaetze selected
         setPageComplete(false);
@@ -205,7 +196,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
                                 selectedSeats--;
                                 refreshFooter();
                             }
-                            
+                            table.deselectAll();
                         }
                     }
                 }
@@ -377,49 +368,26 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         txtPrice.setLayoutData(fd_txtPrice);
         txtPrice.setText(String.valueOf(selectedSeats*10));
         
-        Button btnReservieren = new Button(composite_1, SWT.NONE);
-        FormData fd_btnReservieren = new FormData();
-        fd_btnReservieren.top = new FormAttachment(lblAnzahlDerPersonen, 0, SWT.TOP);
-        fd_btnReservieren.right = new FormAttachment(100, -10);
-        btnReservieren.setLayoutData(fd_btnReservieren);
-        btnReservieren.setText("Reservieren");
+        btnReservierung = new Button(composite_1, SWT.RADIO);
+        FormData fd_btnReservierung = new FormData();
+        fd_btnReservierung.bottom = new FormAttachment(100, -10);
+        fd_btnReservierung.right = new FormAttachment(100, -10);
+        btnReservierung.setLayoutData(fd_btnReservierung);
+        btnReservierung.addListener(SWT.Selection, this);
+        btnReservierung.setBounds(106, 10, 90, 16);
+        btnReservierung.setText("Reservierung");
+        btnReservierung.setBackground(CWHITE);
         
-        btnReservieren.addSelectionListener(new SelectionListener() {
-            
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                Log.info("Button reservieren wurde gedrückt!");
-                
-            }
-            
-            @Override
-            public void widgetDefaultSelected(SelectionEvent e) {
-                //Nothing to do here
-                
-            }
-        });
+        btnBuchung = new Button(composite_1, SWT.RADIO);
+        FormData fd_btnBuchung = new FormData();
+        fd_btnBuchung.bottom = new FormAttachment(lblDavonKinder, 0, SWT.BOTTOM);
+        fd_btnBuchung.right = new FormAttachment(btnReservierung, 0, SWT.RIGHT);
+        btnBuchung.setLayoutData(fd_btnBuchung);
+        btnBuchung.addListener(SWT.Selection, this);
+        btnBuchung.setBounds(10, 10, 90, 16);
+        btnBuchung.setText("Buchung");
+        btnBuchung.setBackground(CWHITE);
         
-        Button btnKaufen = new Button(composite_1, SWT.NONE);
-        FormData fd_btnKaufen = new FormData();
-        fd_btnKaufen.top = new FormAttachment(lblDavonKinder, -5, SWT.TOP);
-        fd_btnKaufen.right = new FormAttachment(btnReservieren, 0, SWT.RIGHT);
-        btnKaufen.setLayoutData(fd_btnKaufen);
-        btnKaufen.setText("Kaufen");
-        
-        btnKaufen.addSelectionListener(new SelectionListener() {
-            
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                Log.info("Button kaufen wurde gedrückt!");
-                
-            }
-            
-            @Override
-            public void widgetDefaultSelected(SelectionEvent e) {
-                //Nothing to do here
-                
-            }
-        });
         
     }
     

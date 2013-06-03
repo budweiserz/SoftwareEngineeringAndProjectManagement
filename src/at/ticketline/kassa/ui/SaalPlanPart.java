@@ -117,7 +117,6 @@ public class SaalPlanPart {
 		table.setLinesVisible(true);
 		
 		
-		
 		numOfColumns = 10;
 		numOfRows = 20;
 		
@@ -144,6 +143,7 @@ public class SaalPlanPart {
 	                        	refreshFooter();
 	                        }
 	                        
+	                        table.deselectAll();
 	                    }
 	                }
 	            }

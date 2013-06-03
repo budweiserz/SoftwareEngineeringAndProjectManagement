@@ -85,7 +85,7 @@ public class KundeTest extends AbstractDaoTest {
                 System.out.println("Violation: " + cv.getPropertyPath());
             }
         }
-        assertTrue(violations.size() == 5);
+        assertTrue(violations.size() == 3);
     }
 
     @Test

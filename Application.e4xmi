@@ -5,7 +5,9 @@
     <children xsi:type="advanced:PerspectiveStack" xmi:id="_J1qjL57KEeKyV7_6Xf9MMA">
       <children xsi:type="advanced:Perspective" xmi:id="_J1qjMJ7KEeKyV7_6Xf9MMA" elementId="at.ticketline.kassa.perspective" label="Ticketline">
         <children xsi:type="basic:PartSashContainer" xmi:id="_1V1-MJ7wEeKyV7_6Xf9MMA" elementId="at.ticketline.kassa.partsashcontainer.main">
-          <children xsi:type="basic:PartStack" xmi:id="_8POQ0J7wEeKyV7_6Xf9MMA" elementId="at.ticketline.kassa.partstack.main"/>
+          <children xsi:type="basic:PartStack" xmi:id="_8POQ0J7wEeKyV7_6Xf9MMA" elementId="at.ticketline.kassa.partstack.main">
+            <children xsi:type="basic:Part" xmi:id="_0Ka84MyjEeKVbexSeLNeiQ" elementId="ticketlinercp.part.invisible0" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.InvisibleMainPart" label="InvisiblePart" closeable="true"/>
+          </children>
         </children>
       </children>
     </children>
@@ -13,7 +15,7 @@
       <children xsi:type="menu:Menu" xmi:id="_J1qjKZ7KEeKyV7_6Xf9MMA" label="Datei">
         <children xsi:type="menu:Menu" xmi:id="_-WnwQJ7yEeKyV7_6Xf9MMA" elementId="at.ticketline.handledmenuitem.newMenu" label="Neu">
           <children xsi:type="menu:HandledMenuItem" xmi:id="_IUFe8J7zEeKyV7_6Xf9MMA" elementId="" label="Künstler" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/round_plus_icon&amp;16.png" tooltip="Neuen Künstler erstellen" command="_QskM0J7zEeKyV7_6Xf9MMA"/>
-          <children xsi:type="menu:HandledMenuItem" xmi:id="_SuAigLxzEeKT_IzQOUkC4g" elementId="" label="Kunde" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/round_plus_icon&amp;16.png" tooltip="Neuen Kunden erstellen" command="_JJKkoLxyEeKT_IzQOUkC4g"/>
+          <children xsi:type="menu:HandledMenuItem" xmi:id="_SuAigLxzEeKT_IzQOUkC4g" elementId="" label="Kunde" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/contact_card_icon&amp;16.png" tooltip="Neuen Kunden erstellen" command="_JJKkoLxyEeKT_IzQOUkC4g"/>
         </children>
         <children xsi:type="menu:MenuSeparator" xmi:id="__nOcgJ7yEeKyV7_6Xf9MMA" elementId="ticketlinercpjuno.menuseparator.0"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_J1qjK57KEeKyV7_6Xf9MMA" label="Save" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/save_icon&amp;16.png" command="_nFqVwJ7zEeKyV7_6Xf9MMA"/>
@@ -37,7 +39,7 @@
       <children xsi:type="menu:ToolBar" xmi:id="_J1qjNJ7KEeKyV7_6Xf9MMA" elementId="toolbar:org.eclipse.ui.main.toolbar">
         <children xsi:type="menu:HandledToolItem" xmi:id="_J1qjNp7KEeKyV7_6Xf9MMA" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/save_icon&amp;16.png" tooltip="Part speichern" command="_nFqVwJ7zEeKyV7_6Xf9MMA"/>
         <children xsi:type="menu:HandledToolItem" xmi:id="_9v_4UJ72EeKyV7_6Xf9MMA" elementId="" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/round_plus_icon&amp;16.png" tooltip="Neuen Künstler erstellen" command="_QskM0J7zEeKyV7_6Xf9MMA"/>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_rO-98LxzEeKT_IzQOUkC4g" elementId="" label="" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/round_plus_icon&amp;16.png" tooltip="Neuen Kunden erstellen" command="_JJKkoLxyEeKT_IzQOUkC4g"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_rO-98LxzEeKT_IzQOUkC4g" elementId="" label="" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/contact_card_icon&amp;16.png" tooltip="Neuen Kunden erstellen" command="_JJKkoLxyEeKT_IzQOUkC4g"/>
       </children>
     </trimBars>
   </children>

@@ -132,7 +132,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         composite_2.setLayout(new GridLayout(3, false));
         GridData gd_composite_2 = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
         gd_composite_2.minimumHeight = 50;
-        gd_composite_2.minimumWidth = 650;
+        gd_composite_2.minimumWidth = 700;
         gd_composite_2.heightHint = 50;
         gd_composite_2.widthHint = 1920;
         composite_2.setLayoutData(gd_composite_2);
@@ -169,7 +169,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         tcl_composite = new TableColumnLayout();
         composite.setLayout(tcl_composite);
         
-        table = new Table(composite, SWT.BORDER | SWT.FULL_SELECTION | SWT.HIDE_SELECTION | SWT.MULTI);
+        table = new Table(composite, SWT.BORDER | SWT.FULL_SELECTION | SWT.HIDE_SELECTION | SWT.MULTI | SWT.NO_SCROLL);
         table.setHeaderVisible(true);
         table.setLinesVisible(true);
         
@@ -180,6 +180,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         
         createColumns();
         createRows();
+        
         
         table.addListener(SWT.MouseDown, new Listener(){
             public void handleEvent(Event event){
@@ -397,7 +398,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
     
     private void createColumns() {
     	TableColumn tc;
-        int colWidth = (int)Math.floor(650/numOfColumns);
+        int colWidth = (int)Math.floor((700-table.getBorderWidth()*2)/numOfColumns);
         for(int i =0; i<numOfColumns; i++) {
             tc = new TableColumn(table, SWT.CENTER);
             tcl_composite.setColumnData(tc, new ColumnWeightData(1,colWidth,false));

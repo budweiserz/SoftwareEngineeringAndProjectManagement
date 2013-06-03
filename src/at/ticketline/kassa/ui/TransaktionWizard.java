@@ -6,16 +6,20 @@ import javax.inject.Named;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.di.annotations.Optional;
+import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.services.IServiceConstants;
+import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.dialogs.IPageChangedListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ticketline.entity.Auffuehrung;
+import at.ticketline.entity.Kunde;
 import at.ticketline.service.api.KundeService;
 
 @SuppressWarnings("restriction")
@@ -25,6 +29,11 @@ public class TransaktionWizard extends Wizard implements IPageChangedListener{
     @Inject private EHandlerService handlerService;
     @Inject private ECommandService commandService;
     @Inject private ESelectionService selectionService;
+    @Inject private MDirtyable dirty;
+    @Inject private EPartService partService;
+    @Inject
+    @Named(IServiceConstants.ACTIVE_SHELL)
+    private Shell shell;
 
     private static final Logger LOG = LoggerFactory.getLogger(TransaktionWizard.class);
 
@@ -51,11 +60,15 @@ public class TransaktionWizard extends Wizard implements IPageChangedListener{
         LOG.info("Add Pages to Wizard...");
         eins = new TransaktionWizardSeiteEins(values);
         zwei = new TransaktionWizardSeiteZwei();
-        drei = new TransaktionWizardSeiteDrei();
+        drei = new TransaktionWizardSeiteDrei(values);
         vier  = new TransaktionWizardSeiteVier(values);
         fuenf = new TransaktionWizardSeiteFuenf(values);
         vier.setKundeService(kundeService);
         vier.setESelectionService(selectionService);
+        drei.setCommandService(commandService);
+        drei.setDirty(dirty);
+        drei.setHandlerService(handlerService);
+        drei.setKundeService(kundeService);
         
         addPage(eins);
         addPage(zwei);

@@ -23,5 +23,7 @@ public class SavePartHandler {
     @Execute
       void execute(EPartService partService, @Named(IServiceConstants.ACTIVE_PART) MPart part) {
         partService.savePart(part, false);
-      } 
+      }
+    
+    
 }

@@ -88,10 +88,10 @@ public class LoginPart{
         
         Label lblUsername = new Label(compContent, SWT.NONE);
         lblUsername.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        lblUsername.setText("Username");
+        lblUsername.setText("Benutzername");
         
         txtUsername = new Text(compContent, SWT.BORDER);
-        txtUsername.setToolTipText("Geben Sie hier Ihren Usernamen an");
+        txtUsername.setToolTipText("Geben Sie hier Ihren Benutzernamen an");
         GridData gd_txtUsername = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
         gd_txtUsername.minimumWidth = 200;
         txtUsername.setLayoutData(gd_txtUsername);
@@ -137,9 +137,9 @@ public class LoginPart{
                 		lblErrorMessage.setText("Bitte füllen Sie alle Felder aus!");
                 	}
                 } catch(UserNotFoundException ex) {
-                	lblErrorMessage.setText("Username oder Passwort falsch!");
+                	lblErrorMessage.setText("Benutzername oder Passwort falsch!");
                 } catch(WrongPasswordException ex) {
-                	lblErrorMessage.setText("Username oder Passwort falsch!");
+                	lblErrorMessage.setText("Benutzername oder Passwort falsch!");
                 } catch(Exception ex) {
                 	lblErrorMessage.setText(ex.getMessage());
                 }

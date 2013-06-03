@@ -71,19 +71,25 @@ public class LoginPart{
     public void createComposite(Composite parent) {
         parent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
         GridLayout gl_parent = new GridLayout(1, false);
+        gl_parent.marginRight = 5;
         gl_parent.marginWidth = 15;
         gl_parent.verticalSpacing = 10;
         parent.setLayout(gl_parent);
         
         Label label = new Label(parent, SWT.NONE);
+        label.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
         label.setAlignment(SWT.CENTER);
         label.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
         label.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
         label.setImage(ResourceManager.getPluginImage("at.ticketline.kassa", "icons/logo.png"));
         
         Composite compContent = new Composite(parent, SWT.NONE);
+        GridData gd_compContent = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+        gd_compContent.widthHint = 292;
+        compContent.setLayoutData(gd_compContent);
         compContent.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
         GridLayout gl_compContent = new GridLayout(2, false);
+        gl_compContent.horizontalSpacing = 10;
         compContent.setLayout(gl_compContent);
         
         Label lblUsername = new Label(compContent, SWT.NONE);
@@ -93,7 +99,8 @@ public class LoginPart{
         txtUsername = new Text(compContent, SWT.BORDER);
         txtUsername.setToolTipText("Geben Sie hier Ihren Benutzernamen an");
         GridData gd_txtUsername = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
-        gd_txtUsername.minimumWidth = 200;
+        gd_txtUsername.widthHint = 150;
+        gd_txtUsername.minimumWidth = 150;
         txtUsername.setLayoutData(gd_txtUsername);
         
         Label lblPassword = new Label(compContent, SWT.NONE);
@@ -103,7 +110,8 @@ public class LoginPart{
         txtPassword = new Text(compContent, SWT.BORDER | SWT.PASSWORD);
         txtPassword.setToolTipText("Geben Sie hier Ihr Passwort ein");
         GridData gd_txtPassword = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
-        gd_txtPassword.minimumWidth = 200;
+        gd_txtPassword.widthHint = 150;
+        gd_txtPassword.minimumWidth = 150;
         txtPassword.setLayoutData(gd_txtPassword);
         
         Composite composite = new Composite(compContent, SWT.NONE);
@@ -117,7 +125,7 @@ public class LoginPart{
         
         lblErrorMessage = new Label(compContent, SWT.WRAP);
         GridData gd_lblErrorMessage = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-        gd_lblErrorMessage.widthHint = 200;
+        gd_lblErrorMessage.widthHint = 169;
         gd_lblErrorMessage.heightHint = 50;
         lblErrorMessage.setLayoutData(gd_lblErrorMessage);
         lblErrorMessage.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
@@ -164,14 +172,12 @@ public class LoginPart{
         });
         
         Label lblVersion = new Label(parent, SWT.SHADOW_NONE | SWT.RIGHT);
-        lblVersion.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        GridData gd_lblVersion = new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1);
+        gd_lblVersion.widthHint = 79;
+        lblVersion.setLayoutData(gd_lblVersion);
         lblVersion.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
         lblVersion.setAlignment(SWT.RIGHT);
-        lblVersion.setText("Version 0.1");        
-        
-        Composite compFooter = new Composite(parent, SWT.NONE);
-        compFooter.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false, 2, 1));
-        compFooter.setLayout(new FillLayout(SWT.HORIZONTAL));
+        lblVersion.setText("Version 0.1");
     }
 
     @Focus

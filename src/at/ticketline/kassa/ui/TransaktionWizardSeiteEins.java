@@ -2,17 +2,10 @@ package at.ticketline.kassa.ui;
 
 import javax.annotation.PreDestroy;
 
-import org.eclipse.jface.wizard.WizardPage;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -38,6 +31,13 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.jfree.util.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import at.ticketline.entity.Platz;
+import at.ticketline.entity.PlatzStatus;
+import at.ticketline.entity.Reihe;
+import at.ticketline.entity.Saal;
 
 
 public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
@@ -46,6 +46,8 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
     private Button btnBuchung;
     private Button btnReservierung;
     private TransaktionWizardValues values;
+    private Saal saal;
+    private Reihe[] reihen;
     private static final Logger LOG = LoggerFactory.getLogger(TransaktionWizardSeiteEins.class);
     
     //Saalplan
@@ -78,6 +80,8 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         setTitle("Verfügbare Plätze");
         setDescription("Wählen Sie die gewünschten Plätze und die Art der Transaktion aus");
         this.values = values;
+        saal = values.getAuffuehrung().getSaal();
+        reihen = saal.getReihen().toArray(new Reihe[saal.getReihen().size()]);
         selectedSeats = 0;
     }
 
@@ -153,7 +157,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         
         lblSaal = new Label(composite_12, SWT.NONE);
         lblSaal.setBounds(24, 0, 66, 14);
-        lblSaal.setText("Saal 2");
+        lblSaal.setText(saal.getBezeichnung());
         
     }
 
@@ -171,8 +175,8 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         
         
         
-        numOfColumns = 10;
-        numOfRows = 20;
+        numOfColumns = reihen[0].getAnzplaetze();
+        numOfRows = reihen.length;
         
         createColumns();
         createRows();
@@ -294,7 +298,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
     
     private void initializeFooter(Composite parent) {
         Composite composite_1 = new Composite(parent, SWT.NONE);
-        composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+        composite_1.setBackground(CWHITE);
         composite_1.setLayout(new FormLayout());
         GridData gd_composite_1 = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
         gd_composite_1.heightHint = 100;
@@ -392,7 +396,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
     }
     
     private void createColumns() {
-        TableColumn tc;
+    	TableColumn tc;
         int colWidth = (int)Math.floor(650/numOfColumns);
         for(int i =0; i<numOfColumns; i++) {
             tc = new TableColumn(table, SWT.CENTER);
@@ -403,27 +407,33 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
     
     private void createRows() {
         TableItem tableItem;
+        Reihe reihe;
+        Platz[] plaetze;
+        Platz platz;
         for(int i=0; i<numOfRows; i++) {
             tableItem = new TableItem(table, SWT.NONE);
-            for(int j=0; j<numOfColumns; j++) {
-                int rand = (int)Math.floor(Math.random()*4);
-                switch(rand) {
-                case 0:
-                    tableItem.setBackground(j, CAVAILABLE);
-                    break;
-                case 1:
-                    tableItem.setBackground(j, CBOOKED);
-                    break;
-                case 2:
-                    tableItem.setBackground(j, CBACKGROUD);
-                    break;
-                case 3:
-                    tableItem.setBackground(j, CSOLD);
-                    break;
-                }
+            reihe = reihen[i];
+            plaetze = reihe.getPlaetze().toArray(new Platz[reihe.getAnzplaetze()]);
+            for(int j=0; j<reihe.getAnzplaetze(); j++) {
+            	platz = plaetze[j];
+            	if(platz != null) {
+	            	PlatzStatus status = platz.getStatus();
+	                switch(status) {
+	                case FREI:
+	                    tableItem.setBackground(j, CAVAILABLE);
+	                    break;
+	                case RESERVIERT:
+	                    tableItem.setBackground(j, CBOOKED);
+	                    break;
+	                case GEBUCHT:
+	                    tableItem.setBackground(j, CSOLD);
+	                    break;
+	                }
+            	} else {
+            		tableItem.setBackground(j, CAVAILABLE);
+            	}
             }
         }
-        
     }
 
     private void refreshFooter() {

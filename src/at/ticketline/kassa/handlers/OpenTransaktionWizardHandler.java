@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ticketline.kassa.ui.TransaktionWizard;
+import at.ticketline.kassa.ui.TransaktionWizardDialog;
 
 @SuppressWarnings("restriction")
 public class OpenTransaktionWizardHandler {
@@ -20,7 +21,7 @@ public class OpenTransaktionWizardHandler {
     @Execute
     public void execute(IEclipseContext context, @Named(IServiceConstants.ACTIVE_SHELL) Shell shell) {
         TransaktionWizard tw = ContextInjectionFactory.make(TransaktionWizard.class, context);
-        WizardDialog transaktion = new WizardDialog(shell, tw);
+        TransaktionWizardDialog transaktion = new TransaktionWizardDialog(shell, tw);
         tw.setDialogListener();
         if(transaktion.open() == Window.OK) {
             LOG.info("Opened the Transaktions wizard!");

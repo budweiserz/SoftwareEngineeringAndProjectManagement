@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
+import org.eclipse.e4.ui.workbench.modeling.IWindowCloseHandler;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.events.SelectionEvent;
@@ -32,6 +33,8 @@ public class NewsPart {
 	
 	@Inject
 	MApplication application;
+	@Inject
+	Shell shell;
 
 	private static final Logger LOG = Logger.getLogger(NewsPart.class);
 	
@@ -110,6 +113,17 @@ public class NewsPart {
         	if(window.getElementId().equals("ticketlinercp.trimmedwindow.main")) {
         		window.setVisible(true);
         		((Shell)window.getWidget()).forceFocus();
+        		
+        		//Hacky part to exit Application, when Clos-Button is pressed
+        		IWindowCloseHandler handler = new IWindowCloseHandler() {
+        		    @Override
+        		    public boolean close(MWindow window) {
+        		        LOG.info("Application gets closed through window-Close Button. Managed through IWindowCloseHandler");
+        		    	System.exit(0);
+        		    	return true;
+        		    }
+        		  };
+        		window.getContext().set(IWindowCloseHandler.class, handler);
         	}
         }
 	}

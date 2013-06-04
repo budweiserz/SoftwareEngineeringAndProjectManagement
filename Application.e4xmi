@@ -5,9 +5,7 @@
     <children xsi:type="advanced:PerspectiveStack" xmi:id="_J1qjL57KEeKyV7_6Xf9MMA">
       <children xsi:type="advanced:Perspective" xmi:id="_J1qjMJ7KEeKyV7_6Xf9MMA" elementId="at.ticketline.kassa.perspective" label="Ticketline">
         <children xsi:type="basic:PartSashContainer" xmi:id="_1V1-MJ7wEeKyV7_6Xf9MMA" elementId="at.ticketline.kassa.partsashcontainer.main">
-          <children xsi:type="basic:PartStack" xmi:id="_8POQ0J7wEeKyV7_6Xf9MMA" elementId="at.ticketline.kassa.partstack.main">
-            <children xsi:type="basic:Part" xmi:id="_0Ka84MyjEeKVbexSeLNeiQ" elementId="ticketlinercp.part.invisible0" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.InvisibleMainPart" label="InvisiblePart" closeable="true"/>
-          </children>
+          <children xsi:type="basic:PartStack" xmi:id="_8POQ0J7wEeKyV7_6Xf9MMA" elementId="at.ticketline.kassa.partstack.main"/>
         </children>
       </children>
     </children>

@@ -56,6 +56,8 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import at.ticketline.entity.Geschlecht;
+import at.ticketline.entity.Kuenstler;
 import at.ticketline.entity.Veranstaltung;
 import at.ticketline.service.api.VeranstaltungService;
 
@@ -87,12 +89,13 @@ public class TopTenVeranstaltungenPart {
     
     private TableViewer tableViewer;
 	
-    private Button btnSuchen;
+    private Button btnAnzeigen;
 	private Table table;
 	private DateTime dateTimeVon;
 	private DateTime dateTimeBis;
 	private Combo combo;
 	private Table table_topTenVeranstaltungen;
+	private Composite topTenVeranstaltungenComposite;
 	
 	public TopTenVeranstaltungenPart() {
 	}
@@ -158,14 +161,14 @@ public class TopTenVeranstaltungenPart {
 		combo_1.setLayoutData(fd_combo_1);
 		combo_1.setText("Kino");
 		
-		Button btnAnzeigen = new Button(SearchComposite, SWT.NONE);
+		btnAnzeigen = new Button(SearchComposite, SWT.NONE);
 		FormData fd_btnAnzeigen = new FormData();
 		fd_btnAnzeigen.bottom = new FormAttachment(100, -10);
 		fd_btnAnzeigen.left = new FormAttachment(lblVon, 0, SWT.LEFT);
 		btnAnzeigen.setLayoutData(fd_btnAnzeigen);
 		btnAnzeigen.setText("Anzeigen");
 		
-		Composite topTenVeranstaltungenComposite = new Composite(parent, SWT.BORDER | SWT.NO_BACKGROUND);
+		topTenVeranstaltungenComposite = new Composite(parent, SWT.BORDER | SWT.NO_BACKGROUND);
 		topTenVeranstaltungenComposite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		topTenVeranstaltungenComposite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		topTenVeranstaltungenComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -202,7 +205,7 @@ public class TopTenVeranstaltungenPart {
 		   */
 		  public Object[] getElements(Object arg0) {
 		    // Returns all the players in the specified team
-		    return ((HashMap) arg0).entrySet().toArray();
+		    return ((HashMap<Veranstaltung, Integer>) arg0).entrySet().toArray();
 		  }
 
 		  /**
@@ -291,7 +294,30 @@ public class TopTenVeranstaltungenPart {
             }
         });
         
-        
+        this.btnAnzeigen.addMouseListener(new MouseListener() {
+            @Override public void mouseDoubleClick(MouseEvent e) { }
+            @Override public void mouseDown(MouseEvent e) { }
+
+            @Override
+            public void mouseUp(MouseEvent e) {
+            	Calendar c = new GregorianCalendar();
+            	
+        		c.set(dateTimeVon.getYear(), dateTimeVon.getMonth(), dateTimeVon.getDay());
+        		Date start = c.getTime();
+        		c.set(dateTimeBis.getYear(), dateTimeBis.getMonth(), dateTimeBis.getDay());
+        		Date end = c.getTime();
+        		LinkedHashMap<Veranstaltung, Integer> topTen = veranstaltungService.findTopTen(start, end, null);
+        		
+        		tableViewer.setInput(topTen);
+        		
+        		PieDataset dataset = createDataset(topTen);  
+        		JFreeChart chart = createChart(dataset, "Übersicht über die 10 beliebtesten Veranstaltungen");  
+        		
+        		new ChartComposite(topTenVeranstaltungenComposite, SWT.NONE, chart, true);
+              	
+                tableViewer.refresh();
+            }
+        });
         
         /*this.tableViewer.addDoubleClickListener(new IDoubleClickListener() {
             @Override
@@ -313,7 +339,7 @@ public class TopTenVeranstaltungenPart {
 		PieDataset dataset = createDataset(topTen);  
 		JFreeChart chart = createChart(dataset, "Übersicht über die 10 beliebtesten Veranstaltungen");  
 		
-		ChartComposite chartComposite = new ChartComposite(topTenVeranstaltungenComposite, SWT.NONE, chart, true);
+		new ChartComposite(topTenVeranstaltungenComposite, SWT.NONE, chart, true);
 	}
 	
 	private PieDataset createDataset(LinkedHashMap<Veranstaltung, Integer> topTen) {  
@@ -326,7 +352,7 @@ public class TopTenVeranstaltungenPart {
 		while (itTopTenVeranstaltung.hasNext()) {
 			currentTopTenVeranstaltung = itTopTenVeranstaltung.next();
 			
-			result.setValue(currentTopTenVeranstaltung.getKey().getBezeichnung().substring(0, 5), 10);
+			result.setValue(currentTopTenVeranstaltung.getKey().getBezeichnung(), 10);
 		} 
 		
 		return result;  

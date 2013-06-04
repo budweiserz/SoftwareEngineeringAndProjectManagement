@@ -464,7 +464,7 @@ public class KuenstlerPart{
             MessageDialog.openInformation(this.shell, "Speichervorgang", "Künstler wurde erfolgreich gespeichert");
         } catch (ConstraintViolationException c) {
             StringBuilder sb = new StringBuilder(
-                    "Die eingegebene Daten weisen folgende Fehler auf:\n");
+                    "Die eingegebenen Daten weisen folgende Fehler auf:\n");
             for (ConstraintViolation<?> cv : c.getConstraintViolations()) {
                 sb.append(cv.getPropertyPath().toString().toUpperCase())
                         .append(" ").append(cv.getMessage() + "\n");

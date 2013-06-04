@@ -293,11 +293,8 @@ public class TransaktionWizardSeiteDrei extends WizardPage {
 
             MessageDialog.openInformation(this.shell, "Speichervorgang", "Kunde wurde erfolgreich gespeichert");
         } catch (ConstraintViolationException c) {
-            StringBuilder sb = new StringBuilder("Die eingegebene Daten weisen folgende Fehler auf:\n");
-            for (ConstraintViolation<?> cv : c.getConstraintViolations()) {
-                sb.append(cv.getPropertyPath().toString().toUpperCase()).append(" ").append(cv.getMessage() + "\n");
-            }
-            MessageDialog.openError(this.shell, "Error", sb.toString());
+
+            MessageDialog.openError(this.shell, "Error", UIUtilities.getReadableConstraintViolations(c));
 
         } catch (DaoException e) {
             LOG.error(e.getMessage(), e);

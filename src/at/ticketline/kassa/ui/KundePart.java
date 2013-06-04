@@ -6,7 +6,6 @@ import java.util.GregorianCalendar;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import org.eclipse.core.commands.ParameterizedCommand;
@@ -20,12 +19,6 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.TableLayout;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
@@ -33,7 +26,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -42,7 +34,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
@@ -57,7 +48,6 @@ import org.slf4j.LoggerFactory;
 
 import at.ticketline.dao.DaoException;
 import at.ticketline.entity.Adresse;
-import at.ticketline.entity.Engagement;
 import at.ticketline.entity.Geschlecht;
 import at.ticketline.entity.Kunde;
 import at.ticketline.kassa.handlers.SavePartHandler;
@@ -98,7 +88,6 @@ public class KundePart {
     private Text txtAdresse;
     private Text txtOrt;
     private Text txtEmail;
-    private Text txtErmaessigung;
     private Combo cbGeschlecht;
 
     private Button btnSave;
@@ -326,11 +315,8 @@ public class KundePart {
 
             MessageDialog.openInformation(this.shell, "Speichervorgang", "Kunde wurde erfolgreich gespeichert");
         } catch (ConstraintViolationException c) {
-            StringBuilder sb = new StringBuilder("Die eingegebene Daten weisen folgende Fehler auf:\n");
-            for (ConstraintViolation<?> cv : c.getConstraintViolations()) {
-                sb.append(cv.getPropertyPath().toString().toUpperCase()).append(" ").append(cv.getMessage() + "\n");
-            }
-            MessageDialog.openError(this.shell, "Error", sb.toString());
+
+            MessageDialog.openError(this.shell, "Error", UIUtilities.getReadableConstraintViolations(c));
 
         } catch (DaoException e) {
             LOG.error(e.getMessage(), e);

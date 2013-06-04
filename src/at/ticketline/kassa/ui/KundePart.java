@@ -105,6 +105,7 @@ public class KundePart {
 
         if (kunde != null) {
             setInput();
+            //updateTitle();
         }
     }
 
@@ -113,6 +114,7 @@ public class KundePart {
 
         this.toolkit = new FormToolkit(parent.getDisplay());
         this.form = this.toolkit.createScrolledForm(parent);
+        form.setText("Neuer Kunde");
         this.form.setLayoutData(new GridData(GridData.FILL_BOTH));
         this.form.getBody().setLayout(new GridLayout(1, false));
 
@@ -252,7 +254,7 @@ public class KundePart {
 
     @Focus
     public void setFocus() {
-        // nothing to do
+        updateTitle();
     }
 
     @Persist
@@ -340,7 +342,7 @@ public class KundePart {
 
         @Override
         public void focusGained(FocusEvent e) {
-            // nothing to do
+            
         }
 
         @Override

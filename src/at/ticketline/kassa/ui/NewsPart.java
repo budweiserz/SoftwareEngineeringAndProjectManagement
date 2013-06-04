@@ -114,7 +114,7 @@ public class NewsPart {
         		window.setVisible(true);
         		((Shell)window.getWidget()).forceFocus();
         		
-        		//Hacky part to exit Application, when Clos-Button is pressed
+        		//Hacky part to exit Application, when Close-Button is pressed
         		IWindowCloseHandler handler = new IWindowCloseHandler() {
         		    @Override
         		    public boolean close(MWindow window) {

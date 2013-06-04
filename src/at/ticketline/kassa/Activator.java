@@ -14,6 +14,7 @@ import at.ticketline.dao.api.KundeDao;
 import at.ticketline.dao.api.MitarbeiterDao;
 import at.ticketline.dao.api.NewsDao;
 import at.ticketline.dao.api.OrtDao;
+import at.ticketline.dao.api.PraemieDao;
 import at.ticketline.dao.api.VeranstaltungDao;
 import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.Kategorie;
@@ -22,6 +23,7 @@ import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.News;
 import at.ticketline.entity.Ort;
+import at.ticketline.entity.Praemie;
 import at.ticketline.entity.Veranstaltung;
 import at.ticketline.service.api.AuffuehrungService;
 import at.ticketline.service.api.KategorieService;
@@ -30,6 +32,7 @@ import at.ticketline.service.api.KundeService;
 import at.ticketline.service.api.MitarbeiterService;
 import at.ticketline.service.api.NewsService;
 import at.ticketline.service.api.OrtService;
+import at.ticketline.service.api.PraemieService;
 import at.ticketline.service.api.VeranstaltungService;
 import at.ticketline.service.impl.AuffuehrungServiceImpl;
 import at.ticketline.service.impl.KategorieServiceImpl;
@@ -38,6 +41,7 @@ import at.ticketline.service.impl.KundeServiceImpl;
 import at.ticketline.service.impl.MitarbeiterServiceImpl;
 import at.ticketline.service.impl.NewsServiceImpl;
 import at.ticketline.service.impl.OrtServiceImpl;
+import at.ticketline.service.impl.PraemieServiceImpl;
 import at.ticketline.service.impl.VeranstaltungServiceImpl;
 
 
@@ -92,6 +96,9 @@ public class Activator implements BundleActivator {
 
         OrtDao veranstaltungsOrtDao = (OrtDao) DaoFactory.getByEntity(Ort.class);
         CONTEXT.registerService(OrtService.class.getName(), new OrtServiceImpl(veranstaltungsOrtDao), null);
+
+        PraemieDao praemieDao = (PraemieDao) DaoFactory.getByEntity(Praemie.class);
+        CONTEXT.registerService(PraemieService.class.getName(), new PraemieServiceImpl(praemieDao), null);
         
         VeranstaltungDao veranstaltungDao = (VeranstaltungDao) DaoFactory.getByEntity(Veranstaltung.class);
        	CONTEXT.registerService(VeranstaltungService.class.getName(), new VeranstaltungServiceImpl(veranstaltungDao), null);

@@ -21,6 +21,7 @@
 		<class>at.ticketline.entity.BaseEntity</class>
 		<class>at.ticketline.entity.Auffuehrung</class>
 		<class>at.ticketline.entity.Artikel</class>
+		<class>at.ticketline.entity.Praemie</class>
 		<class>at.ticketline.entity.Adresse</class>
 
 		<properties>

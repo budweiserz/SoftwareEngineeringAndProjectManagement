@@ -42,6 +42,10 @@ public class Kunde extends Person {
      */
     private boolean ermaechtigung = false;
 
+    @Min(value = 0)
+    @Digits(integer = 10, fraction = 0)
+    private BigDecimal punkte;
+    
     @Column(length = 16)
     @Pattern(regexp = "^[0-9]{12,16}$")
     private String kreditkartennr;
@@ -85,6 +89,13 @@ public class Kunde extends Person {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "kunde")
     private Set<Transaktion> ktransaktionen = new HashSet<Transaktion>();
 
+    public BigDecimal getPunkte() {
+        return this.punkte;
+    }
+    
+    public void setPunkte(BigDecimal punkte) {
+        this.punkte = punkte;
+    }
     public boolean isErmaechtigung() {
         return this.ermaechtigung;
     }

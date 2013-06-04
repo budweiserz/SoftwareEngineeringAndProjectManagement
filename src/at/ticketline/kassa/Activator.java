@@ -7,6 +7,7 @@ import org.osgi.framework.BundleContext;
 
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.EntityManagerUtil;
+import at.ticketline.dao.api.ArtikelDao;
 import at.ticketline.dao.api.AuffuehrungDao;
 import at.ticketline.dao.api.KategorieDao;
 import at.ticketline.dao.api.KuenstlerDao;
@@ -16,6 +17,7 @@ import at.ticketline.dao.api.NewsDao;
 import at.ticketline.dao.api.OrtDao;
 import at.ticketline.dao.api.PraemieDao;
 import at.ticketline.dao.api.VeranstaltungDao;
+import at.ticketline.entity.Artikel;
 import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.Kategorie;
 import at.ticketline.entity.Kuenstler;
@@ -25,6 +27,7 @@ import at.ticketline.entity.News;
 import at.ticketline.entity.Ort;
 import at.ticketline.entity.Praemie;
 import at.ticketline.entity.Veranstaltung;
+import at.ticketline.service.api.ArtikelService;
 import at.ticketline.service.api.AuffuehrungService;
 import at.ticketline.service.api.KategorieService;
 import at.ticketline.service.api.KuenstlerService;
@@ -34,6 +37,7 @@ import at.ticketline.service.api.NewsService;
 import at.ticketline.service.api.OrtService;
 import at.ticketline.service.api.PraemieService;
 import at.ticketline.service.api.VeranstaltungService;
+import at.ticketline.service.impl.ArtikelServiceImpl;
 import at.ticketline.service.impl.AuffuehrungServiceImpl;
 import at.ticketline.service.impl.KategorieServiceImpl;
 import at.ticketline.service.impl.KuenstlerServiceImpl;
@@ -76,6 +80,10 @@ public class Activator implements BundleActivator {
     }
 
     private void registerServices() {
+        
+        ArtikelDao artikelDao = (ArtikelDao) DaoFactory.getByEntity(Artikel.class);
+        CONTEXT.registerService(ArtikelService.class.getName(), new ArtikelServiceImpl(artikelDao), null);
+        
     	AuffuehrungDao auffuehrungDao = (AuffuehrungDao) DaoFactory.getByEntity(Auffuehrung.class);
        	CONTEXT.registerService(AuffuehrungService.class.getName(), new AuffuehrungServiceImpl(auffuehrungDao), null);
         

@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -25,12 +27,14 @@ import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableColorProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -52,13 +56,13 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import at.ticketline.entity.Geschlecht;
-import at.ticketline.entity.Kuenstler;
 import at.ticketline.entity.Veranstaltung;
-import at.ticketline.service.api.KuenstlerService;
 import at.ticketline.service.api.VeranstaltungService;
 
 import org.eclipse.swt.widgets.DateTime;
+
+
+import org.eclipse.swt.layout.FillLayout;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot3D;
@@ -66,9 +70,6 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.experimental.chart.swt.ChartComposite;
 import org.jfree.util.Rotation;
-
-import swing2swt.layout.BorderLayout;
-import org.eclipse.swt.layout.FillLayout;
 
 @SuppressWarnings("restriction")
 public class TopTenVeranstaltungenPart {
@@ -169,7 +170,7 @@ public class TopTenVeranstaltungenPart {
 		topTenVeranstaltungenComposite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		topTenVeranstaltungenComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
-		tableViewer = new TableViewer(topTenVeranstaltungenComposite, SWT.BORDER | SWT.FULL_SELECTION);
+		this.tableViewer = new TableViewer(topTenVeranstaltungenComposite, SWT.BORDER | SWT.FULL_SELECTION);
 		table_topTenVeranstaltungen = tableViewer.getTable();
 		table_topTenVeranstaltungen.setLinesVisible(true);
 		table_topTenVeranstaltungen.setHeaderVisible(true);
@@ -185,15 +186,46 @@ public class TopTenVeranstaltungenPart {
 		tblclmnVeranstaltung.setText("Veranstaltung");
 		
 		
-        tableViewer.setContentProvider(new ArrayContentProvider());
-        
+		
+		/**
+		 * This class provides the content for the table
+		 */
+
+		class TopTenVeranstaltungenContentProvider implements IStructuredContentProvider {
+
+		  /**
+		   * Gets the elements for the table
+		   * 
+		   * @param arg0
+		   *            the model
+		   * @return Object[]
+		   */
+		  public Object[] getElements(Object arg0) {
+		    // Returns all the players in the specified team
+		    return ((HashMap) arg0).entrySet().toArray();
+		  }
+
+		  /**
+		   * Disposes any resources
+		   */
+		  public void dispose() {
+		    // We don't create any resources, so we don't dispose any
+		  }
+
+		  @Override
+		  public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+			  // TODO Auto-generated method stub
+			
+		  }
+		}
+		
         class ColoredLabelProvider implements IBaseLabelProvider, ITableLabelProvider, ITableColorProvider {
         	@Override
             public Image getColumnImage(Object arg0, int arg1) {
                 return null;
             }
     
-            @Override
+			@Override
             public String getColumnText(Object element, int index) {
             	Map.Entry<Veranstaltung, Integer> v = (Map.Entry<Veranstaltung, Integer>) element;
                 switch (index) {
@@ -247,7 +279,8 @@ public class TopTenVeranstaltungenPart {
 			}
         }
         
-        tableViewer.setLabelProvider(new ColoredLabelProvider());
+        this.tableViewer.setContentProvider(new TopTenVeranstaltungenContentProvider());	
+        this.tableViewer.setLabelProvider(new ColoredLabelProvider());
         
         this.tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             @Override
@@ -271,22 +304,30 @@ public class TopTenVeranstaltungenPart {
         Calendar c = new GregorianCalendar();
 		c.set(2012, 6, 5);
 		Date start = c.getTime();
-		c.set(2013, 6, 5);
+		c.set(2014, 6, 5);
 		Date end = c.getTime();
+		LinkedHashMap<Veranstaltung, Integer> topTen = this.veranstaltungService.findTopTen(start, end, null);
 		
-		tableViewer.setInput(this.veranstaltungService.findTopTen(start, end, null));
+		this.tableViewer.setInput(topTen);
 		
-		PieDataset dataset = createDataset();  
-		JFreeChart chart = createChart(dataset, "Operating Systems");  
-		  
+		PieDataset dataset = createDataset(topTen);  
+		JFreeChart chart = createChart(dataset, "Übersicht über die 10 beliebtesten Veranstaltungen");  
+		
 		ChartComposite chartComposite = new ChartComposite(topTenVeranstaltungenComposite, SWT.NONE, chart, true);
 	}
 	
-	private PieDataset createDataset() {  
-		final DefaultPieDataset result = new DefaultPieDataset();  
-		result.setValue("Linux", 29);  
-		result.setValue("Mac", 20);  
-		result.setValue("Windows", 51);  
+	private PieDataset createDataset(LinkedHashMap<Veranstaltung, Integer> topTen) {  
+		final DefaultPieDataset result = new DefaultPieDataset();
+		Iterator<Map.Entry<Veranstaltung, Integer>> itTopTenVeranstaltung;
+		Map.Entry<Veranstaltung, Integer> currentTopTenVeranstaltung = null;
+		
+		itTopTenVeranstaltung = topTen.entrySet().iterator();
+		
+		while (itTopTenVeranstaltung.hasNext()) {
+			currentTopTenVeranstaltung = itTopTenVeranstaltung.next();
+			
+			result.setValue(currentTopTenVeranstaltung.getKey().getBezeichnung().substring(0, 5), 10);
+		} 
 		
 		return result;  
 	}  
@@ -297,7 +338,11 @@ public class TopTenVeranstaltungenPart {
 		plot.setStartAngle(290);  
 		plot.setDirection(Rotation.CLOCKWISE);  
 		plot.setForegroundAlpha(0.5f);  
-		
+		plot.setSectionOutlinesVisible(false);
+        plot.setNoDataMessage("Keine Daten verfügbar");
+        plot.setCircular(false);
+        plot.setLabelGap(0.02);
+        
 		return chart;  
 	}  
 

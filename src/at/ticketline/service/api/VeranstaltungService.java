@@ -2,6 +2,7 @@ package at.ticketline.service.api;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import at.ticketline.entity.Veranstaltung;
@@ -33,5 +34,5 @@ public interface VeranstaltungService {
 	 * @param kategorie Die Kategorie der Veranstaltung
 	 * @return Eine Liste der Top 10 Veranstaltungen und deren Anzahl an verkauften Tickets
 	 */
-	public HashMap<Veranstaltung, Integer> findTopTen(Date start, Date end, String kategorie);
+	public LinkedHashMap<Veranstaltung, Integer> findTopTen(Date start, Date end, String kategorie);
 }

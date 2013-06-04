@@ -75,9 +75,10 @@ public class VeranstaltungServiceImpl implements VeranstaltungService {
 	 * @return Eine Liste der Top 10 Veranstaltungen und deren Anzahl an verkauften Tickets
 	 */
 	@Override
-	public HashMap<Veranstaltung, Integer> findTopTen(Date start, Date end, String kategorie) {
+	public LinkedHashMap<Veranstaltung, Integer> findTopTen(Date start, Date end, String kategorie) {
 		HashMap<Veranstaltung, Integer> topTenList = new HashMap<Veranstaltung, Integer>();
-		HashMap<Veranstaltung, Integer> finalTopTenList = new HashMap<Veranstaltung, Integer>();
+		LinkedHashMap<Veranstaltung, Integer> sortedTopTenList = new LinkedHashMap<Veranstaltung, Integer>();
+		LinkedHashMap<Veranstaltung, Integer> finalTopTenList = new LinkedHashMap<Veranstaltung, Integer>();
 		
 		// Veranstaltungsobjekt mit der gesuchten Kategorie
 		Veranstaltung queryVeranstaltung = new Veranstaltung();
@@ -124,11 +125,11 @@ public class VeranstaltungServiceImpl implements VeranstaltungService {
 		}
 		
 		// liste der Veranstaltungen und deren Anzahl an verkauften Tickets 
-		topTenList = this.sortByValues(topTenList);
+		sortedTopTenList = this.sortByValues(topTenList);
 		
 		// finale Top Ten Liste erstellen mit den beliebtesten 10 Veranstaltungen
 		int i = 0;
-		itTopTenVeranstaltung = topTenList.entrySet().iterator();
+		itTopTenVeranstaltung = sortedTopTenList.entrySet().iterator();
 		while (itTopTenVeranstaltung.hasNext() && i < 10) {
 			currentTopTenVeranstaltung = itTopTenVeranstaltung.next();
 			
@@ -138,7 +139,7 @@ public class VeranstaltungServiceImpl implements VeranstaltungService {
 			i++;
 		}
 		
-		return this.sortByValues(finalTopTenList);
+		return finalTopTenList;
 	}
 	
 	/**
@@ -168,7 +169,7 @@ public class VeranstaltungServiceImpl implements VeranstaltungService {
      * 
      * Copyright: http://javarevisited.blogspot.com/2012/12/how-to-sort-hashmap-java-by-key-and-value.html#ixzz2TrKSGeJV
      */
-    private HashMap<Veranstaltung, Integer> sortByValues(Map<Veranstaltung, Integer> map){
+    private LinkedHashMap<Veranstaltung, Integer> sortByValues(Map<Veranstaltung, Integer> map){
         List<Map.Entry<Veranstaltung, Integer>> entries = new LinkedList<Map.Entry<Veranstaltung, Integer>>(map.entrySet());
       
         Collections.sort(entries, new Comparator<Map.Entry<Veranstaltung, Integer>>() {
@@ -180,7 +181,7 @@ public class VeranstaltungServiceImpl implements VeranstaltungService {
       
         //LinkedHashMap will keep the keys in the order they are inserted
         //which is currently sorted on natural ordering
-        HashMap<Veranstaltung, Integer> sortedMap = new LinkedHashMap<Veranstaltung, Integer>();
+        LinkedHashMap<Veranstaltung, Integer> sortedMap = new LinkedHashMap<Veranstaltung, Integer>();
       
         for(Map.Entry<Veranstaltung, Integer> entry: entries){
             sortedMap.put(entry.getKey(), entry.getValue());

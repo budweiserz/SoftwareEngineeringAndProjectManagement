@@ -23,6 +23,7 @@ import at.ticketline.dao.api.KundeDao;
 import at.ticketline.dao.api.MitarbeiterDao;
 import at.ticketline.dao.api.NewsDao;
 import at.ticketline.dao.api.OrtDao;
+import at.ticketline.dao.api.PraemieDao;
 import at.ticketline.dao.api.SaalDao;
 import at.ticketline.dao.api.VeranstaltungDao;
 import at.ticketline.entity.Adresse;
@@ -38,6 +39,7 @@ import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.News;
 import at.ticketline.entity.Ort;
 import at.ticketline.entity.Ortstyp;
+import at.ticketline.entity.Praemie;
 import at.ticketline.entity.Saal;
 import at.ticketline.entity.Veranstaltung;
 
@@ -81,6 +83,7 @@ public class DataGenerator {
 
         Adresse adresse;
         Artikel artikel;
+        Praemie praemie;
         Auffuehrung auffuehrung;
         Engagement engagement;
         Kategorie kategorie;
@@ -94,6 +97,7 @@ public class DataGenerator {
 
         ArrayList<Adresse> adressen = new ArrayList<Adresse>();
         ArrayList<Artikel> artikelList = new ArrayList<Artikel>();
+        ArrayList<Praemie> praemieList = new ArrayList<Praemie>();
         ArrayList<Auffuehrung> auffuehrungList = new ArrayList<Auffuehrung>();
         ArrayList<Kategorie> kategorieList = new ArrayList<Kategorie>();
         ArrayList<Kunde> kunden = new ArrayList<Kunde>();
@@ -113,6 +117,7 @@ public class DataGenerator {
 
         AuffuehrungDao auffuehrungDao = (AuffuehrungDao) DaoFactory.getByEntity(Auffuehrung.class);
         ArtikelDao artikelDao = (ArtikelDao) DaoFactory.getByEntity(Artikel.class);
+        PraemieDao praemieDao = (PraemieDao) DaoFactory.getByEntity(Praemie.class);
         KategorieDao kategorieDao = (KategorieDao) DaoFactory.getByEntity(Kategorie.class);
         KuenstlerDao kuenstlerDao = (KuenstlerDao) DaoFactory.getByEntity(Kuenstler.class);
         KundeDao kundedao = (KundeDao) DaoFactory.getByEntity(Kunde.class);
@@ -197,7 +202,7 @@ public class DataGenerator {
             current = parser.getLine();
         }
         parser.close();
-
+        
         // Artikel
         parser = new LabeledCSVParser(new CSVParser(new FileInputStream("csv/artikel.csv")));
         current = parser.getLine();
@@ -221,13 +226,48 @@ public class DataGenerator {
 
                 artikel.setKategorie(ArtikelKategorie.DVD);
 
-            } else { // (current[3].equals("Sonstiges"))
+            } else { // (current[4].equals("Sonstiges"))
 
                 artikel.setKategorie(ArtikelKategorie.Sonstiges);
             }
 
             artikelList.add(artikel);
             artikelDao.persist(artikel);
+            current = parser.getLine();
+        }
+        parser.close();
+        
+        // Praemie
+        parser = new LabeledCSVParser(new CSVParser(new FileInputStream("csv/praemien.csv")));
+        current = parser.getLine();
+        i = 0;
+        while (current != null) {
+
+            praemie = EntityGenerator.getValidPraemie(i++);
+            praemie.setKurzbezeichnung(current[0]);
+            praemie.setBeschreibung(current[1]);
+            praemie.setPreis(new BigDecimal(current[2]));
+            praemie.setPunkte(new BigDecimal(current[3]));
+
+            if (current[4].equals("T-Shirt")) {
+
+                praemie.setKategorie(ArtikelKategorie.TShirt);
+
+            } else if (current[4].equals("CD")) {
+
+                praemie.setKategorie(ArtikelKategorie.CD);
+
+            } else if (current[4].equals("DVD")) {
+
+                praemie.setKategorie(ArtikelKategorie.DVD);
+
+            } else { // (current[4].equals("Sonstiges"))
+
+                praemie.setKategorie(ArtikelKategorie.Sonstiges);
+            }
+
+            praemieList.add(praemie);
+            praemieDao.persist(praemie);
             current = parser.getLine();
         }
         parser.close();

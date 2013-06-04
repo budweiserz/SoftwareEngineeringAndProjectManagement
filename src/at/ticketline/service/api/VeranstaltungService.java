@@ -1,5 +1,7 @@
 package at.ticketline.service.api;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import at.ticketline.entity.Veranstaltung;
@@ -22,4 +24,14 @@ public interface VeranstaltungService {
 	 * @param veranstaltung Die Veranstaltung, die gespeichert werden soll
 	 */
 	public void save(Veranstaltung veranstaltung);
+	
+	/**
+	 * Liefert die 10 Veranstaltungen mit den meisten verkauften Tickets.
+	 * 
+	 * @param start Startdatum, von dem Angefangen werden soll zu suchen
+	 * @param end Enddatum, bis dahin wird nach den Top 10 Veranstaltungen gesucht
+	 * @param kategorie Die Kategorie der Veranstaltung
+	 * @return Eine Liste der Top 10 Veranstaltungen und deren Anzahl an verkauften Tickets
+	 */
+	public HashMap<Veranstaltung, Integer> findTopTen(Date start, Date end, String kategorie);
 }

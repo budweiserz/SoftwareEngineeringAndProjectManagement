@@ -19,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ticketline.entity.Auffuehrung;
-import at.ticketline.entity.Kunde;
 import at.ticketline.service.api.KundeService;
 
 @SuppressWarnings("restriction")

@@ -4,7 +4,30 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
-import at.ticketline.entity.*;
+
+import at.ticketline.entity.Adresse;
+import at.ticketline.entity.Artikel;
+import at.ticketline.entity.ArtikelKategorie;
+import at.ticketline.entity.Auffuehrung;
+import at.ticketline.entity.Berechtigung;
+import at.ticketline.entity.Bestellung;
+import at.ticketline.entity.Engagement;
+import at.ticketline.entity.Geschlecht;
+import at.ticketline.entity.Kategorie;
+import at.ticketline.entity.Kuenstler;
+import at.ticketline.entity.Kunde;
+import at.ticketline.entity.Mitarbeiter;
+import at.ticketline.entity.News;
+import at.ticketline.entity.Ort;
+import at.ticketline.entity.Ortstyp;
+import at.ticketline.entity.Platz;
+import at.ticketline.entity.PreisKategorie;
+import at.ticketline.entity.Reihe;
+import at.ticketline.entity.Saal;
+import at.ticketline.entity.Transaktion;
+import at.ticketline.entity.Transaktionsstatus;
+import at.ticketline.entity.Veranstaltung;
+import at.ticketline.entity.Zahlungsart;
 
 /**
  * Erleichtertes Testen mit dem EntityGenerator:

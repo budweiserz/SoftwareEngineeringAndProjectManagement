@@ -1,7 +1,6 @@
 package at.ticketline.kassa.ui;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -20,6 +19,7 @@ import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -27,7 +27,6 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
@@ -45,18 +44,9 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import at.ticketline.dao.DaoFactory;
 import at.ticketline.entity.Auffuehrung;
-import at.ticketline.entity.Kuenstler;
 import at.ticketline.entity.Ort;
 import at.ticketline.entity.Saal;
-import at.ticketline.entity.Veranstaltung;
-import at.ticketline.service.api.AuffuehrungService;
-import at.ticketline.test.EntityGenerator;
-
-import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.IDoubleClickListener; 
-import org.eclipse.jface.wizard.WizardDialog;
 
 @SuppressWarnings("restriction")
 public class VeranstaltungsortPart {

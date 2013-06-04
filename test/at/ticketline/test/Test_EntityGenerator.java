@@ -10,7 +10,22 @@ import javax.validation.Validator;
 import org.junit.Test;
 
 import at.ticketline.dao.DaoFactory;
-import at.ticketline.entity.*;
+import at.ticketline.entity.Adresse;
+import at.ticketline.entity.Artikel;
+import at.ticketline.entity.Auffuehrung;
+import at.ticketline.entity.Bestellung;
+import at.ticketline.entity.Engagement;
+import at.ticketline.entity.Kategorie;
+import at.ticketline.entity.Kuenstler;
+import at.ticketline.entity.Kunde;
+import at.ticketline.entity.Mitarbeiter;
+import at.ticketline.entity.News;
+import at.ticketline.entity.Ort;
+import at.ticketline.entity.Platz;
+import at.ticketline.entity.Reihe;
+import at.ticketline.entity.Saal;
+import at.ticketline.entity.Transaktion;
+import at.ticketline.entity.Veranstaltung;
 
 /**
  * Test stellt die korrekte Funktionalitaet von EntityGenerator sicher

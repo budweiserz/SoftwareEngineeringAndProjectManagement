@@ -1,6 +1,6 @@
 package at.ticketline.dao;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -66,7 +66,6 @@ public class AuffuehrungTest extends AbstractDaoTest {
         plaetze.add(EntityGenerator.getValidPlatz(12));
         plaetze.add(EntityGenerator.getValidPlatz(14));
         plaetze.add(EntityGenerator.getValidPlatz(15));
-        Date date = new Date();
         Saal saal = EntityGenerator.getValidSaal(5);
         Veranstaltung veranstaltung = EntityGenerator.getValidVeranstaltung(3);
 

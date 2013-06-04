@@ -6,8 +6,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import at.ticketline.service.KundeTest;
-
 /**
  * Testsuite fuer Service-Layer
  * 

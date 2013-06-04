@@ -40,6 +40,7 @@ import at.ticketline.entity.Reihe;
 import at.ticketline.entity.Saal;
 
 
+@SuppressWarnings("restriction")
 public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
 
     private Composite container;

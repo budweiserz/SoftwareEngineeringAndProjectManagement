@@ -11,7 +11,6 @@ import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-
 import at.ticketline.dao.GenericDaoJpa;
 import at.ticketline.dao.api.AuffuehrungDao;
 import at.ticketline.entity.Auffuehrung;

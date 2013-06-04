@@ -38,6 +38,7 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DateTime;
@@ -54,7 +55,6 @@ import at.ticketline.entity.PreisKategorie;
 import at.ticketline.entity.Saal;
 import at.ticketline.entity.Veranstaltung;
 import at.ticketline.service.api.AuffuehrungService;
-import org.eclipse.swt.widgets.Combo;
 
 @SuppressWarnings("restriction")
 public class AuffuehrungSearchPart {
@@ -221,7 +221,7 @@ public class AuffuehrungSearchPart {
             public Object[] getElements(Object inputElement) {
                 // The inputElement comes from view.setInput()
                 if (inputElement instanceof List) {
-                    List models = (List)inputElement;
+                    List<?> models = (List<?>)inputElement;
                     return models.toArray();
                 }
                 return new Object[0];

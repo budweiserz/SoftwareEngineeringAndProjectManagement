@@ -1,6 +1,5 @@
 package at.ticketline.service.api;
 
-import java.util.Date;
 import java.util.List;
 
 import at.ticketline.entity.Auffuehrung;

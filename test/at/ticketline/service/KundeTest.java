@@ -3,6 +3,7 @@ package at.ticketline.service;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
@@ -13,7 +14,6 @@ import org.junit.Test;
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.api.KundeDao;
 import at.ticketline.entity.Kunde;
-import at.ticketline.service.ServiceException;
 import at.ticketline.service.api.KundeService;
 import at.ticketline.service.impl.KundeServiceImpl;
 import at.ticketline.test.AbstractDaoTest;

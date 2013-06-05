@@ -103,7 +103,7 @@
   <commands xmi:id="_RSuQYL1cEeKCAfdsrtuMiA" elementId="at.ticketline.command.searchAuffuehrung" commandName="Aufführung suchen"/>
   <commands xmi:id="_6VAYUMO6EeK8Ar2JK_joaQ" elementId="at.ticketline.command.openWizard" commandName="TransaktionsWizard öffnen"/>
   <commands xmi:id="_C3ofEMaMEeKmAb5Pic8Neg" elementId="at.ticketline.command.openMerchandise" commandName="Merchandiseartikel öffnen"/>
-  <commands xmi:id="_9TpjoMY_EeKm0-spYgSM4g" elementId="at.ticketline.command.searchAuffuehrung" commandName="Top 10 Veranstaltungen ansehen"/>
+  <commands xmi:id="_9TpjoMY_EeKm0-spYgSM4g" elementId="at.ticketline.command.topTenVeranstaltungen" commandName="Top 10 Veranstaltungen ansehen"/>
   <addons xmi:id="_J1qjFJ7KEeKyV7_6Xf9MMA" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_J1qjFZ7KEeKyV7_6Xf9MMA" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_J1qjFp7KEeKyV7_6Xf9MMA" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>

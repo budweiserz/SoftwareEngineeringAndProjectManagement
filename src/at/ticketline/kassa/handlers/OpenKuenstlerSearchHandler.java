@@ -4,4 +4,9 @@ public class OpenKuenstlerSearchHandler extends NewTabHandler {
     public OpenKuenstlerSearchHandler() {
         super("at.ticketline.partdescriptor.searchKuenstler", "Suche Künstler", "Eine Suche für einen Künstler starten");
     }
+    
+    @Override
+    protected boolean canOpenMultiple() {
+        return false;
+    }
 }

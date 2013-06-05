@@ -6,6 +6,7 @@ import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MPartStack;
+import org.eclipse.e4.ui.model.application.ui.basic.MStackElement;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
@@ -79,6 +80,14 @@ public abstract class NewTabHandler {
         part.setTooltip(tooltip);
         part.setCloseable(true);
         
+        for(MStackElement mse : stack.getChildren()) {
+            LOG.debug(mse.toString());
+            if (!this.canOpenMultiple() && mse.getElementId().equals(part.getElementId())) {
+                partService.showPart((MPart)mse, PartState.ACTIVATE);
+                return;
+            }
+        }
+        
         stack.getChildren().add(part);
 
         // Part anzeigen
@@ -87,5 +96,9 @@ public abstract class NewTabHandler {
         } catch (Exception e) {
             LOG.error("Part {} konnte nicht geoeffnet werden: {}", partName, e.getMessage());
         }
+    }
+    
+    protected boolean canOpenMultiple() {
+        return true;
     }
 }

@@ -48,6 +48,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -66,12 +67,16 @@ import org.eclipse.swt.widgets.DateTime;
 
 import org.eclipse.swt.layout.FillLayout;
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartMouseEvent;
+import org.jfree.chart.ChartMouseListener;
+import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.experimental.chart.swt.ChartComposite;
 import org.jfree.util.Rotation;
+import org.eclipse.swt.layout.RowLayout;
 
 @SuppressWarnings("restriction")
 public class TopTenVeranstaltungenPart {
@@ -93,11 +98,15 @@ public class TopTenVeranstaltungenPart {
 	private Table table;
 	private DateTime dateTimeVon;
 	private DateTime dateTimeBis;
-	private Combo combo;
+	private Combo combo_1;
 	private Table table_topTenVeranstaltungen;
 	private Composite topTenVeranstaltungenComposite;
+	private ChartComposite chartC;
+	
+	private int veranstaltungenTablePositionIndex;
 	
 	public TopTenVeranstaltungenPart() {
+		this.veranstaltungenTablePositionIndex = 0;
 	}
 
 	/**
@@ -152,7 +161,7 @@ public class TopTenVeranstaltungenPart {
 		fd_lblKategorie.left = new FormAttachment(dateTimeBis, 32);
 		lblKategorie.setLayoutData(fd_lblKategorie);
 		
-		Combo combo_1 = new Combo(SearchComposite, SWT.NONE);
+		combo_1 = new Combo(SearchComposite, SWT.NONE);
 		combo_1.setItems(new String[] {"Kino", "Open Air", "Theater", "Oper"});
 		FormData fd_combo_1 = new FormData();
 		fd_combo_1.top = new FormAttachment(lblVon, -4, SWT.TOP);
@@ -170,24 +179,35 @@ public class TopTenVeranstaltungenPart {
 		
 		topTenVeranstaltungenComposite = new Composite(parent, SWT.BORDER | SWT.NO_BACKGROUND);
 		topTenVeranstaltungenComposite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		topTenVeranstaltungenComposite.setLayout(new FillLayout(SWT.HORIZONTAL));
+		topTenVeranstaltungenComposite.setLayout(new GridLayout(2, false));
 		topTenVeranstaltungenComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
 		this.tableViewer = new TableViewer(topTenVeranstaltungenComposite, SWT.BORDER | SWT.FULL_SELECTION);
 		table_topTenVeranstaltungen = tableViewer.getTable();
 		table_topTenVeranstaltungen.setLinesVisible(true);
 		table_topTenVeranstaltungen.setHeaderVisible(true);
+		GridData gridData_tableViewer = new GridData();
+		gridData_tableViewer.horizontalAlignment = SWT.FILL;
+		gridData_tableViewer.verticalAlignment = SWT.FILL;
+		gridData_tableViewer.grabExcessVerticalSpace = true;
+		gridData_tableViewer.widthHint = 420;
+		table_topTenVeranstaltungen.setLayoutData(gridData_tableViewer);
+		
 		
 		TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.LEFT);
 		TableColumn tblclmnPlatz = tableViewerColumn.getColumn();
-		tblclmnPlatz.setWidth(110);
+		tblclmnPlatz.setWidth(60);
 		tblclmnPlatz.setText("Platz");
 		
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.LEFT);
 		TableColumn tblclmnVeranstaltung = tableViewerColumn_1.getColumn();
-		tblclmnVeranstaltung.setWidth(150);
+		tblclmnVeranstaltung.setWidth(250);
 		tblclmnVeranstaltung.setText("Veranstaltung");
 		
+		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(tableViewer, SWT.LEFT);
+		TableColumn tblclmnAnzahl = tableViewerColumn_2.getColumn();
+		tblclmnAnzahl.setWidth(140);
+		tblclmnAnzahl.setText("Verkaufte Tickets");
 		
 		
 		/**
@@ -222,7 +242,7 @@ public class TopTenVeranstaltungenPart {
 		  }
 		}
 		
-        class ColoredLabelProvider implements IBaseLabelProvider, ITableLabelProvider, ITableColorProvider {
+        class ColoredLabelProvider implements IBaseLabelProvider, ITableLabelProvider {
         	@Override
             public Image getColumnImage(Object arg0, int arg1) {
                 return null;
@@ -233,14 +253,22 @@ public class TopTenVeranstaltungenPart {
             	Map.Entry<Veranstaltung, Integer> v = (Map.Entry<Veranstaltung, Integer>) element;
                 switch (index) {
                 case 0:
-                    if (v.getValue() != null) {
-                        return v.getValue().toString();
+                		veranstaltungenTablePositionIndex++;
+                		
+                		if (veranstaltungenTablePositionIndex > 10) {
+                			veranstaltungenTablePositionIndex = 1;
+                		}
+                		
+                    	return veranstaltungenTablePositionIndex + "";
+                case 1:
+                	if (v.getKey().getBezeichnung() != null) {
+                        return v.getKey().getBezeichnung();
                     } else {
                         return "";
                     }
-                case 1:
-                    if (v.getKey().getBezeichnung() != null) {
-                        return v.getKey().getBezeichnung();
+                case 2:
+                	if (v.getValue() != null) {
+                        return v.getValue().toString();
                     } else {
                         return "";
                     }
@@ -268,18 +296,6 @@ public class TopTenVeranstaltungenPart {
             public void removeListener(ILabelProviderListener arg0) {
                 // nothing to do
             }
-
-			@Override
-			public Color getForeground(Object element, int columnIndex) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public Color getBackground(Object element, int columnIndex) {
-				// TODO Auto-generated method stub
-				return null;
-			}
         }
         
         this.tableViewer.setContentProvider(new TopTenVeranstaltungenContentProvider());	
@@ -288,9 +304,26 @@ public class TopTenVeranstaltungenPart {
         this.tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
-                IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection(); 
-                selectionService.setSelection(selection.getFirstElement());
-                LOG.info("Selection changed: {}", selection.getFirstElement().toString());
+            	IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection(); 
+				Object selectedObj = selection.getFirstElement();
+				Veranstaltung v = null;
+				
+				if (selectedObj != null && selectedObj instanceof Map.Entry<?, ?> ) {
+					v = ((Map.Entry<Veranstaltung, Integer>)selectedObj).getKey();
+				}
+				
+				if ( v != null ) {
+					selectionService.setSelection(v);
+					LOG.info("Selection changed: {}", selection.getFirstElement().toString());
+				}
+            }
+        });
+        
+        this.tableViewer.addDoubleClickListener(new IDoubleClickListener() {
+            @Override
+            public void doubleClick(DoubleClickEvent event) {
+                ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openVeranstaltung", null);
+                handlerService.executeHandler(c);
             }
         });
         
@@ -306,27 +339,23 @@ public class TopTenVeranstaltungenPart {
         		Date start = c.getTime();
         		c.set(dateTimeBis.getYear(), dateTimeBis.getMonth(), dateTimeBis.getDay());
         		Date end = c.getTime();
-        		LinkedHashMap<Veranstaltung, Integer> topTen = veranstaltungService.findTopTen(start, end, null);
+        		LinkedHashMap<Veranstaltung, Integer> topTen = veranstaltungService.findTopTen(start, end, combo_1.getText());
         		
         		tableViewer.setInput(topTen);
         		
         		PieDataset dataset = createDataset(topTen);  
         		JFreeChart chart = createChart(dataset, "Übersicht über die 10 beliebtesten Veranstaltungen");  
         		
-        		new ChartComposite(topTenVeranstaltungenComposite, SWT.NONE, chart, true);
+        		// redraw chart with new data
+              	chartC.setChart(chart);
+              	chartC.redraw();
               	
                 tableViewer.refresh();
+                
+                LOG.info("Refresh Top 10 List: Start {}, End {}, Category: {}", start, end, combo_1.getText());
             }
         });
-        
-        /*this.tableViewer.addDoubleClickListener(new IDoubleClickListener() {
-            @Override
-            public void doubleClick(DoubleClickEvent event) {
-                ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openKuenstler", null);
-                handlerService.executeHandler(c);
-            }
-        });
-        */
+
         Calendar c = new GregorianCalendar();
 		c.set(2012, 6, 5);
 		Date start = c.getTime();
@@ -339,7 +368,15 @@ public class TopTenVeranstaltungenPart {
 		PieDataset dataset = createDataset(topTen);  
 		JFreeChart chart = createChart(dataset, "Übersicht über die 10 beliebtesten Veranstaltungen");  
 		
-		new ChartComposite(topTenVeranstaltungenComposite, SWT.NONE, chart, true);
+		chartC = new ChartComposite(topTenVeranstaltungenComposite, SWT.NONE, chart, true);
+		
+		
+		GridData gridData_chartC = new GridData();
+		gridData_chartC.horizontalAlignment = SWT.FILL;
+		gridData_chartC.verticalAlignment = SWT.FILL;
+		gridData_chartC.grabExcessVerticalSpace = true;
+		gridData_chartC.grabExcessHorizontalSpace = true;
+		chartC.setLayoutData(gridData_chartC); 
 	}
 	
 	private PieDataset createDataset(LinkedHashMap<Veranstaltung, Integer> topTen) {  

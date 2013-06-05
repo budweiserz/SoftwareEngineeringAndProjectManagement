@@ -134,6 +134,7 @@ public class TopTenVeranstaltungenPart {
 		lblVon.setText("Von");
 		
 		dateTimeVon = new DateTime(SearchComposite, SWT.BORDER);
+		dateTimeVon.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		FormData fd_dateTimeVon = new FormData();
 		fd_dateTimeVon.top = new FormAttachment(lblVon, -5, SWT.TOP);
 		fd_dateTimeVon.right = new FormAttachment(lblVon, 135, SWT.RIGHT);
@@ -148,6 +149,7 @@ public class TopTenVeranstaltungenPart {
 		lblBis.setText("Bis");
 		
 		dateTimeBis = new DateTime(SearchComposite, SWT.BORDER);
+		dateTimeBis.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		FormData fd_dateTimeBis = new FormData();
 		fd_dateTimeBis.top = new FormAttachment(lblBis, -5, SWT.TOP);
 		fd_dateTimeBis.right = new FormAttachment(lblBis, 135, SWT.RIGHT);

@@ -111,6 +111,7 @@ public class AuffuehrungSearchPart {
 		lblDatum.setText("Datum");
 		
 		dateTimeFrom = new DateTime(SearchComposite, SWT.BORDER);
+		dateTimeFrom.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 	      
         Calendar calendar = Calendar.getInstance();
@@ -141,6 +142,7 @@ public class AuffuehrungSearchPart {
 		dateTimeTo = new DateTime(SearchComposite, SWT.BORDER);
 		dateTimeTo.setDate(year, month, day);
 		dateTimeTo.setToolTipText("Bis");
+		dateTimeTo.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		FormData fd_dateTimeTo = new FormData();
 		fd_dateTimeTo.top = new FormAttachment(label, -5, SWT.TOP);
 		fd_dateTimeTo.left = new FormAttachment(label, 26);

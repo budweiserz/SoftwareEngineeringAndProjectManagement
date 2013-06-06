@@ -90,7 +90,7 @@ public class TransaktionServiceImpl implements TransaktionService {
 			p.setTransaktion(t);
 		}
 
-		//EntityManagerUtil.beginTransaction();
+		EntityManagerUtil.beginTransaction();
 
 		transaktionDao.persist(t);
 
@@ -108,7 +108,7 @@ public class TransaktionServiceImpl implements TransaktionService {
 		a.getPlaetze().addAll(ps);
 		auffuehrungDao.merge(a);
 
-		//EntityManagerUtil.commitTransaction();
+		EntityManagerUtil.commitTransaction();
 
 		return t;
 	}

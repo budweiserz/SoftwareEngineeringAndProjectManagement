@@ -1,7 +1,11 @@
 package at.ticketline.kassa.ui;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.Kunde;
+import at.ticketline.entity.Platz;
 
 public class TransaktionWizardValues {
     private boolean isReservierung;
@@ -25,5 +29,8 @@ public class TransaktionWizardValues {
     }
     public void setAuffuehrung(Auffuehrung auffuehrung) {
         this.auffuehrung = auffuehrung;
+    }
+    public Set<Platz> getPlaetze() {
+        return new HashSet<Platz>();
     }
 }

@@ -1,11 +1,22 @@
 package at.ticketline.kassa.ui;
 
+import java.util.Set;
+
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import at.ticketline.dao.DaoFactory;
+import at.ticketline.dao.api.MitarbeiterDao;
+import at.ticketline.entity.Auffuehrung;
+import at.ticketline.entity.Kunde;
+import at.ticketline.entity.Mitarbeiter;
+import at.ticketline.entity.Platz;
+import at.ticketline.service.api.TransaktionService;
+import at.ticketline.service.impl.TransaktionServiceImpl;
 
 public class TransaktionWizardSeiteFuenf extends WizardPage {
 
@@ -75,7 +86,19 @@ public class TransaktionWizardSeiteFuenf extends WizardPage {
     
     //TODO gets called when wizard is complete
     public void doTransaction() {
+        TransaktionService service = new TransaktionServiceImpl();
         
+		Mitarbeiter mitarbeiter = ((MitarbeiterDao)DaoFactory.getByEntity(Mitarbeiter.class)).findAll().get(0);
+        Kunde kunde = values.getKunde();
+        Auffuehrung auffuehrung = values.getAuffuehrung();
+        Set<Platz> plaetze = values.getPlaetze();
+            
+        if (values.isReservierung()) {
+            service.reserve(mitarbeiter, kunde, auffuehrung, plaetze);
+        } else {
+            //Zahlungsart z = values.getZahlungsart();
+            service.sell(mitarbeiter, kunde, auffuehrung, plaetze, null);
+        }
     }
     
     public void updateContent() {

@@ -84,7 +84,7 @@ public class TransaktionWizardSeiteFuenf extends WizardPage {
         return null;
     }
     
-    //TODO gets called when wizard is complete
+    // gets called when wizard is complete
     public void doTransaction() {
         TransaktionService service = new TransaktionServiceImpl();
         
@@ -96,8 +96,7 @@ public class TransaktionWizardSeiteFuenf extends WizardPage {
         if (values.isReservierung()) {
             service.reserve(mitarbeiter, kunde, auffuehrung, plaetze);
         } else {
-            //Zahlungsart z = values.getZahlungsart();
-            service.sell(mitarbeiter, kunde, auffuehrung, plaetze, null);
+            service.sell(mitarbeiter, kunde, auffuehrung, plaetze);
         }
     }
     

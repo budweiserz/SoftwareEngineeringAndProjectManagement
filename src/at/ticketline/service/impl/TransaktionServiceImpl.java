@@ -55,7 +55,7 @@ public class TransaktionServiceImpl implements TransaktionService {
 	 */
 	@Override
 	public Transaktion reserve(Mitarbeiter m, Kunde k, Auffuehrung a, Set<Platz> ps) {
-		return execute(m, k, a, ps, null, Transaktionsstatus.RESERVIERUNG, PlatzStatus.RESERVIERT);
+		return execute(m, k, a, ps, Transaktionsstatus.RESERVIERUNG, PlatzStatus.RESERVIERT);
 	}
 
 	/**
@@ -68,11 +68,11 @@ public class TransaktionServiceImpl implements TransaktionService {
 	 * @return Eine Transaktion welche die Zahlungsinformation beinhaltet
 	 */
 	@Override
-	public Transaktion sell(Mitarbeiter m, Kunde k, Auffuehrung a, Set<Platz> ps, Zahlungsart z) {
-		return execute(m, k, a, ps, z, Transaktionsstatus.BUCHUNG, PlatzStatus.GEBUCHT);
+	public Transaktion sell(Mitarbeiter m, Kunde k, Auffuehrung a, Set<Platz> ps) {
+		return execute(m, k, a, ps, Transaktionsstatus.BUCHUNG, PlatzStatus.GEBUCHT);
 	}
 
-	private Transaktion execute(Mitarbeiter m, Kunde k, Auffuehrung a, Set<Platz> ps, Zahlungsart z, Transaktionsstatus tstat, PlatzStatus pstat) {
+	private Transaktion execute(Mitarbeiter m, Kunde k, Auffuehrung a, Set<Platz> ps, Transaktionsstatus tstat, PlatzStatus pstat) {
 		Transaktion t = new Transaktion();
 		t.setDatumuhrzeit(new Date());
 		t.setStatus(tstat);
@@ -88,10 +88,6 @@ public class TransaktionServiceImpl implements TransaktionService {
 			p.setStatus(pstat);
 			p.setAuffuehrung(a);
 			p.setTransaktion(t);
-		}
-
-		if (z != null) {
-			t.setZahlungsart(z);
 		}
 
 		//EntityManagerUtil.beginTransaction();

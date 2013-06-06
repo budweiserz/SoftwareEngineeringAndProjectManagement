@@ -37,7 +37,7 @@ public interface TransaktionService {
      *        Die Plätze dürfen noch nicht verkauft oder reserviert sein
      * @return Eine Transaktion welche die Zahlungsinformation beinhaltet
      */
-    public Transaktion sell(Mitarbeiter mitarbeiter, Kunde kunde, Auffuehrung auffuehrung, Set<Platz> plaetze, Zahlungsart z);
+    public Transaktion sell(Mitarbeiter mitarbeiter, Kunde kunde, Auffuehrung auffuehrung, Set<Platz> plaetze);
     
     /**
      * 

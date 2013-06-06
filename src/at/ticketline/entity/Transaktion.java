@@ -54,7 +54,6 @@ public class Transaktion extends BaseEntity {
     @Min(value = 0)
     private Integer reservierungsnr;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.ORDINAL)
     private Zahlungsart zahlungsart;
 

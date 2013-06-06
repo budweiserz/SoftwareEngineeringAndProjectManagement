@@ -21,6 +21,7 @@ import at.ticketline.entity.News;
 import at.ticketline.entity.Ort;
 import at.ticketline.entity.Ortstyp;
 import at.ticketline.entity.Platz;
+import at.ticketline.entity.PlatzStatus;
 import at.ticketline.entity.PreisKategorie;
 import at.ticketline.entity.Reihe;
 import at.ticketline.entity.Saal;
@@ -193,6 +194,7 @@ public class EntityGenerator {
 
         Platz p = new Platz();
         p.setNummer(new Integer(modifier));
+        p.setStatus(PlatzStatus.FREI);
 
         return p;
     }
@@ -220,7 +222,6 @@ public class EntityGenerator {
         Transaktion t = new Transaktion();
         t.setDatumuhrzeit(new Date());
         t.setStatus(Transaktionsstatus.BUCHUNG);
-        t.setReservierungsnr(new Integer(modifier));
 
         return t;
     }

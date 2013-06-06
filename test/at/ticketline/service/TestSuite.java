@@ -19,7 +19,8 @@ import org.junit.runners.Suite.SuiteClasses;
     AuffuehrungTest.class,
     VeranstaltungTest.class,
     BestellungTest.class,
-    ArtikelTest.class //,
+    ArtikelTest.class,
+    TransaktionTest.class
     //add your test here
     })
 

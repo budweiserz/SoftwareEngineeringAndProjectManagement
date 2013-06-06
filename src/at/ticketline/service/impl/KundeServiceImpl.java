@@ -50,6 +50,23 @@ public class KundeServiceImpl implements KundeService {
         }
     }
     
+    @Override
+    public List<Kunde> findByKunde(Kunde query) {
+    	
+    	List<Kunde> found = null;
+    	try {
+    		found = this.kundeDao.findByKunde(query);
+    		LOG.debug("Suche nach Kunde: {} {} {}", query.getVorname(), query.getNachname());
+    		for (Kunde k: found) {
+    			LOG.debug("Kunde gefunden: {} {} {}", k.getVorname(), k.getNachname());
+    		}
+    	} catch (DaoException e) {
+    		throw new ServiceException(e);
+    	}
+    	
+    	return found;
+    }
+    
     /**
      * @return alle Kunden
      */

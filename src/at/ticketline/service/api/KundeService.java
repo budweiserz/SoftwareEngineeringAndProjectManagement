@@ -19,4 +19,6 @@ public interface KundeService {
     public void save(Kunde kunde);
     
     public List<Kunde> findAll();
+
+    public List<Kunde> findByKunde(Kunde query);
 }

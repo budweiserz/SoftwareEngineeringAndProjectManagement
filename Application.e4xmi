@@ -24,9 +24,9 @@
         <children xsi:type="menu:HandledMenuItem" xmi:id="_A4mgMLzAEeKlkobWpntiug" elementId="sepm.handledmenuitem.3" label="Künstler" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/zoom_icon&amp;16.png" command="_iMMOQL1kEeKT_IzQOUkC4g"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_AfRaMLzAEeKlkobWpntiug" elementId="sepm.handledmenuitem.2" label="Veranstaltungen" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/zoom_icon&amp;16.png" command="_cBlTsL1EEeKvqu4NU28Xow"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_K_GIsLy4EeKlkobWpntiug" elementId="sepm.handledmenuitem.0" label="Veranstaltungsort" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/zoom_icon&amp;16.png" command="_it1rYLy3EeKlkobWpntiug"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_PyCvwLy3EeKT_IzQOUkC4g" elementId="" label="Kunden" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/zoom_icon&amp;16.png" tooltip="" command="_wLd1gLy0EeKT_IzQOUkC4g"/>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_1CMMgLy3EeKT_IzQOUkC4g" elementId="" label="Ansicht">
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_PyCvwLy3EeKT_IzQOUkC4g" elementId="" label="Kundenliste" tooltip="Kundenliste öffnen" command="_wLd1gLy0EeKT_IzQOUkC4g"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_XaNyUMaMEeKmAb5Pic8Neg" elementId="ticketlinercp.handledmenuitem.0" label="Merchandiseartikel" tooltip="Merchandiseartikel kaufen" command="_C3ofEMaMEeKmAb5Pic8Neg"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_JdbY4MZAEeKm0-spYgSM4g" elementId="" label="Top 10 Veranstaltungen" tooltip="Top 10 Veranstaltungen anzeigen" command="_9TpjoMY_EeKm0-spYgSM4g"/>
       </children>
@@ -81,7 +81,7 @@
   <descriptors xmi:id="_OcB2cL1kEeKT_IzQOUkC4g" elementId="at.ticketline.partdescriptor.searchKuenstler" label="Kuenstler Suche" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.KuenstlerSearchPart"/>
   <descriptors xmi:id="_PTh3QL1FEeKvqu4NU28Xow" elementId="at.ticketline.partdescriptor.searchVeranstaltung" label="Veranstaltung Suche" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.VeranstaltungSearchPart"/>
   <descriptors xmi:id="_XDMpMLy3EeKlkobWpntiug" elementId="at.ticketline.partdescriptor.searchVeranstaltungsort" label="Veranstaltungsort Suche" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.VeranstaltungsortSearchPart"/>
-  <descriptors xmi:id="_VpB4oLy0EeKT_IzQOUkC4g" elementId="at.ticketline.partdescriptor.listkunde" label="ListKunde" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.ListKundePart"/>
+  <descriptors xmi:id="_VpB4oLy0EeKT_IzQOUkC4g" elementId="at.ticketline.partdescriptor.listkunde" label="Kunde Suche" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.KundeSearchPart"/>
   <descriptors xmi:id="_zoRkQL1cEeKCAfdsrtuMiA" elementId="at.ticketline.partdescriptor.searchAuffuehrung" label="Aufführung" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.AuffuehrungSearchPart"/>
   <descriptors xmi:id="_gt-W8MO-EeK8Ar2JK_joaQ" elementId="inso-sepm-ss13-07.partdescriptor.0" label="TransaktionWizard" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.TransaktionWizard"/>
   <descriptors xmi:id="_mmj68MO-EeK8Ar2JK_joaQ" elementId="inso-sepm-ss13-07.partdescriptor.1" label="TransaktionWizardSeiteEins" contributionURI="bundleclass://at.ticketline.kassa/at.ticketline.kassa.ui.TransaktionWizardSeiteEins"/>

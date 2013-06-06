@@ -6,7 +6,10 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Inject;
 
+import org.eclipse.e4.core.contexts.ContextInjectionFactory;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -19,6 +22,7 @@ import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.ModifyEvent;
@@ -53,6 +57,7 @@ import at.ticketline.service.api.BestellungService;
 import at.ticketline.service.impl.ArtikelServiceImpl;
 import at.ticketline.service.impl.BestellungServiceImpl;
 
+@SuppressWarnings("restriction")
 public class MerchandisePart {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(MerchandisePart.class);
@@ -78,7 +83,8 @@ public class MerchandisePart {
 	private Artikel currentSelection = null;
 
 	private TableViewer tAuswahl;
-
+    @Inject private MPart activePart;
+	private Composite parent;
 	private Label overallPrice;
 
 	public MerchandisePart() {
@@ -89,7 +95,8 @@ public class MerchandisePart {
 	 */
 	@PostConstruct
 	public void createControls(Composite parent) {
-		parent.setLayout(new FillLayout(SWT.HORIZONTAL));
+		this.parent = parent;
+	    parent.setLayout(new FillLayout(SWT.HORIZONTAL));
 		this.toolkit = new FormToolkit(parent.getDisplay());
 
 		this.createTable(parent);
@@ -400,6 +407,13 @@ public class MerchandisePart {
 			public void widgetSelected(SelectionEvent e) {
 				LOG.debug("Buy {}", selected);
 				// TODO: get Kunde and Zahlungsart from wizard
+                MerchandiseWizard tw = ContextInjectionFactory.make(MerchandiseWizard.class, activePart.getContext());
+                MerchandiseWizardDialog transaktion = new MerchandiseWizardDialog(parent.getShell(), tw);
+                tw.setDialogListener();
+                if(transaktion.open() == Window.OK) {
+                    LOG.info("Opened the Merchandise wizard!");
+                }
+				
 				BestellungService bestellungService = new BestellungServiceImpl((BestellungDao)DaoFactory.getByEntity(Bestellung.class));
 				bestellungService.saveBestellungen(selected, Zahlungsart.BANKEINZUG);
 			}

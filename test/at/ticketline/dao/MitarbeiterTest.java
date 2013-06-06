@@ -82,6 +82,6 @@ public class MitarbeiterTest extends AbstractDaoTest {
 		
 		this.mitarbeiterDao.persist(m);
 		
-		assertTrue(this.mitarbeiterService.login("bernd", "geheim"));
+		assertTrue(this.mitarbeiterService.login("bernd", "geheim") != null);
 	}
 }

@@ -17,7 +17,7 @@ public interface MitarbeiterService {
 	 * 
 	 * @param username Benutzername, mit dem man angemeldet werden möchte
 	 * @param password Passwort des Benutzers
-	 * @return true - falls Login erfolgreich war, ansonsten false
+	 * @return den Mitarbeiter - falls Login erfolgreich war, ansonsten wird eine Exception geworfen
 	 */
-	public boolean login(String username, String password);
+	public Mitarbeiter login(String username, String password);
 }

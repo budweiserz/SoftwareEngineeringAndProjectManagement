@@ -5,6 +5,7 @@ import javax.inject.Named;
 
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
+import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.services.IServiceConstants;
@@ -19,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ticketline.entity.Auffuehrung;
+import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.service.api.KundeService;
 
 @SuppressWarnings("restriction")
@@ -113,6 +115,15 @@ public class TransaktionWizard extends Wizard implements IPageChangedListener{
             fuenf.setPageComplete(true);
         }
         
+    }
+
+
+    /**
+     * XXX: Hack to have the currently logged in mitarbeiter in the wizard values
+     * @param m The currently logged in mitarbeiter
+     */
+    public void setMitarbeiter(Mitarbeiter m) {
+        this.values.setMitarbeiter(m);
     }
 
 //    @Override

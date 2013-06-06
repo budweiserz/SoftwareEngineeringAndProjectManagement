@@ -51,10 +51,10 @@ public class MitarbeiterServiceImpl implements MitarbeiterService {
      * 
      * @param username Benutzername, mit dem man angemeldet werden möchte
      * @param password Passwort des Benutzers
-     * @return true - falls Login erfolgreich war, ansonsten false
+	 * @return den Mitarbeiter - falls Login erfolgreich war, ansonsten wird eine Exception geworfen
      */
     @Override
-    public boolean login(String username, String password) {
+    public Mitarbeiter login(String username, String password) {
         Mitarbeiter m;
         
         // Benutzername und Passwort wurde eingegeben
@@ -83,17 +83,15 @@ public class MitarbeiterServiceImpl implements MitarbeiterService {
              * Login erfolgreich
              */
             if (m.getPasswort().equals(password)) {
-                LOG.info("Erfolgreicher Login mit Benutzername: {}, " + 
-                        "Passwort: {}", username, password);
-                return true;
+                LOG.info("Erfolgreicher Login mit Benutzername: {}, Passwort: {}", username, password);
+                return m;
             } else {
-                LOG.info("Login mit falschen Passwort - Benutzername: {}, " + 
-                        "Passwort: {}", username, password);
+                LOG.info("Login mit falschen Passwort - Benutzername: {}, Passwort: {}", username, password);
                 throw new WrongPasswordException("Passwort nicht korrekt!");
             }
         }
         
-        return false;
+        return null;
     }
 }
 

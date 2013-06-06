@@ -10,6 +10,7 @@ import javax.inject.Named;
 
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
+import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
@@ -17,6 +18,7 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.model.application.ui.basic.MWindow;
 import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
+import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -33,6 +35,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.service.UserNotFoundException;
 import at.ticketline.service.WrongPasswordException;
 import at.ticketline.service.api.MitarbeiterService;
@@ -137,8 +140,11 @@ public class LoginPart{
                 //TODO move Line to successful login
                 closeLoginAndGoToNextWindow();
                 try {
-                	boolean success = mitarbeiterService.login(txtUsername.getText(), txtPassword.getText());
-                	if(success) {
+                	Mitarbeiter m = mitarbeiterService.login(txtUsername.getText(), txtPassword.getText());
+                	IEclipseContext context = application.getContext();
+                	context.set("login", m);
+                	
+                	if(m != null) {
                 		lblErrorMessage.setForeground(SWTResourceManager.getColor(SWT.COLOR_GREEN));
                     	lblErrorMessage.setText("Login erfolgreich");
                 	} else {

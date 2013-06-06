@@ -5,12 +5,14 @@ import java.util.Set;
 
 import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.Kunde;
+import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.Platz;
 
 public class TransaktionWizardValues {
     private boolean isReservierung;
     private Kunde kunde;
     private Auffuehrung auffuehrung;
+    private Mitarbeiter mitarbeiter;
     
     public Kunde getKunde() {
         return kunde;
@@ -31,6 +33,13 @@ public class TransaktionWizardValues {
         this.auffuehrung = auffuehrung;
     }
     public Set<Platz> getPlaetze() {
+        // TODO !!!
         return new HashSet<Platz>();
+    }
+    public void setMitarbeiter(Mitarbeiter m) {
+        this.mitarbeiter = m;
+    }
+    public Mitarbeiter getMitarbeiter() {
+        return this.mitarbeiter;
     }
 }

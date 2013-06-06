@@ -2,6 +2,10 @@ package at.ticketline.kassa.ui;
 
 import java.util.Set;
 
+import javax.inject.Inject;
+
+import org.eclipse.e4.core.contexts.IEclipseContext;
+import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -27,7 +31,7 @@ public class TransaktionWizardSeiteFuenf extends WizardPage {
     private Label lblAuffhrung;
     private Label lblKunde;
     private static final Logger LOG = LoggerFactory.getLogger(TransaktionWizardSeiteFuenf.class);
-
+    
     /**
      * Diese Seite wird nach einer erfolgreichen Transaktion angezeigt.
      * Bei einem Kauf werden der Preis angezeigt, bei einer Reservierung der
@@ -88,7 +92,8 @@ public class TransaktionWizardSeiteFuenf extends WizardPage {
     public void doTransaction() {
         TransaktionService service = new TransaktionServiceImpl();
         
-		Mitarbeiter mitarbeiter = ((MitarbeiterDao)DaoFactory.getByEntity(Mitarbeiter.class)).findAll().get(0);
+		//Mitarbeiter mitarbeiter = ((MitarbeiterDao)DaoFactory.getByEntity(Mitarbeiter.class)).findAll().get(0);
+        Mitarbeiter mitarbeiter = values.getMitarbeiter();
         Kunde kunde = values.getKunde();
         Auffuehrung auffuehrung = values.getAuffuehrung();
         Set<Platz> plaetze = values.getPlaetze();

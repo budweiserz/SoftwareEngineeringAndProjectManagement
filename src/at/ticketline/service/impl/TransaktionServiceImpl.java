@@ -94,11 +94,16 @@ public class TransaktionServiceImpl implements TransaktionService {
 
 		transaktionDao.persist(t);
 
-		m.getTransaktionen().add(t);
-		mitarbeiterDao.merge(m);
+		if(m != null) { // should never be null 
+    		m.getTransaktionen().add(t);
+    		mitarbeiterDao.merge(m);
+		}
 		
-		k.getTransaktionen().add(t);
-		kundeDao.merge(k);
+		// anonymous kunde?
+		if(k != null) {
+    		k.getTransaktionen().add(t);
+    		kundeDao.merge(k);
+		}
 		
 		a.getPlaetze().addAll(ps);
 		auffuehrungDao.merge(a);

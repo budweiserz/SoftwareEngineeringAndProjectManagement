@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.EntityManagerUtil;
+import at.ticketline.dao.api.AuffuehrungDao;
 import at.ticketline.dao.api.KundeDao;
 import at.ticketline.dao.api.MitarbeiterDao;
 import at.ticketline.dao.api.ReiheDao;
@@ -33,11 +34,13 @@ public class TransaktionServiceImpl implements TransaktionService {
 
 	private TransaktionDao transaktionDao;
 	private MitarbeiterDao mitarbeiterDao;
+	private AuffuehrungDao auffuehrungDao;
 	private KundeDao kundeDao;
 
 	public TransaktionServiceImpl() {
 		this.transaktionDao = (TransaktionDao)DaoFactory.getByEntity(Transaktion.class);
 		this.mitarbeiterDao = (MitarbeiterDao)DaoFactory.getByEntity(Mitarbeiter.class);
+		this.auffuehrungDao = (AuffuehrungDao)DaoFactory.getByEntity(Auffuehrung.class);
 		this.kundeDao = (KundeDao)DaoFactory.getByEntity(Kunde.class);
 	}
 
@@ -91,17 +94,20 @@ public class TransaktionServiceImpl implements TransaktionService {
 			t.setZahlungsart(z);
 		}
 
-		EntityManagerUtil.beginTransaction();
+		//EntityManagerUtil.beginTransaction();
 
 		transaktionDao.persist(t);
 
 		m.getTransaktionen().add(t);
-		mitarbeiterDao.persist(m);
-
+		mitarbeiterDao.merge(m);
+		
 		k.getTransaktionen().add(t);
-		kundeDao.persist(k);
+		kundeDao.merge(k);
+		
+		a.getPlaetze().addAll(ps);
+		auffuehrungDao.merge(a);
 
-		EntityManagerUtil.commitTransaction();
+		//EntityManagerUtil.commitTransaction();
 
 		return t;
 	}

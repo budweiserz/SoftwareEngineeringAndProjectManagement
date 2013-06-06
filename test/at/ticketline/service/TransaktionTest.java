@@ -50,15 +50,6 @@ public class TransaktionTest extends AbstractDaoTest {
 	private static TransaktionDao tDao;
 	private static TransaktionService service;
 
-	private static Kunde k;
-	private static Auffuehrung a;
-	private static Veranstaltung v;
-	private static Saal s;
-	private static Reihe r;
-	private static Set<Platz> ps;
-	private static Set<Reihe> rs;
-	private static Mitarbeiter m;
-
 	@BeforeClass
 	public static void init() {
 		kDao = (KundeDao)DaoFactory.getByEntity(Kunde.class);
@@ -69,161 +60,6 @@ public class TransaktionTest extends AbstractDaoTest {
 		rDao = (ReiheDao)DaoFactory.getByEntity(Reihe.class);
 
 		service = new TransaktionServiceImpl();
-	}
-
-	@Test
-	public void testTestSetup() {
-		k = EntityGenerator.getValidKunde(0);
-		kDao.persist(k);
-		m = EntityGenerator.getValidMitarbeiter(0);
-		mDao.persist(m);
-		a = EntityGenerator.getValidAuffuehrung(0);
-		aDao.persist(a);
-		v = EntityGenerator.getValidVeranstaltung(0);
-		vDao.persist(v);
-		s = EntityGenerator.getValidSaal(0);
-		sDao.persist(s);
-		r = EntityGenerator.getValidReihe(0);
-		rDao.persist(r);
-
-		ps = new LinkedHashSet<Platz>();
-		Platz p;
-		for(int i=0; i<10; i++) {
-			p = EntityGenerator.getValidPlatz(i);
-			p.setAuffuehrung(a);
-			p.setReihe(r);
-			ps.add(p);
-		}
-
-		r.setBelegungen(ps);
-		r.setSaal(s);
-		rDao.merge(r);
-
-		rs = new LinkedHashSet<Reihe>();
-		rs.add(r);
-		s.setReihen(rs);
-		sDao.merge(s);
-
-		a.setVeranstaltung(v);
-		a.setPlaetze(ps);
-		a.setSaal(s);
-		aDao.merge(a);
-
-		assertTrue(k != null);
-		assertTrue(a != null);
-		assertTrue(v != null);
-		assertTrue(ps != null);
-		assertTrue(ps.size() > 0);
-	}
-
-	@Test
-	public void reserve() {
-		k = EntityGenerator.getValidKunde(0);
-		kDao.persist(k);
-		m = EntityGenerator.getValidMitarbeiter(0);
-		mDao.persist(m);
-		a = EntityGenerator.getValidAuffuehrung(0);
-		aDao.persist(a);
-		v = EntityGenerator.getValidVeranstaltung(0);
-		vDao.persist(v);
-		s = EntityGenerator.getValidSaal(0);
-		sDao.persist(s);
-		r = EntityGenerator.getValidReihe(0);
-		rDao.persist(r);
-
-		ps = new LinkedHashSet<Platz>();
-		Platz p;
-		for(int i=0; i<10; i++) {
-			p = EntityGenerator.getValidPlatz(i);
-			p.setAuffuehrung(a);
-			p.setReihe(r);
-			ps.add(p);
-		}
-
-		r.setBelegungen(ps);
-		r.setSaal(s);
-		rDao.merge(r);
-
-		rs = new LinkedHashSet<Reihe>();
-		rs.add(r);
-		s.setReihen(rs);
-		sDao.merge(s);
-
-		a.setVeranstaltung(v);
-		a.setPlaetze(ps);
-		a.setSaal(s);
-		aDao.merge(a);
-
-		Set<Platz> xps = new LinkedHashSet<Platz>();
-
-		Iterator<Platz> it = ps.iterator();
-		for(int i=0; i<3; i++) {
-			xps.add(it.next());
-		}
-
-		Transaktion t = service.reserve(m, k, a, xps);
-
-		assertTrue(t != null);
-		assertEquals(t.getStatus(), Transaktionsstatus.RESERVIERUNG);
-		assertEquals(t.getKunde(), k);
-		assertEquals(t.getPlaetze(), xps);
-		assertEquals(t.getMitarbeiter(), m);
-		assertTrue(t.getReservierungsnr() != null);
-	}
-
-	@Test
-	public void sell() {
-		k = EntityGenerator.getValidKunde(0);
-		kDao.persist(k);
-		m = EntityGenerator.getValidMitarbeiter(0);
-		mDao.persist(m);
-		a = EntityGenerator.getValidAuffuehrung(0);
-		aDao.persist(a);
-		v = EntityGenerator.getValidVeranstaltung(0);
-		vDao.persist(v);
-		s = EntityGenerator.getValidSaal(0);
-		sDao.persist(s);
-		r = EntityGenerator.getValidReihe(0);
-		rDao.persist(r);
-
-		ps = new LinkedHashSet<Platz>();
-		Platz p;
-		for(int i=0; i<10; i++) {
-			p = EntityGenerator.getValidPlatz(i);
-			p.setAuffuehrung(a);
-			p.setReihe(r);
-			ps.add(p);
-		}
-
-		r.setBelegungen(ps);
-		r.setSaal(s);
-		rDao.merge(r);
-
-		rs = new LinkedHashSet<Reihe>();
-		rs.add(r);
-		s.setReihen(rs);
-		sDao.merge(s);
-
-		a.setVeranstaltung(v);
-		a.setPlaetze(ps);
-		a.setSaal(s);
-		aDao.merge(a);
-
-		Set<Platz> xps = new LinkedHashSet<Platz>();
-
-		Iterator<Platz> it = ps.iterator();
-		for(int i=0; i<3; i++) {
-			xps.add(it.next());
-		}
-
-		Transaktion t = service.sell(m, k, a, xps, Zahlungsart.KREDITKARTE);
-
-		assertTrue(t != null);
-		assertEquals(t.getStatus(), Transaktionsstatus.BUCHUNG);
-		assertEquals(t.getKunde(), k);
-		assertEquals(t.getPlaetze(), xps);
-		assertEquals(t.getMitarbeiter(), m);
-		assertTrue(t.getReservierungsnr() != null);
 	}
 
 	@Test
@@ -750,4 +586,162 @@ public class TransaktionTest extends AbstractDaoTest {
 			}
 		}
 	}
+	
+	/*
+	@Test
+	public void testTestSetup() {
+		k = EntityGenerator.getValidKunde(0);
+		kDao.persist(k);
+		m = EntityGenerator.getValidMitarbeiter(0);
+		mDao.persist(m);
+		a = EntityGenerator.getValidAuffuehrung(0);
+		aDao.persist(a);
+		v = EntityGenerator.getValidVeranstaltung(0);
+		vDao.persist(v);
+		s = EntityGenerator.getValidSaal(0);
+		sDao.persist(s);
+		r = EntityGenerator.getValidReihe(0);
+		rDao.persist(r);
+
+		ps = new LinkedHashSet<Platz>();
+		Platz p;
+		for(int i=0; i<10; i++) {
+			p = EntityGenerator.getValidPlatz(i);
+			p.setAuffuehrung(a);
+			p.setReihe(r);
+			ps.add(p);
+		}
+
+		r.setBelegungen(ps);
+		r.setSaal(s);
+		rDao.merge(r);
+
+		rs = new LinkedHashSet<Reihe>();
+		rs.add(r);
+		s.setReihen(rs);
+		sDao.merge(s);
+
+		a.setVeranstaltung(v);
+		a.setPlaetze(ps);
+		a.setSaal(s);
+		aDao.merge(a);
+
+		assertTrue(k != null);
+		assertTrue(a != null);
+		assertTrue(v != null);
+		assertTrue(ps != null);
+		assertTrue(ps.size() > 0);
+	}
+
+	@Test
+	public void reserve() {
+		k = EntityGenerator.getValidKunde(0);
+		kDao.persist(k);
+		m = EntityGenerator.getValidMitarbeiter(0);
+		mDao.persist(m);
+		a = EntityGenerator.getValidAuffuehrung(0);
+		aDao.persist(a);
+		v = EntityGenerator.getValidVeranstaltung(0);
+		vDao.persist(v);
+		s = EntityGenerator.getValidSaal(0);
+		sDao.persist(s);
+		r = EntityGenerator.getValidReihe(0);
+		rDao.persist(r);
+
+		ps = new LinkedHashSet<Platz>();
+		Platz p;
+		for(int i=0; i<10; i++) {
+			p = EntityGenerator.getValidPlatz(i);
+			p.setAuffuehrung(a);
+			p.setReihe(r);
+			ps.add(p);
+		}
+
+		r.setBelegungen(ps);
+		r.setSaal(s);
+		rDao.merge(r);
+
+		rs = new LinkedHashSet<Reihe>();
+		rs.add(r);
+		s.setReihen(rs);
+		sDao.merge(s);
+
+		a.setVeranstaltung(v);
+		a.setPlaetze(ps);
+		a.setSaal(s);
+		aDao.merge(a);
+
+		Set<Platz> xps = new LinkedHashSet<Platz>();
+
+		Iterator<Platz> it = ps.iterator();
+		for(int i=0; i<3; i++) {
+			xps.add(it.next());
+		}
+
+		Transaktion t = service.reserve(m, k, a, xps);
+
+		assertTrue(t != null);
+		assertEquals(t.getStatus(), Transaktionsstatus.RESERVIERUNG);
+		assertEquals(t.getKunde(), k);
+		assertEquals(t.getPlaetze(), xps);
+		assertEquals(t.getMitarbeiter(), m);
+		assertTrue(t.getReservierungsnr() != null);
+	}
+
+	@Test
+	public void sell() {
+		k = EntityGenerator.getValidKunde(0);
+		kDao.persist(k);
+		m = EntityGenerator.getValidMitarbeiter(0);
+		mDao.persist(m);
+		a = EntityGenerator.getValidAuffuehrung(0);
+		aDao.persist(a);
+		v = EntityGenerator.getValidVeranstaltung(0);
+		vDao.persist(v);
+		s = EntityGenerator.getValidSaal(0);
+		sDao.persist(s);
+		r = EntityGenerator.getValidReihe(0);
+		rDao.persist(r);
+
+		ps = new LinkedHashSet<Platz>();
+		Platz p;
+		for(int i=0; i<10; i++) {
+			p = EntityGenerator.getValidPlatz(i);
+			p.setAuffuehrung(a);
+			p.setReihe(r);
+			ps.add(p);
+		}
+
+		r.setBelegungen(ps);
+		r.setSaal(s);
+		rDao.merge(r);
+
+		rs = new LinkedHashSet<Reihe>();
+		rs.add(r);
+		s.setReihen(rs);
+		sDao.merge(s);
+
+		a.setVeranstaltung(v);
+		a.setPlaetze(ps);
+		a.setSaal(s);
+		aDao.merge(a);
+
+		Set<Platz> xps = new LinkedHashSet<Platz>();
+
+		Iterator<Platz> it = ps.iterator();
+		for(int i=0; i<3; i++) {
+			xps.add(it.next());
+		}
+
+		Transaktion t = service.sell(m, k, a, xps, Zahlungsart.KREDITKARTE);
+
+		assertTrue(t != null);
+		assertEquals(t.getStatus(), Transaktionsstatus.BUCHUNG);
+		assertEquals(t.getKunde(), k);
+		assertEquals(t.getPlaetze(), xps);
+		assertEquals(t.getMitarbeiter(), m);
+		assertTrue(t.getReservierungsnr() != null);
+	}
+	*/
+
 }

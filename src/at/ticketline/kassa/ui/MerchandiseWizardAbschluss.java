@@ -7,6 +7,13 @@ import org.eclipse.swt.widgets.Label;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import at.ticketline.dao.DaoFactory;
+import at.ticketline.dao.api.BestellungDao;
+import at.ticketline.entity.Bestellung;
+import at.ticketline.entity.Zahlungsart;
+import at.ticketline.service.api.BestellungService;
+import at.ticketline.service.impl.BestellungServiceImpl;
+
 public class MerchandiseWizardAbschluss extends WizardPage {
 
     private MerchandiseWizardValues values;
@@ -71,7 +78,10 @@ public class MerchandiseWizardAbschluss extends WizardPage {
     
     //TODO gets called when wizard is complete
     public void doTransaction() {
+
         
+        BestellungService bestellungService = new BestellungServiceImpl((BestellungDao)DaoFactory.getByEntity(Bestellung.class));
+        bestellungService.saveBestellungen(values.getSelected(), values.getZahlungsart(), values.getKunde());
     }
     
     public void updateContent() {
@@ -80,7 +90,10 @@ public class MerchandiseWizardAbschluss extends WizardPage {
         } else {
             lblName.setText("Anonymer Kunde");
         }
-        String zahlung = values.getZahlungsart().toString();
-        lblZahlungsk.setText(zahlung.substring(0, 1) + zahlung.substring(1).toLowerCase());
+        
+        if(values.getZahlungsart() != null) {
+            String zahlung = values.getZahlungsart().toString();
+            lblZahlungsk.setText(zahlung.substring(0, 1) + zahlung.substring(1).toLowerCase());
+        }
     }
 }

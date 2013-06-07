@@ -1,5 +1,7 @@
 package at.ticketline.kassa.ui;
 
+import java.util.HashMap;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -18,6 +20,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import at.ticketline.entity.Artikel;
 import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.Kunde;
 import at.ticketline.service.api.KundeService;
@@ -31,6 +34,7 @@ public class MerchandiseWizard extends Wizard implements IPageChangedListener{
     @Inject private ESelectionService selectionService;
     @Inject private MDirtyable dirty;
     @Inject private EPartService partService;
+    
     @Inject
     @Named(IServiceConstants.ACTIVE_SHELL)
     private Shell shell;
@@ -109,11 +113,19 @@ public class MerchandiseWizard extends Wizard implements IPageChangedListener{
     public void pageChanged(PageChangedEvent e) {
         if(e.getSelectedPage() == fuenf) {
             fuenf.updateContent();
+            
+            if(values.getZahlungsart() == null) {
+                LOG.debug("something went wrong");
+            }
             fuenf.doTransaction();
             LOG.info("Merchandise Wizard erfolgreich abgeschlossen!");
             fuenf.setPageComplete(true);
         }
         
+    }
+    
+    public void setSelectedArtikel(HashMap<Artikel, Integer> selected) {
+        values.setSelected(selected);
     }
 
 //    @Override

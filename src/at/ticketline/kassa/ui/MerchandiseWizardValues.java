@@ -1,11 +1,15 @@
 package at.ticketline.kassa.ui;
 
+import java.util.HashMap;
+
+import at.ticketline.entity.Artikel;
 import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Zahlungsart;
 
 public class MerchandiseWizardValues {
     private Kunde kunde;
     private Zahlungsart zahlungsart;
+    private HashMap<Artikel, Integer> selected;
     
     public Kunde getKunde() {
         return kunde;
@@ -18,5 +22,11 @@ public class MerchandiseWizardValues {
     }
     public void setZahlungsart(Zahlungsart zahlungsart) {
         this.zahlungsart = zahlungsart;
+    }
+    public HashMap<Artikel, Integer> getSelected() {
+        return selected;
+    }
+    public void setSelected(HashMap<Artikel, Integer> selected) {
+        this.selected = selected;
     }
 }

@@ -11,6 +11,7 @@ import at.ticketline.dao.api.BestellungDao;
 import at.ticketline.entity.Artikel;
 import at.ticketline.entity.BestellPosition;
 import at.ticketline.entity.Bestellung;
+import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Zahlungsart;
 import at.ticketline.service.api.BestellungService;
 
@@ -23,13 +24,14 @@ public class BestellungServiceImpl implements BestellungService {
 	}
 
 	@Override
-	public void saveBestellungen(HashMap<Artikel, Integer> bestellungen, Zahlungsart art) {
+	public void saveBestellungen(HashMap<Artikel, Integer> bestellungen, Zahlungsart art, Kunde kunde) {
 		
 		if (bestellungen == null) {
 			throw new IllegalArgumentException("Argument bestellungen should not be null!");
 		}
 		
 		Bestellung b = new Bestellung();
+		b.setKunde(kunde);
 		b.setZahlungsart(art);
 		b.setBestellzeitpunkt(new Date());
 		b.setBestellPositionen(new HashSet<BestellPosition>());

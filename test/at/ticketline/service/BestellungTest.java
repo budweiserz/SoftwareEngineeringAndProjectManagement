@@ -50,7 +50,7 @@ public class BestellungTest extends AbstractDaoTest {
 		artikelDao.persist(a);
 		HashMap<Artikel, Integer> bestellungen = new HashMap<Artikel, Integer>();
 		bestellungen.put(a, 0);
-		bestellungService.saveBestellungen(bestellungen, Zahlungsart.VORKASSE);
+		bestellungService.saveBestellungen(bestellungen, Zahlungsart.VORKASSE, null);
 
 		assertEquals(0, bestellungService.findAll().size());
 	}
@@ -73,7 +73,7 @@ public class BestellungTest extends AbstractDaoTest {
 		bestellungen.put(a2, 0);
 		bestellungen.put(a3, 2);
 		bestellungen.put(a4, 0);
-		bestellungService.saveBestellungen(bestellungen, Zahlungsart.VORKASSE);
+		bestellungService.saveBestellungen(bestellungen, Zahlungsart.VORKASSE, null);
 
 		assertEquals(1, bestellungService.findAll().size());
 
@@ -101,7 +101,7 @@ public class BestellungTest extends AbstractDaoTest {
 		bestellungen.put(a2, 2);
 		bestellungen.put(a3, 1);
 		bestellungen.put(a4, 4);
-		bestellungService.saveBestellungen(bestellungen, Zahlungsart.VORKASSE);
+		bestellungService.saveBestellungen(bestellungen, Zahlungsart.VORKASSE, null);
 
 		assertEquals(1, bestellungService.findAll().size());
 
@@ -112,7 +112,7 @@ public class BestellungTest extends AbstractDaoTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testSaveBestellungWithNullArgument_shouldThrowIllegalArgumentException() {
-		bestellungService.saveBestellungen(null, Zahlungsart.VORKASSE);
+		bestellungService.saveBestellungen(null, Zahlungsart.VORKASSE, null);
 	}
 
 }

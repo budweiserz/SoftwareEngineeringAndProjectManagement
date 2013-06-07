@@ -415,7 +415,7 @@ public class MerchandisePart {
                 }
 				
 				BestellungService bestellungService = new BestellungServiceImpl((BestellungDao)DaoFactory.getByEntity(Bestellung.class));
-				bestellungService.saveBestellungen(selected, Zahlungsart.BANKEINZUG);
+				//bestellungService.saveBestellungen(selected, Zahlungsart.BANKEINZUG);
 			}
 
 			@Override

@@ -36,6 +36,14 @@ public class Merchandise extends Artikel {
         this.preis = preis;
     }
 
+    public BigDecimal getWert() {
+        return preis;
+    }
+
+    public String getEinheit() {
+        return "€";
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

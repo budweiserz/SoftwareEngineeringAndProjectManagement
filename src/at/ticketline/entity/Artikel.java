@@ -1,5 +1,6 @@
 package at.ticketline.entity;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -124,6 +125,13 @@ public class Artikel extends BaseEntity {
 
     public void setBestellPositionen(Set<BestellPosition> bestellPositionen) {
         this.bestellPositionen = bestellPositionen;
+    }
+
+    public BigDecimal getWert() {
+        return new BigDecimal(0);
+    }
+    public String getEinheit() {
+        return "";
     }
 
     @Override

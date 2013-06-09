@@ -6,7 +6,6 @@ import java.util.GregorianCalendar;
 import java.util.HashSet;
 
 import at.ticketline.entity.Adresse;
-import at.ticketline.entity.Artikel;
 import at.ticketline.entity.ArtikelKategorie;
 import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.Berechtigung;
@@ -16,12 +15,14 @@ import at.ticketline.entity.Geschlecht;
 import at.ticketline.entity.Kategorie;
 import at.ticketline.entity.Kuenstler;
 import at.ticketline.entity.Kunde;
+import at.ticketline.entity.Merchandise;
 import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.News;
 import at.ticketline.entity.Ort;
 import at.ticketline.entity.Ortstyp;
 import at.ticketline.entity.Platz;
 import at.ticketline.entity.PlatzStatus;
+import at.ticketline.entity.Praemie;
 import at.ticketline.entity.PreisKategorie;
 import at.ticketline.entity.Reihe;
 import at.ticketline.entity.Saal;
@@ -55,9 +56,9 @@ public class EntityGenerator {
         return a;
     }
 
-    public static Artikel getValidArtikel(int modifier) {
+    public static Merchandise getValidMerchandise(int modifier) {
 
-        Artikel a = new Artikel();
+        Merchandise a = new Merchandise();
         a.setKurzbezeichnung("Kurzbezeichnung " + modifier);
         a.setBeschreibung("Beschreibung " + modifier);
         a.setPreis(new BigDecimal(modifier));
@@ -65,7 +66,18 @@ public class EntityGenerator {
 
         return a;
     }
+    
+    public static Praemie getValidPraemie(int modifier) {
 
+        Praemie a = new Praemie();
+        a.setKurzbezeichnung("Kurzbezeichnung " + modifier);
+        a.setBeschreibung("Beschreibung " + modifier);
+        a.setPunkte(new BigDecimal(modifier));
+        a.setKategorie(ArtikelKategorie.CD);
+
+        return a;
+    }
+    
     public static Auffuehrung getValidAuffuehrung(int modifier) {
 
         Auffuehrung a = new Auffuehrung();

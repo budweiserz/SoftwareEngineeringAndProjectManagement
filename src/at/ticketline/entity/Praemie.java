@@ -29,6 +29,14 @@ public class Praemie extends Artikel {
     public void setPunkte(BigDecimal punkte) {
         this.punkte = punkte;
     }
+    
+    public BigDecimal getWert() {
+        return punkte;
+    }
+
+    public String getEinheit() {
+        return "Punkte";
+    }
 
     @Override
     public String toString() {

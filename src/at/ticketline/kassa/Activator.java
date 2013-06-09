@@ -7,27 +7,27 @@ import org.osgi.framework.BundleContext;
 
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.EntityManagerUtil;
-import at.ticketline.dao.api.ArtikelDao;
 import at.ticketline.dao.api.AuffuehrungDao;
 import at.ticketline.dao.api.KategorieDao;
 import at.ticketline.dao.api.KuenstlerDao;
 import at.ticketline.dao.api.KundeDao;
+import at.ticketline.dao.api.MerchandiseDao;
 import at.ticketline.dao.api.MitarbeiterDao;
 import at.ticketline.dao.api.NewsDao;
 import at.ticketline.dao.api.OrtDao;
 import at.ticketline.dao.api.PraemieDao;
 import at.ticketline.dao.api.VeranstaltungDao;
-import at.ticketline.entity.Artikel;
 import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.Kategorie;
 import at.ticketline.entity.Kuenstler;
 import at.ticketline.entity.Kunde;
+import at.ticketline.entity.Merchandise;
 import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.News;
 import at.ticketline.entity.Ort;
 import at.ticketline.entity.Praemie;
 import at.ticketline.entity.Veranstaltung;
-import at.ticketline.service.api.ArtikelService;
+import at.ticketline.service.api.MerchandiseService;
 import at.ticketline.service.api.AuffuehrungService;
 import at.ticketline.service.api.KategorieService;
 import at.ticketline.service.api.KuenstlerService;
@@ -37,11 +37,11 @@ import at.ticketline.service.api.NewsService;
 import at.ticketline.service.api.OrtService;
 import at.ticketline.service.api.PraemieService;
 import at.ticketline.service.api.VeranstaltungService;
-import at.ticketline.service.impl.ArtikelServiceImpl;
 import at.ticketline.service.impl.AuffuehrungServiceImpl;
 import at.ticketline.service.impl.KategorieServiceImpl;
 import at.ticketline.service.impl.KuenstlerServiceImpl;
 import at.ticketline.service.impl.KundeServiceImpl;
+import at.ticketline.service.impl.MerchandiseServiceImpl;
 import at.ticketline.service.impl.MitarbeiterServiceImpl;
 import at.ticketline.service.impl.NewsServiceImpl;
 import at.ticketline.service.impl.OrtServiceImpl;
@@ -80,10 +80,7 @@ public class Activator implements BundleActivator {
     }
 
     private void registerServices() {
-        
-        ArtikelDao artikelDao = (ArtikelDao) DaoFactory.getByEntity(Artikel.class);
-        CONTEXT.registerService(ArtikelService.class.getName(), new ArtikelServiceImpl(artikelDao), null);
-        
+                
     	AuffuehrungDao auffuehrungDao = (AuffuehrungDao) DaoFactory.getByEntity(Auffuehrung.class);
        	CONTEXT.registerService(AuffuehrungService.class.getName(), new AuffuehrungServiceImpl(auffuehrungDao), null);
         
@@ -92,6 +89,9 @@ public class Activator implements BundleActivator {
         
        	KundeDao kundeDao = (KundeDao) DaoFactory.getByEntity(Kunde.class);
        	CONTEXT.registerService(KundeService.class.getName(), new KundeServiceImpl(kundeDao), null);
+        
+        MerchandiseDao artikelDao = (MerchandiseDao) DaoFactory.getByEntity(Merchandise.class);
+        CONTEXT.registerService(MerchandiseService.class.getName(), new MerchandiseServiceImpl(artikelDao), null);
         
        	MitarbeiterDao mitarbeiterDao = (MitarbeiterDao) DaoFactory.getByEntity(Mitarbeiter.class);
         CONTEXT.registerService(MitarbeiterService.class.getName(), new MitarbeiterServiceImpl(mitarbeiterDao), null);

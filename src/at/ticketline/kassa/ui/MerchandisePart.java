@@ -52,7 +52,14 @@ import at.ticketline.dao.api.ArtikelDao;
 import at.ticketline.dao.api.BestellungDao;
 import at.ticketline.entity.Artikel;
 import at.ticketline.entity.Bestellung;
+<<<<<<< HEAD
 import at.ticketline.entity.Zahlungsart;
+=======
+import at.ticketline.entity.Merchandise;
+import at.ticketline.entity.Praemie;
+import at.ticketline.entity.Zahlungsart;
+import at.ticketline.service.api.MerchandiseService;
+>>>>>>> Introduce entity Merchandise #23219
 import at.ticketline.service.api.BestellungService;
 import at.ticketline.service.impl.ArtikelServiceImpl;
 import at.ticketline.service.impl.BestellungServiceImpl;
@@ -63,10 +70,18 @@ public class MerchandisePart {
     private static final Logger LOG = LoggerFactory.getLogger(MerchandisePart.class);
 
     private FormToolkit toolkit;
+<<<<<<< HEAD
     private TableViewer merchandiseList;
     private ArtikelServiceImpl artikelService;
     private Table auswahl;
     private HashMap<Artikel, Integer> selected = new HashMap<Artikel, Integer>();
+=======
+
+    @Inject
+    private MerchandiseService merchandiseService;
+    @Inject
+    private PraemieService praemieService;
+>>>>>>> Introduce entity Merchandise #23219
 
     private static final Device device = Display.getCurrent();
     private static final Color RED = new Color(device, 170, 34, 34);
@@ -99,12 +114,110 @@ public class MerchandisePart {
         parent.setLayout(new FillLayout(SWT.HORIZONTAL));
         this.toolkit = new FormToolkit(parent.getDisplay());
 
+<<<<<<< HEAD
         this.createTable(parent);
+=======
+        createTable(parent);
+
+        createOverview(parent);
+
+        createCart(parent);
+    }
+
+    private void createTable(Composite parent) {
+
+        Composite selection_field = new Composite(parent, SWT.NONE);
+        toolkit.adapt(selection_field);
+        toolkit.paintBordersFor(selection_field);
+        selection_field.setLayout(new GridLayout(1, false));
+
+        comboViewer = new ComboViewer(selection_field, SWT.NONE);
+        comboViewer.setContentProvider(new ArrayContentProvider());
+        comboViewer.setLabelProvider(new LabelProvider() {
+            @Override
+            public String getText(Object element) {
+                return element.toString();
+            }
+        });
+        String[] choices = { "Merchandise", "Prämien" };
+        comboViewer.setInput(choices);
+
+        combo = comboViewer.getCombo();
+        combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+        toolkit.paintBordersFor(combo);
+        combo.select(0);
+        combo.addListener(SWT.Selection, new Listener() {
+
+            @Override
+            public void handleEvent(Event event) {
+                updateTable(combo.getSelectionIndex());
+            }
+        });
+
+        tableViewer = new TableViewer(selection_field, SWT.BORDER | SWT.FULL_SELECTION);
+        tableViewer.setContentProvider(new ArrayContentProvider());
+        tableViewer.setLabelProvider(new LabelProvider() {
+            @Override
+            public String getText(Object element) {
+
+                if (element instanceof Artikel) {
+                    return ((Artikel) element).getKurzbezeichnung();
+                } else {
+                    return super.getText(element);
+                }
+            }
+        });
+        tableViewer.setInput(merchandiseService.findAll().toArray());
+        table = tableViewer.getTable();
+        table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+        toolkit.paintBordersFor(table);
+
+        tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+
+            @Override
+            public void selectionChanged(SelectionChangedEvent event) {
+
+                IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection();
+                Object firstElement;
+                Artikel element = null;
+
+                if (selection.isEmpty()) {
+                    lblBezeichnung.setText("Bezeichnung");
+                    lblPreis.setText("Preis");
+                    lblBeschreibung.setText("Beschreibung");
+                    spinner.setSelection(0);
+                    lblZwischenbetrag.setText("0.00€");
+                    currentSelection = null;
+
+                } else {
+>>>>>>> Introduce entity Merchandise #23219
 
         createMiddleComposite(parent);
 
         this.creatAuswahl(parent);
 
+<<<<<<< HEAD
+=======
+                        element = (Artikel) firstElement;
+
+                        lblBezeichnung.setText(element.getKurzbezeichnung());
+                        lblBeschreibung.setText(element.getBeschreibung());
+
+                        if (element instanceof Praemie) {
+                            lblPreis.setText(((Praemie) element).getPunkte().intValue() + " Punkte");
+                        } else {
+                            lblPreis.setText(formatter.format(((Merchandise) element).getPreis()) + "€");
+                        }
+                    }
+                    spinner.setSelection(0);
+                    lblZwischenbetrag.setText("0.00€");
+
+                    currentSelection = element;
+                }
+            }
+
+        });
+>>>>>>> Introduce entity Merchandise #23219
     }
 
     private void createMiddleComposite(Composite parent) {
@@ -182,6 +295,7 @@ public class MerchandisePart {
                 public void modifyText(ModifyEvent e) {
                     Text t = (Text)e.widget;
                     if (currentSelection != null) {
+<<<<<<< HEAD
                         if (t.getText().equals("0")) {
                             aGesamtpreis.setText("0.00€");
                         } else {
@@ -192,6 +306,20 @@ public class MerchandisePart {
                             } catch (NumberFormatException ex) {
                                 LOG.error("Wrong input (no Integer): {}, {}", ex, t.getText());
                             }
+=======
+
+                        if (currentSelection instanceof Praemie) {
+                        
+                        int betrag = ((Praemie) currentSelection).getPunkte().intValue();
+                        betrag *= spinner.getSelection();
+                        lblZwischenbetrag.setText(formatter.format(betrag) + " Punkte");
+                        
+                        } else { // Artikel
+                          
+                            float betrag = ((Merchandise) currentSelection).getPreis().floatValue();
+                            betrag *= spinner.getSelection();
+                            lblZwischenbetrag.setText(formatter.format(betrag) + " €");
+>>>>>>> Introduce entity Merchandise #23219
                         }
                     }
                 }
@@ -287,8 +415,13 @@ public class MerchandisePart {
                         return "";
                     }
                 case 1:
+<<<<<<< HEAD
                     if (e.getKurzbezeichnung() != null) {
                         float preis = e.getPreis().floatValue();
+=======
+                    if (e.getKurzbezeichnung() != null && !(e instanceof Praemie)) {
+                        float preis = ((Merchandise) e).getPreis().floatValue();
+>>>>>>> Introduce entity Merchandise #23219
                         preis *= selected.get(e);
                         return formatter.format(preis);
                     } else {
@@ -433,8 +566,13 @@ public class MerchandisePart {
         layout.addColumnData(new ColumnWeightData(33));
         this.merchandiseList.getTable().setLayout(layout);
 
+<<<<<<< HEAD
         this.merchandiseList.getTable().setLinesVisible(true);
         this.merchandiseList.getTable().setHeaderVisible(true);
+=======
+        if (index == 0) {
+            tableViewer.setInput(merchandiseService.findAll().toArray());
+>>>>>>> Introduce entity Merchandise #23219
 
         this.merchandiseList.setContentProvider(new ArrayContentProvider());
         this.merchandiseList.setLabelProvider(new ITableLabelProvider() {
@@ -535,8 +673,18 @@ public class MerchandisePart {
     private void updateOverallPrice() {
         float price = 0;
         
+<<<<<<< HEAD
         for (Map.Entry<Artikel, Integer>e : selected.entrySet()) {
             price += ((Artikel)e.getKey()).getPreis().floatValue() * e.getValue();
+=======
+        for (Map.Entry<Artikel, Integer> e : selected.entrySet()) {
+            
+            if (e instanceof Praemie) {
+                points += ((Praemie) e.getKey()).getPunkte().intValue() * e.getValue();
+            } else {
+                price += ((Merchandise) e.getKey()).getPreis().floatValue() * e.getValue();
+            }
+>>>>>>> Introduce entity Merchandise #23219
         }
 
         this.overallPrice.setText(formatter.format(price) + "€");

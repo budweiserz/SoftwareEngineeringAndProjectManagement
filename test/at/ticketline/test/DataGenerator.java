@@ -14,12 +14,12 @@ import org.eclipse.persistence.jpa.PersistenceProvider;
 
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.EntityManagerUtil;
-import at.ticketline.dao.api.ArtikelDao;
 import at.ticketline.dao.api.AuffuehrungDao;
 import at.ticketline.dao.api.EngagementDao;
 import at.ticketline.dao.api.KategorieDao;
 import at.ticketline.dao.api.KuenstlerDao;
 import at.ticketline.dao.api.KundeDao;
+import at.ticketline.dao.api.MerchandiseDao;
 import at.ticketline.dao.api.MitarbeiterDao;
 import at.ticketline.dao.api.NewsDao;
 import at.ticketline.dao.api.OrtDao;
@@ -27,7 +27,6 @@ import at.ticketline.dao.api.PraemieDao;
 import at.ticketline.dao.api.SaalDao;
 import at.ticketline.dao.api.VeranstaltungDao;
 import at.ticketline.entity.Adresse;
-import at.ticketline.entity.Artikel;
 import at.ticketline.entity.ArtikelKategorie;
 import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.Engagement;
@@ -35,6 +34,7 @@ import at.ticketline.entity.Geschlecht;
 import at.ticketline.entity.Kategorie;
 import at.ticketline.entity.Kuenstler;
 import at.ticketline.entity.Kunde;
+import at.ticketline.entity.Merchandise;
 import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.News;
 import at.ticketline.entity.Ort;
@@ -82,13 +82,13 @@ public class DataGenerator {
         Random random = new Random(1210347);
 
         Adresse adresse;
-        Artikel artikel;
         Praemie praemie;
         Auffuehrung auffuehrung;
         Engagement engagement;
         Kategorie kategorie;
         Kunde kunde;
         Kuenstler kuenstler;
+        Merchandise merchandise;
         Mitarbeiter mitarbeiter;
         News news;
         Ort ort;
@@ -96,13 +96,13 @@ public class DataGenerator {
         Veranstaltung veranstaltung;
 
         ArrayList<Adresse> adressen = new ArrayList<Adresse>();
-        ArrayList<Artikel> artikelList = new ArrayList<Artikel>();
         ArrayList<Praemie> praemieList = new ArrayList<Praemie>();
         ArrayList<Auffuehrung> auffuehrungList = new ArrayList<Auffuehrung>();
         ArrayList<Kategorie> kategorieList = new ArrayList<Kategorie>();
         ArrayList<Kunde> kunden = new ArrayList<Kunde>();
         ArrayList<Kuenstler> kuenstlerList = new ArrayList<Kuenstler>();
         ArrayList<Engagement> engagementList = new ArrayList<Engagement>();
+        ArrayList<Merchandise> merchandiseList = new ArrayList<Merchandise>();
         ArrayList<Mitarbeiter> mitarbeiterList = new ArrayList<Mitarbeiter>();
         ArrayList<News> newsList = new ArrayList<News>();
         ArrayList<Ort> ortList = new ArrayList<Ort>();
@@ -116,11 +116,11 @@ public class DataGenerator {
         ArrayList<Veranstaltung> veranstaltungList = new ArrayList<Veranstaltung>();
 
         AuffuehrungDao auffuehrungDao = (AuffuehrungDao) DaoFactory.getByEntity(Auffuehrung.class);
-        ArtikelDao artikelDao = (ArtikelDao) DaoFactory.getByEntity(Artikel.class);
         PraemieDao praemieDao = (PraemieDao) DaoFactory.getByEntity(Praemie.class);
         KategorieDao kategorieDao = (KategorieDao) DaoFactory.getByEntity(Kategorie.class);
         KuenstlerDao kuenstlerDao = (KuenstlerDao) DaoFactory.getByEntity(Kuenstler.class);
         KundeDao kundedao = (KundeDao) DaoFactory.getByEntity(Kunde.class);
+        MerchandiseDao merchandiseDao = (MerchandiseDao) DaoFactory.getByEntity(Merchandise.class);
         MitarbeiterDao mitarbeiterDao = (MitarbeiterDao) DaoFactory.getByEntity(Mitarbeiter.class);
         NewsDao newsDao = (NewsDao) DaoFactory.getByEntity(News.class);
         OrtDao ortDao = (OrtDao) DaoFactory.getByEntity(Ort.class);
@@ -203,36 +203,36 @@ public class DataGenerator {
         }
         parser.close();
         
-        // Artikel
-        parser = new LabeledCSVParser(new CSVParser(new FileInputStream("csv/artikel.csv")));
+        // Merchandise
+        parser = new LabeledCSVParser(new CSVParser(new FileInputStream("csv/merchandise.csv")));
         current = parser.getLine();
         i = 0;
         while (current != null) {
 
-            artikel = EntityGenerator.getValidArtikel(i++);
-            artikel.setKurzbezeichnung(current[0]);
-            artikel.setBeschreibung(current[1]);
-            artikel.setPreis(new BigDecimal(current[2]));
+            merchandise = EntityGenerator.getValidMerchandise(i++);
+            merchandise.setKurzbezeichnung(current[0]);
+            merchandise.setBeschreibung(current[1]);
+            merchandise.setPreis(new BigDecimal(current[2]));
 
             if (current[3].equals("T-Shirt")) {
 
-                artikel.setKategorie(ArtikelKategorie.TShirt);
+                merchandise.setKategorie(ArtikelKategorie.TShirt);
 
             } else if (current[3].equals("CD")) {
 
-                artikel.setKategorie(ArtikelKategorie.CD);
+                merchandise.setKategorie(ArtikelKategorie.CD);
 
             } else if (current[3].equals("DVD")) {
 
-                artikel.setKategorie(ArtikelKategorie.DVD);
+                merchandise.setKategorie(ArtikelKategorie.DVD);
 
-            } else { // (current[4].equals("Sonstiges"))
+            } else { // (current[3].equals("Sonstiges"))
 
-                artikel.setKategorie(ArtikelKategorie.Sonstiges);
+                merchandise.setKategorie(ArtikelKategorie.Sonstiges);
             }
 
-            artikelList.add(artikel);
-            artikelDao.persist(artikel);
+            merchandiseList.add(merchandise);
+            merchandiseDao.persist(merchandise);
             current = parser.getLine();
         }
         parser.close();
@@ -246,22 +246,21 @@ public class DataGenerator {
             praemie = EntityGenerator.getValidPraemie(i++);
             praemie.setKurzbezeichnung(current[0]);
             praemie.setBeschreibung(current[1]);
-            praemie.setPreis(new BigDecimal(current[2]));
-            praemie.setPunkte(new BigDecimal(current[3]));
+            praemie.setPunkte(new BigDecimal(current[2]));
 
-            if (current[4].equals("T-Shirt")) {
+            if (current[3].equals("T-Shirt")) {
 
                 praemie.setKategorie(ArtikelKategorie.TShirt);
 
-            } else if (current[4].equals("CD")) {
+            } else if (current[3].equals("CD")) {
 
                 praemie.setKategorie(ArtikelKategorie.CD);
 
-            } else if (current[4].equals("DVD")) {
+            } else if (current[3].equals("DVD")) {
 
                 praemie.setKategorie(ArtikelKategorie.DVD);
 
-            } else { // (current[4].equals("Sonstiges"))
+            } else { // (current[3].equals("Sonstiges"))
 
                 praemie.setKategorie(ArtikelKategorie.Sonstiges);
             }

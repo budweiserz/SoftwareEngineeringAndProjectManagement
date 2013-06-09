@@ -8,11 +8,8 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
 
 /**
- * 
- * Im Kunden werden alle Daten eines Kunden abgelegt. Jeder Kunde ist einem Ort
- * zugeordnet. Ein Kunde kann optional eine Ticketcard besitzen. Er besitzt
- * darueber hinaus ueber einen Web Account, wenn der Username und das Passwort
- * gesetzt sind.
+ * Eine Prämie ist ein Artikel, der nur gegen Bonuspunkte des Systems
+ * eingetauscht werden kann.
  */
 
 @Entity

@@ -1,6 +1,5 @@
 package at.ticketline.entity;
 
-import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,8 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -45,12 +42,6 @@ public class Artikel extends BaseEntity {
 
     @Lob
     private String beschreibung;
-
-    @Column(nullable = false)
-    @Min(value = 0)
-    @Digits(integer = 8, fraction = 2)
-    @NotNull
-    private BigDecimal preis;
 
     @Column(nullable = false)
     @Enumerated(EnumType.ORDINAL)
@@ -95,17 +86,6 @@ public class Artikel extends BaseEntity {
 
     public void setBeschreibung(String beschreibung) {
         this.beschreibung = beschreibung;
-    }
-
-    /**
-     * Preis des Artikels; Preis >= 0
-     */
-    public BigDecimal getPreis() {
-        return this.preis;
-    }
-
-    public void setPreis(BigDecimal preis) {
-        this.preis = preis;
     }
 
     /**
@@ -166,9 +146,6 @@ public class Artikel extends BaseEntity {
         if (this.kurzbezeichnung != null) {
             builder.append("kurzbezeichnung=").append(this.kurzbezeichnung)
                     .append(", ");
-        }
-        if (this.preis != null) {
-            builder.append("preis=").append(this.preis);
         }
         builder.append("]");
         return builder.toString();

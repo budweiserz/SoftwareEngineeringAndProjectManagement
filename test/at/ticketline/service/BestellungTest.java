@@ -9,9 +9,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import at.ticketline.dao.DaoFactory;
-import at.ticketline.dao.api.ArtikelDao;
+import at.ticketline.dao.api.MerchandiseDao;
 import at.ticketline.dao.api.BestellungDao;
 import at.ticketline.entity.Artikel;
+import at.ticketline.entity.Merchandise;
 import at.ticketline.entity.Bestellung;
 import at.ticketline.entity.Zahlungsart;
 import at.ticketline.service.api.BestellungService;
@@ -23,13 +24,13 @@ public class BestellungTest extends AbstractDaoTest {
 
 	private static BestellungService bestellungService;
 	private static BestellungDao bestellungDao;
-	private static ArtikelDao artikelDao;
+	private static MerchandiseDao MerchandiseDao;
 
 	@BeforeClass
 	public static void init() {
 		bestellungDao = (BestellungDao)DaoFactory.getByEntity(Bestellung.class);
 		bestellungService = new BestellungServiceImpl(bestellungDao);
-		artikelDao = (ArtikelDao)DaoFactory.getByEntity(Artikel.class);
+		MerchandiseDao = (MerchandiseDao)DaoFactory.getByEntity(Merchandise.class);
 	}
 
 	@Test
@@ -43,11 +44,11 @@ public class BestellungTest extends AbstractDaoTest {
 	}
 
 	@Test
-	public void testSaveBestellungWithArtikelHavingAmountZero_ShouldNotSaveParticularBestellung() {
+	public void testSaveBestellungWithMerchandiseHavingAmountZero_ShouldNotSaveParticularBestellung() {
 		assertEquals(0, bestellungService.findAll().size());
 
-		Artikel a = EntityGenerator.getValidArtikel(0);
-		artikelDao.persist(a);
+		Merchandise a = EntityGenerator.getValidMerchandise(0);
+		MerchandiseDao.persist(a);
 		HashMap<Artikel, Integer> bestellungen = new HashMap<Artikel, Integer>();
 		bestellungen.put(a, 0);
 		bestellungService.saveBestellungen(bestellungen, Zahlungsart.VORKASSE, null);
@@ -56,17 +57,17 @@ public class BestellungTest extends AbstractDaoTest {
 	}
 
 	@Test
-	public void testSaveBestellungWithSomeHavingAmountZero_shouldNotSaveThoseParticularArtikel() {
+	public void testSaveBestellungWithSomeHavingAmountZero_shouldNotSaveThoseParticularMerchandise() {
 		assertEquals(0, bestellungService.findAll().size());
 
-		Artikel a1 = EntityGenerator.getValidArtikel(0);
-		Artikel a2 = EntityGenerator.getValidArtikel(1);
-		Artikel a3 = EntityGenerator.getValidArtikel(2);
-		Artikel a4 = EntityGenerator.getValidArtikel(3);
-		artikelDao.persist(a1);
-		artikelDao.persist(a2);
-		artikelDao.persist(a3);
-		artikelDao.persist(a4);
+		Merchandise a1 = EntityGenerator.getValidMerchandise(0);
+		Merchandise a2 = EntityGenerator.getValidMerchandise(1);
+		Merchandise a3 = EntityGenerator.getValidMerchandise(2);
+		Merchandise a4 = EntityGenerator.getValidMerchandise(3);
+		MerchandiseDao.persist(a1);
+		MerchandiseDao.persist(a2);
+		MerchandiseDao.persist(a3);
+		MerchandiseDao.persist(a4);
 
 		HashMap<Artikel, Integer> bestellungen = new HashMap<Artikel, Integer>();
 		bestellungen.put(a1, 3);
@@ -87,14 +88,14 @@ public class BestellungTest extends AbstractDaoTest {
 	public void testSaveSingleBestellung_shouldWork() {
 		assertEquals(0, bestellungService.findAll().size());
 
-		Artikel a1 = EntityGenerator.getValidArtikel(0);
-		Artikel a2 = EntityGenerator.getValidArtikel(1);
-		Artikel a3 = EntityGenerator.getValidArtikel(2);
-		Artikel a4 = EntityGenerator.getValidArtikel(3);
-		artikelDao.persist(a1);
-		artikelDao.persist(a2);
-		artikelDao.persist(a3);
-		artikelDao.persist(a4);
+		Merchandise a1 = EntityGenerator.getValidMerchandise(0);
+		Merchandise a2 = EntityGenerator.getValidMerchandise(1);
+		Merchandise a3 = EntityGenerator.getValidMerchandise(2);
+		Merchandise a4 = EntityGenerator.getValidMerchandise(3);
+		MerchandiseDao.persist(a1);
+		MerchandiseDao.persist(a2);
+		MerchandiseDao.persist(a3);
+		MerchandiseDao.persist(a4);
 
 		HashMap<Artikel, Integer> bestellungen = new HashMap<Artikel, Integer>();
 		bestellungen.put(a1, 3);
@@ -114,5 +115,4 @@ public class BestellungTest extends AbstractDaoTest {
 	public void testSaveBestellungWithNullArgument_shouldThrowIllegalArgumentException() {
 		bestellungService.saveBestellungen(null, Zahlungsart.VORKASSE, null);
 	}
-
 }

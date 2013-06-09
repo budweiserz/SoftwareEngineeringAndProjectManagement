@@ -59,7 +59,7 @@ public class Test_EntityGenerator {
 
         for (int i = 0; i <= 100; i++) {
 
-            a = EntityGenerator.getValidArtikel(i);
+            a = EntityGenerator.getValidMerchandise(i);
             violations = v.validate(a);
             assertTrue(violations.size() == 0);
         }

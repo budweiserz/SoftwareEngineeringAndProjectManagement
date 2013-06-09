@@ -285,7 +285,7 @@ public class KundePart {
 
         Adresse a = new Adresse();
 
-        this.kunde.setTitel(this.txtVorname.getText());
+        this.kunde.setTitel(this.txtTitel.getText());
 
         if (this.txtVorname.getText().equals("")) {
             this.kunde.setVorname(null);

@@ -24,13 +24,13 @@ public class BestellungTest extends AbstractDaoTest {
 
 	private static BestellungService bestellungService;
 	private static BestellungDao bestellungDao;
-	private static MerchandiseDao MerchandiseDao;
+	private static MerchandiseDao merchandiseDao;
 
 	@BeforeClass
 	public static void init() {
 		bestellungDao = (BestellungDao)DaoFactory.getByEntity(Bestellung.class);
 		bestellungService = new BestellungServiceImpl(bestellungDao);
-		MerchandiseDao = (MerchandiseDao)DaoFactory.getByEntity(Merchandise.class);
+		merchandiseDao = (MerchandiseDao) DaoFactory.getByEntity(Merchandise.class);
 	}
 
 	@Test
@@ -47,8 +47,8 @@ public class BestellungTest extends AbstractDaoTest {
 	public void testSaveBestellungWithMerchandiseHavingAmountZero_ShouldNotSaveParticularBestellung() {
 		assertEquals(0, bestellungService.findAll().size());
 
-		Merchandise a = EntityGenerator.getValidMerchandise(0);
-		MerchandiseDao.persist(a);
+		Merchandise a = EntityGenerator.getValidMerchandise(1);
+		merchandiseDao.persist(a);
 		HashMap<Artikel, Integer> bestellungen = new HashMap<Artikel, Integer>();
 		bestellungen.put(a, 0);
 		bestellungService.saveBestellungen(bestellungen, Zahlungsart.VORKASSE, null);
@@ -64,10 +64,10 @@ public class BestellungTest extends AbstractDaoTest {
 		Merchandise a2 = EntityGenerator.getValidMerchandise(1);
 		Merchandise a3 = EntityGenerator.getValidMerchandise(2);
 		Merchandise a4 = EntityGenerator.getValidMerchandise(3);
-		MerchandiseDao.persist(a1);
-		MerchandiseDao.persist(a2);
-		MerchandiseDao.persist(a3);
-		MerchandiseDao.persist(a4);
+		merchandiseDao.persist(a1);
+		merchandiseDao.persist(a2);
+		merchandiseDao.persist(a3);
+		merchandiseDao.persist(a4);
 
 		HashMap<Artikel, Integer> bestellungen = new HashMap<Artikel, Integer>();
 		bestellungen.put(a1, 3);
@@ -92,10 +92,10 @@ public class BestellungTest extends AbstractDaoTest {
 		Merchandise a2 = EntityGenerator.getValidMerchandise(1);
 		Merchandise a3 = EntityGenerator.getValidMerchandise(2);
 		Merchandise a4 = EntityGenerator.getValidMerchandise(3);
-		MerchandiseDao.persist(a1);
-		MerchandiseDao.persist(a2);
-		MerchandiseDao.persist(a3);
-		MerchandiseDao.persist(a4);
+		merchandiseDao.persist(a1);
+		merchandiseDao.persist(a2);
+		merchandiseDao.persist(a3);
+		merchandiseDao.persist(a4);
 
 		HashMap<Artikel, Integer> bestellungen = new HashMap<Artikel, Integer>();
 		bestellungen.put(a1, 3);

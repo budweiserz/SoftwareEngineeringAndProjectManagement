@@ -51,6 +51,7 @@
 		<class>at.ticketline.entity.Ort</class>
 		<class>at.ticketline.entity.News</class>
 		<class>at.ticketline.entity.Mitarbeiter</class>
+		<class>at.ticketline.entity.Merchandise</class>
 		<class>at.ticketline.entity.Kunde</class>
 		<class>at.ticketline.entity.Kuenstler</class>
 		<class>at.ticketline.entity.Kategorie</class>

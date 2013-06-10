@@ -1,5 +1,8 @@
 package at.ticketline.kassa.ui;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -9,10 +12,16 @@ import org.slf4j.LoggerFactory;
 
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.api.BestellungDao;
+import at.ticketline.dao.api.PraemieDao;
+import at.ticketline.entity.Artikel;
 import at.ticketline.entity.Bestellung;
+import at.ticketline.entity.Merchandise;
+import at.ticketline.entity.Praemie;
 import at.ticketline.entity.Zahlungsart;
 import at.ticketline.service.api.BestellungService;
+import at.ticketline.service.api.PraemieService;
 import at.ticketline.service.impl.BestellungServiceImpl;
+import at.ticketline.service.impl.PraemieServiceImpl;
 
 public class MerchandiseWizardAbschluss extends WizardPage {
 
@@ -78,15 +87,23 @@ public class MerchandiseWizardAbschluss extends WizardPage {
     
     //TODO gets called when wizard is complete
     public void doTransaction() {
-
-        
+//        HashMap<Artikel, Integer> praemien = new HashMap<Artikel, Integer>();
+//        HashMap<Artikel, Integer> merchandise = new HashMap<Artikel, Integer>();
+//        for (Map.Entry<Artikel, Integer> e : values.getSelected().entrySet()) {
+//
+//            if (e instanceof Praemie) {
+//                praemien.put((Praemie) e.getKey(), e.getValue());
+//            } else if (e instanceof Merchandise) {
+//                merchandise.put((Merchandise) e.getKey(), e.getValue());
+//            }
+//        }
         BestellungService bestellungService = new BestellungServiceImpl((BestellungDao)DaoFactory.getByEntity(Bestellung.class));
         bestellungService.saveBestellungen(values.getSelected(), values.getZahlungsart(), values.getKunde());
     }
     
     public void updateContent() {
         if(values.getKunde() != null) {
-            lblName.setText("Name: " + values.getKunde().getVorname() + " " + values.getKunde().getVorname());
+            lblName.setText("Name: " + values.getKunde().getVorname() + " " + values.getKunde().getNachname());
         } else {
             lblName.setText("Anonymer Kunde");
         }

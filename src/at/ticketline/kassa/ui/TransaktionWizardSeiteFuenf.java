@@ -116,7 +116,7 @@ public class TransaktionWizardSeiteFuenf extends WizardPage {
             lblReservierung.setText("");
         }
         if(values.getKunde() != null) {
-            lblName.setText("Name: " + values.getKunde().getVorname() + " " + values.getKunde().getVorname());
+            lblName.setText("Name: " + values.getKunde().getVorname() + " " + values.getKunde().getNachname());
         } else {
             lblName.setText("Anonymer Kunde");
         }

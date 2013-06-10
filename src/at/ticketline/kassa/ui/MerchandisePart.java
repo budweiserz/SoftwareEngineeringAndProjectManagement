@@ -503,17 +503,22 @@ public class MerchandisePart {
         btnBezahlen.setText("Bezahlen");
         btnBezahlen.addSelectionListener(new SelectionListener() {
 
+            @SuppressWarnings("restriction")
             @Override
             public void widgetSelected(SelectionEvent e) {
                 LOG.debug("Buy {}", selected);
                 // TODO: get Kunde and Zahlungsart from wizard
-                @SuppressWarnings("restriction")
-                MerchandiseWizard tw = ContextInjectionFactory.make(MerchandiseWizard.class, activePart.getContext());
-                MerchandiseWizardDialog transaktion = new MerchandiseWizardDialog(parent.getShell(), tw);
-                tw.setDialogListener();
-                if(transaktion.open() == Window.OK) {
-                    LOG.info("Opened the Merchandise wizard!");
+                if(selected != null && selected.size() > 0) {
+                    MerchandiseWizard tw = ContextInjectionFactory.make(MerchandiseWizard.class, activePart.getContext());
+                    tw.setSelectedArtikel(selected);
+                    MerchandiseWizardDialog transaktion = new MerchandiseWizardDialog(parent.getShell(), tw);
+                    tw.setDialogListener();
+                    if(transaktion.open() == Window.OK) {
+                        LOG.info("Opened the Merchandise wizard!");
+                    }
                 }
+                
+                
                 
                 BestellungService bestellungService = new BestellungServiceImpl((BestellungDao)DaoFactory.getByEntity(Bestellung.class));
                 //bestellungService.saveBestellungen(selected, Zahlungsart.BANKEINZUG);

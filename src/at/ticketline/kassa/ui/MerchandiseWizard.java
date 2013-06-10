@@ -1,13 +1,13 @@
 package at.ticketline.kassa.ui;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
-import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
@@ -21,8 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ticketline.entity.Artikel;
-import at.ticketline.entity.Auffuehrung;
-import at.ticketline.entity.Kunde;
+import at.ticketline.entity.Praemie;
 import at.ticketline.service.api.KundeService;
 
 @SuppressWarnings("restriction")
@@ -61,7 +60,7 @@ public class MerchandiseWizard extends Wizard implements IPageChangedListener{
     @Override
     public void addPages() {
         LOG.info("Add Pages to Wizard...");
-        zwei = new MerchandiseWizardSeiteZwei();
+        zwei = new MerchandiseWizardSeiteZwei(values);
         drei = new MerchandiseWizardSeiteDrei(values);
         vier  = new MerchandiseWizardSeiteVier(values);
         fuenf = new MerchandiseWizardAbschluss(values);
@@ -72,7 +71,6 @@ public class MerchandiseWizard extends Wizard implements IPageChangedListener{
         drei.setDirty(dirty);
         drei.setHandlerService(handlerService);
         drei.setKundeService(kundeService);
-        
         addPage(zwei);
         addPage(drei);
         addPage(vier);

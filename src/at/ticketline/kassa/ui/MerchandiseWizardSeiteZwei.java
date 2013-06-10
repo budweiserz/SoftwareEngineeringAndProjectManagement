@@ -1,5 +1,7 @@
 package at.ticketline.kassa.ui;
 
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import org.eclipse.jface.wizard.WizardPage;
@@ -11,9 +13,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.jfree.util.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import at.ticketline.entity.Artikel;
+import at.ticketline.entity.Praemie;
 import at.ticketline.service.api.KundeService;
 
 public class MerchandiseWizardSeiteZwei extends WizardPage implements Listener{
@@ -25,15 +30,17 @@ public class MerchandiseWizardSeiteZwei extends WizardPage implements Listener{
     private Button btnNeuerKunde;
     private Button btnBestehenderKunde;
     private Button btnAnonymerKunde;
-
+    private MerchandiseWizardValues values;
+    
     /**
      * Auf dieser Seite kann zwischem neuen, bestehenden oder
      * anonymen Kunden für die Transaktion entschieden werden
      */
-    public MerchandiseWizardSeiteZwei() {
+    public MerchandiseWizardSeiteZwei(MerchandiseWizardValues values) {
         super("kundenwahl");
         setTitle("Kundentyp");
         setDescription("Wähle die Art des Kunden aus");
+        this.values = values;
     }
 
     /**
@@ -74,6 +81,8 @@ public class MerchandiseWizardSeiteZwei extends WizardPage implements Listener{
         btnBestehenderKunde.addListener(SWT.Selection, this);
         btnBestehenderKunde.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 1));
         btnBestehenderKunde.setText("Bestehender Kunde");
+        btnBestehenderKunde.setSelection(true);
+
         new Label(container, SWT.NONE);
         new Label(container, SWT.NONE);
         
@@ -93,6 +102,7 @@ public class MerchandiseWizardSeiteZwei extends WizardPage implements Listener{
         btnAnonymerKunde = new Button(container, SWT.RADIO);
         btnAnonymerKunde.setText("Anonymer Kunde");
         btnAnonymerKunde.addListener(SWT.Selection, this);
+        
         new Label(container, SWT.NONE);
         new Label(container, SWT.NONE);
         
@@ -105,6 +115,13 @@ public class MerchandiseWizardSeiteZwei extends WizardPage implements Listener{
         lblAnon2.setText("Karten bestellen.");
         
         //TODO set completed when customer type is selected
+        for (Map.Entry<Artikel, Integer> e : values.getSelected().entrySet()) {
+            LOG.debug(e.getClass().getName());
+            if (e.getKey() instanceof Praemie) {
+                btnNeuerKunde.setEnabled(false);
+                btnAnonymerKunde.setEnabled(false);
+            }
+        }
         
         setPageComplete(false);
         LOG.info("Wizardseite zur Auswahl des Kudnentyps erstellt!");

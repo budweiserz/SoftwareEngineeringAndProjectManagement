@@ -1,5 +1,6 @@
 package at.ticketline.kassa.ui;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,15 +13,19 @@ import org.slf4j.LoggerFactory;
 
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.api.BestellungDao;
+import at.ticketline.dao.api.KundeDao;
 import at.ticketline.dao.api.PraemieDao;
 import at.ticketline.entity.Artikel;
 import at.ticketline.entity.Bestellung;
+import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Merchandise;
 import at.ticketline.entity.Praemie;
 import at.ticketline.entity.Zahlungsart;
 import at.ticketline.service.api.BestellungService;
+import at.ticketline.service.api.KundeService;
 import at.ticketline.service.api.PraemieService;
 import at.ticketline.service.impl.BestellungServiceImpl;
+import at.ticketline.service.impl.KundeServiceImpl;
 import at.ticketline.service.impl.PraemieServiceImpl;
 
 public class MerchandiseWizardAbschluss extends WizardPage {
@@ -85,20 +90,31 @@ public class MerchandiseWizardAbschluss extends WizardPage {
         return null;
     }
     
-    //TODO gets called when wizard is complete
+    // gets called when wizard is complete
     public void doTransaction() {
-//        HashMap<Artikel, Integer> praemien = new HashMap<Artikel, Integer>();
-//        HashMap<Artikel, Integer> merchandise = new HashMap<Artikel, Integer>();
-//        for (Map.Entry<Artikel, Integer> e : values.getSelected().entrySet()) {
-//
-//            if (e instanceof Praemie) {
-//                praemien.put((Praemie) e.getKey(), e.getValue());
-//            } else if (e instanceof Merchandise) {
-//                merchandise.put((Merchandise) e.getKey(), e.getValue());
-//            }
-//        }
-        BestellungService bestellungService = new BestellungServiceImpl((BestellungDao)DaoFactory.getByEntity(Bestellung.class));
-        bestellungService.saveBestellungen(values.getSelected(), values.getZahlungsart(), values.getKunde());
+        int praemieKosten = 0;
+        //Kosten aller Praemien
+        for (Map.Entry<Artikel, Integer> e : values.getSelected().entrySet()) {
+            if (e.getKey() instanceof Praemie)
+               praemieKosten += ((Praemie) e.getKey()).getPunkte().intValue();
+        }
+        KundeService kundeService = new KundeServiceImpl((KundeDao)DaoFactory.getByEntity(Kunde.class));
+        Kunde kunde = this.values.getKunde();
+        if(praemieKosten > 0) {
+            if(kunde != null && kunde.getPunkte() != null && (kunde.getPunkte().intValue() - praemieKosten) >= 0) {
+               kunde.setPunkte(new BigDecimal(kunde.getPunkte().intValue() - praemieKosten));
+               kundeService.save(kunde);
+               //Bestellung abspeichern
+               BestellungService bestellungService = new BestellungServiceImpl((BestellungDao)DaoFactory.getByEntity(Bestellung.class));
+               bestellungService.saveBestellungen(values.getSelected(), values.getZahlungsart(), values.getKunde());
+            } else {
+                setErrorMessage();
+            }
+        } else {
+            //Bestellung abspeichern
+            BestellungService bestellungService = new BestellungServiceImpl((BestellungDao)DaoFactory.getByEntity(Bestellung.class));
+            bestellungService.saveBestellungen(values.getSelected(), values.getZahlungsart(), values.getKunde());
+        }
     }
     
     public void updateContent() {
@@ -112,5 +128,9 @@ public class MerchandiseWizardAbschluss extends WizardPage {
             String zahlung = values.getZahlungsart().toString();
             lblZahlungsk.setText(zahlung.substring(0, 1) + zahlung.substring(1).toLowerCase());
         }
+    }
+    
+    public void setErrorMessage() {
+            lblZahlungsk.setText("Zu wenige Punkte für Transaktion vorhanden!");
     }
 }

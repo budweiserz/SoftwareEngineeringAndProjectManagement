@@ -93,16 +93,23 @@ public class MerchandiseWizardAbschluss extends WizardPage {
     // gets called when wizard is complete
     public void doTransaction() {
         int praemieKosten = 0;
+        int merchKosten = 0;
         //Kosten aller Praemien
         for (Map.Entry<Artikel, Integer> e : values.getSelected().entrySet()) {
             if (e.getKey() instanceof Praemie)
-               praemieKosten += ((Praemie) e.getKey()).getPunkte().intValue();
+               praemieKosten += (((Praemie) e.getKey()).getPunkte().intValue() * e.getValue());
+            if (e.getKey() instanceof Merchandise)
+                merchKosten += (((Merchandise) e.getKey()).getPreis().intValue() * e.getValue());
         }
+        LOG.info("merchandiseKosten:" + merchKosten);
         KundeService kundeService = new KundeServiceImpl((KundeDao)DaoFactory.getByEntity(Kunde.class));
         Kunde kunde = this.values.getKunde();
         if(praemieKosten > 0) {
             if(kunde != null && kunde.getPunkte() != null && (kunde.getPunkte().intValue() - praemieKosten) >= 0) {
-               kunde.setPunkte(new BigDecimal(kunde.getPunkte().intValue() - praemieKosten));
+               int kundePunkte = kunde.getPunkte().intValue();
+               kundePunkte -= praemieKosten;
+               kundePunkte += Math.round(((double)merchKosten/10));
+               kunde.setPunkte(new BigDecimal(kundePunkte));
                kundeService.save(kunde);
                //Bestellung abspeichern
                BestellungService bestellungService = new BestellungServiceImpl((BestellungDao)DaoFactory.getByEntity(Bestellung.class));
@@ -111,6 +118,12 @@ public class MerchandiseWizardAbschluss extends WizardPage {
                 setErrorMessage();
             }
         } else {
+            if(kunde.getPunkte() != null) {
+                int kundePunkte = kunde.getPunkte().intValue();
+                kundePunkte += Math.round(((double)merchKosten/10));
+                kunde.setPunkte(new BigDecimal(kundePunkte));
+                kundeService.save(kunde);
+            }
             //Bestellung abspeichern
             BestellungService bestellungService = new BestellungServiceImpl((BestellungDao)DaoFactory.getByEntity(Bestellung.class));
             bestellungService.saveBestellungen(values.getSelected(), values.getZahlungsart(), values.getKunde());

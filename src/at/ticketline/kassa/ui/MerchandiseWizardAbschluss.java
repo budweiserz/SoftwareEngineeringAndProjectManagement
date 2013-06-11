@@ -72,7 +72,7 @@ public class MerchandiseWizardAbschluss extends WizardPage {
         lblZahlungsart.setText("Zahlungsart:");
         
         lblZahlungsk = new Label(container, SWT.NONE);
-        lblZahlungsk.setBounds(15, 89, 235, 15);
+        lblZahlungsk.setBounds(15, 89, 528, 15);
         lblZahlungsk.setText("Blankfeld");
         
         setPageComplete(false);
@@ -131,6 +131,7 @@ public class MerchandiseWizardAbschluss extends WizardPage {
     }
     
     public void setErrorMessage() {
-            lblZahlungsk.setText("Zu wenige Punkte für Transaktion vorhanden!");
+        lblZahlungsart.setText("");    
+        lblZahlungsk.setText("Konnte Transaktion nicht durchführen. Zu wenige Punkte vorhanden!");
     }
 }

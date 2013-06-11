@@ -81,7 +81,6 @@ public class MerchandiseWizardSeiteZwei extends WizardPage implements Listener{
         btnBestehenderKunde.addListener(SWT.Selection, this);
         btnBestehenderKunde.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 1));
         btnBestehenderKunde.setText("Bestehender Kunde");
-        btnBestehenderKunde.setSelection(true);
 
         new Label(container, SWT.NONE);
         new Label(container, SWT.NONE);
@@ -114,16 +113,19 @@ public class MerchandiseWizardSeiteZwei extends WizardPage implements Listener{
         Label lblAnon2 = new Label(container, SWT.NONE);
         lblAnon2.setText("Karten bestellen.");
         
+        setPageComplete(false);
         //TODO set completed when customer type is selected
         for (Map.Entry<Artikel, Integer> e : values.getSelected().entrySet()) {
             LOG.debug(e.getClass().getName());
             if (e.getKey() instanceof Praemie) {
                 btnNeuerKunde.setEnabled(false);
                 btnAnonymerKunde.setEnabled(false);
+                btnBestehenderKunde.setSelection(true);
+                setPageComplete(true);
             }
         }
         
-        setPageComplete(false);
+        
         LOG.info("Wizardseite zur Auswahl des Kudnentyps erstellt!");
     }
 

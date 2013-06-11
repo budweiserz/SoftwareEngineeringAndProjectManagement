@@ -1,5 +1,7 @@
 package at.ticketline.kassa.ui;
 
+import java.text.SimpleDateFormat;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -155,7 +157,8 @@ public class VeranstaltungPart {
                 switch (index) {
                 case 0:
                     if (a.getDatumuhrzeit() != null) {
-                        return a.getDatumuhrzeit().toString();
+                        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                    	return format.format(a.getDatumuhrzeit());
                     } else {
                         return "";
                     }

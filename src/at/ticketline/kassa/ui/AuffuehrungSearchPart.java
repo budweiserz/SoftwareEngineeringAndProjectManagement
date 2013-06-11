@@ -257,7 +257,7 @@ public class AuffuehrungSearchPart {
                     }
                 case 2:
                     if (e.getDatumuhrzeit() != null) {
-                        SimpleDateFormat format = new SimpleDateFormat("dd:MM:yyyy");
+                        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
                     	return format.format(e.getDatumuhrzeit());
                     } else {
                         return "";

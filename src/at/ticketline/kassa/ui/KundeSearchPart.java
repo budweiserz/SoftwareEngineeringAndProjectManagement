@@ -1,5 +1,7 @@
 package at.ticketline.kassa.ui;
 
+import java.text.SimpleDateFormat;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
@@ -175,7 +177,8 @@ public class KundeSearchPart {
                     }
                 case 2:
                     if (e.getGeburtsdatum() != null) {
-                        return e.getGeburtsdatum().getTime().toString();
+                        SimpleDateFormat myFormat = new SimpleDateFormat("dd.MM.yyyy");
+                        return myFormat.format(e.getGeburtsdatum().getTime());
                     } else {
                         return "";
                     }

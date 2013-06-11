@@ -96,19 +96,30 @@ public class KundePart {
     private Section section_extended;
     private Spinner spinner;
 
+    private boolean created = false;
+
     /**
      * @wbp.parser.entryPoint
      */
     @Inject
     public void init(Composite parent, @Named(IServiceConstants.ACTIVE_SELECTION) @Optional Kunde kunde)
             throws PartInitException {
-        if (kunde != null) {
-            this.kunde = kunde;
-        }
-        createControls(parent);
-
-        if (kunde != null) {
-            setInput();
+        /*
+         * XXX: When multiple Tabs are open Eclipse will show the first x 
+         * Kuenstler in the first tab. Then the first x-1 Kuenstler in the 
+         * second tab and so on.
+         * Having a created boolean fixes this.
+         */
+        if(created == false) {
+            created = true;
+            if (kunde != null) {
+                this.kunde = kunde;
+            }
+            createControls(parent);
+    
+            if (kunde != null) {
+                setInput();
+            }
         }
     }
 

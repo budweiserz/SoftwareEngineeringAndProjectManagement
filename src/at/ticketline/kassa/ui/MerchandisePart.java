@@ -60,6 +60,9 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Spinner;
+import org.eclipse.swt.layout.FormLayout;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormAttachment;
 
 public class MerchandisePart {
 
@@ -475,30 +478,42 @@ public class MerchandisePart {
     private void createCheckout(Composite composite) {
 
         Composite checkout = new Composite(composite, SWT.NONE);
+        checkout.setLayout(new FormLayout());
         GridData gd_footer = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
+        gd_footer.minimumHeight = 40;
+        gd_footer.minimumWidth = 200;
+        gd_footer.widthHint = 210;
         gd_footer.heightHint = 50;
         checkout.setLayoutData(gd_footer);
         toolkit.adapt(checkout);
         toolkit.paintBordersFor(checkout);
-        checkout.setLayout(new GridLayout(3, false));
 
         toolkit.adapt(checkout);
         toolkit.paintBordersFor(checkout);
 
         Label lblGesamtpreis = new Label(checkout, SWT.NONE);
-        lblGesamtpreis.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, false, true, 1, 1));
+        FormData fd_lblGesamtpreis = new FormData();
+        fd_lblGesamtpreis.left = new FormAttachment(0, 4);
+        lblGesamtpreis.setLayoutData(fd_lblGesamtpreis);
         toolkit.adapt(lblGesamtpreis, true, true);
         lblGesamtpreis.setText("Gesamtpreis");
 
         this.lblGesamtbetrag = new Label(checkout, SWT.RIGHT);
-        GridData gd_lblGesamtbetrag = new GridData(SWT.LEFT, SWT.TOP, false, true, 1, 1);
-        gd_lblGesamtbetrag.minimumWidth = 60;
-        lblGesamtbetrag.setLayoutData(gd_lblGesamtbetrag);
+        fd_lblGesamtpreis.top = new FormAttachment(0, 10);
+        FormData fd_lblGesamtbetrag = new FormData();
+        fd_lblGesamtbetrag.top = new FormAttachment(lblGesamtpreis, 0, SWT.TOP);
+        fd_lblGesamtbetrag.left = new FormAttachment(lblGesamtpreis, 6);
+        lblGesamtbetrag.setLayoutData(fd_lblGesamtbetrag);
         toolkit.adapt(lblGesamtbetrag, true, true);
         lblGesamtbetrag.setText("0.00€");
 
         Button btnBezahlen = new Button(checkout, SWT.NONE);
-        btnBezahlen.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+        FormData fd_btnBezahlen = new FormData();
+        fd_btnBezahlen.top = new FormAttachment(lblGesamtbetrag, -5, SWT.TOP);
+        fd_btnBezahlen.right = new FormAttachment(100, -10);
+        fd_btnBezahlen.bottom = new FormAttachment(100, -18);
+        fd_btnBezahlen.left = new FormAttachment(100, -74);
+        btnBezahlen.setLayoutData(fd_btnBezahlen);
         toolkit.adapt(btnBezahlen, true, true);
         btnBezahlen.setText("Bezahlen");
         btnBezahlen.addSelectionListener(new SelectionListener() {

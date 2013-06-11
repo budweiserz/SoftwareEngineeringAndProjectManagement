@@ -150,6 +150,8 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         
         Composite composite_13 = new Composite(composite_2, SWT.NONE);
         GridData gd_composite_13 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+        gd_composite_13.minimumHeight = 40;
+        gd_composite_13.heightHint = 40;
         gd_composite_13.widthHint = 100;
         composite_13.setLayoutData(gd_composite_13);
         
@@ -162,12 +164,15 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         lblVorne.setLayoutData(gd_lblVorne);
         
         Composite composite_12 = new Composite(composite_2, SWT.NONE);
+        composite_12.setLayout(new GridLayout(1, false));
         GridData gd_composite_12 = new GridData(SWT.CENTER, SWT.CENTER, false, true, 1, 1);
+        gd_composite_12.minimumHeight = 40;
+        gd_composite_12.heightHint = 40;
         gd_composite_12.widthHint = 100;
         composite_12.setLayoutData(gd_composite_12);
         
         lblSaal = new Label(composite_12, SWT.NONE);
-        lblSaal.setBounds(-40, -11, 130, 18);
+        lblSaal.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, true, 1, 1));
         lblSaal.setText(saal.getBezeichnung());
         
     }

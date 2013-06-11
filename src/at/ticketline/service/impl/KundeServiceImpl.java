@@ -1,5 +1,6 @@
 package at.ticketline.service.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -40,9 +41,13 @@ public class KundeServiceImpl implements KundeService {
             }
             if (kunde.getId() == null) {
                 LOG.info("Persisting new customer {} {}", kunde.getVorname(), kunde.getNachname());
+                if(kunde.getPunkte() == null)
+                    kunde.setPunkte(new BigDecimal(0));
                 this.kundeDao.persist(kunde);
             } else {
                 LOG.info("Persisting customer {} ({} {})", kunde.getId(), kunde.getVorname(), kunde.getNachname());
+                if(kunde.getPunkte() == null)
+                    kunde.setPunkte(new BigDecimal(0));
                 this.kundeDao.merge(kunde);
             }
         } catch (DaoException e) {

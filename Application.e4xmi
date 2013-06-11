@@ -16,8 +16,8 @@
           <children xsi:type="menu:HandledMenuItem" xmi:id="_SuAigLxzEeKT_IzQOUkC4g" elementId="" label="Kunde" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/contact_card_icon&amp;16.png" tooltip="Neuen Kunden erstellen" command="_JJKkoLxyEeKT_IzQOUkC4g"/>
         </children>
         <children xsi:type="menu:MenuSeparator" xmi:id="__nOcgJ7yEeKyV7_6Xf9MMA" elementId="ticketlinercpjuno.menuseparator.0"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_J1qjK57KEeKyV7_6Xf9MMA" label="Save" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/save_icon&amp;16.png" command="_nFqVwJ7zEeKyV7_6Xf9MMA"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_J1qjLJ7KEeKyV7_6Xf9MMA" label="Quit" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/round_delete_icon&amp;16.png" command="_J1qjGp7KEeKyV7_6Xf9MMA"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_J1qjK57KEeKyV7_6Xf9MMA" label="Speichern" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/save_icon&amp;16.png" command="_nFqVwJ7zEeKyV7_6Xf9MMA"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_J1qjLJ7KEeKyV7_6Xf9MMA" label="Beenden" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/round_delete_icon&amp;16.png" command="_J1qjGp7KEeKyV7_6Xf9MMA"/>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_Alf3oLy4EeKlkobWpntiug" elementId="at.ticketline.handledmenuitem.searchMenu" label="Suche" iconURI="">
         <children xsi:type="menu:HandledMenuItem" xmi:id="__9EFALy_EeKlkobWpntiug" elementId="sepm.handledmenuitem.1" label="Aufführungen" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/zoom_icon&amp;16.png" command="_RSuQYL1cEeKCAfdsrtuMiA"/>

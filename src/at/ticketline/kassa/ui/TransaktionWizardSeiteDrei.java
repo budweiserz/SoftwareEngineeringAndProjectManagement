@@ -216,11 +216,6 @@ public class TransaktionWizardSeiteDrei extends WizardPage {
         // nothing to do
     }
 
-    @Focus
-    public void setFocus() {
-        // nothing to do
-    }
-
     @Persist
     public void save() {
         LOG.info("Kunde speichern");
@@ -354,4 +349,8 @@ public class TransaktionWizardSeiteDrei extends WizardPage {
         this.kundeService = kundeService;
     }
 
+    @Focus
+    public void setFocus() {
+        btnSave.setFocus();
+    }
 }

@@ -1,5 +1,9 @@
 package at.ticketline.kassa.ui;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.annotation.PreDestroy;
 
 import org.eclipse.e4.ui.di.Focus;
@@ -49,6 +53,8 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
     private TransaktionWizardValues values;
     private Saal saal;
     private Reihe[] reihen;
+    private HashMap<Integer, Platz> plaetze;
+    private HashSet<Platz> ausgewaehltePlaetze;
     private static final Logger LOG = LoggerFactory.getLogger(TransaktionWizardSeiteEins.class);
     
     //Saalplan
@@ -67,7 +73,6 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
     private Text txtPersons;
     private Text txtPrice;
     private int selectedSeats;
-    private Spinner spinnerChildren;
     private Label lblSaal;
 
     
@@ -84,6 +89,11 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         saal = values.getAuffuehrung().getSaal();
         reihen = saal.getReihen().toArray(new Reihe[saal.getReihen().size()]);
         selectedSeats = 0;
+        plaetze = new HashMap<Integer, Platz>();
+        for(Platz platz : values.getAuffuehrung().getPlaetze()) {
+        	plaetze.put(platz.getNummer(), platz);
+        }
+        ausgewaehltePlaetze = new HashSet<Platz>();
     }
 
     /**
@@ -132,9 +142,9 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         Composite composite_2 = new Composite(parent, SWT.NONE);
         composite_2.setLayout(new GridLayout(3, false));
         GridData gd_composite_2 = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
-        gd_composite_2.minimumHeight = 50;
+        gd_composite_2.minimumHeight = 60;
         gd_composite_2.minimumWidth = 700;
-        gd_composite_2.heightHint = 50;
+        gd_composite_2.heightHint = 60;
         gd_composite_2.widthHint = 1920;
         composite_2.setLayoutData(gd_composite_2);
         
@@ -157,7 +167,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         composite_12.setLayoutData(gd_composite_12);
         
         lblSaal = new Label(composite_12, SWT.NONE);
-        lblSaal.setBounds(24, 0, 66, 14);
+        lblSaal.setBounds(-40, -11, 130, 18);
         lblSaal.setText(saal.getBezeichnung());
         
     }
@@ -170,13 +180,14 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         tcl_composite = new TableColumnLayout();
         composite.setLayout(tcl_composite);
         
-        table = new Table(composite, SWT.BORDER | SWT.FULL_SELECTION | SWT.HIDE_SELECTION | SWT.MULTI | SWT.NO_SCROLL);
+        table = new Table(composite, SWT.BORDER | SWT.FULL_SELECTION | SWT.HIDE_SELECTION | SWT.MULTI);
         table.setHeaderVisible(true);
         table.setLinesVisible(true);
         
-        
-        
-        numOfColumns = reihen[0].getAnzplaetze();
+        numOfColumns = 0;
+        for(Reihe reihe : reihen) {
+        	numOfColumns = Math.max(numOfColumns, reihe.getAnzplaetze());
+        }
         numOfRows = reihen.length;
         
         createColumns();
@@ -194,11 +205,17 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
                             Log.info(item);
                             Color currentColor = item.getBackground(column);
                             if(currentColor.equals(CAVAILABLE)) {
+                            	Platz platz = new Platz();
+                            	platz.setNummer(table.indexOf(item)*numOfColumns + column);
+                            	ausgewaehltePlaetze.add(platz);
+                            	values.setPlaetze(ausgewaehltePlaetze);
                                 item.setBackground(column, CSELECTED);
                                 selectedSeats++;
                                 refreshFooter();
                             } else if(currentColor.equals(CSELECTED)) {
                                 item.setBackground(column, CAVAILABLE);
+                                ausgewaehltePlaetze.remove(table.indexOf(item)*numOfColumns + column);
+                            	values.setPlaetze(ausgewaehltePlaetze);
                                 selectedSeats--;
                                 refreshFooter();
                             }
@@ -303,9 +320,9 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         composite_1.setBackground(CWHITE);
         composite_1.setLayout(new FormLayout());
         GridData gd_composite_1 = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
-        gd_composite_1.heightHint = 100;
+        gd_composite_1.heightHint = 70;
         gd_composite_1.widthHint = 1920;
-        gd_composite_1.minimumHeight = 100;
+        gd_composite_1.minimumHeight = 70;
         gd_composite_1.minimumWidth = 650;
         composite_1.setLayoutData(gd_composite_1);
         
@@ -317,14 +334,6 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         lblAnzahlDerPersonen.setLayoutData(fd_lblAnzahlDerPersonen);
         lblAnzahlDerPersonen.setText("Anzahl der Personen");
         
-        Label lblDavonKinder = new Label(composite_1, SWT.NONE);
-        lblDavonKinder.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-        FormData fd_lblDavonKinder = new FormData();
-        fd_lblDavonKinder.top = new FormAttachment(lblAnzahlDerPersonen, 21);
-        fd_lblDavonKinder.left = new FormAttachment(0, 10);
-        lblDavonKinder.setLayoutData(fd_lblDavonKinder);
-        lblDavonKinder.setText("Davon Kinder");
-        
         txtPersons = new Text(composite_1, SWT.BORDER);
         txtPersons.setEditable(false);
         FormData fd_txtPersons = new FormData();
@@ -333,29 +342,10 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         fd_txtPersons.left = new FormAttachment(lblAnzahlDerPersonen, 24);
         txtPersons.setLayoutData(fd_txtPersons);
         txtPersons.setText(String.valueOf(selectedSeats));
-        
-        spinnerChildren = new Spinner(composite_1, SWT.BORDER);
-        spinnerChildren.setMaximum(0);
+
         FormData fd_spinnerChildren = new FormData();
-        fd_spinnerChildren.top = new FormAttachment(lblDavonKinder, -4, SWT.TOP);
         fd_spinnerChildren.right = new FormAttachment(txtPersons, 42);
         fd_spinnerChildren.left = new FormAttachment(txtPersons, 0, SWT.LEFT);
-        spinnerChildren.setLayoutData(fd_spinnerChildren);
-        
-        spinnerChildren.addSelectionListener(new SelectionListener() {
-            
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                refreshFooter();
-                
-            }
-            
-            @Override
-            public void widgetDefaultSelected(SelectionEvent e) {
-                //Nothing to do here
-                
-            }
-        });
         
         Label lblPreis = new Label(composite_1, SWT.NONE);
         lblPreis.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -386,7 +376,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         
         btnBuchung = new Button(composite_1, SWT.RADIO);
         FormData fd_btnBuchung = new FormData();
-        fd_btnBuchung.bottom = new FormAttachment(lblDavonKinder, 0, SWT.BOTTOM);
+        fd_btnBuchung.bottom = new FormAttachment(btnReservierung, -4);
         fd_btnBuchung.right = new FormAttachment(btnReservierung, 0, SWT.RIGHT);
         btnBuchung.setLayoutData(fd_btnBuchung);
         btnBuchung.addListener(SWT.Selection, this);
@@ -410,42 +400,44 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
     private void createRows() {
         TableItem tableItem;
         Reihe reihe;
-        Platz[] plaetze;
         Platz platz;
         for(int i=0; i<numOfRows; i++) {
             tableItem = new TableItem(table, SWT.NONE);
             reihe = reihen[i];
-            plaetze = reihe.getPlaetze().toArray(new Platz[reihe.getAnzplaetze()]);
-            for(int j=0; j<reihe.getAnzplaetze(); j++) {
-            	platz = plaetze[j];
-            	if(platz != null) {
-	            	PlatzStatus status = platz.getStatus();
-	                switch(status) {
-	                case FREI:
-	                    tableItem.setBackground(j, CAVAILABLE);
-	                    break;
-	                case RESERVIERT:
-	                    tableItem.setBackground(j, CBOOKED);
-	                    break;
-	                case GEBUCHT:
-	                    tableItem.setBackground(j, CSOLD);
-	                    break;
-	                }
+            for(int j=0; j<numOfColumns; j++) {
+            	if(j<reihe.getAnzplaetze()) {
+            		platz = plaetze.get(i*numOfColumns + j);
+                	
+                	if(platz != null) {
+    	            	PlatzStatus status = platz.getStatus();
+    	                switch(status) {
+    	                case FREI:
+    	                    tableItem.setBackground(j, CAVAILABLE);
+    	                    break;
+    	                case RESERVIERT:
+    	                    tableItem.setBackground(j, CBOOKED);
+    	                    break;
+    	                case GEBUCHT:
+    	                    tableItem.setBackground(j, CSOLD);
+    	                    break;
+    	                }
+                	} else {
+                		tableItem.setBackground(j, CAVAILABLE);
+                	}
             	} else {
-            		tableItem.setBackground(j, CAVAILABLE);
+            		//No available Seat here
+            		tableItem.setBackground(CBACKGROUD);
             	}
+            	
             }
         }
     }
 
     private void refreshFooter() {
         txtPersons.setText(String.valueOf(selectedSeats));
-        spinnerChildren.setMaximum(selectedSeats);
         // Calculate Price
-        int children= Integer.valueOf(spinnerChildren.getText());
         double pps = 9.50;
-        double ppsChildren = 4.90;
-        double price = (selectedSeats - children) * pps + children * ppsChildren;
+        double price = selectedSeats*pps;
         txtPrice.setText(String.valueOf(price));
     }
     
@@ -455,6 +447,6 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
 
     @Focus
     public void setFocus() {
-        spinnerChildren.setFocus();
+        btnBuchung.setFocus();
     }
 }

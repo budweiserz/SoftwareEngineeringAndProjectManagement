@@ -13,6 +13,7 @@ public class TransaktionWizardValues {
     private Kunde kunde;
     private Auffuehrung auffuehrung;
     private Mitarbeiter mitarbeiter;
+    private HashSet<Platz> plaetze;
     
     public Kunde getKunde() {
         return kunde;
@@ -33,8 +34,10 @@ public class TransaktionWizardValues {
         this.auffuehrung = auffuehrung;
     }
     public Set<Platz> getPlaetze() {
-        // TODO !!!
-        return new HashSet<Platz>();
+        return plaetze;
+    }
+    public void setPlaetze(HashSet<Platz> plaetze) {
+    	this.plaetze = plaetze;
     }
     public void setMitarbeiter(Mitarbeiter m) {
         this.mitarbeiter = m;

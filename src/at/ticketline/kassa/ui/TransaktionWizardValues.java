@@ -14,6 +14,7 @@ public class TransaktionWizardValues {
     private Auffuehrung auffuehrung;
     private Mitarbeiter mitarbeiter;
     private HashSet<Platz> plaetze;
+    private int reservierungsNummer;
     
     public Kunde getKunde() {
         return kunde;
@@ -44,5 +45,11 @@ public class TransaktionWizardValues {
     }
     public Mitarbeiter getMitarbeiter() {
         return this.mitarbeiter;
+    }
+    public int getReservierungsNummer() {
+        return reservierungsNummer;
+    }
+    public void setReservierungsNummer(int reservierungsNummer) {
+        this.reservierungsNummer = reservierungsNummer;
     }
 }

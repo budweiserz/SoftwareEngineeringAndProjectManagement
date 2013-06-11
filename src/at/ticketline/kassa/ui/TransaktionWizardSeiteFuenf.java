@@ -19,6 +19,7 @@ import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.Platz;
+import at.ticketline.entity.Transaktion;
 import at.ticketline.service.api.TransaktionService;
 import at.ticketline.service.impl.TransaktionServiceImpl;
 
@@ -98,23 +99,27 @@ public class TransaktionWizardSeiteFuenf extends WizardPage {
         Auffuehrung auffuehrung = values.getAuffuehrung();
         Set<Platz> plaetze = values.getPlaetze();
             
+        Transaktion t = null;
         if (values.isReservierung()) {
-            service.reserve(mitarbeiter, kunde, auffuehrung, plaetze);
+            t = service.reserve(mitarbeiter, kunde, auffuehrung, plaetze);
         } else {
-            service.sell(mitarbeiter, kunde, auffuehrung, plaetze);
+            t = service.sell(mitarbeiter, kunde, auffuehrung, plaetze);
         }
+        
+        values.setReservierungsNummer(t.getReservierungsnr());
     }
     
     public void updateContent() {
         if(values.isReservierung()) {
             setTitle("Reservierung abgeschlossen");
             setDescription("Hier sind die Informationen zur Reservierung:");
-            lblReservierung.setText("Reservierungsnummer: ");
+            lblReservierung.setText("Reservierungsnummer: " + values.getReservierungsNummer());
         } else {
             setTitle("Buchung abgeschlossen");
             setDescription("Hier sind die Informationen zur Transaktion:");
             lblReservierung.setText("");
         }
+
         if(values.getKunde() != null) {
             lblName.setText("Name: " + values.getKunde().getVorname() + " " + values.getKunde().getNachname());
         } else {

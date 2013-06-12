@@ -80,8 +80,8 @@ public class TransaktionWizard extends Wizard implements IPageChangedListener{
 
     @Override
     public boolean performCancel() {
-        if(fuenf.isCurrentPage())
-            return false;// TODO Auto-generated method stub
+        //if(fuenf.isCurrentPage())
+        //    return false;// TODO Auto-generated method stub
         return true;
     }
     

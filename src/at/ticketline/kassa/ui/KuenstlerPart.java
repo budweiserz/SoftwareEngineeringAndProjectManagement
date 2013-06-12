@@ -102,9 +102,11 @@ public class KuenstlerPart{
     
     private boolean created = false;
 
+    /**
+     * @wbp.parser.entryPoint
+     */
     @Inject
-    public void init(Composite parent,
-                    @Named (IServiceConstants.ACTIVE_SELECTION) @Optional Kuenstler kuenstler) throws PartInitException {
+    public void init(Composite parent, @Named (IServiceConstants.ACTIVE_SELECTION) @Optional Kuenstler kuenstler) throws PartInitException {
         /*
          * XXX: When multiple Tabs are open Eclipse will show the first x 
          * Kuenstler in the first tab. Then the first x-1 Kuenstler in the 
@@ -486,8 +488,7 @@ public class KuenstlerPart{
 
         @Override
         public void modifyText(ModifyEvent e) {
-            if ((e.getSource().equals(KuenstlerPart.this.txtNachname))
-                    || (e.getSource().equals(KuenstlerPart.this.txtVorname))) {
+            if ((e.getSource().equals(KuenstlerPart.this.txtNachname)) || (e.getSource().equals(KuenstlerPart.this.txtVorname))) {
                 KuenstlerPart.this.updateTitle();
             }
             dirty.setDirty(true);

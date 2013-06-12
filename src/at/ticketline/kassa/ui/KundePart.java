@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -60,24 +61,15 @@ public class KundePart {
 
     private static final Logger LOG = LoggerFactory.getLogger(KundePart.class);
 
-    @Inject
-    private MDirtyable dirty;
-    @Inject
-    private EPartService partService;
-    @Inject
-    private EHandlerService handlerService;
-    @Inject
-    private ECommandService commandService;
-    @Inject
-    private MPart activePart;
-    @Inject
-    @Named(IServiceConstants.ACTIVE_SHELL)
-    private Shell shell;
+    @Inject private MDirtyable dirty;
+    @Inject private EPartService partService;
+    @Inject private EHandlerService handlerService;
+    @Inject private ECommandService commandService;
+    @Inject private MPart activePart;
+    @Inject @Named(IServiceConstants.ACTIVE_SHELL) private Shell shell;
 
-    @Inject
-    private Kunde kunde;
-    @Inject
-    private KundeService kundeService;
+    @Inject private Kunde kunde;
+    @Inject private KundeService kundeService;
 
     private FormToolkit toolkit;
     private ScrolledForm form;
@@ -102,8 +94,7 @@ public class KundePart {
      * @wbp.parser.entryPoint
      */
     @Inject
-    public void init(Composite parent, @Named(IServiceConstants.ACTIVE_SELECTION) @Optional Kunde kunde)
-            throws PartInitException {
+    public void init(Composite parent, @Named(IServiceConstants.ACTIVE_SELECTION) @Optional Kunde kunde) throws PartInitException {
         /*
          * XXX: When multiple Tabs are open Eclipse will show the first x 
          * Kuenstler in the first tab. Then the first x-1 Kuenstler in the 
@@ -121,6 +112,12 @@ public class KundePart {
                 setInput();
             }
         }
+    }
+
+    @PostConstruct
+    private void initTitle() {
+        LOG.debug("post construct kunde");
+        this.updateTitle();
     }
 
     private void createControls(Composite parent) {
@@ -276,7 +273,9 @@ public class KundePart {
             this.dtGeburtsdatum.setMonth(gc.get(Calendar.MONTH));
             this.dtGeburtsdatum.setDay(gc.get(Calendar.DAY_OF_MONTH));
         }
-        spinner.setSelection(this.kunde.getPunkte().intValue());
+        if(this.kunde.getPunkte() != null) {
+            spinner.setSelection(this.kunde.getPunkte().intValue());
+        }
         dirty.setDirty(false);
     }
 
@@ -362,7 +361,7 @@ public class KundePart {
     }
 
     private void updateTitle() {
-        partService.getActivePart().setLabel(this.txtVorname.getText() + " " + this.txtNachname.getText());
+        activePart.setLabel(this.txtVorname.getText() + " " + this.txtNachname.getText());
     }
 
     class EditorModifyListener implements ModifyListener, FocusListener {

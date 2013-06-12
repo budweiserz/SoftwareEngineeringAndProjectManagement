@@ -1,14 +1,13 @@
 package at.ticketline.service.api;
 
+import java.util.List;
 import java.util.Set;
 
 import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.Platz;
-import at.ticketline.entity.Saal;
 import at.ticketline.entity.Transaktion;
-import at.ticketline.entity.Zahlungsart;
 
 /**
  * Service zum reservieren, verkaufen und stornieren.
@@ -54,4 +53,10 @@ public interface TransaktionService {
      * @return
      */
     public void cancelTransaktion(Kunde k, Auffuehrung a);
+    
+    /**
+     * @param t die zu suchende Transaktion. Sofern ein Feld nicht 
+     * definiert ist, gelten alle Werte in dem Feld
+     */
+    public List<Transaktion> find(Transaktion t);
 }

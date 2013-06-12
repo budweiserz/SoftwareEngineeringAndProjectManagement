@@ -59,7 +59,7 @@ public class TransaktionTest extends AbstractDaoTest {
 		mDao = (MitarbeiterDao)DaoFactory.getByEntity(Mitarbeiter.class);
 		rDao = (ReiheDao)DaoFactory.getByEntity(Reihe.class);
 
-		service = new TransaktionServiceImpl();
+		service = new TransaktionServiceImpl((TransaktionDao) DaoFactory.getByEntity(Transaktion.class));
 	}
 
 	@Test
@@ -90,7 +90,7 @@ public class TransaktionTest extends AbstractDaoTest {
 
 		assertEquals(Transaktionsstatus.RESERVIERUNG, t.getStatus());
 
-		TransaktionService service = new TransaktionServiceImpl();
+		TransaktionService service = new TransaktionServiceImpl((TransaktionDao) DaoFactory.getByEntity(Transaktion.class));
 
 		service.cancelReservation(t.getId());
 
@@ -131,7 +131,7 @@ public class TransaktionTest extends AbstractDaoTest {
 
 		assertEquals(Transaktionsstatus.RESERVIERUNG, t.getStatus());
 
-		TransaktionService service = new TransaktionServiceImpl();
+		TransaktionService service = new TransaktionServiceImpl((TransaktionDao) DaoFactory.getByEntity(Transaktion.class));
 
 		service.cancelReservation(t.getId() + 39023);
 
@@ -168,7 +168,7 @@ public class TransaktionTest extends AbstractDaoTest {
 		}
 
 		TransaktionDao transaktionDao = (TransaktionDao)DaoFactory.getByEntity(Transaktion.class);
-		TransaktionService service = new TransaktionServiceImpl();
+		TransaktionService service = new TransaktionServiceImpl((TransaktionDao) DaoFactory.getByEntity(Transaktion.class));
 
 		assertEquals(0, transaktionDao.findAll().size());
 
@@ -235,7 +235,7 @@ public class TransaktionTest extends AbstractDaoTest {
 		}
 
 		TransaktionDao transaktionDao = (TransaktionDao)DaoFactory.getByEntity(Transaktion.class);
-		TransaktionService service = new TransaktionServiceImpl();
+		TransaktionService service = new TransaktionServiceImpl((TransaktionDao) DaoFactory.getByEntity(Transaktion.class));
 
 		assertEquals(0, transaktionDao.findAll().size());
 
@@ -329,7 +329,7 @@ public class TransaktionTest extends AbstractDaoTest {
 		}
 
 		TransaktionDao transaktionDao = (TransaktionDao)DaoFactory.getByEntity(Transaktion.class);
-		TransaktionService service = new TransaktionServiceImpl();
+		TransaktionService service = new TransaktionServiceImpl((TransaktionDao) DaoFactory.getByEntity(Transaktion.class));
 
 		assertEquals(0, transaktionDao.findAll().size());
 
@@ -443,7 +443,7 @@ public class TransaktionTest extends AbstractDaoTest {
 		}
 
 		TransaktionDao transaktionDao = (TransaktionDao)DaoFactory.getByEntity(Transaktion.class);
-		TransaktionService service = new TransaktionServiceImpl();
+		TransaktionService service = new TransaktionServiceImpl((TransaktionDao) DaoFactory.getByEntity(Transaktion.class));
 
 		assertEquals(0, transaktionDao.findAll().size());
 
@@ -534,7 +534,7 @@ public class TransaktionTest extends AbstractDaoTest {
 		}
 
 		TransaktionDao transaktionDao = (TransaktionDao)DaoFactory.getByEntity(Transaktion.class);
-		TransaktionService service = new TransaktionServiceImpl();
+		TransaktionService service = new TransaktionServiceImpl((TransaktionDao) DaoFactory.getByEntity(Transaktion.class));
 
 		assertEquals(0, transaktionDao.findAll().size());
 

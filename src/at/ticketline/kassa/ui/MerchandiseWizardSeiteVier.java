@@ -1,5 +1,7 @@
 package at.ticketline.kassa.ui;
 
+import java.text.SimpleDateFormat;
+
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
@@ -190,9 +192,10 @@ public class MerchandiseWizardSeiteVier extends WizardPage {
         this.tableViewer = new TableViewer(parent);
         this.tableViewer.getTable().setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
         TableLayout layout = new TableLayout();
-        layout.addColumnData(new ColumnWeightData(33, 100, true));
-        layout.addColumnData(new ColumnWeightData(33, 100, true));
-        layout.addColumnData(new ColumnWeightData(33, 100, true));
+        layout.addColumnData(new ColumnWeightData(25, 100, true));
+        layout.addColumnData(new ColumnWeightData(25, 100, true));
+        layout.addColumnData(new ColumnWeightData(25, 100, true));
+        layout.addColumnData(new ColumnWeightData(25, 100, true));
         //layout.addColumnData(new ColumnWeightData(15, 100, true));
         this.tableViewer.getTable().setLayout(layout);
     
@@ -224,7 +227,14 @@ public class MerchandiseWizardSeiteVier extends WizardPage {
                     }
                 case 2:
                     if (e.getGeburtsdatum() != null) {
-                        return e.getGeburtsdatum().getTime().toString();
+                        SimpleDateFormat myFormat = new SimpleDateFormat("dd.MM.yyyy");
+                        return myFormat.format(e.getGeburtsdatum().getTime());
+                    } else {
+                        return "";
+                    }
+                case 3:
+                    if (e.getPunkte() != null) {
+                        return e.getPunkte().intValue() + " Punkte";
                     } else {
                         return "";
                     }
@@ -259,6 +269,8 @@ public class MerchandiseWizardSeiteVier extends WizardPage {
         col2.setText("Nachname");
         TableColumn col3 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
         col3.setText("Geburtsdatum");
+        TableColumn col4 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
+        col4.setText("Punkte");
         
         // MAGIC HAPPENS HERE
         this.tableViewer.setInput(this.kundeService.findAll());

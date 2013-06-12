@@ -58,7 +58,7 @@ import at.ticketline.service.api.AuffuehrungService;
 
 @SuppressWarnings("restriction")
 public class TicketViewPart {
-    private static final Logger LOG = LoggerFactory.getLogger(VeranstaltungsortSearchPart.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TicketViewPart.class);
     
     @Inject private MDirtyable dirty;
     @Inject private EPartService partService;
@@ -72,12 +72,11 @@ public class TicketViewPart {
     @Inject private AuffuehrungService auffuehrungService;
     
     TableViewer tableViewer;
-    DateTime dateTimeFrom;
-    DateTime dateTimeTo;
 	private Table table;
-	private Text text_2;
-	private Text text_3;
-	Combo preiskategorie;
+	private Text txtVorname;
+	private Text txtNachname;
+	private Text txtAuffuehrung;
+	private Text txtBuchungsnr;
 	/**
 	 * Create contents of the view part.
 	 */
@@ -103,94 +102,66 @@ public class TicketViewPart {
 		btnSuchen.setLayoutData(fd_btnSuchen);
 		btnSuchen.setText("suchen");
 		
-		Label lblDatum = new Label(SearchComposite, SWT.NONE);
-		FormData fd_lblDatum = new FormData();
-		fd_lblDatum.top = new FormAttachment(0, 10);
-		fd_lblDatum.left = new FormAttachment(0, 10);
-		lblDatum.setLayoutData(fd_lblDatum);
-		lblDatum.setText("Datum");
+		Label lblVorname = new Label(SearchComposite, SWT.NONE);
+		FormData fd_lblVorname = new FormData();
+		fd_lblVorname.top = new FormAttachment(0, 10);
+		fd_lblVorname.left = new FormAttachment(0, 10);
+		lblVorname.setLayoutData(fd_lblVorname);
+		lblVorname.setText("Vorname");
 		
-		dateTimeFrom = new DateTime(SearchComposite, SWT.BORDER);
-		dateTimeFrom.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		txtVorname = new Text(SearchComposite, SWT.BORDER);
+		FormData fd_txtVorname = new FormData();
+		fd_txtVorname.right = new FormAttachment(lblVorname, 148, SWT.RIGHT);
+		fd_txtVorname.top = new FormAttachment(0, 5);
+		fd_txtVorname.left = new FormAttachment(lblVorname, 38);
+		txtVorname.setLayoutData(fd_txtVorname);
 		
-	      
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-		//set from time one year in the past
-        year -=1;
-		dateTimeFrom.setToolTipText("Von");
-		dateTimeFrom.setDate(year, month, day);
-		FormData fd_dateTimeFrom = new FormData();
-		fd_dateTimeFrom.top = new FormAttachment(lblDatum, -5, SWT.TOP);
-		fd_dateTimeFrom.left = new FormAttachment(lblDatum, 34);
-		dateTimeFrom.setLayoutData(fd_dateTimeFrom);
+		Label lblNachname = new Label(SearchComposite, SWT.NONE);
+		FormData fd_lblNachname = new FormData();
+		fd_lblNachname.top = new FormAttachment(lblVorname, 28);
+		fd_lblNachname.left = new FormAttachment(lblVorname, 0, SWT.LEFT);
+		lblNachname.setLayoutData(fd_lblNachname);
+		lblNachname.setText("Nachname");
 		
-		Label label = new Label(SearchComposite, SWT.NONE);
-		FormData fd_label = new FormData();
-		fd_label.top = new FormAttachment(lblDatum, 0, SWT.TOP);
-		fd_label.left = new FormAttachment(dateTimeFrom, 22);
-		label.setLayoutData(fd_label);
-		label.setText("-");
+		txtNachname = new Text(SearchComposite, SWT.BORDER);
+		FormData fd_txtNachname = new FormData();
+		fd_txtNachname.right = new FormAttachment(txtVorname, 0, SWT.RIGHT);
+		fd_txtNachname.top = new FormAttachment(lblNachname, -5, SWT.TOP);
+		fd_txtNachname.left = new FormAttachment(txtVorname, 0, SWT.LEFT);
+		txtNachname.setLayoutData(fd_txtNachname);
 		
-
-		//add one to day to include today's generated dates
-		year += 1;
-		day+=1;
+		Label lblAuffhrung = new Label(SearchComposite, SWT.NONE);
+		FormData fd_lblAuffhrung = new FormData();
+		fd_lblAuffhrung.top = new FormAttachment(lblVorname, 0, SWT.TOP);
+		fd_lblAuffhrung.left = new FormAttachment(txtVorname, 41);
+		lblAuffhrung.setLayoutData(fd_lblAuffhrung);
+		lblAuffhrung.setText("Aufführung");
 		
-		dateTimeTo = new DateTime(SearchComposite, SWT.BORDER);
-		dateTimeTo.setDate(year, month, day);
-		dateTimeTo.setToolTipText("Bis");
-		dateTimeTo.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		FormData fd_dateTimeTo = new FormData();
-		fd_dateTimeTo.top = new FormAttachment(label, -5, SWT.TOP);
-		fd_dateTimeTo.left = new FormAttachment(label, 26);
-		dateTimeTo.setLayoutData(fd_dateTimeTo);
+		txtAuffuehrung = new Text(SearchComposite, SWT.BORDER);
+		FormData fd_txtAuffuehrung = new FormData();
+		fd_txtAuffuehrung.right = new FormAttachment(lblAuffhrung, 148, SWT.RIGHT);
+		fd_txtAuffuehrung.top = new FormAttachment(0, 5);
+		fd_txtAuffuehrung.left = new FormAttachment(lblAuffhrung, 38);
+		txtAuffuehrung.setLayoutData(fd_txtAuffuehrung);
 		
-		Label lblPreis = new Label(SearchComposite, SWT.NONE);
-		FormData fd_lblPreis = new FormData();
-		fd_lblPreis.top = new FormAttachment(lblDatum, 27);
-		fd_lblPreis.left = new FormAttachment(lblDatum, 0, SWT.LEFT);
-		lblPreis.setLayoutData(fd_lblPreis);
-		lblPreis.setText("Preis");
+		Label lblBuchungsnr = new Label(SearchComposite, SWT.NONE);
+		FormData fd_lblBuchungsnr = new FormData();
+		fd_lblBuchungsnr.bottom = new FormAttachment(lblNachname, 0, SWT.BOTTOM);
+		fd_lblBuchungsnr.left = new FormAttachment(lblAuffhrung, 0, SWT.LEFT);
+		lblBuchungsnr.setLayoutData(fd_lblBuchungsnr);
+		lblBuchungsnr.setText("BuchungsNr.");
 		
-		Label lblSaal = new Label(SearchComposite, SWT.NONE);
-		FormData fd_lblSaal = new FormData();
-		fd_lblSaal.bottom = new FormAttachment(lblDatum, 0, SWT.BOTTOM);
-		fd_lblSaal.left = new FormAttachment(dateTimeTo, 101);
-		lblSaal.setLayoutData(fd_lblSaal);
-		lblSaal.setText("Saal");
+		txtBuchungsnr = new Text(SearchComposite, SWT.BORDER);
+		FormData fd_txtBuchungsnr = new FormData();
+		fd_txtBuchungsnr.right = new FormAttachment(txtAuffuehrung, 110);
+		fd_txtBuchungsnr.top = new FormAttachment(lblBuchungsnr, -5, SWT.TOP);
+		fd_txtBuchungsnr.left = new FormAttachment(txtAuffuehrung, 0, SWT.LEFT);
+		txtBuchungsnr.setLayoutData(fd_txtBuchungsnr);
 		
-		Label lblVeranstaltung = new Label(SearchComposite, SWT.NONE);
-		FormData fd_lblVeranstaltung = new FormData();
-		fd_lblVeranstaltung.bottom = new FormAttachment(lblPreis, 0, SWT.BOTTOM);
-		lblVeranstaltung.setLayoutData(fd_lblVeranstaltung);
-		lblVeranstaltung.setText("Veranstaltung");
-		
-		text_2 = new Text(SearchComposite, SWT.BORDER);
-		FormData fd_text_2 = new FormData();
-		fd_text_2.right = new FormAttachment(lblSaal, 206, SWT.RIGHT);
-		fd_text_2.top = new FormAttachment(0, 7);
-		fd_text_2.left = new FormAttachment(lblSaal, 95);
-		text_2.setLayoutData(fd_text_2);
-		
-		text_3 = new Text(SearchComposite, SWT.BORDER);
-		fd_lblVeranstaltung.right = new FormAttachment(text_3, -33);
-		FormData fd_text_3 = new FormData();
-		fd_text_3.right = new FormAttachment(text_2, 0, SWT.RIGHT);
-		fd_text_3.left = new FormAttachment(0, 492);
-		fd_text_3.top = new FormAttachment(lblVeranstaltung, -3, SWT.TOP);
-		text_3.setLayoutData(fd_text_3);
-		
-		preiskategorie = new Combo(SearchComposite, SWT.NONE);
-		preiskategorie.setItems(new String[] {"Mindestpreis", "Standardpreis", "Maximalpreis"});
-		FormData fd_preiskategorie = new FormData();
-		fd_preiskategorie.right = new FormAttachment(dateTimeTo, 0, SWT.RIGHT);
-		fd_preiskategorie.top = new FormAttachment(dateTimeFrom, 15);
-		fd_preiskategorie.left = new FormAttachment(lblPreis, 45);
-		preiskategorie.setLayoutData(fd_preiskategorie);
 		SearchComposite.setTabList(new Control[]{btnSuchen});
+		
+		
+		// TABLE
 		
 		tableViewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION);
 		table = tableViewer.getTable();
@@ -198,25 +169,56 @@ public class TicketViewPart {
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
-		TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.LEFT);
-		TableColumn tblclmnVeranstaltung = tableViewerColumn.getColumn();
-		tblclmnVeranstaltung.setWidth(150);
-		tblclmnVeranstaltung.setText("Veranstaltung");
+		TableViewerColumn tableViewerColumn_4 = new TableViewerColumn(tableViewer, SWT.NONE);
+		TableColumn tblclmnBuchungsnr = tableViewerColumn_4.getColumn();
+		tblclmnBuchungsnr.setWidth(100);
+		tblclmnBuchungsnr.setText("BuchungsNr");
 		
-		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.LEFT);
-		TableColumn tblclmnPreis = tableViewerColumn_1.getColumn();
-		tblclmnPreis.setWidth(102);
-		tblclmnPreis.setText("Preis in €");
+		TableViewerColumn tableViewerColumn_5 = new TableViewerColumn(tableViewer, SWT.NONE);
+		TableColumn tblclmnVorname = tableViewerColumn_5.getColumn();
+		tblclmnVorname.setWidth(100);
+		tblclmnVorname.setText("Vorname");
 		
-		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(tableViewer, SWT.LEFT);
-		TableColumn Datum = tableViewerColumn_2.getColumn();
-		Datum.setWidth(111);
-		Datum.setText("Datum");
+		TableViewerColumn tableViewerColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+		TableColumn tblclmnNachname = tableViewerColumn.getColumn();
+		tblclmnNachname.setWidth(100);
+		tblclmnNachname.setText("Nachname");
 		
-		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(tableViewer, SWT.LEFT);
-		TableColumn tblclmnSaal = tableViewerColumn_3.getColumn();
-		tblclmnSaal.setWidth(80);
-		tblclmnSaal.setText("Saal");
+		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.NONE);
+		TableColumn tblclmnAuffhrung = tableViewerColumn_1.getColumn();
+		tblclmnAuffhrung.setWidth(100);
+		tblclmnAuffhrung.setText("Aufführung");
+		
+		Composite composite = new Composite(parent, SWT.NONE);
+		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		composite.setLayout(new FormLayout());
+		GridData gd_composite = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
+		gd_composite.minimumWidth = 600;
+		gd_composite.minimumHeight = 48;
+		gd_composite.widthHint = 1920;
+		gd_composite.heightHint = 48;
+		composite.setLayoutData(gd_composite);
+		
+		Button btnKaufen = new Button(composite, SWT.NONE);
+		FormData fd_btnKaufen = new FormData();
+		fd_btnKaufen.top = new FormAttachment(0, 10);
+		fd_btnKaufen.left = new FormAttachment(0, 10);
+		btnKaufen.setLayoutData(fd_btnKaufen);
+		btnKaufen.setText("kaufen");
+		
+		Button btnBearbeiten = new Button(composite, SWT.NONE);
+		FormData fd_btnBearbeiten = new FormData();
+		fd_btnBearbeiten.bottom = new FormAttachment(btnKaufen, 0, SWT.BOTTOM);
+		fd_btnBearbeiten.left = new FormAttachment(btnKaufen, 17);
+		btnBearbeiten.setLayoutData(fd_btnBearbeiten);
+		btnBearbeiten.setText("bearbeiten");
+		
+		Button btnStornieren = new Button(composite, SWT.NONE);
+		FormData fd_btnStornieren = new FormData();
+		fd_btnStornieren.top = new FormAttachment(btnKaufen, 0, SWT.TOP);
+		fd_btnStornieren.left = new FormAttachment(btnBearbeiten, 19);
+		btnStornieren.setLayoutData(fd_btnStornieren);
+		btnStornieren.setText("stornieren");
 		
         tableViewer.setContentProvider(new IStructuredContentProvider() {
             @Override
@@ -293,7 +295,7 @@ public class TicketViewPart {
             }
         });
         
-        btnSuchen.addMouseListener(new MouseListener() {
+        /*btnSuchen.addMouseListener(new MouseListener() {
             @Override public void mouseDoubleClick(MouseEvent e) { }
             @Override public void mouseDown(MouseEvent e) { }
 
@@ -354,7 +356,7 @@ public class TicketViewPart {
                 handlerService.executeHandler(c);
             }
         });
-        
+        */
         
         this.tableViewer.setInput(auffuehrungService.find(new Auffuehrung(), new Auffuehrung()));
 	}
@@ -365,6 +367,6 @@ public class TicketViewPart {
 
 	@Focus
 	public void setFocus() {
-		dateTimeFrom.setFocus();
+		txtBuchungsnr.setFocus();
 	}
 }

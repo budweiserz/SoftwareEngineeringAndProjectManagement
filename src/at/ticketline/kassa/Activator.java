@@ -113,7 +113,7 @@ public class Activator implements BundleActivator {
         CONTEXT.registerService(PraemieService.class.getName(), new PraemieServiceImpl(praemieDao), null);
 
        	TransaktionDao transaktionDao = (TransaktionDao) DaoFactory.getByEntity(Transaktion.class);
-       	CONTEXT.registerService(TransaktionService.class.getName(), new TransaktionServiceImpl(), null);
+       	CONTEXT.registerService(TransaktionService.class.getName(), new TransaktionServiceImpl(transaktionDao), null);
         
         VeranstaltungDao veranstaltungDao = (VeranstaltungDao) DaoFactory.getByEntity(Veranstaltung.class);
        	CONTEXT.registerService(VeranstaltungService.class.getName(), new VeranstaltungServiceImpl(veranstaltungDao), null);

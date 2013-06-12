@@ -237,13 +237,13 @@ public class TicketViewPart {
                         return "";
                     }
                 case 1:
-                    if (e.getKunde().getVorname() != null) {
+                    if (e.getKunde() != null) {
                         return e.getKunde().getVorname();
                     } else {
                         return "";
                     }
                 case 2:
-                    if (e.getKunde().getNachname() != null) {
+                    if (e.getKunde() != null) {
                         return e.getKunde().getNachname();
                     } else {
                         return "";

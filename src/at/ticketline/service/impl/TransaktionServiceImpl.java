@@ -38,8 +38,8 @@ public class TransaktionServiceImpl implements TransaktionService {
 	private AuffuehrungDao auffuehrungDao;
 	private KundeDao kundeDao;
 
-	public TransaktionServiceImpl() {
-		this.transaktionDao = (TransaktionDao)DaoFactory.getByEntity(Transaktion.class);
+	public TransaktionServiceImpl(TransaktionDao transaktionDao) {
+		this.transaktionDao = transaktionDao;
 		this.mitarbeiterDao = (MitarbeiterDao)DaoFactory.getByEntity(Mitarbeiter.class);
 		this.auffuehrungDao = (AuffuehrungDao)DaoFactory.getByEntity(Auffuehrung.class);
 		this.kundeDao = (KundeDao)DaoFactory.getByEntity(Kunde.class);

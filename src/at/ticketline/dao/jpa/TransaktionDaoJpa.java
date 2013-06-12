@@ -27,20 +27,16 @@ public class TransaktionDaoJpa extends GenericDaoJpa<Transaktion,Integer> implem
         
         List<Predicate> wherePredicates = new ArrayList<Predicate>();
         
-        if (transaktion.getKunde().getNachname() != null) {
+        if (transaktion.getKunde() != null) {
             String nn = transaktion.getKunde().getNachname().replace('*', '%').replace('?', '_').toUpperCase();
             wherePredicates.add( builder.like( builder.upper( rootTransaktion.<String>get("nachname") ), nn) );
         }
         
-        if (transaktion.getKunde().getVorname() != null) {
+        if (transaktion.getKunde() != null) {
             String vn = transaktion.getKunde().getVorname().replace('*', '%').replace('?', '_').toUpperCase();
             wherePredicates.add( builder.like( builder.upper( rootTransaktion.<String>get("vorname") ), vn) );
         }
         
-        if (transaktion.getPlaetze() != null) {
-            wherePredicates.add( builder.equal(rootTransaktion.<Integer>get("auffuehrung"), 
-            		transaktion.getPlaetze().iterator().next().getAuffuehrung().getId()));
-        }
         
         if (transaktion.getReservierungsnr() != null) {
             wherePredicates.add( builder.equal(rootTransaktion.<Integer>get("reservierungsNr"), transaktion.getReservierungsnr()) );

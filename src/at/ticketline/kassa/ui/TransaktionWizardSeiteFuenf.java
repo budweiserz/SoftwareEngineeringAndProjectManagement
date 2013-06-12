@@ -4,8 +4,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -14,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ticketline.dao.DaoFactory;
-import at.ticketline.dao.api.MitarbeiterDao;
+import at.ticketline.dao.api.TransaktionDao;
 import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Mitarbeiter;
@@ -31,6 +29,7 @@ public class TransaktionWizardSeiteFuenf extends WizardPage {
     private Label lblHinweis;
     private Label lblAuffhrung;
     private Label lblKunde;
+    @Inject TransaktionService transaktionsService;
     private static final Logger LOG = LoggerFactory.getLogger(TransaktionWizardSeiteFuenf.class);
     
     /**
@@ -91,7 +90,7 @@ public class TransaktionWizardSeiteFuenf extends WizardPage {
     
     // gets called when wizard is complete
     public void doTransaction() {
-        TransaktionService service = new TransaktionServiceImpl();
+        TransaktionService service = new TransaktionServiceImpl((TransaktionDao) DaoFactory.getByEntity(Transaktion.class));
         
 		//Mitarbeiter mitarbeiter = ((MitarbeiterDao)DaoFactory.getByEntity(Mitarbeiter.class)).findAll().get(0);
         Mitarbeiter mitarbeiter = values.getMitarbeiter();

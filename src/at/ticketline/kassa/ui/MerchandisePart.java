@@ -198,9 +198,9 @@ public class MerchandisePart {
                         lblBezeichnung.setText(element.getKurzbezeichnung());
                         lblBeschreibung.setText(element.getBeschreibung());
                         lblPreis.setText(element.getWert().intValue() + " " + element.getEinheit());
+                        lblZwischenbetrag.setText(element.getWert().intValue() + " " + element.getEinheit());
                     }
                     spinner.setSelection(1);
-                    lblZwischenbetrag.setText("0" + element.getEinheit());
 
                     currentSelection = element;
                 }

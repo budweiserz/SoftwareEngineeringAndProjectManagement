@@ -6,6 +6,9 @@ import javax.inject.Inject;
 
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -63,6 +66,7 @@ public class MerchandiseWizardSeiteZwei extends WizardPage implements Listener{
         btnNeuerKunde.setText("Neuer Kunde");
         new Label(container, SWT.NONE);
         new Label(container, SWT.NONE);
+        btnNeuerKunde.addSelectionListener(new KundenartListener());
         
         Label lblNeu1 = new Label(container, SWT.NONE);
         lblNeu1.setText("Ist der Kunde noch nicht bei uns registriert? Überzeugen ");
@@ -81,6 +85,7 @@ public class MerchandiseWizardSeiteZwei extends WizardPage implements Listener{
         btnBestehenderKunde.addListener(SWT.Selection, this);
         btnBestehenderKunde.setLayoutData(new GridData(SWT.LEFT, SWT.FILL, false, false, 1, 1));
         btnBestehenderKunde.setText("Bestehender Kunde");
+        btnBestehenderKunde.addSelectionListener(new KundenartListener());
 
         new Label(container, SWT.NONE);
         new Label(container, SWT.NONE);
@@ -101,6 +106,7 @@ public class MerchandiseWizardSeiteZwei extends WizardPage implements Listener{
         btnAnonymerKunde = new Button(container, SWT.RADIO);
         btnAnonymerKunde.setText("Anonymer Kunde");
         btnAnonymerKunde.addListener(SWT.Selection, this);
+        btnAnonymerKunde.addSelectionListener(new KundenartListener());
         
         new Label(container, SWT.NONE);
         new Label(container, SWT.NONE);
@@ -114,30 +120,22 @@ public class MerchandiseWizardSeiteZwei extends WizardPage implements Listener{
         lblAnon2.setText("Karten bestellen.");
         
         setPageComplete(false);
-        //TODO set completed when customer type is selected
-        for (Map.Entry<Artikel, Integer> e : values.getSelected().entrySet()) {
-            LOG.debug(e.getClass().getName());
-            if (e.getKey() instanceof Praemie) {
-                btnNeuerKunde.setEnabled(false);
-                btnAnonymerKunde.setEnabled(false);
-                btnBestehenderKunde.setSelection(true);
-                setPageComplete(true);
-            }
-        }
-        
-        
+ 
         LOG.info("Wizardseite zur Auswahl des Kudnentyps erstellt!");
     }
 
     @Override
     public void handleEvent(Event e) {
+        
+        /*
         if(e.widget == btnNeuerKunde) {
             setPageComplete(true);
         } else if(e.widget == btnAnonymerKunde) {
             setPageComplete(true);
         } else if(e.widget == btnBestehenderKunde) {
             setPageComplete(true);
-        }        
+        }  
+       */      
     }
     
     /**
@@ -158,4 +156,43 @@ public class MerchandiseWizardSeiteZwei extends WizardPage implements Listener{
         }
         return null;
      }
+    
+    private class KundenartListener implements SelectionListener {
+
+        @Override
+        public void widgetSelected(SelectionEvent e) {
+        
+            if (e.getSource() == MerchandiseWizardSeiteZwei.this.btnNeuerKunde && selectedContainsPraemien()) {
+                MerchandiseWizardSeiteZwei.this.setErrorMessage("Einkauf enthält Prämien: Nur bestehender Kunde wählbar.");
+                MerchandiseWizardSeiteZwei.this.setPageComplete(false);
+            }
+            if (e.getSource() == MerchandiseWizardSeiteZwei.this.btnAnonymerKunde && selectedContainsPraemien()) {
+                MerchandiseWizardSeiteZwei.this.setErrorMessage("Einkauf enthält Prämien: Nur bestehender Kunde wählbar.");
+                MerchandiseWizardSeiteZwei.this.setPageComplete(false);
+            }
+            if (e.getSource() == MerchandiseWizardSeiteZwei.this.btnBestehenderKunde && selectedContainsPraemien()) {
+                MerchandiseWizardSeiteZwei.this.setErrorMessage(null); // clear error message
+                MerchandiseWizardSeiteZwei.this.setPageComplete(true);
+            }
+        }
+
+        @Override
+        public void widgetDefaultSelected(SelectionEvent e) {
+            // TODO Auto-generated method stub
+            
+        }   
+    }
+    
+    private boolean selectedContainsPraemien() {
+        
+        boolean output = false;
+        
+        for (Map.Entry<Artikel, Integer> e : values.getSelected().entrySet()) {
+            LOG.debug(e.getClass().getName());
+            if (e.getKey() instanceof Praemie) {
+                output = true;
+            }
+        }
+        return output;
+    }
 }

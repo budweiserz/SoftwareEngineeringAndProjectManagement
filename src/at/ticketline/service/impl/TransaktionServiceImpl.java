@@ -2,6 +2,7 @@ package at.ticketline.service.impl;
 
 import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -148,5 +149,10 @@ public class TransaktionServiceImpl implements TransaktionService {
 				}
 			}
 		}
+	}
+
+	@Override
+	public List<Transaktion> find(Transaktion t) {
+		return transaktionDao.findByTransaktion(t);
 	}
 }

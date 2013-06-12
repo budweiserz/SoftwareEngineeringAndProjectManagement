@@ -1,15 +1,12 @@
 package at.ticketline.kassa.ui;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
-import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.ui.di.Focus;
@@ -17,20 +14,13 @@ import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.MouseEvent;
-import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -38,10 +28,8 @@ import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -51,10 +39,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ticketline.entity.Auffuehrung;
-import at.ticketline.entity.PreisKategorie;
-import at.ticketline.entity.Saal;
-import at.ticketline.entity.Veranstaltung;
-import at.ticketline.service.api.AuffuehrungService;
+import at.ticketline.entity.Transaktion;
+import at.ticketline.service.api.TransaktionService;
 
 @SuppressWarnings("restriction")
 public class TicketViewPart {
@@ -68,8 +54,7 @@ public class TicketViewPart {
     @Inject private MPart activePart;
     //@Inject @Named (IServiceConstants.ACTIVE_SHELL) private Shell shell;
     
-    //@Inject private Ort ort;
-    @Inject private AuffuehrungService auffuehrungService;
+    @Inject private TransaktionService transaktionsService;
     
     TableViewer tableViewer;
 	private Table table;
@@ -243,30 +228,29 @@ public class TicketViewPart {
     
             @Override
             public String getColumnText(Object element, int index) {
-                Auffuehrung e = (Auffuehrung) element;
+                Transaktion e = (Transaktion) element;
                 switch (index) {
                 case 0:
-                    if (e.getVeranstaltung() != null) {
-                        return e.getVeranstaltung().getBezeichnung();
+                    if (e.getReservierungsnr() != null) {
+                        return String.valueOf(e.getReservierungsnr());
                     } else {
                         return "";
                     }
                 case 1:
-                    if (e.getPreis() != null) {
-                        return e.getPreis().toString();
+                    if (e.getKunde().getVorname() != null) {
+                        return e.getKunde().getVorname();
                     } else {
                         return "";
                     }
                 case 2:
-                    if (e.getDatumuhrzeit() != null) {
-                        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-                    	return format.format(e.getDatumuhrzeit());
+                    if (e.getKunde().getNachname() != null) {
+                        return e.getKunde().getNachname();
                     } else {
                         return "";
                     }
                 case 3:
-                    if (e.getSaal() != null) {
-                        return e.getSaal().getBezeichnung();
+                    if (e.getPlaetze() != null) {
+                        return String.valueOf(e.getPlaetze().iterator().next().getAuffuehrung().getId());
                     } else {
                         return "";
                     }
@@ -358,7 +342,7 @@ public class TicketViewPart {
         });
         */
         
-        this.tableViewer.setInput(auffuehrungService.find(new Auffuehrung(), new Auffuehrung()));
+        this.tableViewer.setInput(transaktionsService.find(new Transaktion()));
 	}
 
 	@PreDestroy

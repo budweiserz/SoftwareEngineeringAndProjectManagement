@@ -30,6 +30,7 @@ public interface TransaktionService {
     
     /**
      * Verkauft Plätze zu einer Veranstaltung für einen neuen, bestehenden oder anonymen Kunden.
+     * Neue oder bestehende Kunden erhalten einen Bonuspunkt.
      * 
      * @param kunde Ein bestehender oder neuer kunde, null wenn anonymer Kunde
      * @param auffuehrung Aufführung für die reserviert werden soll
@@ -46,9 +47,11 @@ public interface TransaktionService {
     public void cancelReservation(Integer reservierungsNr);
     
     /**
-     * 
+     * ...
+     * dem Kunden wird ein Bonuspunkt abgezogen, falls sein Punktestand > 0
      * @param k
      * @param a
+     * @return
      */
     public void cancelTransaktion(Kunde k, Auffuehrung a);
 }

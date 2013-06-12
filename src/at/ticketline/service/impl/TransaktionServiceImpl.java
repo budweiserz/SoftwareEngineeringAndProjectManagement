@@ -1,5 +1,6 @@
 package at.ticketline.service.impl;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -78,6 +79,7 @@ public class TransaktionServiceImpl implements TransaktionService {
 		t.setStatus(tstat);
 
 		if(k != null) {
+		    k.setPunkte(k.getPunkte().add(new BigDecimal(1))); // Punkte + 1;
 			t.setKunde(k);
 		}
 
@@ -145,6 +147,11 @@ public class TransaktionServiceImpl implements TransaktionService {
 
 				if (persist) {
 					transaktionDao.merge(t);
+					
+					if (k.getPunkte().intValue() > 0) {
+					    k.setPunkte(k.getPunkte().subtract(new BigDecimal(1))); // Punkte - 1
+					}
+					kundeDao.merge(k);
 				}
 			}
 		}

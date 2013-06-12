@@ -157,7 +157,7 @@ public class VeranstaltungPart {
                 switch (index) {
                 case 0:
                     if (a.getDatumuhrzeit() != null) {
-                        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+                        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
                     	return format.format(a.getDatumuhrzeit());
                     } else {
                         return "";

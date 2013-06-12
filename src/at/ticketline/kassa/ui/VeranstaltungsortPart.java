@@ -1,5 +1,6 @@
 package at.ticketline.kassa.ui;
 
+import java.text.SimpleDateFormat;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -159,7 +160,8 @@ public class VeranstaltungsortPart {
                 switch (index) {
                 case 0:
                     if (a.getDatumuhrzeit() != null) {
-                        return a.getDatumuhrzeit().toString();
+                        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+                    	return format.format(a.getDatumuhrzeit());
                     } else {
                         return "";
                     }

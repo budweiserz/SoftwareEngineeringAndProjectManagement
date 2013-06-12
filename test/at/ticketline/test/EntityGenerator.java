@@ -153,6 +153,7 @@ public class EntityGenerator {
         k.setTicketcardnr("Ticketcardnummer " + modifier);
         k.setTicketcardGueltigBis(new Date());
         k.setVorlieben("Vorlieben " + modifier);
+        k.setPunkte(new BigDecimal(modifier % 100));
          
         return k;
     }

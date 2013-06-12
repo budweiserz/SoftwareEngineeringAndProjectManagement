@@ -188,6 +188,7 @@ public class DataGenerator {
             kunde = EntityGenerator.getValidKunde(i++);
             kunde.setVorname(current[0]);
             kunde.setNachname(current[1]);
+            kunde.setPunkte(new BigDecimal(random.nextInt(20)));
 
             if (current[2].equals("m")) {
                 kunde.setGeschlecht(Geschlecht.MAENNLICH);

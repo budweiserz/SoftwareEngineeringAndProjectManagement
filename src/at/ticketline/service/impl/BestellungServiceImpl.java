@@ -40,6 +40,7 @@ public class BestellungServiceImpl implements BestellungService {
 				BestellPosition p = new BestellPosition();
 				p.setArtikel(e.getKey());
 				p.setMenge(e.getValue());
+				p.setBestellung(b);
 				b.getBestellPositionen().add(p);
 			}
 		}

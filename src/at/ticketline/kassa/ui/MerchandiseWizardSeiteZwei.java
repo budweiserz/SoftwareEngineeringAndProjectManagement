@@ -162,15 +162,24 @@ public class MerchandiseWizardSeiteZwei extends WizardPage implements Listener{
         @Override
         public void widgetSelected(SelectionEvent e) {
         
-            if (e.getSource() == MerchandiseWizardSeiteZwei.this.btnNeuerKunde && selectedContainsPraemien()) {
-                MerchandiseWizardSeiteZwei.this.setErrorMessage("Einkauf enthält Prämien: Nur bestehender Kunde wählbar.");
-                MerchandiseWizardSeiteZwei.this.setPageComplete(false);
+            if (e.getSource() == MerchandiseWizardSeiteZwei.this.btnNeuerKunde) {
+                
+                if (selectedContainsPraemien()){
+                    MerchandiseWizardSeiteZwei.this.setErrorMessage("Einkauf enthält Prämien: Nur bestehender Kunde wählbar.");
+                    MerchandiseWizardSeiteZwei.this.setPageComplete(false);
+                } else {
+                    MerchandiseWizardSeiteZwei.this.setPageComplete(true);     
+                }
             }
-            if (e.getSource() == MerchandiseWizardSeiteZwei.this.btnAnonymerKunde && selectedContainsPraemien()) {
-                MerchandiseWizardSeiteZwei.this.setErrorMessage("Einkauf enthält Prämien: Nur bestehender Kunde wählbar.");
-                MerchandiseWizardSeiteZwei.this.setPageComplete(false);
+            if (e.getSource() == MerchandiseWizardSeiteZwei.this.btnAnonymerKunde) {
+                if (selectedContainsPraemien()){
+                    MerchandiseWizardSeiteZwei.this.setErrorMessage("Einkauf enthält Prämien: Nur bestehender Kunde wählbar.");
+                    MerchandiseWizardSeiteZwei.this.setPageComplete(false);
+                } else {
+                    MerchandiseWizardSeiteZwei.this.setPageComplete(true);     
+                }
             }
-            if (e.getSource() == MerchandiseWizardSeiteZwei.this.btnBestehenderKunde && selectedContainsPraemien()) {
+            if (e.getSource() == MerchandiseWizardSeiteZwei.this.btnBestehenderKunde) {
                 MerchandiseWizardSeiteZwei.this.setErrorMessage(null); // clear error message
                 MerchandiseWizardSeiteZwei.this.setPageComplete(true);
             }

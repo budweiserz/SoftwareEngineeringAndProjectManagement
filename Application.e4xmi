@@ -25,7 +25,7 @@
         <children xsi:type="menu:HandledMenuItem" xmi:id="_A4mgMLzAEeKlkobWpntiug" elementId="sepm.handledmenuitem.3" label="Künstler" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/zoom_icon&amp;16.png" command="_iMMOQL1kEeKT_IzQOUkC4g"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_ZEg8ENMxEeKDMvDkks4SNA" elementId="ticketlinercp.handledmenuitem.TicketView" label="Tickets" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/zoom_icon&amp;16.png" tooltip="Öffenen einer Suche für die gebuchten und reservierten Tickets" command="_M7sJENMxEeKDMvDkks4SNA"/>
         <children xsi:type="menu:HandledMenuItem" xmi:id="_AfRaMLzAEeKlkobWpntiug" elementId="sepm.handledmenuitem.2" label="Veranstaltungen" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/zoom_icon&amp;16.png" command="_cBlTsL1EEeKvqu4NU28Xow"/>
-        <children xsi:type="menu:HandledMenuItem" xmi:id="_K_GIsLy4EeKlkobWpntiug" elementId="sepm.handledmenuitem.0" label="Veranstaltungsort" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/zoom_icon&amp;16.png" command="_it1rYLy3EeKlkobWpntiug"/>
+        <children xsi:type="menu:HandledMenuItem" xmi:id="_K_GIsLy4EeKlkobWpntiug" elementId="sepm.handledmenuitem.0" label="Veranstaltungsorte" iconURI="platform:/plugin/at.ticketline.kassa/icons/black/zoom_icon&amp;16.png" command="_it1rYLy3EeKlkobWpntiug"/>
       </children>
       <children xsi:type="menu:Menu" xmi:id="_1CMMgLy3EeKT_IzQOUkC4g" elementId="" label="Ansicht">
         <children xsi:type="menu:HandledMenuItem" xmi:id="_XaNyUMaMEeKmAb5Pic8Neg" elementId="ticketlinercp.handledmenuitem.0" label="Merchandiseartikel" tooltip="Merchandiseartikel kaufen" command="_C3ofEMaMEeKmAb5Pic8Neg"/>

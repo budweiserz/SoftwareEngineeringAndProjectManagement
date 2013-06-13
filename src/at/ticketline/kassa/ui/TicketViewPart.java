@@ -128,7 +128,7 @@ public class TicketViewPart {
 		fd_lblAuffhrung.top = new FormAttachment(lblVorname, 0, SWT.TOP);
 		fd_lblAuffhrung.left = new FormAttachment(txtVorname, 41);
 		lblAuffhrung.setLayoutData(fd_lblAuffhrung);
-		lblAuffhrung.setText("Aufführung");
+		lblAuffhrung.setText("Veranstaltung");
 		
 		txtAuffuehrung = new Text(SearchComposite, SWT.BORDER);
 		FormData fd_txtAuffuehrung = new FormData();
@@ -185,7 +185,7 @@ public class TicketViewPart {
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tblclmnAuffhrung = tableViewerColumn_1.getColumn();
 		tblclmnAuffhrung.setWidth(100);
-		tblclmnAuffhrung.setText("Aufführung");
+		tblclmnAuffhrung.setText("Veranstaltung");
 		
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));

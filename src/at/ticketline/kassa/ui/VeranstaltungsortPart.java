@@ -158,16 +158,16 @@ public class VeranstaltungsortPart {
             public String getColumnText(Object element, int index) {
                 Auffuehrung a = (Auffuehrung) element;
                 switch (index) {
-                case 0:
+                case 1:
                     if (a.getDatumuhrzeit() != null) {
                         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy HH:mm");
                     	return format.format(a.getDatumuhrzeit());
                     } else {
                         return "";
                     }
-                case 1:
-                    if (a.getHinweis() != null) {
-                        return a.getHinweis();
+                case 0:
+                    if (a.getVeranstaltung().getBezeichnung() != null) {
+                        return a.getVeranstaltung().getBezeichnung();
                     } else {
                         return "";
                     }
@@ -209,10 +209,10 @@ public class VeranstaltungsortPart {
             }
         });
     
+        TableColumn col2 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
+        col2.setText("Veranstaltung");
         TableColumn col1 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
         col1.setText("Datum");
-        TableColumn col2 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
-        col2.setText("Bezeichnung");
         TableColumn col3 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
         col3.setText("Saal");
         TableColumn col4 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);

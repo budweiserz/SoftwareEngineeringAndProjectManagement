@@ -1,4 +1,4 @@
-package at.ticketline.kassa.ui;
+package at.ticketline.kassa.ui.wizard;
 
 import java.math.BigDecimal;
 import java.util.HashMap;

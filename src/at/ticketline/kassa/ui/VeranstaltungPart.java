@@ -169,14 +169,19 @@ public class VeranstaltungPart {
                         return "";
                     }
                 case 2:
-                    if (a.getSaal() != null && a.getSaal().getBezeichnung() != null) {
-                        return a.getSaal().getBezeichnung();
+                    if (a.getSaal() != null && a.getSaal().getOrt() != null) {
+                        return a.getSaal().getOrt().getBezeichnung();
                     } else {
                         return "";
                     }
                 case 3:
+                    if (a.getSaal() != null) {
+                        return a.getSaal().getBezeichnung();
+                    } else {
+                        return "";
+                    }
+                case 4:
                     if (a.getPreis() != null) {
-                        LOG.info(a.getPreis().toString());
                         return a.getPreis().toString();
                     } else {
                         return "";
@@ -211,9 +216,11 @@ public class VeranstaltungPart {
         TableColumn col2 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
         col2.setText("Bezeichnung");
         TableColumn col3 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
-        col3.setText("Saal");
+        col3.setText("Ort");
         TableColumn col4 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
-        col4.setText("Preiskategorie");
+        col4.setText("Saal");
+        TableColumn col5 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
+        col5.setText("Preiskategorie");
         
         //MAGIC HAPPENS HERE
         this.tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {

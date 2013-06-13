@@ -52,6 +52,8 @@ import at.ticketline.entity.Artikel;
 import at.ticketline.entity.Bestellung;
 import at.ticketline.entity.Merchandise;
 import at.ticketline.entity.Praemie;
+import at.ticketline.kassa.ui.wizard.MerchandiseWizard;
+import at.ticketline.kassa.ui.wizard.MerchandiseWizardDialog;
 import at.ticketline.service.api.MerchandiseService;
 import at.ticketline.service.api.BestellungService;
 import at.ticketline.service.api.PraemieService;

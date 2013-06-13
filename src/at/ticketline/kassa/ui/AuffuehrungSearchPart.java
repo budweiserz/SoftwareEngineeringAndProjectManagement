@@ -206,15 +206,20 @@ public class AuffuehrungSearchPart {
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.LEFT);
 		TableColumn tblclmnPreis = tableViewerColumn_1.getColumn();
 		tblclmnPreis.setWidth(102);
-		tblclmnPreis.setText("Preis in €");
+		tblclmnPreis.setText("Preiskategorie");
 		
 		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(tableViewer, SWT.LEFT);
 		TableColumn Datum = tableViewerColumn_2.getColumn();
 		Datum.setWidth(111);
 		Datum.setText("Datum");
-		
+
 		TableViewerColumn tableViewerColumn_3 = new TableViewerColumn(tableViewer, SWT.LEFT);
-		TableColumn tblclmnSaal = tableViewerColumn_3.getColumn();
+		TableColumn tblclmnSaalOrt = tableViewerColumn_3.getColumn();
+		tblclmnSaalOrt.setWidth(80);
+		tblclmnSaalOrt.setText("Ort");
+		
+		TableViewerColumn tableViewerColumn_4 = new TableViewerColumn(tableViewer, SWT.LEFT);
+		TableColumn tblclmnSaal = tableViewerColumn_4.getColumn();
 		tblclmnSaal.setWidth(80);
 		tblclmnSaal.setText("Saal");
 		
@@ -263,6 +268,12 @@ public class AuffuehrungSearchPart {
                         return "";
                     }
                 case 3:
+                    if (e.getSaal() != null && e.getSaal().getOrt() != null) {
+                        return e.getSaal().getOrt().getBezeichnung();
+                    } else {
+                        return "";
+                    }
+                case 4:
                     if (e.getSaal() != null) {
                         return e.getSaal().getBezeichnung();
                     } else {

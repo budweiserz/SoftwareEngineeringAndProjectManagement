@@ -1,12 +1,13 @@
-package at.ticketline.kassa.ui;
+package at.ticketline.kassa.ui.wizard;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
@@ -19,12 +20,12 @@ import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import at.ticketline.entity.Auffuehrung;
-import at.ticketline.entity.Mitarbeiter;
+import at.ticketline.entity.Artikel;
+import at.ticketline.entity.Praemie;
 import at.ticketline.service.api.KundeService;
 
 @SuppressWarnings("restriction")
-public class TransaktionWizard extends Wizard implements IPageChangedListener{
+public class MerchandiseWizard extends Wizard implements IPageChangedListener{
     
     @Inject private KundeService kundeService;
     @Inject private EHandlerService handlerService;
@@ -32,56 +33,55 @@ public class TransaktionWizard extends Wizard implements IPageChangedListener{
     @Inject private ESelectionService selectionService;
     @Inject private MDirtyable dirty;
     @Inject private EPartService partService;
+    
     @Inject
     @Named(IServiceConstants.ACTIVE_SHELL)
     private Shell shell;
 
-    private static final Logger LOG = LoggerFactory.getLogger(TransaktionWizard.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MerchandiseWizard.class);
 
-    protected TransaktionWizardSeiteEins eins;
-    protected TransaktionWizardSeiteZwei zwei;
-    protected TransaktionWizardSeiteDrei drei;
-    protected TransaktionWizardSeiteVier vier;
-    protected TransaktionWizardSeiteFuenf fuenf;
+    protected MerchandiseWizardSeiteZwei zwei;
+    protected MerchandiseWizardSeiteDrei drei;
+    protected MerchandiseWizardSeiteVier vier;
+    protected MerchandiseWizardAbschluss fuenf;
+    protected MerchandiseWizardZahlung zahlung;
     
-    private TransaktionWizardValues values;
+    private MerchandiseWizardValues values;
     
     @Inject
-    public TransaktionWizard(@ Named (IServiceConstants.ACTIVE_SELECTION) @ Optional Auffuehrung auffuehrung) {
+    public MerchandiseWizard() {
         super();
-        values = new TransaktionWizardValues();
-        setWindowTitle("Transaktions Wizard");
+        values = new MerchandiseWizardValues();
+        setWindowTitle("Merchandise Wizard");
         setNeedsProgressMonitor(true);
-        values.setAuffuehrung(auffuehrung);
     }
     
 
     @Override
     public void addPages() {
         LOG.info("Add Pages to Wizard...");
-        eins = new TransaktionWizardSeiteEins(values);
-        zwei = new TransaktionWizardSeiteZwei();
-        drei = new TransaktionWizardSeiteDrei(values);
-        vier  = new TransaktionWizardSeiteVier(values);
-        fuenf = new TransaktionWizardSeiteFuenf(values);
+        zwei = new MerchandiseWizardSeiteZwei(values);
+        drei = new MerchandiseWizardSeiteDrei(values);
+        vier  = new MerchandiseWizardSeiteVier(values);
+        fuenf = new MerchandiseWizardAbschluss(values);
+        zahlung = new MerchandiseWizardZahlung(values);
         vier.setKundeService(kundeService);
         vier.setESelectionService(selectionService);
         drei.setCommandService(commandService);
         drei.setDirty(dirty);
         drei.setHandlerService(handlerService);
         drei.setKundeService(kundeService);
-        
-        addPage(eins);
         addPage(zwei);
         addPage(drei);
         addPage(vier);
+        addPage(zahlung);
         addPage(fuenf);
     }
 
     @Override
     public boolean performCancel() {
-        //if(fuenf.isCurrentPage())
-        //    return false;// TODO Auto-generated method stub
+       // if(fuenf.isCurrentPage())
+      //      return false;// TODO Auto-generated method stub
         return true;
     }
     
@@ -110,20 +110,20 @@ public class TransaktionWizard extends Wizard implements IPageChangedListener{
     @Override
     public void pageChanged(PageChangedEvent e) {
         if(e.getSelectedPage() == fuenf) {
+            fuenf.updateContent();
+            
+            if(values.getZahlungsart() == null) {
+                LOG.debug("something went wrong");
+            }
             fuenf.doTransaction();
-            LOG.info("Transaktions Wizard erfolgreich abgeschlossen!");
+            LOG.info("Merchandise Wizard erfolgreich abgeschlossen!");
             fuenf.setPageComplete(true);
         }
         
     }
-
-
-    /**
-     * XXX: Hack to have the currently logged in mitarbeiter in the wizard values
-     * @param m The currently logged in mitarbeiter
-     */
-    public void setMitarbeiter(Mitarbeiter m) {
-        this.values.setMitarbeiter(m);
+    
+    public void setSelectedArtikel(HashMap<Artikel, Integer> selected) {
+        values.setSelected(selected);
     }
 
 //    @Override

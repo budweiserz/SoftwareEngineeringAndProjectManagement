@@ -1,4 +1,4 @@
-package at.ticketline.kassa.ui;
+package at.ticketline.kassa.ui.wizard;
 
 import java.util.Set;
 
@@ -47,6 +47,7 @@ public class TransaktionWizardSeiteFuenf extends WizardPage {
     /**
      * Erstelle die UI Inhalte dieser Seite.
      */
+    @Override
     public void createControl(Composite parent) {
         Composite container = new Composite(parent, SWT.NULL);
 
@@ -106,6 +107,7 @@ public class TransaktionWizardSeiteFuenf extends WizardPage {
         }
         
         values.setReservierungsNummer(t.getReservierungsnr());
+        this.updateContent();
     }
     
     public void updateContent() {
@@ -116,7 +118,7 @@ public class TransaktionWizardSeiteFuenf extends WizardPage {
         } else {
             setTitle("Buchung abgeschlossen");
             setDescription("Hier sind die Informationen zur Transaktion:");
-            lblReservierung.setText("");
+            lblReservierung.setText("Buchungsnummer: " + values.getReservierungsNummer());
         }
 
         if(values.getKunde() != null) {

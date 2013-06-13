@@ -1,12 +1,10 @@
-package at.ticketline.kassa.ui;
+package at.ticketline.kassa.ui.wizard;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
 import javax.inject.Named;
-import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import org.eclipse.core.commands.ParameterizedCommand;
@@ -15,9 +13,7 @@ import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
-import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.services.IServiceConstants;
-import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -36,13 +32,9 @@ import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.forms.events.ExpansionAdapter;
-import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ColumnLayout;
-import org.eclipse.ui.forms.widgets.ColumnLayoutData;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,13 +43,13 @@ import at.ticketline.entity.Adresse;
 import at.ticketline.entity.Geschlecht;
 import at.ticketline.entity.Kunde;
 import at.ticketline.kassa.handlers.SavePartHandler;
-import at.ticketline.kassa.ui.MerchandiseWizardSeiteDrei.EditorModifyListener;
+import at.ticketline.kassa.ui.UIUtilities;
 import at.ticketline.service.api.KundeService;
 
 @SuppressWarnings("restriction")
-public class MerchandiseWizardSeiteDrei extends WizardPage {
+public class TransaktionWizardSeiteDrei extends WizardPage {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MerchandiseWizardSeiteDrei.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TransaktionWizardSeiteDrei.class);
 
     
     private MDirtyable dirty;
@@ -79,19 +71,18 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
     private Text txtAdresse;
     private Text txtOrt;
     private Text txtEmail;
-    private Text txtErmaessigung;
     private Combo cbGeschlecht;
 
     private Button btnSave;
     
-    private MerchandiseWizardValues values;
+    private TransaktionWizardValues values;
     
     /**
      * Diese Wizard Seite wird aufgerufen, wenn ein neuer Kunde
      * anzulegen ist. Es wird das Formular von KundePart angezeigt.
      * 
      */
-    public MerchandiseWizardSeiteDrei(MerchandiseWizardValues values) {
+    public TransaktionWizardSeiteDrei(TransaktionWizardValues values) {
         super("NeuerKunde");
         setTitle("Neuer Kunde");
         setDescription("Tragen sie die Informationen des Kunden ein:");
@@ -201,7 +192,7 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
         this.btnSave.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                if (!MerchandiseWizardSeiteDrei.this.dirty.isDirty()) {
+                if (!TransaktionWizardSeiteDrei.this.dirty.isDirty()) {
                     return;
                 }
                 handlerService.activateHandler("at.ticketline.handler.savePartHandler", new SavePartHandler());
@@ -213,7 +204,7 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
                     //handlerService.executeHandler(cmd);
                 } catch (Exception ex) {
                     LOG.error(ex.getMessage(), ex);
-                    MessageDialog.openError(MerchandiseWizardSeiteDrei.this.shell, "Error", "Kunde kann nicht gespeichert werden: "
+                    MessageDialog.openError(TransaktionWizardSeiteDrei.this.shell, "Error", "Kunde kann nicht gespeichert werden: "
                             + ex.getMessage());
                 }
             }
@@ -223,11 +214,6 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
 
     @PreDestroy
     public void dispose() {
-        // nothing to do
-    }
-
-    @Focus
-    public void setFocus() {
         // nothing to do
     }
 
@@ -288,16 +274,13 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
         try {
             this.kundeService.save(kunde);
             this.values.setKunde(kunde);
-            ((MerchandiseWizard)getWizard()).fuenf.updateContent();
+            ((TransaktionWizard)getWizard()).fuenf.updateContent();
             this.dirty.setDirty(false);
 
             MessageDialog.openInformation(this.shell, "Speichervorgang", "Kunde wurde erfolgreich gespeichert");
         } catch (ConstraintViolationException c) {
-            StringBuilder sb = new StringBuilder("Die eingegebene Daten weisen folgende Fehler auf:\n");
-            for (ConstraintViolation<?> cv : c.getConstraintViolations()) {
-                sb.append(cv.getPropertyPath().toString().toUpperCase()).append(" ").append(cv.getMessage() + "\n");
-            }
-            MessageDialog.openError(this.shell, "Error", sb.toString());
+
+            MessageDialog.openError(this.shell, "Error", UIUtilities.getReadableConstraintViolations(c));
 
         } catch (DaoException e) {
             LOG.error(e.getMessage(), e);
@@ -319,18 +302,18 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
 
         @Override
         public void focusLost(FocusEvent e) {
-            if (e.getSource().equals(MerchandiseWizardSeiteDrei.this.dtGeburtsdatum) == false) {
+            if (e.getSource().equals(TransaktionWizardSeiteDrei.this.dtGeburtsdatum) == false) {
                 return;
             }
             try {
-                GregorianCalendar gc = MerchandiseWizardSeiteDrei.this.kunde.getGeburtsdatum();
+                GregorianCalendar gc = TransaktionWizardSeiteDrei.this.kunde.getGeburtsdatum();
                 if (gc == null) {
                     dirty.setDirty(true);
                     return;
                 }
-                if ((MerchandiseWizardSeiteDrei.this.dtGeburtsdatum.getYear() != gc.get(Calendar.YEAR))
-                        || (MerchandiseWizardSeiteDrei.this.dtGeburtsdatum.getMonth() != gc.get(Calendar.MONTH))
-                        || (MerchandiseWizardSeiteDrei.this.dtGeburtsdatum.getDay() != gc.get(Calendar.DAY_OF_MONTH))) {
+                if ((TransaktionWizardSeiteDrei.this.dtGeburtsdatum.getYear() != gc.get(Calendar.YEAR))
+                        || (TransaktionWizardSeiteDrei.this.dtGeburtsdatum.getMonth() != gc.get(Calendar.MONTH))
+                        || (TransaktionWizardSeiteDrei.this.dtGeburtsdatum.getDay() != gc.get(Calendar.DAY_OF_MONTH))) {
                     dirty.setDirty(true);
                 }
             } catch (Exception ex) {
@@ -343,7 +326,7 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
     
     @Override
     public WizardPage getNextPage(){
-        WizardPage fuenf = ((MerchandiseWizard)getWizard()).zahlung;
+        WizardPage fuenf = ((TransaktionWizard)getWizard()).fuenf;
         return fuenf;
      }
 
@@ -367,4 +350,8 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
         this.kundeService = kundeService;
     }
 
+    @Focus
+    public void setFocus() {
+        btnSave.setFocus();
+    }
 }

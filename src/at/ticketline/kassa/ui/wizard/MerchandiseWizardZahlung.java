@@ -1,4 +1,4 @@
-package at.ticketline.kassa.ui;
+package at.ticketline.kassa.ui.wizard;
 
 import javax.inject.Inject;
 

@@ -198,8 +198,12 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         createColumns();
         createRows();
         
-        
         table.addListener(SWT.MouseDown, new Listener(){
+            @Override public void handleEvent(Event event) {
+                table.deselectAll();
+            }
+        });
+        table.addListener(SWT.MouseUp, new Listener(){
             public void handleEvent(Event event){
                 Point pt = new Point(event.x, event.y);
                 TableItem item = table.getItem(pt);
@@ -224,10 +228,10 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
                                 selectedSeats--;
                                 refreshFooter();
                             }
-                            table.deselectAll();
                         }
                     }
                 }
+                table.deselectAll();
             }
         });
         

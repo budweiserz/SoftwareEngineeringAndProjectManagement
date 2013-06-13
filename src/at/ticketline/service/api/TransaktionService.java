@@ -1,5 +1,6 @@
 package at.ticketline.service.api;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -8,6 +9,7 @@ import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.Platz;
 import at.ticketline.entity.Transaktion;
+import at.ticketline.entity.Veranstaltung;
 
 /**
  * Service zum reservieren, verkaufen und stornieren.
@@ -58,5 +60,5 @@ public interface TransaktionService {
      * @param t die zu suchende Transaktion. Sofern ein Feld nicht 
      * definiert ist, gelten alle Werte in dem Feld
      */
-    public List<Transaktion> find(Transaktion t);
+    public List<Transaktion> find(Transaktion query, List<Veranstaltung> vs);
 }

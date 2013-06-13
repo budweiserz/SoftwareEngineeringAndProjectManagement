@@ -1,19 +1,25 @@
 package at.ticketline.dao.jpa;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.GenericDaoJpa;
+import at.ticketline.dao.api.KundeDao;
 import at.ticketline.dao.api.TransaktionDao;
+import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Transaktion;
 
 public class TransaktionDaoJpa extends GenericDaoJpa<Transaktion,Integer> implements TransaktionDao {
 
+    /*
 	@Override
 	public List<Transaktion> findByTransaktion(Transaktion transaktion) {
 		
@@ -49,5 +55,10 @@ public class TransaktionDaoJpa extends GenericDaoJpa<Transaktion,Integer> implem
         return this.entityManager.createQuery(query).getResultList();
         
 	}
-
+	*/
+	
+	@Override
+	public List<Transaktion> findByTransaktion(Transaktion query) {
+	    return null;
+	}
 }

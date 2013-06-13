@@ -84,6 +84,9 @@ public class TransaktionServiceImpl implements TransaktionService {
 		t.setStatus(tstat);
 
 		if(k != null) {
+		    if(k.getPunkte() == null) {
+		        k.setPunkte(new BigDecimal(0));
+		    }
 		    k.setPunkte(k.getPunkte().add(new BigDecimal(1))); // Punkte + 1;
 			t.setKunde(k);
 		}

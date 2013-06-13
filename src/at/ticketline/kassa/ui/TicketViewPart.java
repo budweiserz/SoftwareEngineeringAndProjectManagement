@@ -313,7 +313,7 @@ public class TicketViewPart {
             	query.getKunde().setNachname(txtNachname.getText().length() > 0 ? txtNachname.getText() : null);
             	
             	Veranstaltung v = new Veranstaltung();
-            	v.setBezeichnung(txtAuffuehrung.getText().length() > 0 ? txtAuffuehrung.getText()+"*" : null);
+            	v.setBezeichnung(txtAuffuehrung.getText().length() > 0 ? txtAuffuehrung.getText() : null);
             	List<Veranstaltung> vs = veranstaltungService.find(v, null, null);
             	
             	tableViewer.setInput(transaktionsService.find(query, vs));

@@ -168,31 +168,10 @@ public class TransaktionServiceImpl implements TransaktionService {
     		throw new IllegalArgumentException("Der Suchparameter darf nicht null sein");
     	}
 
-    	List<Transaktion> ts = transaktionDao.findAll();
+    	List<Transaktion> ts = transaktionDao.findByTransaktion(query);
     	Set<Transaktion> toRemove = new HashSet<Transaktion>();
-    	
         if (query.getKunde() != null) {
     		for (Transaktion t : ts) {
-            	if (query.getReservierungsnr() != null) {
-            	    if (t.getReservierungsnr() != query.getReservierungsnr()) {
-            	        toRemove.add(t);
-            	    }
-            	}
-
-    		    if (query.getKunde().getVorname() != null) {
-			        if (t.getKunde() == null 
-			                || t.getKunde().getVorname() == null 
-			                || !t.getKunde().getVorname().contains(query.getKunde().getVorname().replace("*", ""))) {
-			            toRemove.add(t);
-			        }
-    		    }
-    		    if (query.getKunde().getNachname() != null) {
-			        if (t.getKunde() == null 
-			                || t.getKunde().getNachname() == null 
-			                || !t.getKunde().getNachname().contains(query.getKunde().getNachname().replace("*", ""))) {
-			            toRemove.add(t);
-			        }
-    		    }
     		    if (vs != null && vs.size() > 0 && t.getPlaetze() != null && t.getPlaetze().iterator().hasNext()) {
     		        if (!vs.contains(t.getPlaetze().iterator().next().getAuffuehrung().getVeranstaltung())) {
 			            toRemove.add(t);

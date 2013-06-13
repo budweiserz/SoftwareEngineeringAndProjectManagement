@@ -19,7 +19,6 @@ import at.ticketline.entity.Transaktion;
 
 public class TransaktionDaoJpa extends GenericDaoJpa<Transaktion,Integer> implements TransaktionDao {
 
-    /*
 	@Override
 	public List<Transaktion> findByTransaktion(Transaktion transaktion) {
 		
@@ -33,16 +32,15 @@ public class TransaktionDaoJpa extends GenericDaoJpa<Transaktion,Integer> implem
         
         List<Predicate> wherePredicates = new ArrayList<Predicate>();
         
-        if (transaktion.getKunde() != null) {
-            String nn = transaktion.getKunde().getNachname().replace('*', '%').replace('?', '_').toUpperCase();
-            wherePredicates.add( builder.like( builder.upper( rootTransaktion.<String>get("nachname") ), nn) );
+        if (transaktion.getKunde() != null && transaktion.getKunde().getNachname() != null) {
+            String nn = ("%"+transaktion.getKunde().getNachname()+"%").toUpperCase();
+            wherePredicates.add( builder.like( builder.upper( rootTransaktion.get("kunde").<String>get("nachname") ), nn) );
         }
         
-        if (transaktion.getKunde() != null) {
-            String vn = transaktion.getKunde().getVorname().replace('*', '%').replace('?', '_').toUpperCase();
-            wherePredicates.add( builder.like( builder.upper( rootTransaktion.<String>get("vorname") ), vn) );
+        if (transaktion.getKunde() != null && transaktion.getKunde().getVorname() != null) {
+            String vn = ("%"+transaktion.getKunde().getVorname()+"%").toUpperCase();
+            wherePredicates.add( builder.like( builder.upper( rootTransaktion.get("kunde").<String>get("vorname") ), vn) );
         }
-        
         
         if (transaktion.getReservierungsnr() != null) {
             wherePredicates.add( builder.equal(rootTransaktion.<Integer>get("reservierungsNr"), transaktion.getReservierungsnr()) );
@@ -54,11 +52,5 @@ public class TransaktionDaoJpa extends GenericDaoJpa<Transaktion,Integer> implem
         
         return this.entityManager.createQuery(query).getResultList();
         
-	}
-	*/
-	
-	@Override
-	public List<Transaktion> findByTransaktion(Transaktion query) {
-	    return null;
 	}
 }

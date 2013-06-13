@@ -1,6 +1,4 @@
-package at.ticketline.kassa.ui;
-
-import java.text.SimpleDateFormat;
+package at.ticketline.kassa.ui.wizard;
 
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -25,6 +23,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.ColumnLayout;
@@ -37,14 +36,14 @@ import org.slf4j.LoggerFactory;
 import at.ticketline.entity.Kunde;
 import at.ticketline.service.api.KundeService;
 @SuppressWarnings("restriction")
-public class MerchandiseWizardSeiteVier extends WizardPage {
+public class TransaktionWizardSeiteVier extends WizardPage {
 
-    private static final Logger LOG = LoggerFactory.getLogger(MerchandiseWizardSeiteVier.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TransaktionWizardSeiteVier.class);
     
     private ESelectionService selectionService;
     private KundeService kundeService;
     
-    private MerchandiseWizardValues values;
+    private TransaktionWizardValues values;
     
     private FormToolkit toolkit;
     private ScrolledForm form;
@@ -58,7 +57,7 @@ public class MerchandiseWizardSeiteVier extends WizardPage {
      * Kunde für die Transaktion verwendet werden soll. Dabei wird die Liste
      * aus ListKundePart im Wizard-fenster angezeigt.
      */
-    public MerchandiseWizardSeiteVier(MerchandiseWizardValues values) {
+    public TransaktionWizardSeiteVier(TransaktionWizardValues values) {
         super("BestehenderKunde");
         setTitle("Stammkunde");
         setDescription("Wählen sie hier den Kunden aus:");
@@ -87,8 +86,9 @@ public class MerchandiseWizardSeiteVier extends WizardPage {
         createSuchfunktion(container);
         
         createKundenliste(container);
-
+        
         createSuchlistener();
+
         //TODO set completed when customer type is selected
 
         
@@ -116,7 +116,8 @@ public class MerchandiseWizardSeiteVier extends WizardPage {
         });
         
     }
-    
+
+
     private void createSuchfunktion(Composite parent) {
         Composite SearchComposite = new Composite(parent, SWT.BORDER);
         SearchComposite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -164,7 +165,6 @@ public class MerchandiseWizardSeiteVier extends WizardPage {
         btnSuchen.setText("Suchen");
     }
     
-    
     private void createKundenliste(Composite parent){
         parent.setLayout(new GridLayout(1, false));
 
@@ -192,10 +192,9 @@ public class MerchandiseWizardSeiteVier extends WizardPage {
         this.tableViewer = new TableViewer(parent);
         this.tableViewer.getTable().setLayoutData( new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
         TableLayout layout = new TableLayout();
-        layout.addColumnData(new ColumnWeightData(25, 100, true));
-        layout.addColumnData(new ColumnWeightData(25, 100, true));
-        layout.addColumnData(new ColumnWeightData(25, 100, true));
-        layout.addColumnData(new ColumnWeightData(25, 100, true));
+        layout.addColumnData(new ColumnWeightData(33, 100, true));
+        layout.addColumnData(new ColumnWeightData(33, 100, true));
+        layout.addColumnData(new ColumnWeightData(33, 100, true));
         //layout.addColumnData(new ColumnWeightData(15, 100, true));
         this.tableViewer.getTable().setLayout(layout);
     
@@ -227,14 +226,7 @@ public class MerchandiseWizardSeiteVier extends WizardPage {
                     }
                 case 2:
                     if (e.getGeburtsdatum() != null) {
-                        SimpleDateFormat myFormat = new SimpleDateFormat("dd.MM.yyyy");
-                        return myFormat.format(e.getGeburtsdatum().getTime());
-                    } else {
-                        return "";
-                    }
-                case 3:
-                    if (e.getPunkte() != null) {
-                        return e.getPunkte().intValue() + " Punkte";
+                        return e.getGeburtsdatum().getTime().toString();
                     } else {
                         return "";
                     }
@@ -269,12 +261,10 @@ public class MerchandiseWizardSeiteVier extends WizardPage {
         col2.setText("Nachname");
         TableColumn col3 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
         col3.setText("Geburtsdatum");
-        TableColumn col4 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
-        col4.setText("Punkte");
         
         // MAGIC HAPPENS HERE
         this.tableViewer.setInput(this.kundeService.findAll());
-        final MerchandiseWizardSeiteVier temp = this;
+        final TransaktionWizardSeiteVier temp = this;
         this.tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
@@ -282,7 +272,7 @@ public class MerchandiseWizardSeiteVier extends WizardPage {
                 IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection(); 
                 selectionService.setSelection(selection.getFirstElement());
                 temp.values.setKunde((Kunde)selection.getFirstElement());
-                ((MerchandiseWizard)getWizard()).fuenf.updateContent();
+                ((TransaktionWizard)getWizard()).fuenf.updateContent();
                 LOG.info("Type: " + selection.getFirstElement().getClass().getName());
                 LOG.info("Selection changed: {}", selection.getFirstElement().toString());
             }
@@ -302,7 +292,7 @@ public class MerchandiseWizardSeiteVier extends WizardPage {
     
     @Override
     public WizardPage getNextPage(){
-        WizardPage fuenf = ((MerchandiseWizard)getWizard()).zahlung;
+        WizardPage fuenf = ((TransaktionWizard)getWizard()).fuenf;
         return fuenf;
      }
     

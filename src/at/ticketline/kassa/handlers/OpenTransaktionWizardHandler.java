@@ -12,8 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ticketline.entity.Mitarbeiter;
-import at.ticketline.kassa.ui.TransaktionWizard;
-import at.ticketline.kassa.ui.TransaktionWizardDialog;
+import at.ticketline.kassa.ui.wizard.TransaktionWizard;
+import at.ticketline.kassa.ui.wizard.TransaktionWizardDialog;
 
 @SuppressWarnings("restriction")
 public class OpenTransaktionWizardHandler {

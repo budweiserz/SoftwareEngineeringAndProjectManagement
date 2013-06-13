@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
+import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.ui.di.Focus;
@@ -14,9 +15,14 @@ import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -325,7 +331,7 @@ public class TicketViewPart {
             	
             }
         });
-        
+        */
         //MAGIC HAPPENS HERE
         this.tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             @Override
@@ -338,11 +344,11 @@ public class TicketViewPart {
         this.tableViewer.addDoubleClickListener(new IDoubleClickListener() {
             @Override
             public void doubleClick(DoubleClickEvent event) {
-                ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openWizard", null);
+                ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openTicketWizard", null);
                 handlerService.executeHandler(c);
             }
         });
-        */
+        
         
         btnKaufen.addMouseListener(new MouseListener() {
 			

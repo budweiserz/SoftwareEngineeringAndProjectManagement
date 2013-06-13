@@ -136,7 +136,7 @@ public class TicketViewPart {
 		fd_lblBuchungsnr.bottom = new FormAttachment(lblNachname, 0, SWT.BOTTOM);
 		fd_lblBuchungsnr.left = new FormAttachment(lblAuffhrung, 0, SWT.LEFT);
 		lblBuchungsnr.setLayoutData(fd_lblBuchungsnr);
-		lblBuchungsnr.setText("BuchungsNr.");
+		lblBuchungsnr.setText("Nummer");
 		
 		txtBuchungsnr = new Text(SearchComposite, SWT.BORDER);
 		FormData fd_txtBuchungsnr = new FormData();
@@ -156,10 +156,15 @@ public class TicketViewPart {
 		table.setHeaderVisible(true);
 		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
+		TableViewerColumn tableViewerColumn_0 = new TableViewerColumn(tableViewer, SWT.NONE);
+		TableColumn tblclmnBuchungsnr0 = tableViewerColumn_0.getColumn();
+		tblclmnBuchungsnr0.setWidth(100);
+		tblclmnBuchungsnr0.setText("Typ");
+
 		TableViewerColumn tableViewerColumn_4 = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tblclmnBuchungsnr = tableViewerColumn_4.getColumn();
 		tblclmnBuchungsnr.setWidth(100);
-		tblclmnBuchungsnr.setText("BuchungsNr");
+		tblclmnBuchungsnr.setText("Nummer");
 		
 		TableViewerColumn tableViewerColumn_5 = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tblclmnVorname = tableViewerColumn_5.getColumn();
@@ -232,27 +237,33 @@ public class TicketViewPart {
             public String getColumnText(Object element, int index) {
                 Transaktion e = (Transaktion) element;
                 switch (index) {
-                case 0:
+                case 1:
                     if (e.getReservierungsnr() != null) {
                         return String.valueOf(e.getReservierungsnr());
                     } else {
                         return "";
                     }
-                case 1:
-                    if (e.getKunde() != null) {
-                        return e.getKunde().getVorname();
+                case 0:
+                    if (e.getStatus() != null) {
+                        return e.getStatus().toString();
                     } else {
                         return "";
                     }
                 case 2:
                     if (e.getKunde() != null) {
-                        return e.getKunde().getNachname();
+                        return e.getKunde().getVorname();
                     } else {
                         return "";
                     }
                 case 3:
+                    if (e.getKunde() != null) {
+                        return e.getKunde().getNachname();
+                    } else {
+                        return "";
+                    }
+                case 4:
                     if (e.getPlaetze() != null) {
-                        return String.valueOf(e.getPlaetze().iterator().next().getAuffuehrung().getId());
+                        return String.valueOf(e.getPlaetze().iterator().next().getAuffuehrung().getVeranstaltung().getBezeichnung());
                     } else {
                         return "";
                     }

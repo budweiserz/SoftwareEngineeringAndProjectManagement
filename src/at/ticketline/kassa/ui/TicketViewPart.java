@@ -7,6 +7,8 @@ import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
 import org.eclipse.core.commands.ParameterizedCommand;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.ui.di.Focus;
@@ -14,6 +16,7 @@ import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProviderListener;
@@ -37,6 +40,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -45,11 +49,14 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import at.ticketline.dao.DaoFactory;
+import at.ticketline.dao.api.TransaktionDao;
 import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Transaktion;
 import at.ticketline.entity.Veranstaltung;
 import at.ticketline.service.api.TransaktionService;
 import at.ticketline.service.api.VeranstaltungService;
+import at.ticketline.service.impl.TransaktionServiceImpl;
 
 @SuppressWarnings("restriction")
 public class TicketViewPart {
@@ -343,8 +350,15 @@ public class TicketViewPart {
 			
 			@Override
 			public void mouseDown(MouseEvent e) {
-				ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openTicketWizard", null);
-                handlerService.executeHandler(c);	
+				if(selectionService.getSelection() != null) {
+					ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openTicketWizard", null);
+	                handlerService.executeHandler(c);
+				} else {
+					Status status = new Status(IStatus.ERROR, "My Plug-in ID", 0,
+				            "Fehlende Auswahl", null);
+					ErrorDialog.openError(Display.getCurrent().getActiveShell(), "Auswahl-Error", 
+							"Bitte wählen Sie einen Eintrag aus, für den Sie einen Kauf einleiten möchten.", status);
+				}
 			}
 			
 			@Override
@@ -362,8 +376,17 @@ public class TicketViewPart {
 			
 			@Override
 			public void mouseDown(MouseEvent e) {
-				ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openTicketWizard", null);
-                handlerService.executeHandler(c);	
+				if(selectionService.getSelection() != null) {
+					TransaktionService service = new TransaktionServiceImpl((TransaktionDao) DaoFactory.getByEntity(Transaktion.class));
+			        service.cancelReservation(((Transaktion)selectionService.getSelection()).getReservierungsnr());
+			        tableViewer.setInput(transaktionsService.find(new Transaktion(), null));
+				} else {
+					Status status = new Status(IStatus.ERROR, "My Plug-in ID", 0,
+				            "Fehlende Auswahl", null);
+					ErrorDialog.openError(Display.getCurrent().getActiveShell(), "Auswahl-Error", 
+							"Bitte wählen Sie einen Eintrag aus, den Sie löschen möchten.", status);
+				}
+				
 			}
 			
 			@Override

@@ -242,7 +242,7 @@ public class KundeSearchPart {
             }
         });
         
-        //tableViewer.setInput(kuenstlerService.findByKuenstlerWithAnySex(new Kuenstler()));
+        tableViewer.setInput(kundeService.findByKunde(new Kunde()));
 	}
 
 	@PreDestroy

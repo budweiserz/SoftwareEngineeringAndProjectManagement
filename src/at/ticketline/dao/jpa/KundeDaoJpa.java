@@ -27,12 +27,12 @@ public class KundeDaoJpa extends GenericDaoJpa<Kunde,Integer> implements KundeDa
         List<Predicate> wherePredicates = new ArrayList<Predicate>();
         
         if (kunde.getNachname() != null) {
-            String nn = kunde.getNachname().replace('*', '%').replace('?', '_').toUpperCase();
+            String nn = ("%"+kunde.getNachname()+"%").toUpperCase();
             wherePredicates.add( builder.like( builder.upper( rootKuenstler.<String>get("nachname") ), nn) );
         }
         
         if (kunde.getVorname() != null) {
-            String vn = kunde.getVorname().replace('*', '%').replace('?', '_').toUpperCase();
+            String vn = ("%"+kunde.getVorname()+"%").toUpperCase();
             wherePredicates.add( builder.like( builder.upper( rootKuenstler.<String>get("vorname") ), vn) );
         }
         

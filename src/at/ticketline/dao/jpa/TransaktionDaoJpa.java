@@ -1,15 +1,20 @@
 package at.ticketline.dao.jpa;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.GenericDaoJpa;
+import at.ticketline.dao.api.KundeDao;
 import at.ticketline.dao.api.TransaktionDao;
+import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Transaktion;
 
 public class TransaktionDaoJpa extends GenericDaoJpa<Transaktion,Integer> implements TransaktionDao {
@@ -27,16 +32,15 @@ public class TransaktionDaoJpa extends GenericDaoJpa<Transaktion,Integer> implem
         
         List<Predicate> wherePredicates = new ArrayList<Predicate>();
         
-        if (transaktion.getKunde() != null) {
-            String nn = transaktion.getKunde().getNachname().replace('*', '%').replace('?', '_').toUpperCase();
-            wherePredicates.add( builder.like( builder.upper( rootTransaktion.<String>get("nachname") ), nn) );
+        if (transaktion.getKunde() != null && transaktion.getKunde().getNachname() != null) {
+            String nn = ("%"+transaktion.getKunde().getNachname()+"%").toUpperCase();
+            wherePredicates.add( builder.like( builder.upper( rootTransaktion.get("kunde").<String>get("nachname") ), nn) );
         }
         
-        if (transaktion.getKunde() != null) {
-            String vn = transaktion.getKunde().getVorname().replace('*', '%').replace('?', '_').toUpperCase();
-            wherePredicates.add( builder.like( builder.upper( rootTransaktion.<String>get("vorname") ), vn) );
+        if (transaktion.getKunde() != null && transaktion.getKunde().getVorname() != null) {
+            String vn = ("%"+transaktion.getKunde().getVorname()+"%").toUpperCase();
+            wherePredicates.add( builder.like( builder.upper( rootTransaktion.get("kunde").<String>get("vorname") ), vn) );
         }
-        
         
         if (transaktion.getReservierungsnr() != null) {
             wherePredicates.add( builder.equal(rootTransaktion.<Integer>get("reservierungsNr"), transaktion.getReservierungsnr()) );
@@ -49,5 +53,4 @@ public class TransaktionDaoJpa extends GenericDaoJpa<Transaktion,Integer> implem
         return this.entityManager.createQuery(query).getResultList();
         
 	}
-
 }

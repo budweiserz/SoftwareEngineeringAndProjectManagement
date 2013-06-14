@@ -29,13 +29,13 @@ public class VeranstaltungDaoJpa extends GenericDaoJpa<Veranstaltung,Integer> im
 
 		// where Bedingung für Bezeichnung der Veranstaltung
 		if (veranstaltung.getBezeichnung() != null) {
-			String bezeichnung = veranstaltung.getBezeichnung().replace('*', '%').replace('?', '_').toUpperCase();
+			String bezeichnung = ("%"+veranstaltung.getBezeichnung()+"%").toUpperCase();
 			wherePredicates.add( builder.like( builder.upper(rootVeranstaltung.<String>get("bezeichnung") ), bezeichnung));
 		}
 
 		// where Bedingung für Kategorie der Veranstaltung
 		if (veranstaltung.getKategorie() != null) {
-			String kategorie = veranstaltung.getKategorie().replace('*', '%').replace('?', '_').toUpperCase();
+			String kategorie = ("%"+veranstaltung.getKategorie()+"%").toUpperCase();
 			wherePredicates.add( builder.like( builder.upper(rootVeranstaltung.<String>get("kategorie") ), kategorie));
 		}
 
@@ -51,7 +51,7 @@ public class VeranstaltungDaoJpa extends GenericDaoJpa<Veranstaltung,Integer> im
 
 		// where Bedingung für den Inhalt der Veranstaltung
 		if (veranstaltung.getInhalt() != null) {
-			String inhalt = veranstaltung.getInhalt().replace('*', '%').replace('?', '_').toUpperCase();
+			String inhalt = ("%"+veranstaltung.getInhalt()+"%").toUpperCase();
 			wherePredicates.add( builder.like( builder.upper(rootVeranstaltung.<String>get("inhalt") ), inhalt));
 		}
 

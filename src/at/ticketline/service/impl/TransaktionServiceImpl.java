@@ -1,7 +1,10 @@
 package at.ticketline.service.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,6 +27,7 @@ import at.ticketline.entity.Reihe;
 import at.ticketline.entity.Saal;
 import at.ticketline.entity.Transaktion;
 import at.ticketline.entity.Transaktionsstatus;
+import at.ticketline.entity.Veranstaltung;
 import at.ticketline.entity.Zahlungsart;
 import at.ticketline.service.api.TransaktionService;
 
@@ -81,6 +85,9 @@ public class TransaktionServiceImpl implements TransaktionService {
 		t.setStatus(tstat);
 
 		if(k != null) {
+		    if(k.getPunkte() == null) {
+		        k.setPunkte(new BigDecimal(0));
+		    }
 		    k.setPunkte(k.getPunkte().add(new BigDecimal(1))); // Punkte + 1;
 			t.setKunde(k);
 		}
@@ -162,7 +169,24 @@ public class TransaktionServiceImpl implements TransaktionService {
 	}
 
 	@Override
-	public List<Transaktion> find(Transaktion t) {
-		return transaktionDao.findByTransaktion(t);
+	public List<Transaktion> find(Transaktion query, List<Veranstaltung> vs) {
+    	if (query == null) {
+    		throw new IllegalArgumentException("Der Suchparameter darf nicht null sein");
+    	}
+
+    	List<Transaktion> ts = transaktionDao.findByTransaktion(query);
+    	Set<Transaktion> toRemove = new HashSet<Transaktion>();
+        if (query.getKunde() != null) {
+    		for (Transaktion t : ts) {
+    		    if (vs != null && vs.size() > 0 && t.getPlaetze() != null && t.getPlaetze().iterator().hasNext()) {
+    		        if (!vs.contains(t.getPlaetze().iterator().next().getAuffuehrung().getVeranstaltung())) {
+			            toRemove.add(t);
+    		        }
+    		    }
+    		}
+
+    		ts.removeAll(toRemove);
+    	}
+        return ts;
 	}
 }

@@ -1,12 +1,13 @@
 package at.ticketline.kassa.ui;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 
-import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.ui.di.Focus;
@@ -14,14 +15,9 @@ import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
-import org.eclipse.jface.viewers.DoubleClickEvent;
-import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
-import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.Viewer;
@@ -46,8 +42,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ticketline.entity.Auffuehrung;
+import at.ticketline.entity.Kunde;
+import at.ticketline.entity.Saal;
 import at.ticketline.entity.Transaktion;
+import at.ticketline.entity.Veranstaltung;
 import at.ticketline.service.api.TransaktionService;
+import at.ticketline.service.api.VeranstaltungService;
 
 @SuppressWarnings("restriction")
 public class TicketViewPart {
@@ -62,6 +62,7 @@ public class TicketViewPart {
     //@Inject @Named (IServiceConstants.ACTIVE_SHELL) private Shell shell;
     
     @Inject private TransaktionService transaktionsService;
+    @Inject private VeranstaltungService veranstaltungService;
     
     TableViewer tableViewer;
 	private Table table;
@@ -127,7 +128,7 @@ public class TicketViewPart {
 		fd_lblAuffhrung.top = new FormAttachment(lblVorname, 0, SWT.TOP);
 		fd_lblAuffhrung.left = new FormAttachment(txtVorname, 41);
 		lblAuffhrung.setLayoutData(fd_lblAuffhrung);
-		lblAuffhrung.setText("Aufführung");
+		lblAuffhrung.setText("Veranstaltung");
 		
 		txtAuffuehrung = new Text(SearchComposite, SWT.BORDER);
 		FormData fd_txtAuffuehrung = new FormData();
@@ -184,7 +185,7 @@ public class TicketViewPart {
 		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(tableViewer, SWT.NONE);
 		TableColumn tblclmnAuffhrung = tableViewerColumn_1.getColumn();
 		tblclmnAuffhrung.setWidth(100);
-		tblclmnAuffhrung.setText("Aufführung");
+		tblclmnAuffhrung.setText("Veranstaltung");
 		
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -267,8 +268,10 @@ public class TicketViewPart {
                         return "";
                     }
                 case 4:
-                    if (e.getPlaetze() != null && e.getPlaetze().iterator().hasNext()) {
-                        return String.valueOf(e.getPlaetze().iterator().next().getAuffuehrung().getVeranstaltung().getBezeichnung());
+                    if (e.getPlaetze() != null && e.getPlaetze().iterator().next() != null 
+                            && e.getPlaetze().iterator().next().getAuffuehrung() != null 
+                            && e.getPlaetze().iterator().next().getAuffuehrung().getVeranstaltung() != null) {
+                        return e.getPlaetze().iterator().next().getAuffuehrung().getVeranstaltung().getBezeichnung();
                     } else {
                         return "";
                     }
@@ -297,51 +300,29 @@ public class TicketViewPart {
             }
         });
         
-        /*btnSuchen.addMouseListener(new MouseListener() {
+        btnSuchen.addMouseListener(new MouseListener() {
             @Override public void mouseDoubleClick(MouseEvent e) { }
             @Override public void mouseDown(MouseEvent e) { }
 
             @Override
             public void mouseUp(MouseEvent e) {
-                
-            	Auffuehrung query = new Auffuehrung();
-            	Auffuehrung queryto = new Auffuehrung();
-            	query.setSaal(new Saal());
-            	query.getSaal().setBezeichnung(text_2.getText().length() > 0 ? text_2.getText() : null);
-            	query.setVeranstaltung(new Veranstaltung());
-            	query.getVeranstaltung().setBezeichnung(text_3.getText().length() > 0 ? text_3.getText() : null);
-            	PreisKategorie pk = null;
-            	switch (preiskategorie.getSelectionIndex()) {
-                case 0:
-                    pk = PreisKategorie.MINDESTPREIS;
-                    break;
-                case 1:
-                    pk = PreisKategorie.STANDARDPREIS;
-                    break;
-                case 2:
-                    pk = PreisKategorie.MAXIMALPREIS;
-                    break;
-                default:
-                    break;
-                }
-            	query.setPreis(pk);
-            	Calendar cal = Calendar.getInstance();
-            	cal.set(Calendar.YEAR, dateTimeFrom.getYear());
-            	cal.set(Calendar.MONTH, dateTimeFrom.getMonth());
-            	cal.set(Calendar.DAY_OF_MONTH, dateTimeFrom.getDay());
-            	query.setDatumuhrzeit(new Date(cal.getTimeInMillis()));
-                cal.set(Calendar.YEAR, dateTimeTo.getYear());
-                cal.set(Calendar.MONTH, dateTimeTo.getMonth());
-                cal.set(Calendar.DAY_OF_MONTH, dateTimeTo.getDay());
-            	queryto.setDatumuhrzeit(new Date(cal.getTimeInMillis()));
-                LOG.debug("Query Auffuehrung: {}", query);
+            	Transaktion query = new Transaktion();
+            	query.setKunde(new Kunde());
+            	query.setId(txtBuchungsnr.getText().length() > 0 ? Integer.valueOf(txtBuchungsnr.getText()) : null);
+            	query.getKunde().setVorname(txtVorname.getText().length() > 0 ? txtVorname.getText() : null);
+            	query.getKunde().setNachname(txtNachname.getText().length() > 0 ? txtNachname.getText() : null);
             	
-            	tableViewer.setInput(auffuehrungService.find(query, queryto));
+            	Veranstaltung v = new Veranstaltung();
+            	v.setBezeichnung(txtAuffuehrung.getText().length() > 0 ? txtAuffuehrung.getText() : null);
+            	List<Veranstaltung> vs = veranstaltungService.find(v, null, null);
+            	
+            	tableViewer.setInput(transaktionsService.find(query, vs));
             	tableViewer.refresh();
             	
             }
         });
-        */
+        
+        /*
         //MAGIC HAPPENS HERE
         this.tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             @Override
@@ -354,11 +335,11 @@ public class TicketViewPart {
         this.tableViewer.addDoubleClickListener(new IDoubleClickListener() {
             @Override
             public void doubleClick(DoubleClickEvent event) {
-                ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openTicketWizard", null);
+                ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openWizard", null);
                 handlerService.executeHandler(c);
             }
         });
-        
+        */
         
         btnKaufen.addMouseListener(new MouseListener() {
 			
@@ -381,7 +362,7 @@ public class TicketViewPart {
 			}
 		});
         
-        this.tableViewer.setInput(transaktionsService.find(new Transaktion()));
+        this.tableViewer.setInput(transaktionsService.find(new Transaktion(), null));
 	}
 
 	@PreDestroy

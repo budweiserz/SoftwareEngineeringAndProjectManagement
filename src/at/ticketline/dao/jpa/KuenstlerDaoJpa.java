@@ -29,12 +29,12 @@ public class KuenstlerDaoJpa extends GenericDaoJpa<Kuenstler, Integer>
         List<Predicate> wherePredicates = new ArrayList<Predicate>();
         
         if (kuenstler.getNachname() != null) {
-            String nn = kuenstler.getNachname().replace('*', '%').replace('?', '_').toUpperCase();
+            String nn = ("%"+kuenstler.getNachname()+"%").toUpperCase();
             wherePredicates.add( builder.like( builder.upper( rootKuenstler.<String>get("nachname") ), nn) );
         }
         
         if (kuenstler.getVorname() != null) {
-            String vn = kuenstler.getVorname().replace('*', '%').replace('?', '_').toUpperCase();
+            String vn = ("%"+kuenstler.getVorname()+"%").toUpperCase();
             wherePredicates.add( builder.like( builder.upper( rootKuenstler.<String>get("vorname") ), vn) );
         }
         

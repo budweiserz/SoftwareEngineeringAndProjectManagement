@@ -3,6 +3,9 @@ package at.ticketline.kassa.ui;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.swt.widgets.Table;
+
 import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Mitarbeiter;
@@ -17,7 +20,14 @@ public class TicketWizardValues {
     private HashSet<Platz> plaetze;
     private int reservierungsNummer;
     private Transaktion transaktion;
+    private TicketViewPart part;
     
+    public TicketViewPart getPart() {
+        return part;
+    }
+    public void setPart(TicketViewPart part) {
+        this.part = part;
+    }
     public Kunde getKunde() {
         return kunde;
     }

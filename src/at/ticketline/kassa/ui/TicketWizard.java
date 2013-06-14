@@ -9,6 +9,7 @@ import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
@@ -17,6 +18,7 @@ import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +46,7 @@ public class TicketWizard extends Wizard implements IPageChangedListener{
     protected TicketWizardAbschluss fuenf;
     
     private TicketWizardValues values;
+    private Table table;
     
     @Inject
     public TicketWizard(@ Named (IServiceConstants.ACTIVE_SELECTION) @ Optional Transaktion transaktion) {
@@ -115,6 +118,10 @@ public class TicketWizard extends Wizard implements IPageChangedListener{
      */
     public void setMitarbeiter(Mitarbeiter m) {
         this.values.setMitarbeiter(m);
+    }
+    
+    public void setPart(TicketViewPart p) {
+        this.values.setPart(p);
     }
 
 //    @Override

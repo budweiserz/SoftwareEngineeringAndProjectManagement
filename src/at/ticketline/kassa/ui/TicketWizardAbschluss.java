@@ -101,10 +101,18 @@ public class TicketWizardAbschluss extends WizardPage {
             
         Transaktion t = values.getTransaktion();
         service.cancelReservation(t.getReservierungsnr());
-        service.sell(mitarbeiter, kunde, auffuehrung, plaetze);
+        t = service.sell(mitarbeiter, kunde, auffuehrung, plaetze);
+
+        values.setReservierungsNummer(t.getReservierungsnr());
+        this.updateContent();
+        values.getPart().updateList();
     }
     
     public void updateContent() {
+
+        /**
+         * @see: TransaktionWizardSeiteFuenf.java
+         */
         if(values.isReservierung()) {
             setTitle("Reservierung abgeschlossen");
             setDescription("Hier sind die Informationen zur Reservierung:");
@@ -112,7 +120,7 @@ public class TicketWizardAbschluss extends WizardPage {
         } else {
             setTitle("Buchung abgeschlossen");
             setDescription("Hier sind die Informationen zur Transaktion:");
-            lblReservierung.setText("");
+            lblReservierung.setText("Buchungsnummer: " + values.getReservierungsNummer());
         }
 
         if(values.getKunde() != null) {

@@ -111,6 +111,10 @@ public class TransaktionWizardSeiteFuenf extends WizardPage {
     }
     
     public void updateContent() {
+
+        /**
+         * @see: TicketWizardAbschluss.java
+         */
         if(values.isReservierung()) {
             setTitle("Reservierung abgeschlossen");
             setDescription("Hier sind die Informationen zur Reservierung:");

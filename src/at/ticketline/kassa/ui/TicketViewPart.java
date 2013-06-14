@@ -11,7 +11,9 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
+import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.ui.di.Focus;
+import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
@@ -69,6 +71,7 @@ public class TicketViewPart {
     @Inject private ESelectionService selectionService;
     @Inject private MPart activePart;
     //@Inject @Named (IServiceConstants.ACTIVE_SHELL) private Shell shell;
+    @Inject MApplication application;
     
     @Inject private TransaktionService transaktionsService;
     @Inject private VeranstaltungService veranstaltungService;
@@ -79,6 +82,11 @@ public class TicketViewPart {
 	private Text txtNachname;
 	private Text txtAuffuehrung;
 	private Text txtBuchungsnr;
+	
+	public Table getTable() {
+	    return table;
+	}
+
 	/**
 	 * Create contents of the view part.
 	 */
@@ -308,23 +316,11 @@ public class TicketViewPart {
 
             @Override
             public void mouseUp(MouseEvent e) {
-            	Transaktion query = new Transaktion();
-            	query.setKunde(new Kunde());
-            	query.setId(txtBuchungsnr.getText().length() > 0 ? Integer.valueOf(txtBuchungsnr.getText()) : null);
-            	query.getKunde().setVorname(txtVorname.getText().length() > 0 ? txtVorname.getText() : null);
-            	query.getKunde().setNachname(txtNachname.getText().length() > 0 ? txtNachname.getText() : null);
-            	
-            	Veranstaltung v = new Veranstaltung();
-            	v.setBezeichnung(txtAuffuehrung.getText().length() > 0 ? txtAuffuehrung.getText() : null);
-            	List<Veranstaltung> vs = veranstaltungService.find(v, null, null);
-            	
-            	tableViewer.setInput(transaktionsService.find(query, vs));
-            	tableViewer.refresh();
-            	
+                TicketViewPart.this.updateList();
             }
         });
         
-      //MAGIC HAPPENS HERE
+        //MAGIC HAPPENS HERE
         this.tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
@@ -379,12 +375,10 @@ public class TicketViewPart {
 				if(selectionService.getSelection() != null) {
 					TransaktionService service = new TransaktionServiceImpl((TransaktionDao) DaoFactory.getByEntity(Transaktion.class));
 			        service.cancelReservation(((Transaktion)selectionService.getSelection()).getReservierungsnr());
-			        tableViewer.setInput(transaktionsService.find(new Transaktion(), null));
+			        TicketViewPart.this.updateList();
 				} else {
-					Status status = new Status(IStatus.ERROR, "My Plug-in ID", 0,
-				            "Fehlende Auswahl", null);
-					ErrorDialog.openError(Display.getCurrent().getActiveShell(), "Auswahl-Error", 
-							"Bitte wählen Sie einen Eintrag aus, den Sie löschen möchten.", status);
+					Status status = new Status(IStatus.ERROR, "My Plug-in ID", 0, "Fehlende Auswahl", null);
+					ErrorDialog.openError(Display.getCurrent().getActiveShell(), "Auswahl-Error", "Bitte wählen Sie einen Eintrag aus, den Sie löschen möchten.", status);
 				}
 				
 			}
@@ -396,7 +390,25 @@ public class TicketViewPart {
 		});
         
         this.tableViewer.setInput(transaktionsService.find(new Transaktion(), null));
+
+    	IEclipseContext context = application.getContext();
+    	context.set("ticketViewPart", this);
 	}
+        
+    public void updateList() {
+    	Transaktion query = new Transaktion();
+    	query.setKunde(new Kunde());
+    	query.setId(txtBuchungsnr.getText().length() > 0 ? Integer.valueOf(txtBuchungsnr.getText()) : null);
+    	query.getKunde().setVorname(txtVorname.getText().length() > 0 ? txtVorname.getText() : null);
+    	query.getKunde().setNachname(txtNachname.getText().length() > 0 ? txtNachname.getText() : null);
+    	
+    	Veranstaltung v = new Veranstaltung();
+    	v.setBezeichnung(txtAuffuehrung.getText().length() > 0 ? txtAuffuehrung.getText() : null);
+    	List<Veranstaltung> vs = veranstaltungService.find(v, null, null);
+    	
+    	tableViewer.setInput(transaktionsService.find(query, vs));
+    	tableViewer.refresh();
+    }
 
 	@PreDestroy
 	public void dispose() {

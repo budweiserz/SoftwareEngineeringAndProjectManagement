@@ -1,21 +1,17 @@
 package at.ticketline.dao.jpa;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.GenericDaoJpa;
-import at.ticketline.dao.api.KundeDao;
 import at.ticketline.dao.api.TransaktionDao;
-import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Transaktion;
+import at.ticketline.entity.Transaktionsstatus;
 
 public class TransaktionDaoJpa extends GenericDaoJpa<Transaktion,Integer> implements TransaktionDao {
 
@@ -31,6 +27,8 @@ public class TransaktionDaoJpa extends GenericDaoJpa<Transaktion,Integer> implem
         Root<Transaktion> rootTransaktion = query.from(Transaktion.class);
         
         List<Predicate> wherePredicates = new ArrayList<Predicate>();
+
+        wherePredicates.add( builder.notEqual(rootTransaktion.<Integer>get("status"), Transaktionsstatus.STORNO) );
         
         if (transaktion.getKunde() != null && transaktion.getKunde().getNachname() != null) {
             String nn = ("%"+transaktion.getKunde().getNachname()+"%").toUpperCase();

@@ -445,6 +445,7 @@ public class TicketWizardSaalplan extends WizardPage implements Listener {
     }
     
     private void fillWithTransaction() {
+    	values.setKunde(values.getTransaktion().getKunde());
     	for(Platz platz: values.getPlaetze()) {
         	ausgewaehltePlaetze.put(platz.getNummer(), platz);
         	int numRow = (int)Math.floor(platz.getNummer()/numOfColumns);

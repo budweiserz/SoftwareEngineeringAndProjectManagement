@@ -73,7 +73,8 @@ public class TransaktionServiceImpl implements TransaktionService {
 	public Transaktion sell(Mitarbeiter m, Kunde k, Auffuehrung a, Set<Platz> ps) {
 		return execute(m, k, a, ps, Transaktionsstatus.BUCHUNG, PlatzStatus.GEBUCHT);
 	}
-
+	
+	
 	private Transaktion execute(Mitarbeiter m, Kunde k, Auffuehrung a, Set<Platz> ps, Transaktionsstatus tstat, PlatzStatus pstat) {
 		Transaktion t = new Transaktion();
 		t.setDatumuhrzeit(new Date());
@@ -145,6 +146,8 @@ public class TransaktionServiceImpl implements TransaktionService {
 						p.setStatus(PlatzStatus.FREI);
 					}
 				}
+				
+				a.getPlaetze().removeAll(t.getPlaetze());
 
 				if (persist) {
 					transaktionDao.merge(t);

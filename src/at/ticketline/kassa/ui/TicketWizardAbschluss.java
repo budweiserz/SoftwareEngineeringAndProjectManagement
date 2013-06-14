@@ -18,6 +18,7 @@ import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.Platz;
 import at.ticketline.entity.Transaktion;
+import at.ticketline.entity.Transaktionsstatus;
 import at.ticketline.service.api.TransaktionService;
 import at.ticketline.service.impl.TransaktionServiceImpl;
 
@@ -98,14 +99,9 @@ public class TicketWizardAbschluss extends WizardPage {
         Auffuehrung auffuehrung = values.getAuffuehrung();
         Set<Platz> plaetze = values.getPlaetze();
             
-        Transaktion t = null;
-        if (values.isReservierung()) {
-            t = service.reserve(mitarbeiter, kunde, auffuehrung, plaetze);
-        } else {
-            t = service.sell(mitarbeiter, kunde, auffuehrung, plaetze);
-        }
-        
-        values.setReservierungsNummer(t.getReservierungsnr());
+        Transaktion t = values.getTransaktion();
+        service.cancelReservation(t.getReservierungsnr());
+        service.sell(mitarbeiter, kunde, auffuehrung, plaetze);
     }
     
     public void updateContent() {

@@ -13,8 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.kassa.ui.TicketWizard;
-import at.ticketline.kassa.ui.TransaktionWizard;
-import at.ticketline.kassa.ui.TransaktionWizardDialog;
+import at.ticketline.kassa.ui.wizard.TransaktionWizardDialog;
 
 @SuppressWarnings("restriction")
 public class TicketWizardHandler {

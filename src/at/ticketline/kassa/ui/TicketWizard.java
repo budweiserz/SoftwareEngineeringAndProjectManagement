@@ -1,11 +1,12 @@
 package at.ticketline.kassa.ui;
 
+import java.util.HashSet;
+
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
-import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.services.IServiceConstants;
@@ -16,11 +17,9 @@ import org.eclipse.jface.dialogs.PageChangedEvent;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
-import org.hsqldb.lib.Iterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.Platz;
 import at.ticketline.entity.Transaktion;
@@ -56,6 +55,7 @@ public class TicketWizard extends Wizard implements IPageChangedListener{
         for(Platz p : transaktion.getPlaetze()) {
             values.setAuffuehrung(p.getAuffuehrung());
         }
+        values.setPlaetze(new HashSet<Platz>(transaktion.getPlaetze()));
     }
     
 

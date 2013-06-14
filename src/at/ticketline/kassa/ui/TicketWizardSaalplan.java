@@ -2,7 +2,7 @@ package at.ticketline.kassa.ui;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
+import java.util.Iterator;
 
 import javax.annotation.PreDestroy;
 
@@ -11,8 +11,6 @@ import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Point;
@@ -28,7 +26,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -54,7 +51,7 @@ public class TicketWizardSaalplan extends WizardPage implements Listener {
     private Saal saal;
     private Reihe[] reihen;
     private HashMap<Integer, Platz> plaetze;
-    private HashSet<Platz> ausgewaehltePlaetze;
+    private HashMap<Integer, Platz> ausgewaehltePlaetze;
     private static final Logger LOG = LoggerFactory.getLogger(TicketWizardSaalplan.class);
     
     //Saalplan
@@ -93,7 +90,7 @@ public class TicketWizardSaalplan extends WizardPage implements Listener {
         for(Platz platz : values2.getAuffuehrung().getPlaetze()) {
         	plaetze.put(platz.getNummer(), platz);
         }
-        ausgewaehltePlaetze = new HashSet<Platz>();
+        ausgewaehltePlaetze = new HashMap<Integer, Platz>();
     }
 
     /**
@@ -112,6 +109,7 @@ public class TicketWizardSaalplan extends WizardPage implements Listener {
         
         initializeFooter(container);
         
+        fillWithTransaction();
               
         //TODO make true when plaetze selected
         setPageComplete(false);
@@ -120,7 +118,7 @@ public class TicketWizardSaalplan extends WizardPage implements Listener {
         
     }
 
-    @Override
+	@Override
     public void handleEvent(Event e) {
         if(e.widget == btnBuchung) {
             setPageComplete(true);
@@ -212,15 +210,15 @@ public class TicketWizardSaalplan extends WizardPage implements Listener {
                             if(currentColor.equals(CAVAILABLE)) {
                             	Platz platz = new Platz();
                             	platz.setNummer(table.indexOf(item)*numOfColumns + column);
-                            	ausgewaehltePlaetze.add(platz);
-                            	values.setPlaetze(ausgewaehltePlaetze);
+                            	ausgewaehltePlaetze.put(platz.getNummer(), platz);
+                            	values.setPlaetze(mapToSet(ausgewaehltePlaetze));
                                 item.setBackground(column, CSELECTED);
                                 selectedSeats++;
                                 refreshFooter();
                             } else if(currentColor.equals(CSELECTED)) {
-                                item.setBackground(column, CAVAILABLE);
+                            	item.setBackground(column, CAVAILABLE);
                                 ausgewaehltePlaetze.remove(table.indexOf(item)*numOfColumns + column);
-                            	values.setPlaetze(ausgewaehltePlaetze);
+                                values.setPlaetze(mapToSet(ausgewaehltePlaetze));
                                 selectedSeats--;
                                 refreshFooter();
                             }
@@ -444,6 +442,30 @@ public class TicketWizardSaalplan extends WizardPage implements Listener {
         double pps = 9.50;
         double price = selectedSeats*pps;
         txtPrice.setText(String.valueOf(price));
+    }
+    
+    private void fillWithTransaction() {
+    	for(Platz platz: values.getPlaetze()) {
+        	ausgewaehltePlaetze.put(platz.getNummer(), platz);
+        	int numRow = (int)Math.floor(platz.getNummer()/numOfColumns);
+            TableItem item = table.getItem(numRow);
+        	item.setBackground((platz.getNummer() - numRow * numOfColumns), CSELECTED);
+            selectedSeats++;
+		}
+		refreshFooter();
+		values.setPlaetze(mapToSet(ausgewaehltePlaetze));
+		LOG.debug("Plaetze der Vorherigen Buchung: " + ausgewaehltePlaetze);
+		
+	}
+    
+    private HashSet<Platz> mapToSet(HashMap<Integer, Platz> map) {
+    	Iterator<Integer> it = map.keySet().iterator();
+    	HashSet<Platz> set = new HashSet<Platz>();
+    	while(it.hasNext()) {
+    		set.add(map.get(it.next()));
+    	}
+    	
+    	return set;
     }
     
     @PreDestroy

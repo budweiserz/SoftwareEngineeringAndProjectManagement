@@ -1,6 +1,5 @@
 package at.ticketline.kassa.ui;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -268,7 +267,7 @@ public class TicketViewPart {
                         return "";
                     }
                 case 4:
-                    if (e.getPlaetze() != null) {
+                    if (e.getPlaetze() != null && e.getPlaetze().iterator().hasNext()) {
                         return String.valueOf(e.getPlaetze().iterator().next().getAuffuehrung().getVeranstaltung().getBezeichnung());
                     } else {
                         return "";

@@ -1,4 +1,4 @@
-package at.ticketline.kassa.ui;
+package at.ticketline.kassa.ui.wizard;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +11,7 @@ import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.Platz;
 import at.ticketline.entity.Transaktion;
+import at.ticketline.kassa.ui.TicketViewPart;
 
 public class TicketWizardValues {
     private boolean isReservierung;

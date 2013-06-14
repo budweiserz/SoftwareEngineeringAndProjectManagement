@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.kassa.ui.TicketViewPart;
-import at.ticketline.kassa.ui.TicketWizard;
+import at.ticketline.kassa.ui.wizard.TicketWizard;
 import at.ticketline.kassa.ui.wizard.TransaktionWizardDialog;
 
 @SuppressWarnings("restriction")

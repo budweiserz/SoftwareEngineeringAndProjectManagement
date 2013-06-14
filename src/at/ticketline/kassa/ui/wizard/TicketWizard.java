@@ -1,4 +1,4 @@
-package at.ticketline.kassa.ui;
+package at.ticketline.kassa.ui.wizard;
 
 import java.util.HashSet;
 
@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.Platz;
 import at.ticketline.entity.Transaktion;
+import at.ticketline.kassa.ui.TicketViewPart;
 import at.ticketline.service.api.KundeService;
 
 @SuppressWarnings("restriction")

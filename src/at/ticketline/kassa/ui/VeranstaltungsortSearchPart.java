@@ -117,22 +117,22 @@ public class VeranstaltungsortSearchPart {
 		
 		Label lblStrae = new Label(SearchComposite, SWT.NONE);
 		FormData fd_lblStrae = new FormData();
-		fd_lblStrae.left = new FormAttachment(lblBezeichnung, 0, SWT.LEFT);
+		fd_lblStrae.left = new FormAttachment(0, 14);
 		lblStrae.setLayoutData(fd_lblStrae);
 		lblStrae.setText("Straße");
 		
 		Label lblOrt = new Label(SearchComposite, SWT.NONE);
 		fd_txtBezeichnung.right = new FormAttachment(lblOrt, -79);
 		FormData fd_lblOrt = new FormData();
-		fd_lblOrt.top = new FormAttachment(0, 4);
+		fd_lblOrt.top = new FormAttachment(lblBezeichnung, 0, SWT.TOP);
 		fd_lblOrt.left = new FormAttachment(0, 290);
 		lblOrt.setLayoutData(fd_lblOrt);
 		lblOrt.setText("Ort");
 		
 		txtStrasse = new Text(SearchComposite, SWT.BORDER);
-		fd_lblStrae.top = new FormAttachment(txtStrasse, 3, SWT.TOP);
+		fd_lblStrae.top = new FormAttachment(txtStrasse, 5, SWT.TOP);
 		FormData fd_txtStrasse = new FormData();
-		fd_txtStrasse.left = new FormAttachment(lblStrae, 40);
+		fd_txtStrasse.left = new FormAttachment(lblStrae, 43);
 		fd_txtStrasse.top = new FormAttachment(txtBezeichnung, 6);
 		txtStrasse.setLayoutData(fd_txtStrasse);
 		
@@ -142,37 +142,37 @@ public class VeranstaltungsortSearchPart {
 		txtPlz.setLayoutData(fd_txtPlz);
 		
 		Label lblPlz = new Label(SearchComposite, SWT.NONE);
-		fd_txtPlz.left = new FormAttachment(lblPlz, 55);
+		fd_txtPlz.left = new FormAttachment(lblPlz, 60);
 		FormData fd_lblPlz = new FormData();
-		fd_lblPlz.top = new FormAttachment(lblStrae, 12);
-		fd_lblPlz.left = new FormAttachment(lblBezeichnung, 0, SWT.LEFT);
+		fd_lblPlz.top = new FormAttachment(txtPlz, 5, SWT.TOP);
+		fd_lblPlz.left = new FormAttachment(0, 14);
 		lblPlz.setLayoutData(fd_lblPlz);
 		lblPlz.setText("PLZ");
 		
 		Label lblOrtstyp = new Label(SearchComposite, SWT.NONE);
 		fd_txtStrasse.right = new FormAttachment(lblOrtstyp, -79);
 		FormData fd_lblOrtstyp = new FormData();
+		fd_lblOrtstyp.top = new FormAttachment(lblStrae, 0, SWT.TOP);
 		fd_lblOrtstyp.left = new FormAttachment(0, 290);
 		lblOrtstyp.setLayoutData(fd_lblOrtstyp);
 		lblOrtstyp.setText("Ortstyp");
 		
 		Label lblLand = new Label(SearchComposite, SWT.NONE);
-		fd_lblOrtstyp.bottom = new FormAttachment(lblLand, -14);
 		fd_txtPlz.right = new FormAttachment(lblLand, -79);
 		FormData fd_lblLand = new FormData();
-		fd_lblLand.top = new FormAttachment(0, 61);
-		fd_lblLand.left = new FormAttachment(lblOrt, 0, SWT.LEFT);
+		fd_lblLand.top = new FormAttachment(lblPlz, 0, SWT.TOP);
+		fd_lblLand.left = new FormAttachment(0, 290);
 		lblLand.setLayoutData(fd_lblLand);
 		lblLand.setText("Land");
 		
 		txtOrt = new Text(SearchComposite, SWT.BORDER);
 		FormData fd_txtOrt = new FormData();
-		fd_txtOrt.top = new FormAttachment(lblBezeichnung, -3, SWT.TOP);
+		fd_txtOrt.right = new FormAttachment(lblOrt, 162, SWT.RIGHT);
+		fd_txtOrt.left = new FormAttachment(lblOrt, 47);
+		fd_txtOrt.top = new FormAttachment(txtBezeichnung, 0, SWT.TOP);
 		txtOrt.setLayoutData(fd_txtOrt);
 		
 		txtLand = new Text(SearchComposite, SWT.BORDER);
-		fd_txtOrt.right = new FormAttachment(txtLand, 0, SWT.RIGHT);
-		fd_txtOrt.left = new FormAttachment(txtLand, 0, SWT.LEFT);
 		FormData fd_txtLand = new FormData();
 		fd_txtLand.right = new FormAttachment(lblLand, 152, SWT.RIGHT);
 		fd_txtLand.left = new FormAttachment(lblLand, 37);
@@ -180,15 +180,15 @@ public class VeranstaltungsortSearchPart {
 		
 		ComboViewer comboViewer = new ComboViewer(SearchComposite, SWT.READ_ONLY);
 		combo = comboViewer.getCombo();
-		fd_txtLand.top = new FormAttachment(0, 53);
+		fd_txtLand.top = new FormAttachment(combo, 6);
 		combo.add("");
 		for (int i=0; i < Ortstyp.values().length; i++) {
 			combo.add(Ortstyp.values()[i].toString());
 		}
 		FormData fd_combo = new FormData();
+		fd_combo.right = new FormAttachment(lblOrtstyp, 136, SWT.RIGHT);
+		fd_combo.top = new FormAttachment(txtOrt, 7);
 		fd_combo.left = new FormAttachment(lblOrtstyp, 19);
-		fd_combo.right = new FormAttachment(lblOrtstyp, 141, SWT.RIGHT);
-		fd_combo.bottom = new FormAttachment(txtLand, -1);
 		combo.setLayoutData(fd_combo);
 		SearchComposite.setTabList(new Control[]{txtBezeichnung, txtStrasse, txtPlz, txtOrt, combo, txtLand, btnSuchen});
 		

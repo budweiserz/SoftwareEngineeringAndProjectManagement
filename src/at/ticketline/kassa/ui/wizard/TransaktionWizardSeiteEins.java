@@ -2,6 +2,7 @@ package at.ticketline.kassa.ui.wizard;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.annotation.PreDestroy;
@@ -54,7 +55,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
     private Saal saal;
     private Reihe[] reihen;
     private HashMap<Integer, Platz> plaetze;
-    private HashSet<Platz> ausgewaehltePlaetze;
+    private HashMap<Integer, Platz> ausgewaehltePlaetze;
     private static final Logger LOG = LoggerFactory.getLogger(TransaktionWizardSeiteEins.class);
     
     //Saalplan
@@ -93,7 +94,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         for(Platz platz : values.getAuffuehrung().getPlaetze()) {
         	plaetze.put(platz.getNummer(), platz);
         }
-        ausgewaehltePlaetze = new HashSet<Platz>();
+        ausgewaehltePlaetze = new HashMap<Integer, Platz>();
     }
 
     /**
@@ -216,15 +217,15 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
                             if(currentColor.equals(CAVAILABLE)) {
                             	Platz platz = new Platz();
                             	platz.setNummer(table.indexOf(item)*numOfColumns + column);
-                            	ausgewaehltePlaetze.add(platz);
-                            	values.setPlaetze(ausgewaehltePlaetze);
+                            	ausgewaehltePlaetze.put(platz.getNummer(), platz);
+                            	values.setPlaetze(mapToSet(ausgewaehltePlaetze));
                                 item.setBackground(column, CSELECTED);
                                 selectedSeats++;
                                 refreshFooter();
                             } else if(currentColor.equals(CSELECTED)) {
                                 item.setBackground(column, CAVAILABLE);
                                 ausgewaehltePlaetze.remove(table.indexOf(item)*numOfColumns + column);
-                            	values.setPlaetze(ausgewaehltePlaetze);
+                            	values.setPlaetze(mapToSet(ausgewaehltePlaetze));
                                 selectedSeats--;
                                 refreshFooter();
                             }
@@ -448,6 +449,17 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         double pps = 9.50;
         double price = selectedSeats*pps;
         txtPrice.setText(String.valueOf(price));
+    }
+    
+    
+    private HashSet<Platz> mapToSet(HashMap<Integer, Platz> map) {
+    	Iterator<Integer> it = map.keySet().iterator();
+    	HashSet<Platz> set = new HashSet<Platz>();
+    	while(it.hasNext()) {
+    		set.add(map.get(it.next()));
+    	}
+    	
+    	return set;
     }
     
     @PreDestroy

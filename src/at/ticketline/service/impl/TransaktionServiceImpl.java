@@ -129,9 +129,15 @@ public class TransaktionServiceImpl implements TransaktionService {
 		Transaktion t = transaktionDao.findById(reservierungsNr);
 		if (t != null) {
 			t.setStatus(Transaktionsstatus.STORNO);
-			LinkedHashSet<Platz> plaetze = new LinkedHashSet<Platz>(t.getPlaetze());
-			for (Platz p : plaetze) {
-				p.setStatus(PlatzStatus.FREI);
+			Set<Platz> plaetze = new HashSet<Platz>(t.getPlaetze());
+			
+			if(plaetze.size() > 0) {
+			    //Auffuehrung a = plaetze.iterator().next().getAuffuehrung();
+				//a.getPlaetze().removeAll(t.getPlaetze());
+
+    			for (Platz p : plaetze) {
+    				p.setStatus(PlatzStatus.FREI);
+    			}
 			}
 
 			t.setPlaetze(plaetze);
@@ -154,7 +160,7 @@ public class TransaktionServiceImpl implements TransaktionService {
 					}
 				}
 				
-				a.getPlaetze().removeAll(t.getPlaetze());
+				//a.getPlaetze().removeAll(t.getPlaetze());
 
 				if (persist) {
 					transaktionDao.merge(t);

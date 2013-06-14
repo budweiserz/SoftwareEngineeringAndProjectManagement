@@ -158,11 +158,11 @@ public class AuffuehrungSearchPart {
 		Label lblSaal = new Label(SearchComposite, SWT.NONE);
 		FormData fd_lblSaal = new FormData();
 		fd_lblSaal.bottom = new FormAttachment(lblDatum, 0, SWT.BOTTOM);
-		fd_lblSaal.left = new FormAttachment(dateTimeTo, 101);
 		lblSaal.setLayoutData(fd_lblSaal);
 		lblSaal.setText("Saal");
 		
 		Label lblVeranstaltung = new Label(SearchComposite, SWT.NONE);
+		fd_lblSaal.left = new FormAttachment(lblVeranstaltung, 0, SWT.LEFT);
 		FormData fd_lblVeranstaltung = new FormData();
 		fd_lblVeranstaltung.bottom = new FormAttachment(lblPreis, 0, SWT.BOTTOM);
 		lblVeranstaltung.setLayoutData(fd_lblVeranstaltung);
@@ -170,17 +170,17 @@ public class AuffuehrungSearchPart {
 		
 		text_2 = new Text(SearchComposite, SWT.BORDER);
 		FormData fd_text_2 = new FormData();
-		fd_text_2.right = new FormAttachment(lblSaal, 206, SWT.RIGHT);
+		fd_text_2.right = new FormAttachment(lblSaal, 292, SWT.RIGHT);
+		fd_text_2.left = new FormAttachment(lblSaal, 92);
 		fd_text_2.top = new FormAttachment(0, 7);
-		fd_text_2.left = new FormAttachment(lblSaal, 95);
 		text_2.setLayoutData(fd_text_2);
 		
 		text_3 = new Text(SearchComposite, SWT.BORDER);
 		fd_lblVeranstaltung.right = new FormAttachment(text_3, -33);
 		FormData fd_text_3 = new FormData();
-		fd_text_3.right = new FormAttachment(text_2, 0, SWT.RIGHT);
+		fd_text_3.top = new FormAttachment(text_2, 17);
+		fd_text_3.right = new FormAttachment(0, 692);
 		fd_text_3.left = new FormAttachment(0, 492);
-		fd_text_3.top = new FormAttachment(lblVeranstaltung, -3, SWT.TOP);
 		text_3.setLayoutData(fd_text_3);
 		
 		preiskategorie = new Combo(SearchComposite, SWT.NONE);

@@ -206,17 +206,10 @@ public class TicketViewPart {
 		btnKaufen.setLayoutData(fd_btnKaufen);
 		btnKaufen.setText("kaufen");
 		
-		Button btnBearbeiten = new Button(composite, SWT.NONE);
-		FormData fd_btnBearbeiten = new FormData();
-		fd_btnBearbeiten.bottom = new FormAttachment(btnKaufen, 0, SWT.BOTTOM);
-		fd_btnBearbeiten.left = new FormAttachment(btnKaufen, 17);
-		btnBearbeiten.setLayoutData(fd_btnBearbeiten);
-		btnBearbeiten.setText("bearbeiten");
-		
 		Button btnStornieren = new Button(composite, SWT.NONE);
 		FormData fd_btnStornieren = new FormData();
 		fd_btnStornieren.top = new FormAttachment(btnKaufen, 0, SWT.TOP);
-		fd_btnStornieren.left = new FormAttachment(btnBearbeiten, 19);
+		fd_btnStornieren.left = new FormAttachment(btnKaufen, 6);
 		btnStornieren.setLayoutData(fd_btnStornieren);
 		btnStornieren.setText("stornieren");
 		
@@ -345,20 +338,37 @@ public class TicketViewPart {
 			
 			@Override
 			public void mouseUp(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+				// Nothing to do here!
 			}
 			
 			@Override
 			public void mouseDown(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+				ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openTicketWizard", null);
+                handlerService.executeHandler(c);	
 			}
 			
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
-				// TODO Auto-generated method stub
-				
+				// Nothing to do here!
+			}
+		});
+        
+        btnStornieren.addMouseListener(new MouseListener() {
+			
+        	@Override
+			public void mouseUp(MouseEvent e) {
+				// Nothing to do here!
+			}
+			
+			@Override
+			public void mouseDown(MouseEvent e) {
+				ParameterizedCommand c = commandService.createCommand("at.ticketline.command.openTicketWizard", null);
+                handlerService.executeHandler(c);	
+			}
+			
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				// Nothing to do here!
 			}
 		});
         

@@ -45,8 +45,6 @@ import at.ticketline.entity.Saal;
 public class TicketWizardSaalplan extends WizardPage implements Listener {
 
     private Composite container;
-    private Button btnBuchung;
-    private Button btnReservierung;
     private TicketWizardValues values;
     private Saal saal;
     private Reihe[] reihen;
@@ -91,6 +89,8 @@ public class TicketWizardSaalplan extends WizardPage implements Listener {
         	plaetze.put(platz.getNummer(), platz);
         }
         ausgewaehltePlaetze = new HashMap<Integer, Platz>();
+        setPageComplete(true);
+        
     }
 
     /**
@@ -112,25 +112,14 @@ public class TicketWizardSaalplan extends WizardPage implements Listener {
         fillWithTransaction();
               
         //TODO make true when plaetze selected
-        setPageComplete(false);
         LOG.info("Wizardseite zum Auswahl der Plätze und Transaktionsart erstellt!");
 
-        
     }
 
 	@Override
     public void handleEvent(Event e) {
-        if(e.widget == btnBuchung) {
-            setPageComplete(true);
-            values.setReservierung(false);
-            ((TicketWizard) getWizard()).fuenf.updateContent();
-        }
-        if(e.widget == btnReservierung) {
-            setPageComplete(true);
-            values.setReservierung(true);
-            ((TicketWizard) getWizard()).fuenf.updateContent();
-        }
-        
+        values.setReservierung(false);
+        ((TicketWizard) getWizard()).fuenf.updateContent();
     }
     
     private void initializeHead(Composite parent) {
@@ -367,26 +356,6 @@ public class TicketWizardSaalplan extends WizardPage implements Listener {
         txtPrice.setLayoutData(fd_txtPrice);
         txtPrice.setText(String.valueOf(selectedSeats*10));
         
-        btnReservierung = new Button(composite_1, SWT.RADIO);
-        FormData fd_btnReservierung = new FormData();
-        fd_btnReservierung.bottom = new FormAttachment(100, -10);
-        fd_btnReservierung.right = new FormAttachment(100, -10);
-        btnReservierung.setLayoutData(fd_btnReservierung);
-        btnReservierung.addListener(SWT.Selection, this);
-        btnReservierung.setBounds(106, 10, 90, 16);
-        btnReservierung.setText("Reservierung");
-        btnReservierung.setBackground(CWHITE);
-        
-        btnBuchung = new Button(composite_1, SWT.RADIO);
-        FormData fd_btnBuchung = new FormData();
-        fd_btnBuchung.bottom = new FormAttachment(btnReservierung, -4);
-        fd_btnBuchung.right = new FormAttachment(btnReservierung, 0, SWT.RIGHT);
-        btnBuchung.setLayoutData(fd_btnBuchung);
-        btnBuchung.addListener(SWT.Selection, this);
-        btnBuchung.setBounds(10, 10, 90, 16);
-        btnBuchung.setText("Buchung");
-        btnBuchung.setBackground(CWHITE);
-        
         
     }
     
@@ -471,10 +440,5 @@ public class TicketWizardSaalplan extends WizardPage implements Listener {
     
     @PreDestroy
     public void dispose() {
-    }
-
-    @Focus
-    public void setFocus() {
-        btnBuchung.setFocus();
     }
 }

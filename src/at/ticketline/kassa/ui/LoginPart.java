@@ -137,16 +137,14 @@ public class LoginPart{
             @Override
             public void widgetSelected(SelectionEvent e) {
                 LOG.info("Login Attempt with User: " + txtUsername.getText());
-                //TODO move Line to successful login
-                closeLoginAndGoToNextWindow();
                 try {
                 	Mitarbeiter m = mitarbeiterService.login(txtUsername.getText(), txtPassword.getText());
                 	IEclipseContext context = application.getContext();
                 	context.set("login", m);
-                	
                 	if(m != null) {
                 		lblErrorMessage.setForeground(SWTResourceManager.getColor(SWT.COLOR_GREEN));
                     	lblErrorMessage.setText("Login erfolgreich");
+                    	closeLoginAndGoToNextWindow();
                 	} else {
                 		lblErrorMessage.setText("Bitte füllen Sie alle Felder aus!");
                 	}

@@ -70,6 +70,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
     private Table table;
     private TableColumnLayout tcl_composite;
     private int numOfColumns;
+    private int numOfColumnsTable;
     private int numOfRows;
     private Text txtPersons;
     private Text txtPrice;
@@ -194,6 +195,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         for(Reihe reihe : reihen) {
         	numOfColumns = Math.max(numOfColumns, reihe.getAnzplaetze());
         }
+        numOfColumnsTable = numOfColumns +1;
         numOfRows = reihen.length;
         
         createColumns();
@@ -216,7 +218,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
                             Color currentColor = item.getBackground(column);
                             if(currentColor.equals(CAVAILABLE)) {
                             	Platz platz = new Platz();
-                            	platz.setNummer(table.indexOf(item)*numOfColumns + column);
+                            	platz.setNummer(table.indexOf(item)*numOfColumns + column-1);
                             	ausgewaehltePlaetze.put(platz.getNummer(), platz);
                             	values.setPlaetze(mapToSet(ausgewaehltePlaetze));
                                 item.setBackground(column, CSELECTED);
@@ -224,7 +226,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
                                 refreshFooter();
                             } else if(currentColor.equals(CSELECTED)) {
                                 item.setBackground(column, CAVAILABLE);
-                                ausgewaehltePlaetze.remove(table.indexOf(item)*numOfColumns + column);
+                                ausgewaehltePlaetze.remove(table.indexOf(item)*numOfColumns + column-1);
                             	values.setPlaetze(mapToSet(ausgewaehltePlaetze));
                                 selectedSeats--;
                                 refreshFooter();
@@ -400,10 +402,10 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
     private void createColumns() {
     	TableColumn tc;
         int colWidth = (int)Math.floor((700-table.getBorderWidth()*2)/numOfColumns);
-        for(int i =0; i<numOfColumns; i++) {
+        for(int i =0; i<numOfColumnsTable; i++) {
             tc = new TableColumn(table, SWT.CENTER);
             tcl_composite.setColumnData(tc, new ColumnWeightData(1,colWidth,false));
-            tc.setText(String.valueOf(i+1));
+            tc.setText(String.valueOf(i==0 ?" ": i));
         }
     }
     
@@ -414,29 +416,34 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
         for(int i=0; i<numOfRows; i++) {
             tableItem = new TableItem(table, SWT.NONE);
             reihe = reihen[i];
-            for(int j=0; j<numOfColumns; j++) {
-            	if(j<reihe.getAnzplaetze()) {
-            		platz = plaetze.get(i*numOfColumns + j);
-                	
-                	if(platz != null) {
-    	            	PlatzStatus status = platz.getStatus();
-    	                switch(status) {
-    	                case FREI:
-    	                    tableItem.setBackground(j, CAVAILABLE);
-    	                    break;
-    	                case RESERVIERT:
-    	                    tableItem.setBackground(j, CBOOKED);
-    	                    break;
-    	                case GEBUCHT:
-    	                    tableItem.setBackground(j, CSOLD);
-    	                    break;
-    	                }
-                	} else {
-                		tableItem.setBackground(j, CAVAILABLE);
-                	}
+            for(int j=-1; j<numOfColumns; j++) {
+            	int k = j +1;
+            	if(j>=0) {
+	            	if(j<reihe.getAnzplaetze()) {
+	            		platz = plaetze.get(i*numOfColumns + j);
+	                	if(platz != null) {
+	    	            	PlatzStatus status = platz.getStatus();
+	    	                switch(status) {
+	    	                case FREI:
+	    	                    tableItem.setBackground(k, CAVAILABLE);
+	    	                    break;
+	    	                case RESERVIERT:
+	    	                    tableItem.setBackground(k, CBOOKED);
+	    	                    break;
+	    	                case GEBUCHT:
+	    	                    tableItem.setBackground(k, CSOLD);
+	    	                    break;
+	    	                }
+	                	} else {
+	                		tableItem.setBackground(k, CAVAILABLE);
+	                	}
+	            	} else {
+	            		//No available Seat here
+	            		tableItem.setBackground(CBACKGROUD);
+	            	}
             	} else {
-            		//No available Seat here
             		tableItem.setBackground(CBACKGROUD);
+            		tableItem.setText(k, String.valueOf(i+1));
             	}
             	
             }

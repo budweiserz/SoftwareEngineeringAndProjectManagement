@@ -126,7 +126,7 @@ public class MerchandisePart {
 
     private void createTable(Composite parent) {
 
-        Composite selection_field = new Composite(parent, SWT.NONE);
+        Composite selection_field = new Composite(parent, SWT.BORDER);
         toolkit.adapt(selection_field);
         toolkit.paintBordersFor(selection_field);
         selection_field.setLayout(new GridLayout(1, false));
@@ -213,7 +213,7 @@ public class MerchandisePart {
 
     private void createOverview(Composite parent) {
 
-        Composite composite = new Composite(parent, SWT.NONE);
+        Composite composite = new Composite(parent, SWT.BORDER);
         toolkit.adapt(composite);
         toolkit.paintBordersFor(composite);
         composite.setLayout(new GridLayout(1, false));
@@ -229,7 +229,7 @@ public class MerchandisePart {
             {
                 this.lblBezeichnung = new Label(header, SWT.WRAP);
                 GridData gd_lblBezeichnung = new GridData(SWT.FILL, SWT.CENTER, true, true, 1, 1);
-                gd_lblBezeichnung.heightHint = 14;
+                gd_lblBezeichnung.heightHint = 18;
                 lblBezeichnung.setLayoutData(gd_lblBezeichnung);
                 toolkit.adapt(lblBezeichnung, true, true);
                 lblBezeichnung.setText("Bezeichnung");
@@ -341,7 +341,7 @@ public class MerchandisePart {
 
     private void createCart(Composite parent) {
 
-        Composite composite = new Composite(parent, SWT.NONE);
+        Composite composite = new Composite(parent, SWT.BORDER);
         toolkit.adapt(composite);
         toolkit.paintBordersFor(composite);
         composite.setLayout(new GridLayout(1, false));
@@ -390,13 +390,15 @@ public class MerchandisePart {
                         preis *= selected.get(e);
                         return formatter.format(preis);
                     } else {
-                        return "";
+                        return "-";
                     }
                 case 2:
                     if (e instanceof Praemie && ((Praemie) e).getPunkte() != null) {
-                        return "" + ((Praemie) e).getPunkte().intValue();
+                        float punkte = ((Praemie) e).getPunkte().intValue();
+                        punkte *= selected.get(e);
+                        return String.valueOf(punkte);
                     } else {
-                        return "";
+                        return "-";
                     }
                 }
                 return null;
@@ -495,25 +497,27 @@ public class MerchandisePart {
 
         Label lblGesamtpreis = new Label(checkout, SWT.NONE);
         FormData fd_lblGesamtpreis = new FormData();
-        fd_lblGesamtpreis.left = new FormAttachment(0, 4);
+        fd_lblGesamtpreis.bottom = new FormAttachment(100, -18);
+        fd_lblGesamtpreis.left = new FormAttachment(0);
         lblGesamtpreis.setLayoutData(fd_lblGesamtpreis);
         toolkit.adapt(lblGesamtpreis, true, true);
         lblGesamtpreis.setText("Gesamtpreis");
 
         this.lblGesamtbetrag = new Label(checkout, SWT.RIGHT);
-        fd_lblGesamtpreis.top = new FormAttachment(0, 10);
+        lblGesamtbetrag.setAlignment(SWT.LEFT);
         FormData fd_lblGesamtbetrag = new FormData();
         fd_lblGesamtbetrag.top = new FormAttachment(lblGesamtpreis, 0, SWT.TOP);
-        fd_lblGesamtbetrag.left = new FormAttachment(lblGesamtpreis, 6);
+        fd_lblGesamtbetrag.left = new FormAttachment(lblGesamtpreis, 10);
         lblGesamtbetrag.setLayoutData(fd_lblGesamtbetrag);
         toolkit.adapt(lblGesamtbetrag, true, true);
         lblGesamtbetrag.setText("0.00€");
 
         Button btnBezahlen = new Button(checkout, SWT.NONE);
+        fd_lblGesamtbetrag.right = new FormAttachment(btnBezahlen, -27);
         FormData fd_btnBezahlen = new FormData();
-        fd_btnBezahlen.top = new FormAttachment(lblGesamtbetrag, -5, SWT.TOP);
+        fd_btnBezahlen.top = new FormAttachment(0, 10);
         fd_btnBezahlen.right = new FormAttachment(100, -10);
-        fd_btnBezahlen.bottom = new FormAttachment(100, -18);
+        fd_btnBezahlen.bottom = new FormAttachment(100, -13);
         fd_btnBezahlen.left = new FormAttachment(100, -74);
         btnBezahlen.setLayoutData(fd_btnBezahlen);
         toolkit.adapt(btnBezahlen, true, true);
@@ -570,14 +574,14 @@ public class MerchandisePart {
 
         for (Map.Entry<Artikel, Integer> e : selected.entrySet()) {
 
-            if (e instanceof Praemie) {
+            if (e.getKey() instanceof Praemie) {
                 points += ((Praemie) e.getKey()).getPunkte().intValue() * e.getValue();
-            } else if (e instanceof Merchandise) {
+            } else if (e.getKey() instanceof Merchandise) {
                 price += ((Merchandise) e.getKey()).getPreis().floatValue() * e.getValue();
             }
         }
 
-        this.lblGesamtbetrag.setText(formatter.format(price) + " €\n + " + points + " Punkte");
+        this.lblGesamtbetrag.setText(formatter.format(price) + " €  +  " + points + " Punkte");
     }
 
     @PreDestroy

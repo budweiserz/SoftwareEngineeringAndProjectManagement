@@ -269,13 +269,13 @@ public class TicketViewPart {
                     if (e.getKunde() != null) {
                         return e.getKunde().getVorname();
                     } else {
-                        return "";
+                        return "Anonym";
                     }
                 case 3:
                     if (e.getKunde() != null) {
                         return e.getKunde().getNachname();
                     } else {
-                        return "";
+                        return "-";
                     }
                 case 4:
                     if (e.getPlaetze() != null && e.getPlaetze().iterator().next() != null 

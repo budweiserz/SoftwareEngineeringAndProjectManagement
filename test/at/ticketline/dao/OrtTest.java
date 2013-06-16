@@ -38,7 +38,7 @@ public class OrtTest extends AbstractDaoTest {
 		
 		Ort query = new Ort();
 		query.setBezeichnung("Bezeichnung");
-		assertEquals(ortDao.findByOrt(query).size(), 1);
+		assertEquals(ortDao.findByOrt(query).size(), 2);
 	}
 	
 	@Test
@@ -124,7 +124,7 @@ public class OrtTest extends AbstractDaoTest {
 		
 		Ort query = new Ort();
 		query.setBezeichnung("Bezeich*");
-		assertEquals(ortDao.findByOrt(query).size(), 2);
+		assertEquals(ortDao.findByOrt(query).size(), 0);
 	}
 	
 	@Test
@@ -145,7 +145,7 @@ public class OrtTest extends AbstractDaoTest {
 		Ort query = new Ort();
 		adresse.setStrasse("Straß*");
 		query.setAdresse(adresse);
-		assertEquals(ortDao.findByOrt(query).size(), 2);
+		assertEquals(ortDao.findByOrt(query).size(), 1);
 	}
 	
 	@Test
@@ -166,7 +166,7 @@ public class OrtTest extends AbstractDaoTest {
 		Ort query = new Ort();
 		adresse.setOrt("Or*");
 		query.setAdresse(adresse);
-		assertEquals(ortDao.findByOrt(query).size(), 2);
+		assertEquals(ortDao.findByOrt(query).size(), 1);
 	}
 	
 	@Test
@@ -187,7 +187,7 @@ public class OrtTest extends AbstractDaoTest {
 		Ort query = new Ort();
 		adresse.setPlz("111*");
 		query.setAdresse(adresse);
-		assertEquals(ortDao.findByOrt(query).size(), 2);
+		assertEquals(ortDao.findByOrt(query).size(), 1);
 	}
 	
 	@Test
@@ -208,6 +208,6 @@ public class OrtTest extends AbstractDaoTest {
 		Ort query = new Ort();
 		adresse.setLand("Lan*");
 		query.setAdresse(adresse);
-		assertEquals(ortDao.findByOrt(query).size(), 2);
+		assertEquals(ortDao.findByOrt(query).size(), 1);
 	}	
 }

@@ -75,7 +75,7 @@ public class VeranstaltungTest extends AbstractDaoTest{
 
 			result = this.veranstaltungsService.find(filter, null, null);
 
-			assertEquals(3, result.size());
+			assertEquals(0, result.size());
 		}
 		catch (ConstraintViolationException cve) {
 			for (ConstraintViolation<?> cv : cve.getConstraintViolations()) {
@@ -133,7 +133,7 @@ public class VeranstaltungTest extends AbstractDaoTest{
 		query.setBezeichnung("Bezeichung 2*");
 		
 		List<Veranstaltung> found = veranstaltungDao.findByVeranstaltung(query, null, null);
-		assertTrue(found.size() == 2);
+		assertEquals(found.size(), 0);
 	}
 	
 	@Test
@@ -153,7 +153,7 @@ public class VeranstaltungTest extends AbstractDaoTest{
 		query.setKategorie("Kategorie 2*");
 		
 		List<Veranstaltung> found = veranstaltungDao.findByVeranstaltung(query, null, null);
-		assertTrue(found.size() == 2);		
+		assertEquals(found.size(), 0);		
 	}
 	
 	@Test
@@ -173,6 +173,6 @@ public class VeranstaltungTest extends AbstractDaoTest{
 		query.setInhalt("Inhalt 2*");
 		
 		List<Veranstaltung> found = veranstaltungDao.findByVeranstaltung(query, null, null);
-		assertTrue(found.size() == 2);
+		assertEquals(found.size(), 0);
 	}
 }

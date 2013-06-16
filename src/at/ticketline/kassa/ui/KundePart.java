@@ -115,6 +115,8 @@ public class KundePart {
     
             if (kunde != null) {
                 setInput();
+            } else {
+                this.activePart.setLabel("Neuer Kunde");
             }
         }
     }

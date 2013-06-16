@@ -141,7 +141,7 @@ public class EntityGenerator {
         k.setTitel("Titel " + modifier);
         k.setGeschlecht(modifier % 2 == 0 ? Geschlecht.WEIBLICH : Geschlecht.MAENNLICH);
         k.setGeburtsdatum(new GregorianCalendar(1990, 1, 1, 1, 1, 1));
-        k.setTelnr("Telefonnummer " + modifier);
+        k.setTelnr("0665/12345" + modifier % 1000);
         k.setEmail("email" + modifier + "@foo.com");
         k.setBlz("1234" + modifier % 10);
         k.setKontonr("123" + modifier % 100000);

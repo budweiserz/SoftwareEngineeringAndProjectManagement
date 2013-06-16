@@ -1,6 +1,7 @@
 package at.ticketline.kassa.ui.wizard;
 
 import java.text.SimpleDateFormat;
+import java.util.Map;
 
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -34,7 +35,10 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import at.ticketline.entity.Artikel;
 import at.ticketline.entity.Kunde;
+import at.ticketline.entity.Praemie;
+import at.ticketline.entity.Zahlungsart;
 import at.ticketline.service.api.KundeService;
 @SuppressWarnings("restriction")
 public class MerchandiseWizardSeiteVier extends WizardPage {
@@ -278,18 +282,26 @@ public class MerchandiseWizardSeiteVier extends WizardPage {
         this.tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
-                temp.setPageComplete(true);
                 IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection(); 
                 selectionService.setSelection(selection.getFirstElement());
-                temp.values.setKunde((Kunde)selection.getFirstElement());
-                ((MerchandiseWizard)getWizard()).fuenf.updateContent();
-                LOG.info("Type: " + selection.getFirstElement().getClass().getName());
-                LOG.info("Selection changed: {}", selection.getFirstElement().toString());
+                Kunde k = (Kunde)selection.getFirstElement();
+                
+                if (k.getPunkte().intValue() < getPraemienPunkte()) {
+                    LOG.info("kunde.punkte < praemienpunkte");
+                    temp.setPageComplete(false);
+                    temp.setErrorMessage("Kunde hat nicht genügend Punkte. Sie benötigen " + getPraemienPunkte() + "Punkte.");
+                } else {
+                    LOG.info("kunde.punkte >= praemienpunkte, ready to go");
+                    temp.setErrorMessage(null); // erase error message
+                    temp.values.setKunde(k);
+                    ((MerchandiseWizard)getWizard()).fuenf.updateContent();
+                    LOG.info("Type: " + selection.getFirstElement().getClass().getName());
+                    LOG.info("Selection changed: {}", selection.getFirstElement().toString());
+                    temp.setPageComplete(true);
+                }
             }
         });
-    
         this.toolkit.adapt(this.tableViewer.getTable(), true, true);
-
     }
     
     public void setKundeService(KundeService kundeService) {
@@ -302,8 +314,40 @@ public class MerchandiseWizardSeiteVier extends WizardPage {
     
     @Override
     public WizardPage getNextPage(){
-        WizardPage fuenf = ((MerchandiseWizard)getWizard()).zahlung;
+        WizardPage fuenf;
+        
+        if (selectedContainsOnlyPraemien()) {
+            fuenf = ((MerchandiseWizard)getWizard()).fuenf;
+            values.setZahlungsart(Zahlungsart.PUNKTEEINTAUSCH);
+            ((MerchandiseWizard)getWizard()).fuenf.setPageComplete(true);
+        } else {
+            fuenf = ((MerchandiseWizard)getWizard()).zahlung;
+        }
         return fuenf;
-     }
+    }
     
+    private boolean selectedContainsOnlyPraemien() {
+        
+        boolean output = true;
+        
+        for (Map.Entry<Artikel, Integer> e : values.getSelected().entrySet()) {
+            LOG.debug(e.getClass().getName());
+            output &= (e.getKey() instanceof Praemie);
+        }
+        LOG.info("contains only praemien: " + output);
+        return output;
+    }
+
+    private int getPraemienPunkte() {
+        
+        int sum = 0;
+        
+        for (Map.Entry<Artikel, Integer> e : values.getSelected().entrySet()) {
+            LOG.debug(e.getClass().getName());
+            if (e.getKey() instanceof Praemie) {
+                sum += ((Praemie) e.getKey()).getPunkte().intValue();
+            }
+        }
+        return sum;
+    }
 }

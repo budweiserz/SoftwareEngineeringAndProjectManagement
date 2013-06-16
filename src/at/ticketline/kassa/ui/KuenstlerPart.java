@@ -100,13 +100,17 @@ public class KuenstlerPart{
 
     private TableViewer tableViewer;
     
-    private boolean created = false;
+    protected boolean created = false;
 
     /**
      * @wbp.parser.entryPoint
      */
     @Inject
     public void init(Composite parent, @Named (IServiceConstants.ACTIVE_SELECTION) @Optional Kuenstler kuenstler) throws PartInitException {
+        overrideableInit(parent, kuenstler);
+    }
+    
+    protected void overrideableInit(Composite parent, Kuenstler kuenstler) {
         /*
          * XXX: When multiple Tabs are open Eclipse will show the first x 
          * Kuenstler in the first tab. Then the first x-1 Kuenstler in the 
@@ -118,21 +122,22 @@ public class KuenstlerPart{
             if(kuenstler != null){
                 this.kuenstler = kuenstler;
             }
+
             createControls(parent);
-            
+    
             if(kuenstler != null){
                 setInput();
             }
         }
     }
-    
+
     @PostConstruct
     private void initTitle() {
         LOG.debug("post construct kuenstler");
         this.updateTitle();
     }
 
-    private void createControls(Composite parent){
+    protected void createControls(Composite parent){
         parent.setLayout(new GridLayout(1, false));
 
         this.toolkit = new FormToolkit(parent.getDisplay());

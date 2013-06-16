@@ -80,6 +80,9 @@ public abstract class NewTabHandler {
         part.setTooltip(tooltip);
         part.setCloseable(true);
         
+        /**
+         * XXX: Prevent cretain tabs from open multiple times
+         */
         for(MStackElement mse : stack.getChildren()) {
             LOG.debug(mse.toString());
             if (!this.canOpenMultiple() && mse.getElementId().equals(part.getElementId())) {
@@ -98,6 +101,10 @@ public abstract class NewTabHandler {
         }
     }
     
+    /**
+     * Override in sub classes.
+     * @return true if the tab can open multiple times.
+     */
     protected boolean canOpenMultiple() {
         return true;
     }

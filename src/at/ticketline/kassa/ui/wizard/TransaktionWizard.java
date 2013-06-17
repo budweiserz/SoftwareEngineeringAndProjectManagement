@@ -12,7 +12,9 @@ import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.dialogs.IPageChangedListener;
+import org.eclipse.jface.dialogs.IPageChangingListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
+import org.eclipse.jface.dialogs.PageChangingEvent;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
@@ -24,7 +26,7 @@ import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.service.api.KundeService;
 
 @SuppressWarnings("restriction")
-public class TransaktionWizard extends Wizard implements IPageChangedListener{
+public class TransaktionWizard extends Wizard implements IPageChangedListener, IPageChangingListener{
     
     @Inject private KundeService kundeService;
     @Inject private EHandlerService handlerService;
@@ -70,12 +72,17 @@ public class TransaktionWizard extends Wizard implements IPageChangedListener{
         drei.setDirty(dirty);
         drei.setHandlerService(handlerService);
         drei.setKundeService(kundeService);
-        
+            
         addPage(eins);
         addPage(zwei);
         addPage(drei);
         addPage(vier);
         addPage(fuenf);
+        
+        WizardDialog wd = ((TransaktionWizardDialog)getContainer());
+        wd.addPageChangingListener(this);
+            
+            
     }
 
     @Override
@@ -97,7 +104,7 @@ public class TransaktionWizard extends Wizard implements IPageChangedListener{
     
     public void setDialogListener() {
         LOG.info("set Listener to Wizard Container (" + getContainer().getClass().getName() + ")");
-        WizardDialog wd = (WizardDialog) getContainer();
+        WizardDialog wd = (TransaktionWizardDialog) getContainer();
         wd.addPageChangedListener(this);
     }
  
@@ -124,6 +131,19 @@ public class TransaktionWizard extends Wizard implements IPageChangedListener{
      */
     public void setMitarbeiter(Mitarbeiter m) {
         this.values.setMitarbeiter(m);
+    }
+
+
+    @Override
+    public void handlePageChanging(PageChangingEvent event) {
+        if(event.getCurrentPage() == drei && event.getTargetPage() == fuenf) {
+           if(!drei.saveNewKunde()) {
+               LOG.debug("HEYO");
+               ((TransaktionWizardDialog) getContainer()).close();                
+           }
+                
+        }
+        
     }
 
 //    @Override

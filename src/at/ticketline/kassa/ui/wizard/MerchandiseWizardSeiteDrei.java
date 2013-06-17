@@ -118,7 +118,7 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
         this.form.getBody().setLayout(new GridLayout(1, false));
 
         this.createForm(this.form.getBody());
-        this.createSaveButton(this.form.getBody());
+        //this.createSaveButton(this.form.getBody());
     }
     
     private void createForm(Composite parent) {
@@ -193,32 +193,53 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
 
     }
 
-    private void createSaveButton(Composite parent) {
+    protected boolean saveNewKunde() {
+        if (!MerchandiseWizardSeiteDrei.this.dirty.isDirty()) {
+            return false;
+        }
+        handlerService.activateHandler("at.ticketline.handler.savePartHandler", new SavePartHandler());
 
-        this.btnSave = new Button(parent, SWT.PUSH);
-        this.btnSave.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false));
-        this.btnSave.setText("Speichern ");
-        this.btnSave.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-                if (!MerchandiseWizardSeiteDrei.this.dirty.isDirty()) {
-                    return;
-                }
-                handlerService.activateHandler("at.ticketline.handler.savePartHandler", new SavePartHandler());
-
-                ParameterizedCommand cmd = commandService.createCommand("at.ticketline.handler.savePartHandler", null);
-                Kunde k = new Kunde();
-                try {
-                    save();
-                    //handlerService.executeHandler(cmd);
-                } catch (Exception ex) {
-                    LOG.error(ex.getMessage(), ex);
-                    MessageDialog.openError(MerchandiseWizardSeiteDrei.this.shell, "Error", "Kunde kann nicht gespeichert werden: "
-                            + ex.getMessage());
-                }
-            }
-        });
+        ParameterizedCommand cmd = commandService.createCommand("at.ticketline.handler.savePartHandler", null);
+        Kunde k = new Kunde();
+        try {
+            boolean result = save();
+            return result;
+            //handlerService.executeHandler(cmd);
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage(), ex);
+            MessageDialog.openError(MerchandiseWizardSeiteDrei.this.shell, "Error", "Kunde kann nicht gespeichert werden: "
+                    + ex.getMessage());
+            return false;
+        }
+        
     }
+    
+//    private void createSaveButton(Composite parent) {
+//
+//        this.btnSave = new Button(parent, SWT.PUSH);
+//        this.btnSave.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false));
+//        this.btnSave.setText("Speichern ");
+//        this.btnSave.addSelectionListener(new SelectionAdapter() {
+//            @Override
+//            public void widgetSelected(SelectionEvent e) {
+//                if (!MerchandiseWizardSeiteDrei.this.dirty.isDirty()) {
+//                    return;
+//                }
+//                handlerService.activateHandler("at.ticketline.handler.savePartHandler", new SavePartHandler());
+//
+//                ParameterizedCommand cmd = commandService.createCommand("at.ticketline.handler.savePartHandler", null);
+//                Kunde k = new Kunde();
+//                try {
+//                    save();
+//                    //handlerService.executeHandler(cmd);
+//                } catch (Exception ex) {
+//                    LOG.error(ex.getMessage(), ex);
+//                    MessageDialog.openError(MerchandiseWizardSeiteDrei.this.shell, "Error", "Kunde kann nicht gespeichert werden: "
+//                            + ex.getMessage());
+//                }
+//            }
+//        });
+//    }
     
 
     @PreDestroy
@@ -232,7 +253,7 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
     }
 
     @Persist
-    public void save() {
+    public boolean save() {
         LOG.info("Kunde speichern");
 
         Adresse a = new Adresse();
@@ -292,16 +313,18 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
             this.dirty.setDirty(false);
 
             MessageDialog.openInformation(this.shell, "Speichervorgang", "Kunde wurde erfolgreich gespeichert");
+            return true;
         } catch (ConstraintViolationException c) {
             StringBuilder sb = new StringBuilder("Die eingegebene Daten weisen folgende Fehler auf:\n");
             for (ConstraintViolation<?> cv : c.getConstraintViolations()) {
                 sb.append(cv.getPropertyPath().toString().toUpperCase()).append(" ").append(cv.getMessage() + "\n");
             }
             MessageDialog.openError(this.shell, "Error", sb.toString());
-
+            return false;
         } catch (DaoException e) {
             LOG.error(e.getMessage(), e);
             MessageDialog.openError(this.shell, "Error", "Kunde konnte nicht gespeichert werden: " + e.getMessage());
+            return false;
         }
     }
 

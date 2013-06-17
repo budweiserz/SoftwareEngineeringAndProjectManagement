@@ -7,6 +7,7 @@ import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.widgets.Shell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,8 +28,8 @@ public class OpenTransaktionWizardHandler {
         
         TransaktionWizardDialog transaktion = new TransaktionWizardDialog(shell, tw);
         tw.setDialogListener();
-        if(transaktion.open() == Window.OK) {
-            LOG.info("Opened the Transaktions wizard!");
-        }
+            if(transaktion.open() == Window.OK) {
+                LOG.info("Opened the Transaktions wizard!");
+            }
     }
 }

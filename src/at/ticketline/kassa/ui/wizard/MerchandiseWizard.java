@@ -13,7 +13,9 @@ import org.eclipse.e4.ui.services.IServiceConstants;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.dialogs.IPageChangedListener;
+import org.eclipse.jface.dialogs.IPageChangingListener;
 import org.eclipse.jface.dialogs.PageChangedEvent;
+import org.eclipse.jface.dialogs.PageChangingEvent;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
@@ -25,7 +27,7 @@ import at.ticketline.entity.Praemie;
 import at.ticketline.service.api.KundeService;
 
 @SuppressWarnings("restriction")
-public class MerchandiseWizard extends Wizard implements IPageChangedListener{
+public class MerchandiseWizard extends Wizard implements IPageChangedListener, IPageChangingListener{
     
     @Inject private KundeService kundeService;
     @Inject private EHandlerService handlerService;
@@ -76,6 +78,9 @@ public class MerchandiseWizard extends Wizard implements IPageChangedListener{
         addPage(vier);
         addPage(zahlung);
         addPage(fuenf);
+        
+        MerchandiseWizardDialog mwd = ((MerchandiseWizardDialog)getContainer());
+        mwd.addPageChangingListener(this);        
     }
 
     @Override
@@ -124,6 +129,18 @@ public class MerchandiseWizard extends Wizard implements IPageChangedListener{
     
     public void setSelectedArtikel(HashMap<Artikel, Integer> selected) {
         values.setSelected(selected);
+    }
+
+
+    @Override
+    public void handlePageChanging(PageChangingEvent event) {
+        if(event.getCurrentPage() == drei && event.getTargetPage() == zahlung) {
+            if(!drei.saveNewKunde()) {
+                LOG.debug("HEYO");
+                ((MerchandiseWizardDialog) getContainer()).close();                
+            }
+                 
+         }        
     }
 
 //    @Override

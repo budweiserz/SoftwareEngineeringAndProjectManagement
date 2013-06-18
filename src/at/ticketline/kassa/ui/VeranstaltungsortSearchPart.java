@@ -100,7 +100,7 @@ public class VeranstaltungsortSearchPart {
 		fd_btnSuchen.bottom = new FormAttachment(100, -10);
 		fd_btnSuchen.right = new FormAttachment(100, -10);
 		btnSuchen.setLayoutData(fd_btnSuchen);
-		btnSuchen.setText("suchen");
+		btnSuchen.setText("Suchen");
 		
 		Label lblBezeichnung = new Label(SearchComposite, SWT.NONE);
 		FormData fd_lblBezeichnung = new FormData();

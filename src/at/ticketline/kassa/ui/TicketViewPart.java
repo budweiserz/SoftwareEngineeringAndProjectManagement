@@ -219,14 +219,14 @@ public class TicketViewPart {
 		fd_btnKaufen.top = new FormAttachment(0, 10);
 		fd_btnKaufen.left = new FormAttachment(0, 10);
 		btnKaufen.setLayoutData(fd_btnKaufen);
-		btnKaufen.setText("kaufen");
+		btnKaufen.setText("Kaufen");
 		
 		Button btnStornieren = new Button(composite, SWT.NONE);
 		FormData fd_btnStornieren = new FormData();
 		fd_btnStornieren.top = new FormAttachment(btnKaufen, 0, SWT.TOP);
 		fd_btnStornieren.left = new FormAttachment(btnKaufen, 6);
 		btnStornieren.setLayoutData(fd_btnStornieren);
-		btnStornieren.setText("stornieren");
+		btnStornieren.setText("Stornieren");
 		
         tableViewer.setContentProvider(new IStructuredContentProvider() {
             @Override

@@ -172,12 +172,12 @@ public class KundePart {
         new Label(composite, SWT.NONE);
         new Label(composite, SWT.NONE);
 
-        this.toolkit.createLabel(composite, "Vorname:", SWT.LEFT);
+        this.toolkit.createLabel(composite, "Vorname*:", SWT.LEFT);
         this.txtVorname = this.toolkit.createText(composite, this.kunde.getVorname(), SWT.LEFT | SWT.BORDER);
         this.txtVorname.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
         this.txtVorname.addModifyListener(listener);
 
-        this.toolkit.createLabel(composite, "Nachname:", SWT.LEFT);
+        this.toolkit.createLabel(composite, "Nachname*:", SWT.LEFT);
         this.txtNachname = this.toolkit.createText(composite, this.kunde.getNachname(), SWT.LEFT | SWT.BORDER);
         this.txtNachname.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
         this.txtNachname.addModifyListener(listener);

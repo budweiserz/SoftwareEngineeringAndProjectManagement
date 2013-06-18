@@ -195,7 +195,14 @@ public class VeranstaltungSearchPart {
 		TableColumn tblclmnOrt = tableViewerColumn_3.getColumn();
 		tblclmnOrt.setWidth(100);
 		tblclmnOrt.setText("Inhalt");
-
+		
+		// add sort feature to table
+		tableViewer.setSorter(new VeranstaltungColumnViewerSorter());
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn, VeranstaltungColumnViewerSorter.BEZEICHNUNG);
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn_1, VeranstaltungColumnViewerSorter.DAUER);
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn_2, VeranstaltungColumnViewerSorter.KATEGORIE);
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn_3, VeranstaltungColumnViewerSorter.INHALT);
+		
 		tableViewer.setContentProvider(new ArrayContentProvider());
 
 		tableViewer.setLabelProvider(new ITableLabelProvider() {

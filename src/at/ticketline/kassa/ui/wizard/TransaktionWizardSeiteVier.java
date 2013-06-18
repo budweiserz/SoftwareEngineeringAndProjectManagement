@@ -10,6 +10,7 @@ import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
@@ -34,6 +35,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ticketline.entity.Kunde;
+import at.ticketline.kassa.ui.KundeColumnViewerSorter;
+import at.ticketline.kassa.ui.UIUtilities;
 import at.ticketline.service.api.KundeService;
 @SuppressWarnings("restriction")
 public class TransaktionWizardSeiteVier extends WizardPage {
@@ -200,7 +203,25 @@ public class TransaktionWizardSeiteVier extends WizardPage {
     
         this.tableViewer.getTable().setLinesVisible(true);
         this.tableViewer.getTable().setHeaderVisible(true);
-    
+        
+        TableViewerColumn tableViewerColumn = new TableViewerColumn(this.tableViewer, SWT.LEFT);
+		TableColumn col1 = tableViewerColumn.getColumn();
+		col1.setText("Vorname");
+		
+		TableViewerColumn tableViewerColumn_1 = new TableViewerColumn(this.tableViewer, SWT.LEFT);
+		TableColumn col2 = tableViewerColumn_1.getColumn();
+		col2.setText("Nachname");
+		
+		TableViewerColumn tableViewerColumn_2 = new TableViewerColumn(this.tableViewer, SWT.LEFT);
+		TableColumn col3 = tableViewerColumn_2.getColumn();
+		col3.setText("Geburtsdatum");
+        
+        // add sort feature to table
+		this.tableViewer.setSorter(new KundeColumnViewerSorter());
+		UIUtilities.addTableViewerColumnSorter(this.tableViewer, tableViewerColumn, KundeColumnViewerSorter.VORNAME);
+		UIUtilities.addTableViewerColumnSorter(this.tableViewer, tableViewerColumn_1, KundeColumnViewerSorter.NACHNAME);
+		UIUtilities.addTableViewerColumnSorter(this.tableViewer, tableViewerColumn_2, KundeColumnViewerSorter.GEBURTSDATUM);
+        
         this.tableViewer.setContentProvider(new ArrayContentProvider());
         this.tableViewer.setLabelProvider(new ITableLabelProvider() {
             @Override
@@ -254,13 +275,6 @@ public class TransaktionWizardSeiteVier extends WizardPage {
                 // nothing to do
             }
         });
-    
-        TableColumn col1 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
-        col1.setText("Vorname");
-        TableColumn col2 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
-        col2.setText("Nachname");
-        TableColumn col3 = new TableColumn(this.tableViewer.getTable(), SWT.LEFT);
-        col3.setText("Geburtsdatum");
         
         // MAGIC HAPPENS HERE
         this.tableViewer.setInput(this.kundeService.findAll());

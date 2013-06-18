@@ -119,7 +119,7 @@ public class VeranstaltungServiceImpl implements VeranstaltungService {
 			}
 			
 			// Anzahl der verkauften Plaetze der Veranstaltung zuweisen
-			if (true) {
+			if (plaetze > 0) {
 				topTenList.put( currentVeranstaltung, plaetze );
 			}
 			

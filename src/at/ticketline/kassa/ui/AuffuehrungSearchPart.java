@@ -223,6 +223,13 @@ public class AuffuehrungSearchPart {
 		tblclmnSaal.setWidth(80);
 		tblclmnSaal.setText("Saal");
 		
+		// add sort feature to table
+		tableViewer.setSorter(new AuffuehrungColumnViewerSorter());
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn, AuffuehrungColumnViewerSorter.VERANSTALTUNG);
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn_2, AuffuehrungColumnViewerSorter.DATUM);
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn_3, AuffuehrungColumnViewerSorter.ORT);
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn_4, AuffuehrungColumnViewerSorter.SAAL);
+		
         tableViewer.setContentProvider(new IStructuredContentProvider() {
             @Override
             public Object[] getElements(Object inputElement) {

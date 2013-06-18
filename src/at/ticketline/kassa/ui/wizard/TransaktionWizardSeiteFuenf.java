@@ -132,4 +132,11 @@ public class TransaktionWizardSeiteFuenf extends WizardPage {
         }
         lblHinweis.setText(values.getAuffuehrung().getHinweis());
     }
+    
+    /**
+     * Setzt einen Anonymen Kunden
+     */
+    public void setAnonymerKunde() {
+    	values.setKunde(null);
+    }
 }

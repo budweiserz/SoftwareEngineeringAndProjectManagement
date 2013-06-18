@@ -28,6 +28,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -151,6 +152,12 @@ public class KundeSearchPart {
 		TableColumn tblclmnSex = tableViewerColumn_2.getColumn();
 		tblclmnSex.setWidth(100);
 		tblclmnSex.setText("Geburtsdatum");
+		
+		// add sort feature to table
+		tableViewer.setSorter(new KundeColumnViewerSorter());
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn, KundeColumnViewerSorter.VORNAME);
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn_1, KundeColumnViewerSorter.NACHNAME);
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn_2, KundeColumnViewerSorter.GEBURTSDATUM);
 		
         tableViewer.setContentProvider(new ArrayContentProvider());
         this.tableViewer.setLabelProvider(new ITableLabelProvider() {

@@ -134,7 +134,10 @@ public class TransaktionWizardSeiteZwei extends WizardPage implements Listener{
             return ((TransaktionWizard)getWizard()).vier;
         }
         if (btnAnonymerKunde.getSelection()) { 
-            WizardPage fuenf = ((TransaktionWizard)getWizard()).fuenf;
+        	TransaktionWizardSeiteFuenf fuenf = ((TransaktionWizard)getWizard()).fuenf;
+            
+            fuenf.setAnonymerKunde();
+            
             return fuenf;
         }
         return null;

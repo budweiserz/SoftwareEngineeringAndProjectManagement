@@ -228,6 +228,15 @@ public class VeranstaltungsortSearchPart {
 		tblclmnLand.setWidth(150);
 		tblclmnLand.setText("Land");
 		
+		// add sort feature to table
+		tableViewer.setSorter(new OrtColumnViewerSorter());
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn, OrtColumnViewerSorter.BEZEICHNUNG);
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn_1, OrtColumnViewerSorter.STRASSE);
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn_2, OrtColumnViewerSorter.PLZ);
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn_3, OrtColumnViewerSorter.ORT);
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn_4, OrtColumnViewerSorter.ORTSTYP);
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn_5, OrtColumnViewerSorter.LAND);
+		
         tableViewer.setContentProvider(new IStructuredContentProvider() {
             @Override
             public Object[] getElements(Object inputElement) {

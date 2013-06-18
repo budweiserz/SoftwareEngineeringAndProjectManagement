@@ -164,7 +164,7 @@ public class TopTenVeranstaltungenPart {
 		lblKategorie.setLayoutData(fd_lblKategorie);
 		
 		combo_1 = new Combo(SearchComposite, SWT.NONE);
-		combo_1.setItems(new String[] {"Kino", "Open Air", "Theater", "Oper"});
+		combo_1.setItems(new String[] {"Kino", "Theater", "Kabarett"});
 		FormData fd_combo_1 = new FormData();
 		fd_combo_1.top = new FormAttachment(lblVon, -4, SWT.TOP);
 		fd_combo_1.right = new FormAttachment(lblKategorie, 102, SWT.RIGHT);
@@ -391,7 +391,7 @@ public class TopTenVeranstaltungenPart {
 		while (itTopTenVeranstaltung.hasNext()) {
 			currentTopTenVeranstaltung = itTopTenVeranstaltung.next();
 			
-			result.setValue(currentTopTenVeranstaltung.getKey().getBezeichnung(), 10);
+			result.setValue(currentTopTenVeranstaltung.getKey().getBezeichnung(), currentTopTenVeranstaltung.getValue());
 		} 
 		
 		return result;  

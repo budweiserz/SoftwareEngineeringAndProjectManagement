@@ -228,6 +228,14 @@ public class TicketViewPart {
 		btnStornieren.setLayoutData(fd_btnStornieren);
 		btnStornieren.setText("Stornieren");
 		
+		// add sort feature to table
+		tableViewer.setSorter(new TicketColumnViewerSorter());
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn_0, TicketColumnViewerSorter.TYP);
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn_1, TicketColumnViewerSorter.VERANSTALTUNG);
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn, TicketColumnViewerSorter.NACHNAME);
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn_4, TicketColumnViewerSorter.NUMMER);
+		UIUtilities.addTableViewerColumnSorter(tableViewer, tableViewerColumn_5, TicketColumnViewerSorter.VORNAME);
+		
         tableViewer.setContentProvider(new IStructuredContentProvider() {
             @Override
             public Object[] getElements(Object inputElement) {

@@ -111,7 +111,7 @@ public class TicketViewPart {
 		fd_btnSuchen.bottom = new FormAttachment(100, -10);
 		fd_btnSuchen.right = new FormAttachment(100, -10);
 		btnSuchen.setLayoutData(fd_btnSuchen);
-		btnSuchen.setText("suchen");
+		btnSuchen.setText("Suchen");
 		
 		Label lblVorname = new Label(SearchComposite, SWT.NONE);
 		FormData fd_lblVorname = new FormData();

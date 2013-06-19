@@ -25,13 +25,14 @@ import org.eclipse.swt.widgets.Shell;
 
 import at.ticketline.service.api.NewsService;
 
+@SuppressWarnings("restriction")
 public class NewsPart {
 	
 	private Button btnWeiter;
 	@Inject
 	private NewsService newsService;
 	
-	@Inject
+    @Inject
 	MApplication application;
 	@Inject
 	Shell shell;

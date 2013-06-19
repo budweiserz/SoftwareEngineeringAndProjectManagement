@@ -10,7 +10,8 @@ public class AuffuehrungColumnViewerSorter extends AbstractColumnViewerSorter {
 	public static final int ORT = 2;
 	public static final int SAAL = 3;
 
-	public int compare(Viewer viewer, Object e1, Object e2) {
+	@Override
+    public int compare(Viewer viewer, Object e1, Object e2) {
 		int rc = 0;
 		Auffuehrung a1 = (Auffuehrung)e1;
 		Auffuehrung a2 = (Auffuehrung)e2;

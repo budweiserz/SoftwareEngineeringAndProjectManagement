@@ -10,7 +10,8 @@ public class VeranstaltungColumnViewerSorter extends AbstractColumnViewerSorter 
 	public static final int KATEGORIE = 2;
 	public static final int INHALT = 3;
 
-	public int compare(Viewer viewer, Object e1, Object e2) {
+	@Override
+    public int compare(Viewer viewer, Object e1, Object e2) {
 		int rc = 0;
 		Veranstaltung v1 = (Veranstaltung)e1;
 		Veranstaltung v2 = (Veranstaltung)e2;

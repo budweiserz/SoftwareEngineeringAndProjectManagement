@@ -11,7 +11,8 @@ public class TicketColumnViewerSorter extends AbstractColumnViewerSorter {
 	public static final int NACHNAME = 3;
 	public static final int VERANSTALTUNG = 4;
 
-	public int compare(Viewer viewer, Object e1, Object e2) {
+	@Override
+    public int compare(Viewer viewer, Object e1, Object e2) {
 		int rc = 0;
 		Transaktion t1 = (Transaktion)e1;
 		Transaktion t2 = (Transaktion)e2;

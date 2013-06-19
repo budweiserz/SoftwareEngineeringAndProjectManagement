@@ -38,6 +38,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.events.ExpansionAdapter;
@@ -56,7 +57,6 @@ import at.ticketline.entity.Geschlecht;
 import at.ticketline.entity.Kunde;
 import at.ticketline.kassa.handlers.SavePartHandler;
 import at.ticketline.service.api.KundeService;
-import org.eclipse.swt.widgets.Spinner;
 
 @SuppressWarnings("restriction")
 public class KundePart {

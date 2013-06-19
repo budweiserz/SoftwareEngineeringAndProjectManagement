@@ -10,7 +10,8 @@ public class KundeColumnViewerSorter extends AbstractColumnViewerSorter {
 	public static final int GEBURTSDATUM = 2;
 	public static final int PUNKTE = 3;
 
-	public int compare(Viewer viewer, Object e1, Object e2) {
+	@Override
+    public int compare(Viewer viewer, Object e1, Object e2) {
 		int rc = 0;
 		Kunde k1 = (Kunde)e1;
 		Kunde k2 = (Kunde)e2;

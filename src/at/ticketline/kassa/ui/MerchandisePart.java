@@ -13,6 +13,7 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -23,6 +24,7 @@ import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.ViewerCell;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.SelectionEvent;
@@ -31,14 +33,19 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -54,18 +61,12 @@ import at.ticketline.entity.Merchandise;
 import at.ticketline.entity.Praemie;
 import at.ticketline.kassa.ui.wizard.MerchandiseWizard;
 import at.ticketline.kassa.ui.wizard.MerchandiseWizardDialog;
-import at.ticketline.service.api.MerchandiseService;
 import at.ticketline.service.api.BestellungService;
+import at.ticketline.service.api.MerchandiseService;
 import at.ticketline.service.api.PraemieService;
 import at.ticketline.service.impl.BestellungServiceImpl;
-import org.eclipse.swt.widgets.Combo;
-import org.eclipse.jface.viewers.ComboViewer;
-import org.eclipse.jface.window.Window;
-import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormAttachment;
 
+@SuppressWarnings("restriction")
 public class MerchandisePart {
 
     private static final Logger LOG = LoggerFactory.getLogger(MerchandisePart.class);
@@ -76,8 +77,10 @@ public class MerchandisePart {
     private MerchandiseService merchandiseService;
     @Inject
     private PraemieService praemieService;
+
     @Inject 
     private MPart activePart;
+
     private Composite parent;
     
     private static final Device device = Display.getCurrent();

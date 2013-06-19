@@ -12,7 +12,8 @@ public class OrtColumnViewerSorter extends AbstractColumnViewerSorter {
 	public static final int ORTSTYP = 4;
 	public static final int LAND = 5;
 
-	public int compare(Viewer viewer, Object e1, Object e2) {
+	@Override
+    public int compare(Viewer viewer, Object e1, Object e2) {
 		int rc = 0;
 		Ort o1 = (Ort)e1;
 		Ort o2 = (Ort)e2;

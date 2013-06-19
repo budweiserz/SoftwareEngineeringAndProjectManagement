@@ -25,5 +25,6 @@ public abstract class AbstractColumnViewerSorter extends ViewerSorter {
 		tv.getTable().setSortDirection(direction);
 	}
 
-	public abstract int compare(Viewer viewer, Object e1, Object e2);
+	@Override
+    public abstract int compare(Viewer viewer, Object e1, Object e2);
 }

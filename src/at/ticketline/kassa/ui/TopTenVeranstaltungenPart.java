@@ -20,8 +20,6 @@ import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
-import org.eclipse.jface.viewers.ArrayContentProvider;
-import org.eclipse.jface.viewers.ComboViewer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IBaseLabelProvider;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -29,7 +27,6 @@ import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.ITableColorProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
@@ -38,7 +35,6 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
@@ -48,35 +44,23 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import at.ticketline.entity.Geschlecht;
-import at.ticketline.entity.Kuenstler;
-import at.ticketline.entity.Veranstaltung;
-import at.ticketline.service.api.VeranstaltungService;
-
-import org.eclipse.swt.widgets.DateTime;
-
-
-import org.eclipse.swt.layout.FillLayout;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartMouseEvent;
-import org.jfree.chart.ChartMouseListener;
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.jfree.experimental.chart.swt.ChartComposite;
 import org.jfree.util.Rotation;
-import org.eclipse.swt.layout.RowLayout;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import at.ticketline.entity.Veranstaltung;
+import at.ticketline.service.api.VeranstaltungService;
 
 @SuppressWarnings("restriction")
 public class TopTenVeranstaltungenPart {
@@ -95,7 +79,7 @@ public class TopTenVeranstaltungenPart {
     private TableViewer tableViewer;
 	
     private Button btnAnzeigen;
-	private Table table;
+	//private Table table;
 	private DateTime dateTimeVon;
 	private DateTime dateTimeBis;
 	private Combo combo_1;
@@ -218,22 +202,25 @@ public class TopTenVeranstaltungenPart {
 
 		class TopTenVeranstaltungenContentProvider implements IStructuredContentProvider {
 
-		  /**
-		   * Gets the elements for the table
-		   * 
-		   * @param arg0
-		   *            the model
-		   * @return Object[]
-		   */
-		  public Object[] getElements(Object arg0) {
+		/**
+		 * Gets the elements for the table
+		 * 
+		 * @param arg0
+		 *            the model
+		 * @return Object[]
+		 */
+		@SuppressWarnings("unchecked")
+        @Override
+        public Object[] getElements(Object arg0) {
 		    // Returns all the players in the specified team
-		    return ((HashMap<Veranstaltung, Integer>) arg0).entrySet().toArray();
-		  }
+		    return ((HashMap<Veranstaltung, Integer>)arg0).entrySet().toArray();
+		}
 
 		  /**
 		   * Disposes any resources
 		   */
-		  public void dispose() {
+		  @Override
+        public void dispose() {
 		    // We don't create any resources, so we don't dispose any
 		  }
 
@@ -250,9 +237,10 @@ public class TopTenVeranstaltungenPart {
                 return null;
             }
     
+           	@SuppressWarnings("unchecked")
 			@Override
             public String getColumnText(Object element, int index) {
-            	Map.Entry<Veranstaltung, Integer> v = (Map.Entry<Veranstaltung, Integer>) element;
+                Map.Entry<Veranstaltung, Integer> v = (Map.Entry<Veranstaltung, Integer>) element;
                 switch (index) {
                 case 0:
                 		veranstaltungenTablePositionIndex++;
@@ -304,6 +292,7 @@ public class TopTenVeranstaltungenPart {
         this.tableViewer.setLabelProvider(new ColoredLabelProvider());
         
         this.tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+            @SuppressWarnings("unchecked")
             @Override
             public void selectionChanged(SelectionChangedEvent event) {
             	IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection(); 

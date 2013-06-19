@@ -1,23 +1,13 @@
 package at.ticketline.kassa.ui;
 
-import java.text.Collator;
-import java.util.Locale;
-
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
-import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 
 public class UIUtilities {
 
@@ -44,7 +34,8 @@ public class UIUtilities {
 		final TableColumn tc = column.getColumn();
 
 		tc.addSelectionListener(new SelectionAdapter() {
-			public void widgetSelected(SelectionEvent event) {
+			@Override
+            public void widgetSelected(SelectionEvent event) {
 				((AbstractColumnViewerSorter) table.getSorter()).doSort(table, tc, columnName);
 				table.refresh();
 			}

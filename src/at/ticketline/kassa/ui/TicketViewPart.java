@@ -56,6 +56,7 @@ import at.ticketline.dao.api.TransaktionDao;
 import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Transaktion;
 import at.ticketline.entity.Veranstaltung;
+import at.ticketline.kassa.ui.sorter.TicketColumnViewerSorter;
 import at.ticketline.service.api.TransaktionService;
 import at.ticketline.service.api.VeranstaltungService;
 import at.ticketline.service.impl.TransaktionServiceImpl;

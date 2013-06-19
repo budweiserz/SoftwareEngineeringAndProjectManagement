@@ -9,6 +9,8 @@ import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.TableColumn;
 
+import at.ticketline.kassa.ui.sorter.AbstractColumnViewerSorter;
+
 public class UIUtilities {
 
 	/**

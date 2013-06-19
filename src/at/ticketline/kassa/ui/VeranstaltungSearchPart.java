@@ -40,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ticketline.entity.Veranstaltung;
+import at.ticketline.kassa.ui.sorter.VeranstaltungColumnViewerSorter;
 import at.ticketline.service.api.KategorieService;
 import at.ticketline.service.api.VeranstaltungService;
 

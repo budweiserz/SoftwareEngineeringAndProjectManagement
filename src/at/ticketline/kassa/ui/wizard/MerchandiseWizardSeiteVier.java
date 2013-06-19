@@ -42,8 +42,8 @@ import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Praemie;
 import at.ticketline.entity.Zahlungsart;
 
-import at.ticketline.kassa.ui.KundeColumnViewerSorter;
 import at.ticketline.kassa.ui.UIUtilities;
+import at.ticketline.kassa.ui.sorter.KundeColumnViewerSorter;
 
 import at.ticketline.service.api.KundeService;
 @SuppressWarnings("restriction")

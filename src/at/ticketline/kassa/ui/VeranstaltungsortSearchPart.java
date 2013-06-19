@@ -50,6 +50,7 @@ import org.slf4j.LoggerFactory;
 import at.ticketline.entity.Adresse;
 import at.ticketline.entity.Ort;
 import at.ticketline.entity.Ortstyp;
+import at.ticketline.kassa.ui.sorter.OrtColumnViewerSorter;
 import at.ticketline.service.api.OrtService;
 
 @SuppressWarnings("restriction")

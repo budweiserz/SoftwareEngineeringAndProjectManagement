@@ -54,6 +54,7 @@ import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.PreisKategorie;
 import at.ticketline.entity.Saal;
 import at.ticketline.entity.Veranstaltung;
+import at.ticketline.kassa.ui.sorter.AuffuehrungColumnViewerSorter;
 import at.ticketline.service.api.AuffuehrungService;
 
 @SuppressWarnings("restriction")

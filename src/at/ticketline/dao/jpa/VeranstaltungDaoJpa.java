@@ -1,20 +1,15 @@
 package at.ticketline.dao.jpa;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import javax.persistence.TemporalType;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import at.ticketline.dao.GenericDaoJpa;
 import at.ticketline.dao.api.VeranstaltungDao;
-import at.ticketline.entity.Auffuehrung;
-import at.ticketline.entity.Saal;
 import at.ticketline.entity.Veranstaltung;
 
 public class VeranstaltungDaoJpa extends GenericDaoJpa<Veranstaltung,Integer> implements VeranstaltungDao {

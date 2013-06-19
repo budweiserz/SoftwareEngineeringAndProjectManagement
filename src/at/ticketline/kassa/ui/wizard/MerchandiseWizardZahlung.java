@@ -46,6 +46,7 @@ public class MerchandiseWizardZahlung extends WizardPage implements Listener{
     /**
      * Erstelle die UI Inhalte dieser Seite.
      */
+    @Override
     public void createControl(Composite parent) {
         Composite container = new Composite(parent, SWT.NULL);
         

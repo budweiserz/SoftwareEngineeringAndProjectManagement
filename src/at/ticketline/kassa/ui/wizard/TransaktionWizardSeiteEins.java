@@ -3,7 +3,6 @@ package at.ticketline.kassa.ui.wizard;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Set;
 
 import javax.annotation.PreDestroy;
 
@@ -12,8 +11,6 @@ import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.Point;
@@ -29,7 +26,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
-import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -101,6 +97,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
     /**
      * Erstelle die UI Inhalte dieser Seite.
      */
+    @Override
     public void createControl(Composite parent) {
         container = new Composite(parent, SWT.NULL);
 
@@ -207,6 +204,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
             }
         });
         table.addListener(SWT.MouseUp, new Listener(){
+            @Override
             public void handleEvent(Event event){
                 Point pt = new Point(event.x, event.y);
                 TableItem item = table.getItem(pt);
@@ -469,6 +467,7 @@ public class TransaktionWizardSeiteEins extends WizardPage implements Listener {
     	return set;
     }
     
+    @Override
     @PreDestroy
     public void dispose() {
     }

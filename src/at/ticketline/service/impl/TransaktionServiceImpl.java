@@ -1,34 +1,25 @@
 package at.ticketline.service.impl;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.persistence.EntityManager;
 
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.EntityManagerUtil;
 import at.ticketline.dao.api.AuffuehrungDao;
 import at.ticketline.dao.api.KundeDao;
 import at.ticketline.dao.api.MitarbeiterDao;
-import at.ticketline.dao.api.ReiheDao;
 import at.ticketline.dao.api.TransaktionDao;
 import at.ticketline.entity.Auffuehrung;
 import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.Platz;
 import at.ticketline.entity.PlatzStatus;
-import at.ticketline.entity.Reihe;
-import at.ticketline.entity.Saal;
 import at.ticketline.entity.Transaktion;
 import at.ticketline.entity.Transaktionsstatus;
 import at.ticketline.entity.Veranstaltung;
-import at.ticketline.entity.Zahlungsart;
 import at.ticketline.service.api.TransaktionService;
 
 /**

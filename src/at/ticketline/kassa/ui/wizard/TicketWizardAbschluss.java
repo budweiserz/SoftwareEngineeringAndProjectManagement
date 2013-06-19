@@ -18,7 +18,6 @@ import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.Platz;
 import at.ticketline.entity.Transaktion;
-import at.ticketline.entity.Transaktionsstatus;
 import at.ticketline.service.api.TransaktionService;
 import at.ticketline.service.impl.TransaktionServiceImpl;
 
@@ -48,6 +47,7 @@ public class TicketWizardAbschluss extends WizardPage {
     /**
      * Erstelle die UI Inhalte dieser Seite.
      */
+    @Override
     public void createControl(Composite parent) {
         Composite container = new Composite(parent, SWT.NULL);
 

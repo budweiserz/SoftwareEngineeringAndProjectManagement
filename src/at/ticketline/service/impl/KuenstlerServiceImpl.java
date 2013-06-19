@@ -37,6 +37,7 @@ public class KuenstlerServiceImpl implements KuenstlerService {
         
     }
 
+    @Override
     public List<Kuenstler> findByKuenstler(Kuenstler query) {
     	
     	List<Kuenstler> found = null;
@@ -53,6 +54,7 @@ public class KuenstlerServiceImpl implements KuenstlerService {
     	return found;
     }
     
+    @Override
     public List<Kuenstler> findByKuenstlerWithAnySex(Kuenstler query) {
     	
     	if (query == null) {

@@ -1,39 +1,24 @@
 package at.ticketline.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.api.AuffuehrungDao;
 import at.ticketline.dao.api.KundeDao;
-import at.ticketline.dao.api.MitarbeiterDao;
-import at.ticketline.dao.api.ReiheDao;
-import at.ticketline.dao.api.SaalDao;
 import at.ticketline.dao.api.TransaktionDao;
-import at.ticketline.dao.api.VeranstaltungDao;
 import at.ticketline.entity.Auffuehrung;
-import at.ticketline.entity.Kuenstler;
 import at.ticketline.entity.Kunde;
-import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.entity.Platz;
 import at.ticketline.entity.PlatzStatus;
 import at.ticketline.entity.PreisKategorie;
-import at.ticketline.entity.Reihe;
-import at.ticketline.entity.Saal;
 import at.ticketline.entity.Transaktion;
 import at.ticketline.entity.Transaktionsstatus;
-import at.ticketline.entity.Veranstaltung;
 import at.ticketline.entity.Zahlungsart;
 import at.ticketline.service.api.TransaktionService;
 import at.ticketline.service.impl.TransaktionServiceImpl;
@@ -41,26 +26,6 @@ import at.ticketline.test.AbstractDaoTest;
 import at.ticketline.test.EntityGenerator;
 
 public class TransaktionTest extends AbstractDaoTest {
-	private static KundeDao kDao;
-	private static AuffuehrungDao aDao ;
-	private static SaalDao sDao;
-	private static VeranstaltungDao vDao;
-	private static MitarbeiterDao mDao;
-	private static ReiheDao rDao;
-	private static TransaktionDao tDao;
-	private static TransaktionService service;
-
-	@BeforeClass
-	public static void init() {
-		kDao = (KundeDao)DaoFactory.getByEntity(Kunde.class);
-		aDao = (AuffuehrungDao)DaoFactory.getByEntity(Auffuehrung.class);
-		sDao = (SaalDao)DaoFactory.getByEntity(Saal.class);
-		vDao = (VeranstaltungDao)DaoFactory.getByEntity(Veranstaltung.class);
-		mDao = (MitarbeiterDao)DaoFactory.getByEntity(Mitarbeiter.class);
-		rDao = (ReiheDao)DaoFactory.getByEntity(Reihe.class);
-
-		service = new TransaktionServiceImpl((TransaktionDao) DaoFactory.getByEntity(Transaktion.class));
-	}
 
 	@Test
 	public void testCancelReservation() {

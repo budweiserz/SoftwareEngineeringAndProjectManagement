@@ -4,20 +4,16 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
 import javax.inject.Named;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
-import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
-import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.services.IServiceConstants;
-import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -36,13 +32,9 @@ import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.forms.events.ExpansionAdapter;
-import org.eclipse.ui.forms.events.ExpansionEvent;
 import org.eclipse.ui.forms.widgets.ColumnLayout;
-import org.eclipse.ui.forms.widgets.ColumnLayoutData;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.forms.widgets.Section;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,7 +43,6 @@ import at.ticketline.entity.Adresse;
 import at.ticketline.entity.Geschlecht;
 import at.ticketline.entity.Kunde;
 import at.ticketline.kassa.handlers.SavePartHandler;
-import at.ticketline.kassa.ui.wizard.MerchandiseWizardSeiteDrei.EditorModifyListener;
 import at.ticketline.service.api.KundeService;
 
 @SuppressWarnings("restriction")
@@ -62,9 +53,13 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
     
     private MDirtyable dirty;
     private EHandlerService handlerService;
+
+    @SuppressWarnings("unused")
     private ECommandService commandService;
+
     @Named(IServiceConstants.ACTIVE_SHELL)
     private Shell shell;
+
     private KundeService kundeService;
     private Kunde kunde;
     
@@ -79,7 +74,7 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
     private Text txtAdresse;
     private Text txtOrt;
     private Text txtEmail;
-    private Text txtErmaessigung;
+    //private Text txtErmaessigung;
     private Combo cbGeschlecht;
 
     private Button btnSave;
@@ -102,6 +97,7 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
     /**
      * Erstelle die UI Inhalte dieser Seite.
      */
+    @Override
     public void createControl(Composite parent) {
         LOG.info("Erstelle Wizard Seite für neuen Kunden...");
         Composite container = new Composite(parent, SWT.NULL);
@@ -228,8 +224,8 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
                 }
                 handlerService.activateHandler("at.ticketline.handler.savePartHandler", new SavePartHandler());
 
-                ParameterizedCommand cmd = commandService.createCommand("at.ticketline.handler.savePartHandler", null);
-                Kunde k = new Kunde();
+                //ParameterizedCommand cmd = commandService.createCommand("at.ticketline.handler.savePartHandler", null);
+                //Kunde k = new Kunde();
                 try {
                     save();
                     //handlerService.executeHandler(cmd);
@@ -244,6 +240,7 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
     }
     
 
+    @Override
     @PreDestroy
     public void dispose() {
         // nothing to do

@@ -1,6 +1,5 @@
 package at.ticketline.service.api;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 

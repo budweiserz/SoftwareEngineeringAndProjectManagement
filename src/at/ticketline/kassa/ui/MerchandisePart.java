@@ -527,7 +527,6 @@ public class MerchandisePart {
         btnBezahlen.setText("Bezahlen");
         btnBezahlen.addSelectionListener(new SelectionListener() {
 
-            @SuppressWarnings("restriction")
             @Override
             public void widgetSelected(SelectionEvent e) {
                 LOG.debug("Buy {}", selected);
@@ -544,6 +543,7 @@ public class MerchandisePart {
                 
                 
                 
+                @SuppressWarnings("unused")
                 BestellungService bestellungService = new BestellungServiceImpl((BestellungDao)DaoFactory.getByEntity(Bestellung.class));
                 //bestellungService.saveBestellungen(selected, Zahlungsart.BANKEINZUG);
             }

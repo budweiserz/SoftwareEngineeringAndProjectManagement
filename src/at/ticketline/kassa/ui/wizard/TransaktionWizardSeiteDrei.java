@@ -7,7 +7,6 @@ import javax.annotation.PreDestroy;
 import javax.inject.Named;
 import javax.validation.ConstraintViolationException;
 
-import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
 import org.eclipse.e4.ui.di.Focus;
@@ -54,6 +53,7 @@ public class TransaktionWizardSeiteDrei extends WizardPage {
     
     private MDirtyable dirty;
     private EHandlerService handlerService;
+    @SuppressWarnings("unused")
     private ECommandService commandService;
     @Named(IServiceConstants.ACTIVE_SHELL)
     private Shell shell;
@@ -93,6 +93,7 @@ public class TransaktionWizardSeiteDrei extends WizardPage {
     /**
      * Erstelle die UI Inhalte dieser Seite.
      */
+    @Override
     public void createControl(Composite parent) {
         LOG.info("Erstelle Wizard Seite für neuen Kunden...");
         Composite container = new Composite(parent, SWT.NULL);
@@ -191,8 +192,8 @@ public class TransaktionWizardSeiteDrei extends WizardPage {
         }
         handlerService.activateHandler("at.ticketline.handler.savePartHandler", new SavePartHandler());
 
-        ParameterizedCommand cmd = commandService.createCommand("at.ticketline.handler.savePartHandler", null);
-        Kunde k = new Kunde();
+        //ParameterizedCommand cmd = commandService.createCommand("at.ticketline.handler.savePartHandler", null);
+        //Kunde k = new Kunde();
         try {
             boolean result = save();
             return result;
@@ -218,8 +219,8 @@ public class TransaktionWizardSeiteDrei extends WizardPage {
                 }
                 handlerService.activateHandler("at.ticketline.handler.savePartHandler", new SavePartHandler());
 
-                ParameterizedCommand cmd = commandService.createCommand("at.ticketline.handler.savePartHandler", null);
-                Kunde k = new Kunde();
+                //ParameterizedCommand cmd = commandService.createCommand("at.ticketline.handler.savePartHandler", null);
+                //Kunde k = new Kunde();
                 try {
                     save();
                     //handlerService.executeHandler(cmd);
@@ -233,6 +234,7 @@ public class TransaktionWizardSeiteDrei extends WizardPage {
     }
     
 
+    @Override
     @PreDestroy
     public void dispose() {
         // nothing to do

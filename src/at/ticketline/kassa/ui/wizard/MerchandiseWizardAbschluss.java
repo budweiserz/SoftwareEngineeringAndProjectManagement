@@ -1,7 +1,6 @@
 package at.ticketline.kassa.ui.wizard;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.jface.wizard.WizardPage;
@@ -14,19 +13,15 @@ import org.slf4j.LoggerFactory;
 import at.ticketline.dao.DaoFactory;
 import at.ticketline.dao.api.BestellungDao;
 import at.ticketline.dao.api.KundeDao;
-import at.ticketline.dao.api.PraemieDao;
 import at.ticketline.entity.Artikel;
 import at.ticketline.entity.Bestellung;
 import at.ticketline.entity.Kunde;
 import at.ticketline.entity.Merchandise;
 import at.ticketline.entity.Praemie;
-import at.ticketline.entity.Zahlungsart;
 import at.ticketline.service.api.BestellungService;
 import at.ticketline.service.api.KundeService;
-import at.ticketline.service.api.PraemieService;
 import at.ticketline.service.impl.BestellungServiceImpl;
 import at.ticketline.service.impl.KundeServiceImpl;
-import at.ticketline.service.impl.PraemieServiceImpl;
 
 public class MerchandiseWizardAbschluss extends WizardPage {
 
@@ -52,6 +47,7 @@ public class MerchandiseWizardAbschluss extends WizardPage {
     /**
      * Erstelle die UI Inhalte dieser Seite.
      */
+    @Override
     public void createControl(Composite parent) {
         Composite container = new Composite(parent, SWT.NULL);
 

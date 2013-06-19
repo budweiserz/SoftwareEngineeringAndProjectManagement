@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import javax.annotation.PreDestroy;
 
-import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.wizard.WizardPage;
@@ -20,7 +19,6 @@ import org.eclipse.swt.layout.FormData;
 import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -40,8 +38,6 @@ import at.ticketline.entity.PlatzStatus;
 import at.ticketline.entity.Reihe;
 import at.ticketline.entity.Saal;
 
-
-@SuppressWarnings("restriction")
 public class TicketWizardSaalplan extends WizardPage implements Listener {
 
     private Composite container;
@@ -97,6 +93,7 @@ public class TicketWizardSaalplan extends WizardPage implements Listener {
     /**
      * Erstelle die UI Inhalte dieser Seite.
      */
+    @Override
     public void createControl(Composite parent) {
         container = new Composite(parent, SWT.NULL);
 
@@ -194,6 +191,7 @@ public class TicketWizardSaalplan extends WizardPage implements Listener {
             }
         });
         table.addListener(SWT.MouseUp, new Listener(){
+            @Override
             public void handleEvent(Event event){
                 Point pt = new Point(event.x, event.y);
                 TableItem item = table.getItem(pt);
@@ -450,6 +448,7 @@ public class TicketWizardSaalplan extends WizardPage implements Listener {
     	return set;
     }
     
+    @Override
     @PreDestroy
     public void dispose() {
     }

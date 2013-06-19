@@ -1,6 +1,5 @@
 package at.ticketline.dao.api;
 
-import java.util.Date;
 import java.util.List;
 
 import at.ticketline.dao.GenericDao;

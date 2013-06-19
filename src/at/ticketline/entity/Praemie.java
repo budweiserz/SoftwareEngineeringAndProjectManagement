@@ -30,10 +30,12 @@ public class Praemie extends Artikel {
         this.punkte = punkte;
     }
     
+    @Override
     public BigDecimal getWert() {
         return punkte;
     }
 
+    @Override
     public String getEinheit() {
         return "Punkte";
     }

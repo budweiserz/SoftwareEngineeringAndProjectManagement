@@ -98,6 +98,7 @@ public class TransaktionWizardSeiteDrei extends WizardPage {
         Composite container = new Composite(parent, SWT.NULL);
         createNewKundeForm(container);
         setControl(container);
+        setPageComplete(false);
     }
     
     private void createNewKundeForm(Composite parent) {
@@ -109,7 +110,7 @@ public class TransaktionWizardSeiteDrei extends WizardPage {
         this.form.getBody().setLayout(new GridLayout(1, false));
 
         this.createForm(this.form.getBody());
-        //this.createSaveButton(this.form.getBody());
+        this.createSaveButton(this.form.getBody());
     }
     
     private void createForm(Composite parent) {
@@ -204,32 +205,32 @@ public class TransaktionWizardSeiteDrei extends WizardPage {
         }
     }
     
-//    private void createSaveButton(Composite parent) {
-//
-//        this.btnSave = new Button(parent, SWT.PUSH);
-//        this.btnSave.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false));
-//        this.btnSave.setText("Speichern ");
-//        this.btnSave.addSelectionListener(new SelectionAdapter() {
-//            @Override
-//            public void widgetSelected(SelectionEvent e) {
-//                if (!TransaktionWizardSeiteDrei.this.dirty.isDirty()) {
-//                    return;
-//                }
-//                handlerService.activateHandler("at.ticketline.handler.savePartHandler", new SavePartHandler());
-//
-//                ParameterizedCommand cmd = commandService.createCommand("at.ticketline.handler.savePartHandler", null);
-//                Kunde k = new Kunde();
-//                try {
-//                    save();
-//                    //handlerService.executeHandler(cmd);
-//                } catch (Exception ex) {
-//                    LOG.error(ex.getMessage(), ex);
-//                    MessageDialog.openError(TransaktionWizardSeiteDrei.this.shell, "Error", "Kunde kann nicht gespeichert werden: "
-//                            + ex.getMessage());
-//                }
-//            }
-//        });
-//    }
+    private void createSaveButton(Composite parent) {
+
+        this.btnSave = new Button(parent, SWT.PUSH);
+        this.btnSave.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false));
+        this.btnSave.setText("Speichern ");
+        this.btnSave.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                if (!TransaktionWizardSeiteDrei.this.dirty.isDirty()) {
+                    return;
+                }
+                handlerService.activateHandler("at.ticketline.handler.savePartHandler", new SavePartHandler());
+
+                ParameterizedCommand cmd = commandService.createCommand("at.ticketline.handler.savePartHandler", null);
+                Kunde k = new Kunde();
+                try {
+                    save();
+                    //handlerService.executeHandler(cmd);
+                } catch (Exception ex) {
+                    LOG.error(ex.getMessage(), ex);
+                    MessageDialog.openError(TransaktionWizardSeiteDrei.this.shell, "Error", "Kunde kann nicht gespeichert werden: "
+                            + ex.getMessage());
+                }
+            }
+        });
+    }
     
 
     @PreDestroy
@@ -297,6 +298,8 @@ public class TransaktionWizardSeiteDrei extends WizardPage {
             ((TransaktionWizard)getWizard()).fuenf.updateContent();
             this.dirty.setDirty(false);
             MessageDialog.openInformation(this.shell, "Speichervorgang", "Kunde wurde erfolgreich gespeichert");
+            setPageComplete(true);
+            this.btnSave.setEnabled(false);
             return true;
         } catch (ConstraintViolationException c) {
 

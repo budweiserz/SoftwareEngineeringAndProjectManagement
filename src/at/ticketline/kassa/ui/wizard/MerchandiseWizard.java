@@ -27,7 +27,7 @@ import at.ticketline.entity.Praemie;
 import at.ticketline.service.api.KundeService;
 
 @SuppressWarnings("restriction")
-public class MerchandiseWizard extends Wizard implements IPageChangedListener, IPageChangingListener{
+public class MerchandiseWizard extends Wizard implements IPageChangedListener {
     
     @Inject private KundeService kundeService;
     @Inject private EHandlerService handlerService;
@@ -79,8 +79,8 @@ public class MerchandiseWizard extends Wizard implements IPageChangedListener, I
         addPage(zahlung);
         addPage(fuenf);
         
-        MerchandiseWizardDialog mwd = ((MerchandiseWizardDialog)getContainer());
-        mwd.addPageChangingListener(this);        
+//        MerchandiseWizardDialog mwd = ((MerchandiseWizardDialog)getContainer());
+//        mwd.addPageChangingListener(this);        
     }
 
     @Override
@@ -132,16 +132,16 @@ public class MerchandiseWizard extends Wizard implements IPageChangedListener, I
     }
 
 
-    @Override
-    public void handlePageChanging(PageChangingEvent event) {
-        if(event.getCurrentPage() == drei && event.getTargetPage() == zahlung) {
-            if(!drei.saveNewKunde()) {
-                LOG.debug("HEYO");
-                ((MerchandiseWizardDialog) getContainer()).close();                
-            }
-                 
-         }        
-    }
+//    @Override
+//    public void handlePageChanging(PageChangingEvent event) {
+//        if(event.getCurrentPage() == drei && event.getTargetPage() == zahlung) {
+//            if(!drei.saveNewKunde()) {
+//                LOG.debug("HEYO");
+//                ((MerchandiseWizardDialog) getContainer()).close();                
+//            }
+//                 
+//         }        
+//    }
 
 //    @Override
 //    public boolean performFinish() {

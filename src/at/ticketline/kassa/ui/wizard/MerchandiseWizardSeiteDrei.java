@@ -107,6 +107,7 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
         Composite container = new Composite(parent, SWT.NULL);
         createNewKundeForm(container);
         setControl(container);
+        setPageComplete(false);
     }
     
     private void createNewKundeForm(Composite parent) {
@@ -118,7 +119,7 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
         this.form.getBody().setLayout(new GridLayout(1, false));
 
         this.createForm(this.form.getBody());
-        //this.createSaveButton(this.form.getBody());
+        this.createSaveButton(this.form.getBody());
     }
     
     private void createForm(Composite parent) {
@@ -193,53 +194,54 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
 
     }
 
-    protected boolean saveNewKunde() {
-        if (!MerchandiseWizardSeiteDrei.this.dirty.isDirty()) {
-            return false;
-        }
-        handlerService.activateHandler("at.ticketline.handler.savePartHandler", new SavePartHandler());
-
-        ParameterizedCommand cmd = commandService.createCommand("at.ticketline.handler.savePartHandler", null);
-        Kunde k = new Kunde();
-        try {
-            boolean result = save();
-            return result;
-            //handlerService.executeHandler(cmd);
-        } catch (Exception ex) {
-            LOG.error(ex.getMessage(), ex);
-            MessageDialog.openError(MerchandiseWizardSeiteDrei.this.shell, "Error", "Kunde kann nicht gespeichert werden: "
-                    + ex.getMessage());
-            return false;
-        }
-        
-    }
-    
-//    private void createSaveButton(Composite parent) {
+//    protected boolean saveNewKunde() {
+//        if (!MerchandiseWizardSeiteDrei.this.dirty.isDirty()) {
+//            return false;
+//        }
+//        handlerService.activateHandler("at.ticketline.handler.savePartHandler", new SavePartHandler());
 //
-//        this.btnSave = new Button(parent, SWT.PUSH);
-//        this.btnSave.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false));
-//        this.btnSave.setText("Speichern ");
-//        this.btnSave.addSelectionListener(new SelectionAdapter() {
-//            @Override
-//            public void widgetSelected(SelectionEvent e) {
-//                if (!MerchandiseWizardSeiteDrei.this.dirty.isDirty()) {
-//                    return;
-//                }
-//                handlerService.activateHandler("at.ticketline.handler.savePartHandler", new SavePartHandler());
-//
-//                ParameterizedCommand cmd = commandService.createCommand("at.ticketline.handler.savePartHandler", null);
-//                Kunde k = new Kunde();
-//                try {
-//                    save();
-//                    //handlerService.executeHandler(cmd);
-//                } catch (Exception ex) {
-//                    LOG.error(ex.getMessage(), ex);
-//                    MessageDialog.openError(MerchandiseWizardSeiteDrei.this.shell, "Error", "Kunde kann nicht gespeichert werden: "
-//                            + ex.getMessage());
-//                }
-//            }
-//        });
+//        ParameterizedCommand cmd = commandService.createCommand("at.ticketline.handler.savePartHandler", null);
+//        Kunde k = new Kunde();
+//        try {
+//            boolean result = save();
+//            return result;
+//            //handlerService.executeHandler(cmd);
+//        } catch (Exception ex) {
+//            LOG.error(ex.getMessage(), ex);
+//            MessageDialog.openError(MerchandiseWizardSeiteDrei.this.shell, "Error", "Kunde kann nicht gespeichert werden: "
+//                    + ex.getMessage());
+//            return false;
+//        }
+//        
 //    }
+    
+    private void createSaveButton(Composite parent) {
+
+        this.btnSave = new Button(parent, SWT.PUSH);
+        this.btnSave.setLayoutData(new GridData(SWT.RIGHT, SWT.TOP, false, false));
+        this.btnSave.setText("Speichern ");
+        this.btnSave.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                if (!MerchandiseWizardSeiteDrei.this.dirty.isDirty()) {
+                    return;
+                }
+                handlerService.activateHandler("at.ticketline.handler.savePartHandler", new SavePartHandler());
+
+                ParameterizedCommand cmd = commandService.createCommand("at.ticketline.handler.savePartHandler", null);
+                Kunde k = new Kunde();
+                try {
+                    save();
+                    //handlerService.executeHandler(cmd);
+                    
+                } catch (Exception ex) {
+                    LOG.error(ex.getMessage(), ex);
+                    MessageDialog.openError(MerchandiseWizardSeiteDrei.this.shell, "Error", "Kunde kann nicht gespeichert werden: "
+                            + ex.getMessage());
+                }
+            }
+        });
+    }
     
 
     @PreDestroy
@@ -313,6 +315,8 @@ public class MerchandiseWizardSeiteDrei extends WizardPage {
             this.dirty.setDirty(false);
 
             MessageDialog.openInformation(this.shell, "Speichervorgang", "Kunde wurde erfolgreich gespeichert");
+            setPageComplete(true);
+            this.btnSave.setEnabled(false);
             return true;
         } catch (ConstraintViolationException c) {
             StringBuilder sb = new StringBuilder("Die eingegebene Daten weisen folgende Fehler auf:\n");

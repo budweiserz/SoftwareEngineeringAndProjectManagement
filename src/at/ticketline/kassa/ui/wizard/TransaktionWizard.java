@@ -26,7 +26,7 @@ import at.ticketline.entity.Mitarbeiter;
 import at.ticketline.service.api.KundeService;
 
 @SuppressWarnings("restriction")
-public class TransaktionWizard extends Wizard implements IPageChangedListener, IPageChangingListener{
+public class TransaktionWizard extends Wizard implements IPageChangedListener {
     
     @Inject private KundeService kundeService;
     @Inject private EHandlerService handlerService;
@@ -79,8 +79,8 @@ public class TransaktionWizard extends Wizard implements IPageChangedListener, I
         addPage(vier);
         addPage(fuenf);
         
-        WizardDialog wd = ((TransaktionWizardDialog)getContainer());
-        wd.addPageChangingListener(this);
+//        WizardDialog wd = ((TransaktionWizardDialog)getContainer());
+//        wd.addPageChangingListener(this);
             
             
     }
@@ -134,17 +134,17 @@ public class TransaktionWizard extends Wizard implements IPageChangedListener, I
     }
 
 
-    @Override
-    public void handlePageChanging(PageChangingEvent event) {
-        if(event.getCurrentPage() == drei && event.getTargetPage() == fuenf) {
-           if(!drei.saveNewKunde()) {
-               LOG.debug("HEYO");
-               ((TransaktionWizardDialog) getContainer()).close();                
-           }
-                
-        }
-        
-    }
+//    @Override
+//    public void handlePageChanging(PageChangingEvent event) {
+//        if(event.getCurrentPage() == drei && event.getTargetPage() == fuenf) {
+//           if(!drei.saveNewKunde()) {
+//               LOG.debug("HEYO");
+//               ((TransaktionWizardDialog) getContainer()).close();                
+//           }
+//                
+//        }
+//        
+//    }
 
 //    @Override
 //    public boolean performFinish() {

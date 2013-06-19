@@ -163,7 +163,6 @@ public class LoginPart{
                 loggedIn = true;
                 while(it.hasNext()) {
                 	MWindow window = it.next();
-                	LOG.debug(window.getElementId());
                 	if(window.getElementId().equals("ticketlinercp.trimmedwindow.news")) {
                 		window.setVisible(true);
                 		((Shell)window.getWidget()).forceFocus();

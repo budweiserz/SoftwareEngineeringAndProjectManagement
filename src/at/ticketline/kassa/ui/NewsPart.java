@@ -107,7 +107,6 @@ public class NewsPart {
         
         while(it.hasNext()) {
         	MWindow window = it.next();
-        	LOG.debug(window.getElementId());
         	if(window.getElementId().equals("ticketlinercp.trimmedwindow.news")) {
         		window.setVisible(false);
         	}

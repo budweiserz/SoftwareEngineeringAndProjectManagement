@@ -13,9 +13,11 @@ import javax.validation.ConstraintViolationException;
 import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
+import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
+import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.services.IServiceConstants;
@@ -61,6 +63,7 @@ public class KundePart {
 
     private static final Logger LOG = LoggerFactory.getLogger(KundePart.class);
 
+    @Inject MApplication application;
     @Inject private MDirtyable dirty;
     @Inject private EPartService partService;
     @Inject private EHandlerService handlerService;
@@ -105,18 +108,21 @@ public class KundePart {
          * second tab and so on.
          * Having a created boolean fixes this.
          */
-        if(created == false) {
+        if (created == false) {
             created = true;
-            if (kunde != null) {
+
+        	IEclipseContext context = application.getContext();
+        	boolean newKunde = (Boolean)context.get("newKunde");
+
+            if (kunde != null && !newKunde) {
                 this.kunde = kunde;
             }
 
             createControls(parent);
     
-            if (kunde != null) {
-                setInput();
-            } else {
-                this.activePart.setLabel("Neuer Kunde");
+            if (kunde != null && !newKunde) {
+                this.setInput();
+                this.updateTitle();
             }
         }
     }
@@ -124,7 +130,7 @@ public class KundePart {
     @PostConstruct
     private void initTitle() {
         LOG.debug("post construct kunde");
-        this.updateTitle();
+        //this.updateTitle();
     }
 
     protected void createControls(Composite parent) {

@@ -13,9 +13,11 @@ import javax.validation.ConstraintViolationException;
 import org.eclipse.core.commands.ParameterizedCommand;
 import org.eclipse.e4.core.commands.ECommandService;
 import org.eclipse.e4.core.commands.EHandlerService;
+import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.di.Focus;
 import org.eclipse.e4.ui.di.Persist;
+import org.eclipse.e4.ui.model.application.MApplication;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.services.IServiceConstants;
@@ -75,6 +77,7 @@ public class KuenstlerPart{
     
     private static final Logger LOG = LoggerFactory.getLogger(KuenstlerPart.class);
     
+    @Inject MApplication application;
     @Inject private MDirtyable dirty;
     @Inject private EPartService partService;
     @Inject private EHandlerService handlerService;
@@ -117,16 +120,21 @@ public class KuenstlerPart{
          * second tab and so on.
          * Having a created boolean fixes this.
          */
-        if(created == false) {
+        if (created == false) {
             created = true;
-            if(kuenstler != null){
+
+        	IEclipseContext context = application.getContext();
+        	boolean newKuenstler = (Boolean)context.get("newKuenstler");
+
+            if (kuenstler != null && !newKuenstler) {
                 this.kuenstler = kuenstler;
             }
 
             createControls(parent);
     
-            if(kuenstler != null){
-                setInput();
+            if (kuenstler != null && !newKuenstler) {
+                this.setInput();
+                this.updateTitle();
             }
         }
     }
@@ -134,7 +142,6 @@ public class KuenstlerPart{
     @PostConstruct
     private void initTitle() {
         LOG.debug("post construct kuenstler");
-        this.updateTitle();
     }
 
     protected void createControls(Composite parent){

@@ -64,7 +64,12 @@ public abstract class NewTabHandler {
      */
     @Execute
     public void execute(MApplication application, EModelService modelService, EPartService partService, IEclipseContext context) throws ExecutionException {
+        preExecute();
         openPart(application, modelService, partService, context);
+    }
+    
+    protected void preExecute() {
+        
     }
 
     private void openPart(MApplication application, EModelService modelService, EPartService partService, IEclipseContext context) throws ExecutionException {

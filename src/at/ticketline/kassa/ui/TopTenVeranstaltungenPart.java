@@ -148,13 +148,13 @@ public class TopTenVeranstaltungenPart {
 		lblKategorie.setLayoutData(fd_lblKategorie);
 		
 		combo_1 = new Combo(SearchComposite, SWT.NONE);
-		combo_1.setItems(new String[] {"Kino", "Theater", "Kabarett"});
+		combo_1.setItems(new String[] {"Alle", "Kino", "Theater", "Kabarett"});
 		FormData fd_combo_1 = new FormData();
 		fd_combo_1.top = new FormAttachment(lblVon, -4, SWT.TOP);
 		fd_combo_1.right = new FormAttachment(lblKategorie, 102, SWT.RIGHT);
 		fd_combo_1.left = new FormAttachment(lblKategorie, 6);
 		combo_1.setLayoutData(fd_combo_1);
-		combo_1.setText("Kino");
+		combo_1.setText("Alle");
 		
 		btnAnzeigen = new Button(SearchComposite, SWT.NONE);
 		FormData fd_btnAnzeigen = new FormData();
@@ -245,7 +245,7 @@ public class TopTenVeranstaltungenPart {
                 case 0:
                 		veranstaltungenTablePositionIndex++;
                 		
-                		if (veranstaltungenTablePositionIndex > 10) {
+                		if (veranstaltungenTablePositionIndex > tableViewer.getTable().getItemCount()) {
                 			veranstaltungenTablePositionIndex = 1;
                 		}
                 		
@@ -330,7 +330,7 @@ public class TopTenVeranstaltungenPart {
         		Date start = c.getTime();
         		c.set(dateTimeBis.getYear(), dateTimeBis.getMonth(), dateTimeBis.getDay());
         		Date end = c.getTime();
-        		LinkedHashMap<Veranstaltung, Integer> topTen = veranstaltungService.findTopTen(start, end, combo_1.getText());
+        		LinkedHashMap<Veranstaltung, Integer> topTen = veranstaltungService.findTopTen(start, end, combo_1.getText().equals("Alle") ? "" : combo_1.getText());
         		
         		tableViewer.setInput(topTen);
         		
@@ -340,6 +340,7 @@ public class TopTenVeranstaltungenPart {
         		// redraw chart with new data
               	chartC.setChart(chart);
               	chartC.redraw();
+              	chartC.update();
               	
                 tableViewer.refresh();
                 

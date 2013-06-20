@@ -329,8 +329,6 @@ public abstract class Person extends BaseEntity {
                 sb.append(Integer.toString((byteData[i] & 0xff) + 0x100, 16).substring(1));
             }
             
-            LOG.debug(sb.toString());
-            
             return sb.toString();
         } catch (NoSuchAlgorithmException e) {
             LOG.error("Hash-Algorithmus wird nicht unterstützt");

@@ -310,7 +310,7 @@ public class MerchandiseWizardSeiteVier extends WizardPage {
                 if (k.getPunkte().intValue() < getPraemienPunkte()) {
                     LOG.info("kunde.punkte < praemienpunkte");
                     temp.setPageComplete(false);
-                    temp.setErrorMessage("Kunde hat nicht genügend Punkte. Sie benötigen " + getPraemienPunkte() + "Punkte.");
+                    temp.setErrorMessage("Kunde hat nicht genügend Punkte. Sie benötigen " + getPraemienPunkte() + " Punkte.");
                 } else {
                     LOG.info("kunde.punkte >= praemienpunkte, ready to go");
                     temp.setErrorMessage(null); // erase error message
@@ -366,7 +366,7 @@ public class MerchandiseWizardSeiteVier extends WizardPage {
         for (Map.Entry<Artikel, Integer> e : values.getSelected().entrySet()) {
             LOG.debug(e.getClass().getName());
             if (e.getKey() instanceof Praemie) {
-                sum += ((Praemie) e.getKey()).getPunkte().intValue();
+                sum += ((Praemie) e.getKey()).getPunkte().intValue() * e.getValue();;
             }
         }
         return sum;

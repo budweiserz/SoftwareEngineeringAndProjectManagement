@@ -83,10 +83,10 @@ public class MitarbeiterServiceImpl implements MitarbeiterService {
              * Login erfolgreich
              */
             if (m.getPasswort().equals(password)) {
-                //LOG.info("Erfolgreicher Login mit Benutzername: {}, Passwort: {}", username, password);
+                LOG.debug("Erfolgreicher Login mit Benutzername: {}, Passwort: {}", username, password);
                 return m;
             } else {
-                //LOG.info("Login mit falschen Passwort - Benutzername: {}, Passwort: {}", username, password);
+                LOG.debug("Login mit falschen Passwort - Benutzername: {}, Passwort: {}", username, password);
                 throw new WrongPasswordException("Passwort nicht korrekt!");
             }
         }

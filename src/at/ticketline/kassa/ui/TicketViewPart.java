@@ -19,6 +19,7 @@ import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProviderListener;
@@ -44,6 +45,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
@@ -73,6 +75,7 @@ public class TicketViewPart {
     @Inject private MPart activePart;
     //@Inject @Named (IServiceConstants.ACTIVE_SHELL) private Shell shell;
     @Inject MApplication application;
+    @Inject Shell shell;
     
     @Inject private TransaktionService transaktionsService;
     @Inject private VeranstaltungService veranstaltungService;
@@ -382,9 +385,15 @@ public class TicketViewPart {
 			@Override
 			public void mouseDown(MouseEvent e) {
 				if(selectionService.getSelection() != null) {
-					TransaktionService service = new TransaktionServiceImpl((TransaktionDao) DaoFactory.getByEntity(Transaktion.class));
-			        service.cancelReservation(((Transaktion)selectionService.getSelection()).getReservierungsnr());
-			        TicketViewPart.this.updateList();
+					MessageDialog dialog = new MessageDialog(shell, "Buchung storinieren?", null, "Wollen Sie den Auftrag wirklich stornieren?",
+							SWT.ICON_QUESTION, new String[] {"Stornieren", "Abbruch"}, 0);
+					int result = dialog.open();
+					if(result == 0) {
+						TransaktionService service = new TransaktionServiceImpl((TransaktionDao) DaoFactory.getByEntity(Transaktion.class));
+				        service.cancelReservation(((Transaktion)selectionService.getSelection()).getReservierungsnr());
+				        TicketViewPart.this.updateList();
+					}
+					
 				} else {
 					Status status = new Status(IStatus.ERROR, "My Plug-in ID", 0, "Fehlende Auswahl", null);
 					ErrorDialog.openError(Display.getCurrent().getActiveShell(), "Auswahl-Error", "Bitte wählen Sie einen Eintrag aus, den Sie löschen möchten.", status);
